@@ -4,3 +4,4 @@ Duncan Krammer	CCID: krammer	GitHub: dkrammer
 Samadhi Ranatunga CCID: samadhi GitHub: Samadhi 
 Curtis Kennedy CCID: ckennedy GitHub: curtiskennedy
 Yalmaz Abdullah CCID: yalmaz GitHub: YalmazAbdullah
+Eden Knechtel CCID: eknechte GitHub: MissKeeps
