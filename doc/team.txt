@@ -2,3 +2,4 @@ Cmput301 Winter 2021
 
 Duncan Krammer	CCID: krammer	GitHub: dkrammer
 Samadhi Ranatunga CCID: samadhi GitHub: Samadhi 
+Curtis Kennedy CCID: ckennedy GitHub: ckennedy
