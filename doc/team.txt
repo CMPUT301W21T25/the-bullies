@@ -1,8 +1,8 @@
 Cmput301 Winter 2021
 
-Duncan Krammer CCID: krammer GitHub: dkrammer
-Samadhi Ranatunga CCID: samadhi GitHub: Samadhi 
-Curtis Kennedy CCID: ckennedy GitHub: curtiskennedy
-Yalmaz Abdullah CCID: yalmaz GitHub: YalmazAbdullah
-Eden Knechtel CCID: eknechte GitHub: MissKeeps
-Jingsheng Zhang CCID: jingshen GitHub: JshengZ
+krammer dkrammer
+samadhi Samadhi 
+ckennedy curtiskennedy
+yalmaz YalmazAbdullah
+eknechte edenemilynan
+jingshen JshengZ
