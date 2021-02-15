@@ -6,4 +6,6 @@ public abstract class Shape {
     public int y;
     public String colour = "octarine";
 
+    public String colour = "$PUT_YOUR_CHOICE_OF_COLOUR";
+
 }
