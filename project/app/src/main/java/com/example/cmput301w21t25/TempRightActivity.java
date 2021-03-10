@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 
-public class MainActivity extends AppCompatActivity {
+public class TempRightActivity extends AppCompatActivity {
 
     float x1;
     float x2;
@@ -15,8 +14,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        }
+        setContentView(R.layout.activity_temp_right);
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -30,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        if (x1 > x2) {
-            Intent switchScreen = new Intent(MainActivity.this, TempRightActivity.class);
+        if (x1 < x2) {
+            Intent switchScreen = new Intent(TempRightActivity.this, MainActivity.class);
             startActivity(switchScreen);
         }
         return super.onTouchEvent(event);
