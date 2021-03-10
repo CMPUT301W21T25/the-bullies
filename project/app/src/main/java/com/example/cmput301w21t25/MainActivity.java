@@ -27,12 +27,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case MotionEvent.ACTION_UP:
                 x2 = event.getX();
+                if (x1 > (x2)) {
+                    Intent switchScreen = new Intent(MainActivity.this, TempRightActivity.class);
+                    startActivity(switchScreen);
+                }
                 break;
-        }
-
-        if (x1 > x2) {
-            Intent switchScreen = new Intent(MainActivity.this, TempRightActivity.class);
-            startActivity(switchScreen);
         }
         return super.onTouchEvent(event);
     }

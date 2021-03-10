@@ -26,13 +26,13 @@ public class TempRightActivity extends AppCompatActivity {
                 break;
             case MotionEvent.ACTION_UP:
                 x2 = event.getX();
+                if (x1 < x2) {
+                    Intent switchScreen = new Intent(TempRightActivity.this, MainActivity.class);
+                    startActivity(switchScreen);
+                }
                 break;
         }
 
-        if (x1 < x2) {
-            Intent switchScreen = new Intent(TempRightActivity.this, MainActivity.class);
-            startActivity(switchScreen);
-        }
         return super.onTouchEvent(event);
     }
 }
