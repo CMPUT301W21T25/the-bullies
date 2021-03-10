@@ -8,13 +8,29 @@ public class Experiment { //make abstract
     //private User owner;
     private String description;
     private int minNumTrials;
-    private boolean isPublished;
+    private boolean isPublished = false;
     //private Region region;
     //private ArrayList<User> subscribedUsers; //all currently subscribed users
     //private ArrayList<User> allUsers; //for users that were subscribed, added data, and unsubscribed
     //private ArrayList<Region> geoLocations;
     //private ArrayList<Comment> forum;
-    private ArrayList<Trial> trials;
+    private ArrayList<Trial> trials = new ArrayList<Trial>();
+
+    public ArrayList<Trial> getTrials() {
+        return trials;
+    }
+
+    public void setTrials(ArrayList<Trial> trials) {
+        this.trials = trials;
+    }
+
+    public void addTrial(Trial trial) {
+        trials.add(trial);
+    }
+
+    public void deleteTrial(Trial trial) {
+        trials.remove(trial);
+    }
 
     /**
      * Allows experiment owner to hide trial results submitted by a User.
@@ -50,16 +66,16 @@ public class Experiment { //make abstract
     /**
      *
      */
-    void showStats() { ... }
+    void showStats() { }//... }
 
     /**
      *
      */
-    void plotData() { ... }
+    void plotData() { }//... }
 
     /**
      *
      */
-    void createMap() { ... }
+    void createMap() { }//... }
 
 }
