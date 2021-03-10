@@ -67,6 +67,7 @@ public class ExperimentTest {
     @Test
     void testHideResults() {
         Experiment exp = mockExperiment();
+        addTestTrials(exp);
         exp.hideTrials();
 
         for (Trial trial: exp.getTrials()) {
