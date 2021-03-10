@@ -64,17 +64,17 @@ public class Experiment { //make abstract
 
     }
     /**
-     *
+     * Shows stats of experiment
      */
     void showStats() { }//... }
 
     /**
-     *
+     * Plots histogram (and maybe other plots) of experiment data
      */
     void plotData() { }//... }
 
     /**
-     *
+     * Shows a map of trial geolocations
      */
     void createMap() { }//... }
 
