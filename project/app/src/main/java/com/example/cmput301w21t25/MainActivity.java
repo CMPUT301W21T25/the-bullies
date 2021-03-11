@@ -1,6 +1,7 @@
 package com.example.cmput301w21t25;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 if (x1 > (x2)) {
                     Intent switchScreen = new Intent(MainActivity.this, TempRightActivity.class);
                     startActivity(switchScreen);
+                    overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
                 }
                 break;
         }
