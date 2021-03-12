@@ -13,6 +13,7 @@ public class SearchManager {
         StringTokenizer splitKeywords = new StringTokenizer(keywords, ",");
 
         while (splitKeywords.hasMoreTokens()) {
+            //Log.d("TEST_PARSE", splitKeywords.);
             String keyword = (String) splitKeywords.nextToken();
 
             if (keyword.trim().length() > 0) {
@@ -20,13 +21,37 @@ public class SearchManager {
             }
         }
 
-        //For testing purposes
+        /*//For testing purposes
         for (String i: keywordList) {
             Log.d("TEST_PARSE", i);
         }
 
         Log.d("CAT", (Integer.toString(keywordList.get(0).length())));
-        //End of testing
+        //End of testing*/
+
+        return keywordList;
+    }
+
+    public ArrayList<String> parseTitle(String keywords) {
+
+        ArrayList<String> keywordList = new ArrayList<String>();
+        StringTokenizer splitKeywords = new StringTokenizer(keywords, " ");
+
+        while (splitKeywords.hasMoreTokens()) {
+            String keyword = (String) splitKeywords.nextToken();
+
+            if (keyword.trim().length() > 0) {
+                keywordList.add(keyword.trim().toLowerCase());
+            }
+        }
+
+        /*//For testing purposes
+        for (String i: keywordList) {
+            Log.d("TEST_PARSE", i);
+        }
+
+        Log.d("CAT", (Integer.toString(keywordList.get(0).length())));
+        //End of testing*/
 
         return keywordList;
     }
@@ -67,7 +92,7 @@ public class SearchManager {
 
         //Compares keywords with experiment names
         for (int i = 0; i < allExperiments.size(); i++) {
-            ArrayList<String> experimentName = this.parseKeywords(allExperiments.get(i).getName());
+            ArrayList<String> experimentName = this.parseTitle(allExperiments.get(i).getName());
             for (String titleWord: experimentName) {
                 for (String keyword: keywordList) {
                     if (titleWord.equals(keyword)) {
@@ -107,22 +132,28 @@ public class SearchManager {
         //the experiment will already be displayed in search so multiple matches are not of interest)
         ArrayList<Experiment> typeKeywordExperiments = this.searchType(keywordList, allExperiments);
         for (int i = 0; i < typeKeywordExperiments.size(); i++) {
-            keywordExperiments.add(typeKeywordExperiments.get(i));
-            allExperiments.remove(typeKeywordExperiments.get(i));
+            if (!keywordExperiments.contains(typeKeywordExperiments.get(i))) {
+                keywordExperiments.add(typeKeywordExperiments.get(i));
+                //allExperiments.remove(typeKeywordExperiments.get(i));
+            }
         }
 
         //The same as with type, but with experiment name matches
         ArrayList<Experiment> experimentNameKeywordExperiments = this.searchExperimentName(keywordList, allExperiments);
         for (int i = 0; i < experimentNameKeywordExperiments.size(); i++) {
-            keywordExperiments.add(experimentNameKeywordExperiments.get(i));
-            allExperiments.remove(experimentNameKeywordExperiments.get(i));
+            if (!keywordExperiments.contains(experimentNameKeywordExperiments.get(i))) {
+                keywordExperiments.add(experimentNameKeywordExperiments.get(i));
+                //allExperiments.remove(experimentNameKeywordExperiments.get(i));
+            }
         }
 
         //The same as with type, but with experiment keyword matches
         ArrayList<Experiment> experimentKeywordsKeywordExperiments = this.searchExperimentKeywords(keywordList, allExperiments);
         for (int i = 0; i < experimentKeywordsKeywordExperiments.size(); i++) {
-            keywordExperiments.add(experimentKeywordsKeywordExperiments.get(i));
-            allExperiments.remove(experimentKeywordsKeywordExperiments.get(i));
+            if (!keywordExperiments.contains(experimentKeywordsKeywordExperiments.get(i))) {
+                keywordExperiments.add(experimentKeywordsKeywordExperiments.get(i));
+                //allExperiments.remove(experimentKeywordsKeywordExperiments.get(i));
+            }
         }
 
         return keywordExperiments;
