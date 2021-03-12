@@ -6,7 +6,10 @@ import java.util.ArrayList;
 public class Experiment { //make abstract
 
     //private User owner;
+    private String name;
     private String description;
+    private String type;
+    private ArrayList<String> keywords;
     private int minNumTrials;
     private boolean isPublished = false;
     //private Region region;
@@ -19,6 +22,12 @@ public class Experiment { //make abstract
     public ArrayList<Trial> getTrials() {
         return trials;
     }
+
+    public String getName() { return name; }
+
+    public String getType() { return type; }
+
+    public ArrayList<String> getKeywords() { return keywords; }
 
     public void setTrials(ArrayList<Trial> trials) {
         this.trials = trials;

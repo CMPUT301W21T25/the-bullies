@@ -6,15 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
+//For testing purposes
 public class TempRightActivity extends AppCompatActivity {
 
     float x1;
     float x2;
+    SearchManager searchManager = new SearchManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_right);
+
+        searchManager.parseKeywords(" cat, dog cat,  ,, BUTTS");
     }
 
     @Override
