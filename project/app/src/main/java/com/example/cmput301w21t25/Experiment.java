@@ -5,19 +5,38 @@ import java.util.ArrayList;
 
 public class Experiment { //make abstract
 
-    //private User owner;
+    /****************************************
+                    ATTRIBUTES
+    ****************************************/
+    private User owner;
     private String name;
     private String description;
     private String type;
     private ArrayList<String> keywords;
     private int minNumTrials;
     private boolean isPublished = false;
-    //private Region region;
-    //private ArrayList<User> subscribedUsers; //all currently subscribed users
-    //private ArrayList<User> allUsers; //for users that were subscribed, added data, and unsubscribed
-    //private ArrayList<Region> geoLocations;
-    //private ArrayList<Comment> forum;
+
+    private ArrayList<User> subscribedUsers = new ArrayList<User>(); //all currently subscribed users
+    private ArrayList<User> allUsers = new ArrayList<User>(); //for users that were subscribed, added data, and unsubscribed
     private ArrayList<Trial> trials = new ArrayList<Trial>();
+
+    //private Forum forum;
+
+    //private Region region;
+    //private ArrayList<Region> geoLocations;
+
+    /****************************************
+     CONSTRUCTORS
+     ****************************************/
+    public Experiment(User owner, String description, int minNumTrials) {
+        this.owner = owner;
+        this.description = description;
+        this.minNumTrials = minNumTrials;
+    }
+
+    /****************************************
+                    METHODS
+    ****************************************/
 
     public ArrayList<Trial> getTrials() {
         return trials;
@@ -41,14 +60,22 @@ public class Experiment { //make abstract
         trials.remove(trial);
     }
 
+    public void addUser(User user) {
+        allUsers.add(user);
+        subscribedUsers.add(user);
+    }
+
+    public void deleteUser(User user) {
+        subscribedUsers.remove(user);
+    }
+
     /**
      * Allows experiment owner to hide trial results submitted by a User.
      * Throws exception if user's trials are already hidden. //Do we need to though?
+     * @param user
+     *      The user who's trials the owner wants to hide
      */
-     //* @param user
-     //*      The user who's trials the owner wants to hide
-     //*/
-    public void hideTrials() {//User user) throws IllegalArgumentException{
+    public void hideTrials(User user) throws IllegalArgumentException{
         for (Trial trial : trials) {
             if (!trial.isHidden()) {
                 trial.setHidden(true);
@@ -60,11 +87,10 @@ public class Experiment { //make abstract
     /**
      * Allows experiment owner to show trial results submitted by a User.
      * Throws exception if user's trials are already shown. //Again, is this necessary?
+     * @param user
+     *      The user who's trials the owner wants to show
      */
-    //* @param user
-    //*      The user who's trials the owner wants to show
-    //*/
-    void showTrials() {//User user) {
+    void showTrials(User user) {
         for (Trial trial : trials) {
             if (trial.isHidden()) {
                 trial.setHidden(false);
@@ -75,16 +101,22 @@ public class Experiment { //make abstract
     /**
      * Shows stats of experiment
      */
-    void showStats() { }//... }
+    void showStats() {
+
+    }
 
     /**
      * Plots histogram (and maybe other plots) of experiment data
      */
-    void plotData() { }//... }
+    void plotData() {
+
+    }
 
     /**
      * Shows a map of trial geolocations
      */
-    void createMap() { }//... }
+    void showMap() {
+
+    }
 
 }
