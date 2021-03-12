@@ -31,25 +31,26 @@ public class SearchManager {
         return keywordList;
     }
 
-    public ArrayList<Experiment> searchExperiments(String keywords, ArrayList<Experiment> allExperiments) {
-        ArrayList<String> keywordList = this.parseKeywords(keywords);
-        ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();
-        ArrayList<String> keywordTypeList = new ArrayList<String>();
+    public ArrayList<Experiment> searchType(ArrayList<String> keywordList, ArrayList<Experiment> allExperiments) {
         ArrayList<String> typeList = new ArrayList<String>();
+        ArrayList<String> keywordTypeList = new ArrayList<String>();
+        ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();
 
         typeList.add("binomial");
         typeList.add("measurement");
         typeList.add("count");
         typeList.add("nonnegative count");
 
+        //Determines keywords referring to types and places them in their own list
         for (int i = 0; i < keywordList.size(); i++) {
             for (String type: typeList) {
                 if (keywordList.get(i) == type) {
-                    keywordTypeList.add(keywordList.remove(i));
+                    keywordTypeList.add(keywordList.get(i));
                 }
             }
         }
 
+        //Uses type keywords to add experiments with matching types to list
         for (int i = 0; i < allExperiments.size(); i++) {
             String experimentType = allExperiments.get(i).getType();
             for (String type : keywordTypeList) {
@@ -58,7 +59,13 @@ public class SearchManager {
                 }
             }
         }
+        return keywordExperiments;
+    }
 
+    public ArrayList<Experiment> searchExperimentName(ArrayList<String> keywordList, ArrayList<Experiment> allExperiments) {
+        ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();
+
+        //Compares keywords with experiment names
         for (int i = 0; i < allExperiments.size(); i++) {
             ArrayList<String> experimentName = this.parseKeywords(allExperiments.get(i).getName());
             for (String titleWord: experimentName) {
@@ -69,7 +76,28 @@ public class SearchManager {
                 }
             }
         }
-        
+        return keywordExperiments;
+    }
+
+    public ArrayList<Experiment> searchExperiments(String keywords, ArrayList<Experiment> allExperiments) {
+        ArrayList<String> keywordList = this.parseKeywords(keywords);
+        ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();
+
+        //Add type matches to keyword experiment list and remove them from all experiment list (as
+        //the experiment will already be displayed in search so multiple matches are not of interest)
+        ArrayList<Experiment> typeKeywordExperiments = this.searchType(keywordList, allExperiments);
+        for (int i = 0; i < typeKeywordExperiments.size(); i++) {
+            keywordExperiments.add(typeKeywordExperiments.get(i));
+            allExperiments.remove(typeKeywordExperiments.get(i));
+        }
+
+        //The same as with type, but with experiment name matches
+        ArrayList<Experiment> experimentNameKeywordExperiments = this.searchExperimentName(keywordList, allExperiments);
+        for (int i = 0; i < experimentNameKeywordExperiments.size(); i++) {
+            keywordExperiments.add(experimentNameKeywordExperiments.get(i));
+            allExperiments.remove(experimentNameKeywordExperiments.get(i));
+        }
+
         return keywordExperiments;
     }
 
