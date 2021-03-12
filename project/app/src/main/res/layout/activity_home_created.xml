@@ -4,34 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#f6f5f5">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="66dp">
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars" />
+        android:layout_height="66dp"
+        android:orientation="horizontal"
+        android:background="#276678">
 
         <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
+            android:id="@+id/create_text_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
-    </LinearLayout>
+            android:textSize="28sp"
+            android:paddingLeft="10px"
+            android:layout_gravity="center"
+            android:text="Created Experiments"
+            android:textColor="#f6f5f5"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        <ImageButton
+            android:id="@+id/user_image_button"
+            android:layout_width="77dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="30px"
+            tools:srcCompat="@android:drawable/ic_dialog_info" />
+    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/exp_create_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_add" />
 
 </LinearLayout>

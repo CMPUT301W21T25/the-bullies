@@ -27,29 +27,30 @@
         android:paddingTop="5dp">
 
         <TextView
-            android:id="@+id/user_id_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#3a6351"
-            android:padding="1px"
-            android:textSize="12sp"
-            android:text="UserJohnnyBoi"
-            />
-
-        <TextView
             android:id="@+id/exp_description_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#3a6351"
+            android:textColor="#276678"
             android:textSize="18sp"
-            android:text="This is the Experiment Name" />
+            android:text="This Be Doth Experiment Name"/>
+
+        <TextView
+            android:id="@+id/user_id_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#8a8a8a"
+            android:paddingLeft="1sp"
+            android:textSize="14sp"
+            android:text="UserJohnnyBoi"
+            />
 
         <TextView
             android:id="@+id/exp_date_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#8a8a8a"
+            android:paddingLeft="1sp"
             android:textSize="12sp"
-            android:textColor="#e48257"
             android:text="03/12/2021" />
 
     </LinearLayout>
