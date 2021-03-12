@@ -18,7 +18,7 @@ public class TempRightActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_right);
 
-        searchManager.parseKeywords("binomial, ,   ");
+        searchManager.parseKeywords(" cat, dog cat,  ,, BUTTS");
     }
 
     @Override

@@ -13,7 +13,6 @@ public class SearchManager {
         StringTokenizer splitKeywords = new StringTokenizer(keywords, ",");
 
         while (splitKeywords.hasMoreTokens()) {
-            //Log.d("TEST_PARSE", splitKeywords.);
             String keyword = (String) splitKeywords.nextToken();
 
             if (keyword.trim().length() > 0) {
@@ -27,6 +26,7 @@ public class SearchManager {
         }
 
         Log.d("CAT", (Integer.toString(keywordList.get(0).length())));
+
         //End of testing*/
 
         return keywordList;
