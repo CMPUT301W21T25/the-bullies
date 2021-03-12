@@ -2,13 +2,24 @@ package com.example.cmput301w21t25;
 
 public class Trial {
 
-    private boolean hidden = false;
+    /****************************************
+                    ATTRIBUTES
+     ****************************************/
+    private User user;
 
-    public boolean isHidden() {
-        return hidden;
+    /****************************************
+                CONSTRUCTORS
+     ****************************************/
+    public Trial(User user) {
+        this.user = user;
     }
 
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
+    /****************************************
+                    METHODS
+     ****************************************/
+
+    public User getUser() {
+        return user;
     }
+
 }
