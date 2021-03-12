@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 if (x1 > (x2)) {
                     Intent switchScreen = new Intent(MainActivity.this, TempRightActivity.class);
                     startActivity(switchScreen);
-                    overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 break;
         }
