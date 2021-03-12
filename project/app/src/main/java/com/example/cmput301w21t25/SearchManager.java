@@ -44,7 +44,7 @@ public class SearchManager {
         //Determines keywords referring to types and places them in their own list
         for (int i = 0; i < keywordList.size(); i++) {
             for (String type: typeList) {
-                if (keywordList.get(i) == type) {
+                if (keywordList.get(i).equals(type)) {
                     keywordTypeList.add(keywordList.get(i));
                 }
             }
@@ -54,7 +54,7 @@ public class SearchManager {
         for (int i = 0; i < allExperiments.size(); i++) {
             String experimentType = allExperiments.get(i).getType();
             for (String type : keywordTypeList) {
-                if (type == experimentType) {
+                if (type.equals(experimentType)) {
                     keywordExperiments.add(allExperiments.get(i));
                 }
             }
@@ -70,7 +70,7 @@ public class SearchManager {
             ArrayList<String> experimentName = this.parseKeywords(allExperiments.get(i).getName());
             for (String titleWord: experimentName) {
                 for (String keyword: keywordList) {
-                    if (titleWord == keyword) {
+                    if (titleWord.equals(keyword)) {
                         keywordExperiments.add(allExperiments.get(i));
                     }
                 }
@@ -83,12 +83,12 @@ public class SearchManager {
     public ArrayList<Experiment> searchExperimentKeywords(ArrayList<String> keywordList, ArrayList<Experiment> allExperiments) {
         ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();
 
-        //Compares keywords with experiment names
+        //Compares (user input) keywords with experiment keywords
         for (int i = 0; i < allExperiments.size(); i++) {
             ArrayList<String> experimentKeywords = allExperiments.get(i).getKeywords();
             for (String titleWord: experimentKeywords) {
                 for (String keyword: keywordList) {
-                    if (titleWord == keyword) {
+                    if (titleWord.equals(keyword)) {
                         keywordExperiments.add(allExperiments.get(i));
                     }
                 }
