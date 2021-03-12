@@ -29,6 +29,12 @@ public class Experiment { //make abstract
 
     public ArrayList<String> getKeywords() { return keywords; }
 
+    public void setName(String name) { this.name = name; }
+
+    public void setType(String type) { this.type = type; }
+
+    public void setKeywords(ArrayList<String> keywords) { this.keywords = keywords; }
+
     public void setTrials(ArrayList<Trial> trials) {
         this.trials = trials;
     }
