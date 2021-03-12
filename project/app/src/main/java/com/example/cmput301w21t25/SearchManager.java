@@ -78,9 +78,11 @@ public class SearchManager {
         //Uses type keywords to add experiments with matching types to list
         for (int i = 0; i < allExperiments.size(); i++) {
             String experimentType = allExperiments.get(i).getType();
+            nextDocument:
             for (String type : keywordTypeList) {
                 if (type.equals(experimentType)) {
                     keywordExperiments.add(allExperiments.get(i));
+                    break nextDocument;
                 }
             }
         }
@@ -93,10 +95,12 @@ public class SearchManager {
         //Compares keywords with experiment names
         for (int i = 0; i < allExperiments.size(); i++) {
             ArrayList<String> experimentName = this.parseTitle(allExperiments.get(i).getName());
+            nextDocument:
             for (String titleWord: experimentName) {
                 for (String keyword: keywordList) {
                     if (titleWord.equals(keyword)) {
                         keywordExperiments.add(allExperiments.get(i));
+                        break nextDocument;
                     }
                 }
             }
@@ -111,10 +115,12 @@ public class SearchManager {
         //Compares (user input) keywords with experiment keywords
         for (int i = 0; i < allExperiments.size(); i++) {
             ArrayList<String> experimentKeywords = allExperiments.get(i).getKeywords();
+            nextDocument:
             for (String titleWord: experimentKeywords) {
                 for (String keyword: keywordList) {
                     if (titleWord.equals(keyword)) {
                         keywordExperiments.add(allExperiments.get(i));
+                        break nextDocument;
                     }
                 }
             }
