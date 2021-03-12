@@ -5,7 +5,6 @@ public class Trial {
     /****************************************
                     ATTRIBUTES
      ****************************************/
-    private boolean hidden = false;
     private User user;
 
     /****************************************
@@ -23,11 +22,4 @@ public class Trial {
         return user;
     }
 
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
 }

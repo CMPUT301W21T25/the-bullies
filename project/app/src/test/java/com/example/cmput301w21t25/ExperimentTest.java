@@ -7,76 +7,101 @@ import java.util.ArrayList;
 
 public class ExperimentTest {
 
+    User user1 = new User();
+    User user2 = new User();
+
     private Experiment mockExperiment() {
         Experiment mockExperiment = new Experiment();
-
+        addTestTrials(mockExperiment);
         return mockExperiment;
     }
 
     private void addTestTrials(Experiment experiment) {
-        Trial shownTrial = new Trial();
-        Trial hiddenTrial = new Trial();
+        Trial user1Trial = new Trial(user1);
+        Trial user2Trial1 = new Trial(user2);
+        Trial user2Trial2 = new Trial(user2);
 
-        shownTrial.setHidden(false);
-        hiddenTrial.setHidden(true);
-
-        experiment.addTrial(shownTrial);
-        experiment.addTrial(hiddenTrial);
+        experiment.addTrial(user1Trial);
+        experiment.addTrial(user2Trial1);
+        experiment.addTrial(user2Trial2);
     }
 
 
     @Test
     void testAddTrial() {
         Experiment exp = mockExperiment();
-        Trial trial = new Trial();
+        Trial trial = new Trial(new User());
 
-        assertEquals(0, exp.getTrials().size());
+        assertEquals(3, exp.getTrials().size());
 
         exp.addTrial(trial);
 
-        assertEquals(1, exp.getTrials().size());
+        assertEquals(4, exp.getTrials().size());
     }
 
     @Test
     void testDeleteTrial() {
         Experiment exp = mockExperiment();
-        Trial trial = new Trial();
-        exp.addTrial(trial);
-        assertEquals(1, exp.getTrials().size());
 
-        exp.deleteTrial(trial);
+        assertEquals(3, exp.getTrials().size());
 
-        assertEquals(0, exp.getTrials().size());
+        exp.deleteTrial(exp.getTrials().get(0));
+
+        assertEquals(2, exp.getTrials().size());
     }
 
     @Test
-    void testShowResults() {
+    void testHideTrials() {
         Experiment exp = mockExperiment();
-        addTestTrials(exp);
-        exp.showTrials();
+        assertEquals(0, exp.getHiddenTrials().size());
+
+        exp.hideTrials(user1);
 
         for (Trial trial: exp.getTrials()) {
-            assertFalse(trial.isHidden());
+            assertFalse(trial.getUser() == user1);
         }
 
-        //test if method shows results from a given user
+        for (Trial trial: exp.getHiddenTrials()) {
+            assertTrue(trial.getUser() == user1);
+        }
+
+        assertEquals(1, exp.getHiddenTrials());
+        assertEquals(2, exp.getTrials());
+        //test if given user is not present
+        //test if trials are already hidden
+    }
+
+    @Test
+    void testShowTrials() {
+        Experiment exp = mockExperiment();
+        exp.hideTrials(user2);
+        assertEquals(1, exp.getTrials().size());
+
+        for (Trial trial: exp.getTrials()) {
+            assertTrue(trial.getUser() == user1);
+        }
+
+        exp.showTrials(user2);
+        assertEquals(3, exp.getTrials().size());
+        assertEquals(0, exp.getHiddenTrials().size());
+
         //test if given user is not present
         //test if trials are already shown
     }
 
     @Test
-    void testHideResults() {
+    void testShowAllTrials() {
         Experiment exp = mockExperiment();
-        addTestTrials(exp);
-        exp.hideTrials();
+        exp.hideTrials(user1);
+        exp.hideTrials(user2);
 
-        for (Trial trial: exp.getTrials()) {
-            assertTrue(trial.isHidden());
-        }
-        //Add trials to experiment
-        //test if method hides results from a given user
-        //test if given user is not present
-        //test if trials are already hidden
+        assertEquals(0, exp.getTrials().size());
+
+        exp.showAllTrials();
+
+        assertEquals(3, exp.getTrials().size());
+
+        //test if trials are already shown
     }
 
 
