@@ -55,7 +55,7 @@ public class SearchManager {
             String experimentType = allExperiments.get(i).getType();
             for (String type : keywordTypeList) {
                 if (type == experimentType) {
-                    keywordExperiments.add(allExperiments.remove(i));
+                    keywordExperiments.add(allExperiments.get(i));
                 }
             }
         }
@@ -71,15 +71,35 @@ public class SearchManager {
             for (String titleWord: experimentName) {
                 for (String keyword: keywordList) {
                     if (titleWord == keyword) {
-                        keywordExperiments.add(allExperiments.remove(i));
+                        keywordExperiments.add(allExperiments.get(i));
                     }
                 }
             }
         }
+
+        return keywordExperiments;
+    }
+
+    public ArrayList<Experiment> searchExperimentKeywords(ArrayList<String> keywordList, ArrayList<Experiment> allExperiments) {
+        ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();
+
+        //Compares keywords with experiment names
+        for (int i = 0; i < allExperiments.size(); i++) {
+            ArrayList<String> experimentKeywords = allExperiments.get(i).getKeywords();
+            for (String titleWord: experimentKeywords) {
+                for (String keyword: keywordList) {
+                    if (titleWord == keyword) {
+                        keywordExperiments.add(allExperiments.get(i));
+                    }
+                }
+            }
+        }
+
         return keywordExperiments;
     }
 
     public ArrayList<Experiment> searchExperiments(String keywords, ArrayList<Experiment> allExperiments) {
+        //Parse user keyword input
         ArrayList<String> keywordList = this.parseKeywords(keywords);
         ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();
 
@@ -96,6 +116,13 @@ public class SearchManager {
         for (int i = 0; i < experimentNameKeywordExperiments.size(); i++) {
             keywordExperiments.add(experimentNameKeywordExperiments.get(i));
             allExperiments.remove(experimentNameKeywordExperiments.get(i));
+        }
+
+        //The same as with type, but with experiment keyword matches
+        ArrayList<Experiment> experimentKeywordsKeywordExperiments = this.searchExperimentKeywords(keywordList, allExperiments);
+        for (int i = 0; i < experimentKeywordsKeywordExperiments.size(); i++) {
+            keywordExperiments.add(experimentKeywordsKeywordExperiments.get(i));
+            allExperiments.remove(experimentKeywordsKeywordExperiments.get(i));
         }
 
         return keywordExperiments;
