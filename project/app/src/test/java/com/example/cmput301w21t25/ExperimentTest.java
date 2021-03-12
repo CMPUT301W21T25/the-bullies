@@ -9,6 +9,7 @@ public class ExperimentTest {
 
     User user1 = new User();
     User user2 = new User();
+    User user3 = new User();
 
     private Experiment mockExperiment() {
         Experiment mockExperiment = new Experiment();
@@ -69,6 +70,10 @@ public class ExperimentTest {
         assertEquals(2, exp.getTrials().size());
         //test if given user is not present
         //test if trials are already hidden
+
+        //exp.hideTrials(user3);
+
+
     }
 
     @Test
@@ -87,6 +92,8 @@ public class ExperimentTest {
 
         //test if given user is not present
         //test if trials are already shown
+
+        exp.showTrials(user3);
     }
 
     @Test

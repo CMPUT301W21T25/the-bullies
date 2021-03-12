@@ -106,7 +106,7 @@ public class Experiment { //make abstract
                 hiddenTrials.add(trial);
             }
         }
-        trials.removeAll(hiddenTrials);
+        trials.removeAll(hiddenTrials); //this might be inefficient?
     }
 
     /**
@@ -122,7 +122,7 @@ public class Experiment { //make abstract
             }
         }
 
-        hiddenTrials.removeAll(trials);
+        hiddenTrials.removeAll(trials); //this might be inefficient?
 
     }
 
