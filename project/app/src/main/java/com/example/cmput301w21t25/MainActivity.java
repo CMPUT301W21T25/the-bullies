@@ -8,15 +8,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class MainActivity extends AppCompatActivity {
 
     float x1;
     float x2;
+    UserProfile test1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //testing DB ill make proper tests later i promise
+        test1 = new UserProfile();
+        test1.getUserDocument("jIgWPfYxOQHyMVOinMVH");
         }
 
     @Override
