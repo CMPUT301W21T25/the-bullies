@@ -65,8 +65,8 @@ public class ExperimentTest {
             assertTrue(trial.getUser() == user1);
         }
 
-        assertEquals(1, exp.getHiddenTrials());
-        assertEquals(2, exp.getTrials());
+        assertEquals(1, exp.getHiddenTrials().size());
+        assertEquals(2, exp.getTrials().size());
         //test if given user is not present
         //test if trials are already hidden
     }

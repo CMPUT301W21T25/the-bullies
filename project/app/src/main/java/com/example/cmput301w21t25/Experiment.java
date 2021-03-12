@@ -103,11 +103,10 @@ public class Experiment { //make abstract
 
         for (Trial trial : trials) {
             if (trial.getUser() == user) {
-                trials.remove(trial);
                 hiddenTrials.add(trial);
             }
         }
-
+        trials.removeAll(hiddenTrials);
     }
 
     /**
@@ -119,10 +118,11 @@ public class Experiment { //make abstract
     void showTrials(User user) {
         for (Trial trial : hiddenTrials) {
             if (trial.getUser() == user) {
-                hiddenTrials.remove(trial);
                 trials.add(trial);
             }
         }
+
+        hiddenTrials.removeAll(trials);
 
     }
 
@@ -131,9 +131,9 @@ public class Experiment { //make abstract
      */
     void showAllTrials() {
         for (Trial trial : hiddenTrials) {
-            hiddenTrials.remove(trial);
             trials.add(trial);
         }
+        hiddenTrials.clear();
     }
 
     /**
