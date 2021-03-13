@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     User test;
     String email = "Loading";
     ExperimentManager expMtest;
+    TrialManager trialManeTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +42,27 @@ public class MainActivity extends AppCompatActivity {
         testM.FB_UpdateSubscriptions(testList,"test1");
         testM.FB_UpdateOwnedExperiments(testList,"test1");
         testM.FB_UpdateConductedTrials(testList,"test1");
+
         //test for Experiminet manager
         expMtest = new ExperimentManager();
         Location testloc = new Location("edm");
         Experiment experiment = new Experiment();
         //expMtest.FB_CreateExperiment("testExp","test1", "this is a test",testloc,testList,false,false,experiment);
-
         expMtest.FB_UpdateDescription("new description","BIKvOCxENl3ByUtNGmf7");
         expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
         expMtest.FB_UpdatePublished(true,"BIKvOCxENl3ByUtNGmf7");
         expMtest.FB_UpdateTags(testList,"BIKvOCxENl3ByUtNGmf7");
         expMtest.FB_UpdateConductedTrials(testList,"BIKvOCxENl3ByUtNGmf7");
         expMtest.FB_UpdateExperimentClass(experiment,"BIKvOCxENl3ByUtNGmf7");
+
+        //test for Trial managerTest
+        trialManeTest = new TrialManager();
+        Trial testTrial = new Trial();
+        //trialManeTest.FB_CreateTrial("TestDummy","BIKvOCxENl3ByUtNGmf7",testloc,false,false,testTrial);
+        trialManeTest.FB_UpdateHidden(true,"13m0s2kkGBkERhcE15V2");
+        trialManeTest.FB_UpdatePublished(true,"13m0s2kkGBkERhcE15V2");
+        trialManeTest.FB_UpdateTrial(testTrial,"13m0s2kkGBkERhcE15V2");
+
     }
 
     @Override
