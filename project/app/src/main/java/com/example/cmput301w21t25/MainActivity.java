@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -10,9 +11,18 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.installations.FirebaseInstallations;
 
 import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     String email = "Loading";
     ExperimentManager expMtest;
     TrialManager trialManeTest;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         trialManeTest.FB_UpdateHidden(true,"13m0s2kkGBkERhcE15V2");
         trialManeTest.FB_UpdatePublished(true,"13m0s2kkGBkERhcE15V2");
         trialManeTest.FB_UpdateTrial(testTrial,"13m0s2kkGBkERhcE15V2");
+        getLaunchInfo();
 
     }
 
@@ -83,4 +95,57 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onTouchEvent(event);
     }
+
+
+
+    /********************************************
+     * BIG REFERENCE SHEET OF DB Func GOES HERE
+     ********************************************
+     * Section1:User
+     * Section2:Experiments
+     * Section3:Trials
+     *******************************************/
+    //SECTION 1:
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //DocumentReference docRef = db.collection("UserProfile").document(id);
+    String userName;
+    String userEmail;
+    User user;
+    ArrayList<String>subscriptionKeys;
+    ArrayList<String>trialKeys;
+    ArrayList<String>experimentKeys;
+    private void getLaunchInfo(){
+        //RETRIEVES ALL USER INFORMATION*Construction noises*
+        FirebaseInstallations.getInstance().getId()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        //this first query on completion gets the userID which is the device's firebase install ID
+                        if (task.isSuccessful()) {
+                            String userID = task.getResult();
+                            Log.d("Installations", "Installation ID: " + task.getResult());
+                            DocumentReference docRef = db.collection("UserProfile").document("test1");
+                            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {//dont worry too much about this its just the trigger for when to query in this case its on completion,
+                                @Override//so we overide it to add security and filter out the info we dont need
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {//security stuff to check if there actually is a document up1 and stuff and weather query was successful
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            userName = (String) document.getData().get("name");
+                                            userEmail = (String) document.getData().get("email");
+                                            Log.d("YA-DB: ",userName);
+                                        }
+                                    }
+                                    else{
+                                        //launch new activity that makes user account;
+                                    }
+                                }
+                            });
+                        } else {
+                            Log.e("Installations", "Unable to get Installation ID");
+                        }
+                    }
+                });
+    }
+
 }
