@@ -14,15 +14,20 @@ public class MainActivity extends AppCompatActivity {
 
     float x1;
     float x2;
-    UserProfile test1;
+    //testing user stuff atm-YA
+    UserManager testM;
+    User test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //testing DB ill make proper tests later i promise
-        test1 = new UserProfile();
-        test1.getUserDocument("jIgWPfYxOQHyMVOinMVH");
+        //testing DB ill make proper tests later i promise -YA
+        testM = new UserManager();
+        test = new User();
+        //testM.FB_AddUser(test);
+        User test2 = testM.FB_GetUser("kRSx5awciCOnX7SkAnJj");
+        Log.d("output: ",test.getUserName());
         }
 
     @Override
