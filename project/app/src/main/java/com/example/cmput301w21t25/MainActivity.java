@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     UserManager testM;
     User test;
     String email = "Loading";
+    ExperimentManager expMtest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +35,24 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> testList = new ArrayList<>();
         testList.add("this");
         testList.add("is");
-        testList.add("a");
+        testList.add("not a");
         testList.add("test");
         testM.FB_CreateUserProfile("test1","TestOne","test@test.gmail.com",test);
         testM.FB_UpdateSubscriptions(testList,"test1");
         testM.FB_UpdateOwnedExperiments(testList,"test1");
         testM.FB_UpdateConductedTrials(testList,"test1");
-        //test for
+        //test for Experiminet manager
+        expMtest = new ExperimentManager();
+        Location testloc = new Location("edm");
+        Experiment experiment = new Experiment();
+        //expMtest.FB_CreateExperiment("testExp","test1", "this is a test",testloc,testList,false,false,experiment);
+
+        expMtest.FB_UpdateDescription("new description","BIKvOCxENl3ByUtNGmf7");
+        expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
+        expMtest.FB_UpdatePublished(true,"BIKvOCxENl3ByUtNGmf7");
+        expMtest.FB_UpdateTags(testList,"BIKvOCxENl3ByUtNGmf7");
+        expMtest.FB_UpdateConductedTrials(testList,"BIKvOCxENl3ByUtNGmf7");
+        expMtest.FB_UpdateExperimentClass(experiment,"BIKvOCxENl3ByUtNGmf7");
     }
 
     @Override

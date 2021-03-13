@@ -61,8 +61,8 @@ public class UserManager{
     /////////////////////////////////////////////////////////////////////////////////////
     //UPDATE
     public void FB_UpdateSubscriptions(ArrayList subscriptions,String id){
-        DocumentReference washingtonRef = db.collection("UserProfile").document(id);
-        washingtonRef
+        DocumentReference docRef = db.collection("UserProfile").document(id);
+        docRef
                 .update("subscriptions", subscriptions)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -76,8 +76,8 @@ public class UserManager{
                 });
     }
     public void FB_UpdateOwnedExperiments(ArrayList subscriptions,String id){
-        DocumentReference washingtonRef = db.collection("UserProfile").document(id);
-        washingtonRef
+        DocumentReference docRef = db.collection("UserProfile").document(id);
+        docRef
                 .update("ownedExperiments", subscriptions)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -91,8 +91,8 @@ public class UserManager{
                 });
     }
     public void FB_UpdateConductedTrials(ArrayList subscriptions,String id){
-        DocumentReference washingtonRef = db.collection("UserProfile").document(id);
-        washingtonRef
+        DocumentReference docRef = db.collection("UserProfile").document(id);
+        docRef
                 .update("conductedTrials", subscriptions)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

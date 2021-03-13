@@ -28,22 +28,25 @@ public class ExperimentManager {
     //attaching firebase good comments to come later please bear with me -YA
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     //extra attributes to make ur life easier:
-    private ArrayList<Trial> fb_trialList;
     /////////////////////////////////////////////////////////////////////////////////////
     //INITIALIZE EXPERIMENT
-    private void FB_CreateExperiment(String title, String ownerID, String description, Location region){
+    public void FB_CreateExperiment(String title, String ownerID, String description, Location region,ArrayList<String> tags,Boolean geoEnabled, Boolean published,Experiment experiment){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
-        Map<String,Object> experiment  = new HashMap<>();
-        experiment.put("title",title);
-        experiment.put("owner",ownerID);
-        experiment.put("region",region);
-        experiment.put("description",description);
-        experiment.put("comment", Arrays.asList());
-        experiment.put("trials",Arrays.asList());
-        experiment.put("conductedTrials", Arrays.asList());
+        Map<String,Object> experimentDoc  = new HashMap<>();
+        experimentDoc.put("title",title);
+        experimentDoc.put("owner",ownerID);
+        experimentDoc.put("description",description);
+        experimentDoc.put("region",region);
+        experimentDoc.put("tags",tags);
+        experimentDoc.put("geoEnabled",geoEnabled);
+        experimentDoc.put("published",published);
+        experimentDoc.put("trialKeys", Arrays.asList());//cause an experiment should start empty
+        experimentDoc.put("experimentClass",experiment);
+        //experiment.put("comment", ); ill add this later
+
         // Add a new Experiment with a generated ID
         db.collection("Experiments")
-                .add(experiment)
+                .add(experimentDoc)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -55,6 +58,98 @@ public class ExperimentManager {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding experiment", e);
+                    }
+                });
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+    //UPDATE EXPERIMENT
+    public void FB_UpdateDescription(String description,String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("description", description)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+    public void FB_UpdateTags(ArrayList tags,String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("tags", tags)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+    public void FB_UpdateGeoEnabled(Boolean geoEnabled,String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("geoEnabled", geoEnabled)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+    public void FB_UpdatePublished(Boolean published,String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("published", published)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+    public void FB_UpdateConductedTrials(ArrayList<String> conductedTrials,String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("trialKeys", conductedTrials)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+    public void FB_UpdateExperimentClass(Experiment experiment,String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("experimentClass", experiment)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
                     }
                 });
     }
