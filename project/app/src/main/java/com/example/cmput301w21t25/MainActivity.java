@@ -2,23 +2,18 @@ package com.example.cmput301w21t25;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.installations.FirebaseInstallations;
 
 import java.util.ArrayList;
@@ -99,17 +94,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     /********************************************
-     * Functions HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * DB Functions HERE!!!!!!!!!!!!!!!!!!!!!!!!!
      ********************************************
      *******************************************/
     //SECTION 1:
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String userName;
-    String userEmail;
-    User user;
-    ArrayList<String>subscriptionKeys;
-    ArrayList<String>trialKeys;
-    ArrayList<String>experimentKeys;
+    String userID;
     private void getLaunchInfo(){
         //RETRIEVES ALL USER INFORMATION*Construction noises*
         FirebaseInstallations.getInstance().getId()
@@ -118,12 +108,32 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<String> task) {
                         //this first query on completion gets the userID which is the device's firebase install ID
                         if (task.isSuccessful()) {
-                            String userID = task.getResult();
                             Log.d("YA-Installations", "Installation ID: " + task.getResult());
-                            //this means data retrieval was successful launch SubList Activity
+                            String userID = task.getResult();
+                            DocumentReference docRef = db.collection("UserProfile").document(userID);
+                            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Log.d("YA-DB:", "DocumentSnapshot data: " + document.getData());
+                                            //start sublist activity
+                                        } else {
+                                            Log.d("YA-DB:", "No such document");
+                                            //document associated with user does not exist start GenerateUser_activity
+                                            Intent intent = new Intent(getBaseContext(), GenerateUserActivity.class);
+                                            intent.putExtra("USER_ID", userID);
+                                            startActivity(intent);
+                                        }
+                                    } else {
+                                        Log.d("YA-DB:", "get failed with ", task.getException());
+                                    }
+                                }
+                            });
                         } else {
-                            Log.e("Installations", "Unable to get Installation ID");
-                            //this means data dosnt exist luanch Generate ID
+                            Log.e("YA-DB", "Unable to get Installation ID");
+                            //this means user device could not be identified setup fail state
                         }
                     }
                 });
