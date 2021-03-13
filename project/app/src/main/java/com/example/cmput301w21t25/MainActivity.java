@@ -4,26 +4,66 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     float x1;
     float x2;
-    UserProfile test1;
+    //testing user stuff atm-YA
+    UserManager testM;
+    User test;
+    String email = "Loading";
+    ExperimentManager expMtest;
+    TrialManager trialManeTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //testing DB ill make proper tests later i promise
-        test1 = new UserProfile();
-        test1.getUserDocument("jIgWPfYxOQHyMVOinMVH");
-        }
+        //testing DB ill make proper tests later i promise -YA
+        //tests for UserMangaer class and UserProfile collection
+        testM = new UserManager();
+        test = new User();
+        ArrayList<String> testList = new ArrayList<>();
+        testList.add("this");
+        testList.add("is");
+        testList.add("not a");
+        testList.add("test");
+        testM.FB_CreateUserProfile("test1","TestOne","test@test.gmail.com",test);
+        testM.FB_UpdateSubscriptions(testList,"test1");
+        testM.FB_UpdateOwnedExperiments(testList,"test1");
+        testM.FB_UpdateConductedTrials(testList,"test1");
+
+        //test for Experiminet manager
+        expMtest = new ExperimentManager();
+        Location testloc = new Location("edm");
+        Experiment experiment = new Experiment();
+        //expMtest.FB_CreateExperiment("testExp","test1", "this is a test",testloc,testList,false,false,experiment);
+        expMtest.FB_UpdateDescription("new description","BIKvOCxENl3ByUtNGmf7");
+        expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
+        expMtest.FB_UpdatePublished(true,"BIKvOCxENl3ByUtNGmf7");
+        expMtest.FB_UpdateTags(testList,"BIKvOCxENl3ByUtNGmf7");
+        expMtest.FB_UpdateConductedTrials(testList,"BIKvOCxENl3ByUtNGmf7");
+        expMtest.FB_UpdateExperimentClass(experiment,"BIKvOCxENl3ByUtNGmf7");
+
+        //test for Trial managerTest
+        trialManeTest = new TrialManager();
+        Trial testTrial = new Trial();
+        //trialManeTest.FB_CreateTrial("TestDummy","BIKvOCxENl3ByUtNGmf7",testloc,false,false,testTrial);
+        trialManeTest.FB_UpdateHidden(true,"13m0s2kkGBkERhcE15V2");
+        trialManeTest.FB_UpdatePublished(true,"13m0s2kkGBkERhcE15V2");
+        trialManeTest.FB_UpdateTrial(testTrial,"13m0s2kkGBkERhcE15V2");
+
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

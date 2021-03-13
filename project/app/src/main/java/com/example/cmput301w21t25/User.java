@@ -1,15 +1,19 @@
 package com.example.cmput301w21t25;
-
-
 import java.util.ArrayList;
 
 public class User {
     private ArrayList<Experiment> subscribedExperiments;
     private ArrayList<Trial> conductedTrials;
     private ArrayList<Experiment> ownedExperiments;
-    //public UserProfile profile;
+
+    private String userName;
 
     public User() {
+        //test
+        userName="testdummy";
+    }
+    public String getUserName() {
+        return userName;
     }
 
     private void subscribeTo(Experiment experiment) {
