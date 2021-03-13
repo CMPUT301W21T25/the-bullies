@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,18 +20,27 @@ public class MainActivity extends AppCompatActivity {
     //testing user stuff atm-YA
     UserManager testM;
     User test;
+    String email = "Loading";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //testing DB ill make proper tests later i promise -YA
+        //tests for UserMangaer class and UserProfile collection
         testM = new UserManager();
         test = new User();
-        //testM.FB_AddUser(test);
-        User test2 = testM.FB_GetUser("kRSx5awciCOnX7SkAnJj");
-        Log.d("output: ",test.getUserName());
-        }
+        ArrayList<String> testList = new ArrayList<>();
+        testList.add("this");
+        testList.add("is");
+        testList.add("a");
+        testList.add("test");
+        testM.FB_CreateUserProfile("test1","TestOne","test@test.gmail.com",test);
+        testM.FB_UpdateSubscriptions(testList,"test1");
+        testM.FB_UpdateOwnedExperiments(testList,"test1");
+        testM.FB_UpdateConductedTrials(testList,"test1");
+        //test for
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
