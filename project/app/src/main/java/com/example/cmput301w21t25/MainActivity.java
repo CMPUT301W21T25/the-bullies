@@ -99,15 +99,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     /********************************************
-     * BIG REFERENCE SHEET OF DB Func GOES HERE
+     * Functions HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!
      ********************************************
-     * Section1:User
-     * Section2:Experiments
-     * Section3:Trials
      *******************************************/
     //SECTION 1:
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    //DocumentReference docRef = db.collection("UserProfile").document(id);
     String userName;
     String userEmail;
     User user;
@@ -123,26 +119,11 @@ public class MainActivity extends AppCompatActivity {
                         //this first query on completion gets the userID which is the device's firebase install ID
                         if (task.isSuccessful()) {
                             String userID = task.getResult();
-                            Log.d("Installations", "Installation ID: " + task.getResult());
-                            DocumentReference docRef = db.collection("UserProfile").document("test1");
-                            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {//dont worry too much about this its just the trigger for when to query in this case its on completion,
-                                @Override//so we overide it to add security and filter out the info we dont need
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {//security stuff to check if there actually is a document up1 and stuff and weather query was successful
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            userName = (String) document.getData().get("name");
-                                            userEmail = (String) document.getData().get("email");
-                                            Log.d("YA-DB: ",userName);
-                                        }
-                                    }
-                                    else{
-                                        //launch new activity that makes user account;
-                                    }
-                                }
-                            });
+                            Log.d("YA-Installations", "Installation ID: " + task.getResult());
+                            //this means data retrieval was successful launch SubList Activity
                         } else {
                             Log.e("Installations", "Unable to get Installation ID");
+                            //this means data dosnt exist luanch Generate ID
                         }
                     }
                 });
