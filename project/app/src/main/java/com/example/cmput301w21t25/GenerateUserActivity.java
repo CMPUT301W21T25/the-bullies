@@ -16,7 +16,7 @@ public class GenerateUserActivity extends AppCompatActivity {
         String userID;
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
-        CreateUser(userID);
+        FB_CreateUser(userID);
         finish();
     }
     /********************************************
@@ -25,7 +25,7 @@ public class GenerateUserActivity extends AppCompatActivity {
     *******************************************/
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     UserManager userManager = new UserManager();
-    public void CreateUser(String id){
+    public void FB_CreateUser(String id){
         //write code here that takes in the user data like email and username
         String T_username = "this is a test user";
         String T_email = "test@test.ualberta.ca";

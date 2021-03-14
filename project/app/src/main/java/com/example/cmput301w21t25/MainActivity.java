@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
      * DB Functions HERE!!!!!!!!!!!!!!!!!!!!!!!!!
      ********************************************
      *******************************************/
-    //SECTION 1:
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     String userID;
     private void getLaunchInfo(){
@@ -117,7 +116,10 @@ public class MainActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
-                                            Log.d("YA-DB:", "DocumentSnapshot data: " + document.getData());
+                                            Log.d("YA-DB:", "User document retrieved");
+                                            Intent intent = new Intent(getBaseContext(), HomeSubbedActivity.class);
+                                            intent.putExtra("USER_ID", userID);
+                                            startActivity(intent);
                                             //start sublist activity
                                         } else {
                                             Log.d("YA-DB:", "No such document");
