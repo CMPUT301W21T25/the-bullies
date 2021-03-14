@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             Log.d("YA-DB:", "User document retrieved");
-                                            Intent intent = new Intent(getBaseContext(), HomeOwnedActivity.class);
+                                            Intent intent = new Intent(getBaseContext(), SearchActivity.class);
                                             intent.putExtra("USER_ID", userID);
                                             startActivity(intent);
                                             //start sublist activity
