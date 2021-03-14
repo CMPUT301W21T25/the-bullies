@@ -30,18 +30,19 @@ public class ExperimentManager {
     //extra attributes to make ur life easier:
     /////////////////////////////////////////////////////////////////////////////////////
     //INITIALIZE EXPERIMENT
-    public void FB_CreateExperiment(String title, String ownerID, String description, Location region,ArrayList<String> tags,Boolean geoEnabled, Boolean published,Experiment experiment){
+    public void FB_CreateExperiment(String name,String ownerID, String description, Location region,ArrayList<String> tags,Boolean geoEnabled, Boolean published,String type){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
-        experimentDoc.put("title",title);
+        experimentDoc.put("name",name);
         experimentDoc.put("owner",ownerID);
         experimentDoc.put("description",description);
         experimentDoc.put("region",region);
+        experimentDoc.put("type", type);
         experimentDoc.put("tags",tags);
         experimentDoc.put("geoEnabled",geoEnabled);
         experimentDoc.put("published",published);
         experimentDoc.put("trialKeys", Arrays.asList());//cause an experiment should start empty
-        experimentDoc.put("experimentClass",experiment);
+
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -127,21 +128,6 @@ public class ExperimentManager {
         DocumentReference docRef = db.collection("Experiments").document(id);
         docRef
                 .update("trialKeys", conductedTrials)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
-    }
-    public void FB_UpdateExperimentClass(Experiment experiment,String id){
-        DocumentReference docRef = db.collection("Experiments").document(id);
-        docRef
-                .update("experimentClass", experiment)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

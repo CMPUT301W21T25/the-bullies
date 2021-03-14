@@ -29,7 +29,7 @@ public class Experiment { //make abstract
                     ATTRIBUTES
     ****************************************/
     private User owner;
-    private String name;
+    public String name;
     private String description;
     private String type;
     private ArrayList<String> keywords;
@@ -45,15 +45,17 @@ public class Experiment { //make abstract
 
     //private Region region;
     //private ArrayList<Region> geoLocations;
+    //attributes that have public getters automatically become part of the boject when converting from DB Map
 
 
     /****************************************
                 CONSTRUCTORS
      ****************************************/
     public Experiment() {
-
     }
-
+    public Experiment(String name) {
+        this.name = name;
+    }
     public Experiment(User owner, String description, int minNumTrials) {
         this.owner = owner;
         this.description = description;
@@ -74,7 +76,12 @@ public class Experiment { //make abstract
         return hiddenTrials;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
+    public String retTest(){
+        return "test";
+    }
 
     public String getType() { return type; }
 

@@ -12,10 +12,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
 import java.util.ArrayList;
 
-public class HomeSubbedActivity extends AppCompatActivity {
+public class HomeOwnedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
@@ -23,7 +22,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
         String userID;
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
-        FB_FetchSubscriptionsKeys(userID);
+        FB_FetchOwnedKeys(userID);
         finish();
     }
     /********************************************
@@ -31,10 +30,10 @@ public class HomeSubbedActivity extends AppCompatActivity {
      ********************************************
      *******************************************/
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ArrayList<String>subscriptionKeys = new ArrayList<String>();
-    ArrayList<Experiment>subscriptionList = new ArrayList<Experiment>();
-    public void FB_FetchSubscriptionsKeys(String id){
-        subscriptionKeys.clear();
+    ArrayList<String> ownedKeys = new ArrayList<String>();
+    ArrayList<Experiment>ownedList = new ArrayList<Experiment>();
+    public void FB_FetchOwnedKeys(String id){
+        ownedKeys.clear();
         DocumentReference docRef = db.collection("UserProfile").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -42,9 +41,9 @@ public class HomeSubbedActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        subscriptionKeys = (ArrayList<String>) document.getData().get("subscriptions");
-                        Log.d("YA-DB: ", "DocumentSnapshot data: " + subscriptionKeys);
-                        FB_FetchSubscriptions(subscriptionKeys);
+                        ownedKeys = (ArrayList<String>) document.getData().get("ownedExperiments");
+                        Log.d("YA-DB: ", "DocumentSnapshot data: " + ownedKeys);
+                        FB_FetchOwned(ownedKeys);
                     }
                 } else {
                     Log.d("YA-DB: ", "get failed with ", task.getException());
@@ -54,10 +53,10 @@ public class HomeSubbedActivity extends AppCompatActivity {
     }
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches subscribed experiments
-    public void FB_FetchSubscriptions(ArrayList<String> subscriptionKeys){
-        subscriptionList.clear();
-        if(subscriptionKeys.isEmpty()==false){
-            for (String key : subscriptionKeys) {
+    public void FB_FetchOwned(ArrayList<String> ownedKeys){
+        ownedList.clear();
+        if(ownedKeys.isEmpty()==false){
+            for (String key : ownedKeys) {
                 DocumentReference docRef = db.collection("Experiments").document(key);
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override

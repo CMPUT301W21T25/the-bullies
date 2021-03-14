@@ -48,20 +48,18 @@ public class MainActivity extends AppCompatActivity {
 //        testM.FB_UpdateSubscriptions(testList,"test1");
 //        testM.FB_UpdateOwnedExperiments(testList,"test1");
 //        testM.FB_UpdateConductedTrials(testList,"test1");
-//
-//        //test for Experiminet manager
+
+        //test for Experiminet manager
 //        expMtest = new ExperimentManager();
 //        Location testloc = new Location("edm");
-//        Experiment experiment = new Experiment();
-//        //expMtest.FB_CreateExperiment("testExp","test1", "this is a test",testloc,testList,false,false,experiment);
-//        expMtest.FB_UpdateDescription("new description","BIKvOCxENl3ByUtNGmf7");
+//        expMtest.FB_CreateExperiment("TestName","test1", "this is a test",testloc,testList,false,false,"abstract");
+//        expMtest.FB_UpdateDescription("new description","03XLnxuIaI7CW7DnpsMb");
 //        expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
 //        expMtest.FB_UpdatePublished(true,"BIKvOCxENl3ByUtNGmf7");
 //        expMtest.FB_UpdateTags(testList,"BIKvOCxENl3ByUtNGmf7");
 //        expMtest.FB_UpdateConductedTrials(testList,"BIKvOCxENl3ByUtNGmf7");
-//        expMtest.FB_UpdateExperimentClass(experiment,"BIKvOCxENl3ByUtNGmf7");
-//
-//        //test for Trial managerTest
+
+        //test for Trial managerTest
 //        trialManeTest = new TrialManager();
 //        Trial testTrial = new Trial();
 //        //trialManeTest.FB_CreateTrial("TestDummy","BIKvOCxENl3ByUtNGmf7",testloc,false,false,testTrial);
@@ -98,9 +96,16 @@ public class MainActivity extends AppCompatActivity {
      ********************************************
      *******************************************/
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String userID;
     private void getLaunchInfo(){
-        //RETRIEVES ALL USER INFORMATION*Construction noises*
+        /**
+         * this function retrives launch critical information from the database and starts the next activities accordingly
+         * it first finds the the Firebase Installation ID which is used to identify the device
+         * it then checks the database to see if there is a user profile associated with the FID
+         * if such a profile exists it retrives its id and passes the FID onto the HomeSubbedActivity via Intent
+         * if such a profile doesn't exist it passes the FID to GenerateUserActivity via intent
+         * @param none
+         * @return void
+         * */
         FirebaseInstallations.getInstance().getId()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -116,25 +121,26 @@ public class MainActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
-                                            Log.d("YA-DB:", "User document retrieved");
+                                            Log.d("YA-DB:", "User document retrieved passing ID to UserProfileActivity");
                                             Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
                                             intent.putExtra("USER_ID", userID);
                                             startActivity(intent);
                                             //start sublist activity
                                         } else {
-                                            Log.d("YA-DB:", "No such document");
+                                            Log.d("YA-DB:", "No document associated with ID passing to GenerateUserAcitivty");
                                             //document associated with user does not exist start GenerateUser_activity
                                             Intent intent = new Intent(getBaseContext(), GenerateUserActivity.class);
                                             intent.putExtra("USER_ID", userID);
                                             startActivity(intent);
                                         }
                                     } else {
-                                        Log.d("YA-DB:", "get failed with ", task.getException());
+                                        Log.d("YA-DB:", "User Profile Query Failed", task.getException());
+                                        //this means it couldnt complete query
                                     }
                                 }
                             });
                         } else {
-                            Log.e("YA-DB", "Unable to get Installation ID");
+                            Log.e("YA-DB", "Unable to get Installation ID", task.getException());
                             //this means user device could not be identified setup fail state
                         }
                     }
