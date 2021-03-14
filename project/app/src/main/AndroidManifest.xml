@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CMPUT301W21T25">
         <activity android:name=".TempRightActivity"></activity>
+        <activity android:name=".GenerateUserActivity"></activity>
+        <activity android:name=".HomeSubbedActivity"></activity>
+        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".UserProfileActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
