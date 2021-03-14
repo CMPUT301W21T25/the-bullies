@@ -1,14 +1,16 @@
 package com.example.cmput301w21t25;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SearchTest {
 
     private Experiment mockExperiment() {
-        Experiment mockExperiment = new Experiment();
+        Experiment mockExperiment = new BinomialExperiment();
 
         return mockExperiment;
     }

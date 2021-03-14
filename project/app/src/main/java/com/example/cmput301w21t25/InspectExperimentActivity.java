@@ -12,8 +12,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-
 public class InspectExperimentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle passedData) {
@@ -36,8 +34,8 @@ public class InspectExperimentActivity extends AppCompatActivity {
                         String type = (String)document.getData().get("type");
                         switch (type){
                             case "Binomial":
-                                BinomealExperiment binomealExperiment = new BinomealExperiment();
-                                binomealExperiment = document.toObject(BinomealExperiment.class);
+                                BinomialExperiment binomialExperiment = new BinomialExperiment();
+                                binomialExperiment = document.toObject(BinomialExperiment.class);
                                 break;
                             case"Count":
                                 CountExperiment countExperiment = new CountExperiment();
