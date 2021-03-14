@@ -14,6 +14,7 @@
         <activity android:name=".HomeSubbedActivity"></activity>
         <activity android:name=".SearchActivity"></activity>
         <activity android:name=".UserProfileActivity"></activity>
+        <activity android:name=".HomeOwnedActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

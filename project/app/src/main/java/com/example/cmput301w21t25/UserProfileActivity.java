@@ -34,7 +34,6 @@ public class UserProfileActivity extends AppCompatActivity {
     String email;
     User user;//i dont think the user class is needed
     //so far this is the only information that comprises the user profile
-
     public void FB_FetchUserInfo(String id){
         DocumentReference docRef = db.collection("UserProfile").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

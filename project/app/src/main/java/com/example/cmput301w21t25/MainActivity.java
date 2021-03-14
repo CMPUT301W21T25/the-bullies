@@ -48,20 +48,18 @@ public class MainActivity extends AppCompatActivity {
 //        testM.FB_UpdateSubscriptions(testList,"test1");
 //        testM.FB_UpdateOwnedExperiments(testList,"test1");
 //        testM.FB_UpdateConductedTrials(testList,"test1");
-//
-//        //test for Experiminet manager
+
+        //test for Experiminet manager
 //        expMtest = new ExperimentManager();
 //        Location testloc = new Location("edm");
-//        Experiment experiment = new Experiment();
-//        //expMtest.FB_CreateExperiment("testExp","test1", "this is a test",testloc,testList,false,false,experiment);
-//        expMtest.FB_UpdateDescription("new description","BIKvOCxENl3ByUtNGmf7");
+//        expMtest.FB_CreateExperiment("TestName","test1", "this is a test",testloc,testList,false,false,"abstract");
+//        expMtest.FB_UpdateDescription("new description","03XLnxuIaI7CW7DnpsMb");
 //        expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
 //        expMtest.FB_UpdatePublished(true,"BIKvOCxENl3ByUtNGmf7");
 //        expMtest.FB_UpdateTags(testList,"BIKvOCxENl3ByUtNGmf7");
 //        expMtest.FB_UpdateConductedTrials(testList,"BIKvOCxENl3ByUtNGmf7");
-//        expMtest.FB_UpdateExperimentClass(experiment,"BIKvOCxENl3ByUtNGmf7");
-//
-//        //test for Trial managerTest
+
+        //test for Trial managerTest
 //        trialManeTest = new TrialManager();
 //        Trial testTrial = new Trial();
 //        //trialManeTest.FB_CreateTrial("TestDummy","BIKvOCxENl3ByUtNGmf7",testloc,false,false,testTrial);
@@ -117,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             Log.d("YA-DB:", "User document retrieved");
-                                            Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
+                                            Intent intent = new Intent(getBaseContext(), HomeOwnedActivity.class);
                                             intent.putExtra("USER_ID", userID);
                                             startActivity(intent);
                                             //start sublist activity
