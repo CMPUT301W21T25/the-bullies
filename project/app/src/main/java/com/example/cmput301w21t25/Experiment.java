@@ -2,8 +2,37 @@ package com.example.cmput301w21t25;
 
 import java.util.ArrayList;
 
-public abstract class Experiment {
+/* import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.content.ContentValues.TAG;
+
+public class Experiment { //make abstract
+
+ADDED BEFORE DUNCAN'S MERGE IN CASE NEEDED (android automatically deleted)
+*/  
+
+public abstract class Experiment {  
+    
+    
     /****************************************
                     ATTRIBUTES
     ****************************************/
