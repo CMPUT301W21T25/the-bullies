@@ -1,6 +1,11 @@
 package com.example.cmput301w21t25;
 
+
 public class Trial {
+
+
+
+
 
     /****************************************
                     ATTRIBUTES
@@ -13,6 +18,7 @@ public class Trial {
     public Trial(User user) {
         this.user = user;
     }
+    public Trial() {}
 
     /****************************************
                     METHODS

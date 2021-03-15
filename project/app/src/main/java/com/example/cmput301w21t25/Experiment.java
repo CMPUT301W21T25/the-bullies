@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25;
 
+/* OLD IMPORTS THAT ANDROID STUDIO AXED THAT MAYBE WE STILL NEED LATER???
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,18 +18,21 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
-
+ */
+import java.util.ArrayList;
+//abstract
 public class Experiment { //make abstract
 
     /****************************************
                     ATTRIBUTES
     ****************************************/
     private User owner;
-    private String name;
+    public String name;
     private String description;
     private String type;
     private ArrayList<String> keywords;
@@ -44,15 +48,17 @@ public class Experiment { //make abstract
 
     //private Region region;
     //private ArrayList<Region> geoLocations;
+    //attributes that have public getters automatically become part of the object when converting from DB Map
 
 
     /****************************************
                 CONSTRUCTORS
      ****************************************/
     public Experiment() {
-
     }
-
+    public Experiment(String name) {
+        this.name = name;
+    }
     public Experiment(User owner, String description, int minNumTrials) {
         this.owner = owner;
         this.description = description;
@@ -65,113 +71,6 @@ public class Experiment { //make abstract
     ****************************************/
     //private ArrayList<Comment> forum;
 
-    /**
-     * please look over this before continuing work
-     * Database stuff starting here ill add proper comments later in a bit of a rush atm
-     * methods to get and set to database use as u please attributes in this section are listed below
-     * -YA
-     * todo: update comments, add security and exceptions, complete incomplete methods,CHECK IF THIS STUFF WORKS RIGHT
-     * */
-    //attaching firebase good comments to come later please bear with me -YA
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    //extra attributes to make ur life easier:
-    private ArrayList<Trial> fb_trialList;
-    private String fb_name;
-    private String fb_type;
-
-    //adding a method to make new experiment in database
-    private void FB_CreateExperiment(){
-        // Create a new experiment Hash Map this is the datatype stored in firebase for documents
-        Map<String, Object> experiment = new HashMap<>();
-        // Add a new Experiment with a generated ID
-        db.collection("Experiments")
-                .add(experiment)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    //security stuff to make debuging easier
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding experiment", e);
-                    }
-                });
-    }
-    //a method to get trials associated with an experiment
-    private void FB_getTrials(String experiment_ID){
-        fb_trialList.clear();//makes sure list is clear
-        CollectionReference colRef = db.collection("Experiments/"+experiment_ID+"/Trials");
-        colRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        //construct new trial
-                        //store construced trial in FB_trialList
-                        //what I think constructor should include: ID,name,type, value
-                        //i can probably setup a case check here such that CASE A = binomeal then itll call binomeal constructor etc.
-                        //this is the array of all the trials associated with this particular experiment
-                        //trial dosnt need to know user experiment mangaer can figure that out itself
-
-                        //alternativly we could upload as a trial class, not yet sure how this works requires some testing
-                    }
-                }
-            }
-        });
-    }
-    //a method to get the name of a trial
-    public void FB_getName(String experiment_ID) {
-        DocumentReference docRef = db.document("Experiments/"+experiment_ID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot document = task.getResult();
-                if (task.isSuccessful()) {
-                    fb_name = (String)document.getData().get("name");
-                }
-            }
-        });
-    }
-    //method to get type of trial
-    public void FB_getType(String experiment_ID) {
-        DocumentReference docRef = db.document("Experiments/"+experiment_ID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot document = task.getResult();
-                if (task.isSuccessful()) {
-                    fb_type = (String)document.getData().get("type");
-                }
-            }
-        });
-    }
-    public void FB_setName(String newName,String experiment_ID) {
-        DocumentReference docRef = db.document("Experiments/"+experiment_ID);
-        docRef.update(name,newName);
-    }
-    public void FB_setType(String type,String experiment_ID) {
-    }
-    public void FB_setKeywords(ArrayList<String> keywords,String experiment_ID) {
-
-    }
-    public void FB_setTrials(ArrayList<Trial> trials,String experiment_ID) {
-    }
-    public void FB_addTrial(Trial trial) {
-    }
-    public void FB_deleteTrial(Trial trial) {
-    }
-    public void FB_hideTrials() {
-    }
-    /**
-     * End of database stuff -YA
-     * */
-
-
-
-
     public ArrayList<Trial> getTrials() {
         return trials;
     }
@@ -180,7 +79,12 @@ public class Experiment { //make abstract
         return hiddenTrials;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
+    public String retTest(){
+        return "test";
+    }
 
     public String getType() { return type; }
 
@@ -203,6 +107,8 @@ public class Experiment { //make abstract
     public void deleteTrial(Trial trial) {
         trials.remove(trial);
     }
+    private String testat;
+
 
     /**
      * Adds a user to the list of all users and the list of subscribed users,
