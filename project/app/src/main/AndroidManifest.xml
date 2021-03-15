@@ -9,15 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CMPUT301W21T25">
-        <activity android:name=".TempRightActivity"></activity>
-        <activity android:name=".GenerateUserActivity"></activity>
-        <activity android:name=".HomeSubbedActivity"></activity>
-        <activity android:name=".SearchActivity"></activity>
-        <activity android:name=".UserProfileActivity"></activity>
-        <activity android:name=".HomeOwnedActivity"></activity>
-        <activity android:name=".InspectExperimentActivity"></activity>
-        <activity android:name=".InspectTrialActivity"></activity>
-        <activity android:name=".ExperimentDataActivity"></activity>
+        <activity android:name=".ProfileViewActivity"></activity>
+        <activity android:name=".TempRightActivity" />
+        <activity android:name=".GenerateUserActivity" />
+        <activity android:name=".HomeSubbedActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".HomeOwnedActivity" />
+        <activity android:name=".InspectExperimentActivity" />
+        <activity android:name=".InspectTrialActivity" />
+        <activity android:name=".ExperimentDataActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
