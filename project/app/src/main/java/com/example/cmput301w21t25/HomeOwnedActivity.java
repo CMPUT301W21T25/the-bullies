@@ -102,7 +102,6 @@ public class HomeOwnedActivity extends AppCompatActivity {
      *******************************************/
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<String> ownedKeys = new ArrayList<String>();
-    ArrayList<Experiment>ownedList = new ArrayList<Experiment>();
     public void FB_FetchOwnedKeys(String id){
         ownedKeys.clear();
         DocumentReference docRef = db.collection("UserProfile").document(id);
@@ -125,7 +124,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches subscribed experiments
     public void FB_FetchOwned(ArrayList<String> ownedKeys){
-        ownedList.clear();
+        ownedExperiments.clear();
         if(ownedKeys.isEmpty()==false){
             for (String key : ownedKeys) {
                 DocumentReference docRef = db.collection("Experiments").document(key);
@@ -135,15 +134,47 @@ public class HomeOwnedActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                ownedExperiments.add(document.toObject(Experiment.class));
-                                experimentAdapter.notifyDataSetChanged();
+                                //ownedExperiments.add(document.toObject(Experiment.class));
                                 //@Yalmaz I don't think we need this next line?
-                                Experiment test = document.toObject(Experiment.class);
-                                Log.d("YA-DB: ", "SearchResults " + test.getName());
+                                //Experiment test = document.toObject(Experiment.class);
+                                //Log.d("YA-DB: ", "SearchResults " + test.getName());
+                                String type = (String)document.getData().get("type");
+                                Log.d("YA-DB: ", "testing");
+
+                                if(type!=null) {
+                                    switch (type) {
+                                        case "binomial":
+                                            //ArrayList<Experiment>test = new ArrayList<Experiment>();
+                                            BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
+                                            ownedExperiments.add(binExp);
+                                            Log.d("YA-DB: ", "SearchResults " + ownedExperiments.get(0).getName());
+                                            experimentAdapter.notifyDataSetChanged();
+                                            break;
+                                        case "count":
+                                            final CountExperiment countExp = document.toObject(CountExperiment.class);
+                                            ownedExperiments.add(countExp);
+                                            experimentAdapter.notifyDataSetChanged();
+                                            break;
+                                        case "non-neg-count":
+                                            NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
+                                            ownedExperiments.add(nnCountExp);
+                                            experimentAdapter.notifyDataSetChanged();
+                                            break;
+                                        case "measurement":
+                                            MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
+                                            ownedExperiments.add(mesExp);
+                                            experimentAdapter.notifyDataSetChanged();
+                                            break;
+                                        default:
+                                            Log.d("YA-DB: ", "this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
+                                    }
+                                }
+                                //Experiment test = document.toObject(Experiment.class);
+                                //Log.d("YA-DB: ", "SearchResults " + test.getName());
                                 //inside here update the feilds and stuff
                             }
                         } else {
-                            Log.d("YA-DB: ", "search failed ", task.getException());
+                            Log.d("YA-DB: ", "search failed ");
                         }
                     }
                 });

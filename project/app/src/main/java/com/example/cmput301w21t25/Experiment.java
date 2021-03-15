@@ -107,6 +107,8 @@ public class Experiment { //make abstract
     public void deleteTrial(Trial trial) {
         trials.remove(trial);
     }
+    private String testat;
+
 
     /**
      * Adds a user to the list of all users and the list of subscribed users,

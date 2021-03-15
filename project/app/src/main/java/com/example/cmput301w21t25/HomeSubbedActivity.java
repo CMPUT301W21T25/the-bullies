@@ -65,12 +65,36 @@ public class HomeSubbedActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                Experiment test = document.toObject(Experiment.class);
-                                Log.d("YA-DB: ", "SearchResults " + test.getName());
+                                String type = (String)document.getData().get("type");
+                                if(type!=null) {
+                                    switch (type) {
+                                        case "binomial":
+                                            BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
+                                            subscriptionList.add(binExp);
+                                            Log.d("YA-DB: ", "SearchResults " + subscriptionList.get(0).getName());
+                                            break;
+                                        case "count":
+                                            final CountExperiment countExp = document.toObject(CountExperiment.class);
+                                            subscriptionList.add(countExp);
+                                            break;
+                                        case "non-neg-count":
+                                            NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
+                                            subscriptionList.add(nnCountExp);
+                                            break;
+                                        case "measurement":
+                                            MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
+                                            subscriptionList.add(mesExp);
+                                            break;
+                                        default:
+                                            Log.d("YA-DB: ", "this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
+                                    }
+                                }
+                                //Experiment test = document.toObject(Experiment.class);
+                                //Log.d("YA-DB: ", "SearchResults " + test.getName());
                                 //inside here update the feilds and stuff
                             }
                         } else {
-                            Log.d("YA-DB: ", "search failed ", task.getException());
+                            Log.d("YA-DB: ", "search failed ");
                         }
                     }
                 });

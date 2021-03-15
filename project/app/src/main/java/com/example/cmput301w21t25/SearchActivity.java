@@ -45,10 +45,10 @@ public class SearchActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists()&&(Boolean) document.getData().get("published")==true) {
-                        subscriptionKeys = (ArrayList<String>) document.getData().get("ownedExperiments");
+                    if (document.exists()) {
+                        subscriptionKeys = (ArrayList<String>) document.getData().get("subscriptions");
                         Log.d("YA-DB: ", "DocumentSnapshot data: " + subscriptionKeys);
-                        FB_FetchOwned(subscriptionKeys);
+                        FB_FetchNotSubscribed(subscriptionKeys);
                     }
                 } else {
                     Log.d("YA-DB: ", "get failed with ", task.getException());
@@ -58,26 +58,54 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     //right now this searches the search val in both tags and description ill sperate them out if u want
-    //this only searches subscribed experiments
-    public void FB_FetchOwned(ArrayList<String> subscriptionKeys) {
+    //this only searches experiments that are NOT subscribed AND published
+    public void FB_FetchNotSubscribed(ArrayList<String> subscriptionKeys) {
         experimentList.clear();
         if (subscriptionKeys.isEmpty() == false) {
             DocumentReference docRef = db.collection("Experiments").document();
             db.collection("Experiments")
+                    .whereEqualTo("published", true)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
+                                    //ArrayList<Experiment> test2 = new ArrayList<Experiment>();
+                                    //test2.add(new BinomealExperiment());
+                                    //test2.add(new Experiment());
+                                    //Log.d("test",test2.get(1).getName());
                                     if (document.exists() && subscriptionKeys.contains(document.getId()) != true) {
-                                        Experiment test = document.toObject(Experiment.class);
-                                        experimentList.add(test);
-                                        Log.d("YA-DB: ", "SearchResults " + experimentList);
+                                        String type = (String)document.getData().get("type");
+                                        if(type!=null){
+                                            switch(type){
+                                                case "binomial":
+                                                    BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
+                                                    experimentList.add(binExp);
+                                                    Log.d("YA-DB: ", "SearchResults " + experimentList.get(0).getName());
+                                                    break;
+                                                case"count":
+                                                    final CountExperiment countExp = document.toObject(CountExperiment.class);
+                                                    experimentList.add(countExp);
+                                                    break;
+                                                case "non-neg-count":
+                                                    NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
+                                                    experimentList.add(nnCountExp);
+                                                    break;
+                                                case"measurement":
+                                                    MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
+                                                    experimentList.add(mesExp);
+                                                    break;
+                                                default:
+                                                    Log.d("YA-DB: ","this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
+                                            }
+                                        }
+                                        //Experiment test = document.toObject(Experiment.class);
+                                        //experimentList.add(test);
                                         //inside here update the feilds and stuff
                                     }
                                     else{
-                                        Log.d("YA-DB: ", "search failed ", task.getException());
+                                        Log.d("YA-DB: ", "this is already subbed to");
                                     }
                                 }
                                 //call search manager here
