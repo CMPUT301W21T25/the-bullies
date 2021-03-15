@@ -1,7 +1,11 @@
 package com.example.cmput301w21t25;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -22,6 +26,11 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private ArrayAdapter<Experiment> experimentAdapter;
     private ArrayList<Experiment> ownedExperiments;
 
+    private float x1;
+    private float x2;
+    private float y1;
+    private float y2;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
@@ -38,7 +47,55 @@ public class HomeOwnedActivity extends AppCompatActivity {
         experimentAdapter = new CustomListExperiment(this, ownedExperiments, userID);
         ownedExperimentsList.setAdapter(experimentAdapter);
 
+        ownedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("YA-DB: ", "Does it click?");
+            }
+        });
+
+
+        //Prevent listview from eating onTouchEvent
+        ownedExperimentsList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                onTouchEvent(event);
+                return false;
+            }
+        });
     }
+
+    //Screen switching
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                y2 = event.getY();
+                float y = (y1 - y2);
+                float x = (x1 - x2);
+
+                //To deal with sensitivity so scrolling doesn't switch screens
+                if (Math.abs(y) > Math.abs(x)) {
+                    return false;
+                }
+
+                if (x1 > (x2)) {
+                    Intent switchScreen = new Intent(HomeOwnedActivity.this, TempRightActivity.class);
+                    startActivity(switchScreen);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
+
     /********************************************
      *            DB Functions HERE             *
      ********************************************
