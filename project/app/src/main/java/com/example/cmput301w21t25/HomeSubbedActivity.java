@@ -55,7 +55,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches subscribed experiments
     public void FB_FetchSubscriptions(ArrayList<String> subscriptionKeys){
-        subscriptionList.clear();
+        subscriptionList.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
         if(subscriptionKeys.isEmpty()==false){
             for (String key : subscriptionKeys) {
                 DocumentReference docRef = db.collection("Experiments").document(key);
@@ -65,12 +65,36 @@ public class HomeSubbedActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                Experiment test = document.toObject(Experiment.class);
-                                Log.d("YA-DB: ", "SearchResults " + test.getName());
+                                String type = (String)document.getData().get("type");
+                                if(type!=null) {
+                                    switch (type) {
+                                        case "binomial":
+                                            BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
+                                            subscriptionList.add(binExp);
+                                            Log.d("YA-DB: ", "SearchResults " + subscriptionList.get(0).getName());
+                                            break;
+                                        case "count":
+                                            final CountExperiment countExp = document.toObject(CountExperiment.class);
+                                            subscriptionList.add(countExp);
+                                            break;
+                                        case "non-neg-count":
+                                            NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
+                                            subscriptionList.add(nnCountExp);
+                                            break;
+                                        case "measurement":
+                                            MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
+                                            subscriptionList.add(mesExp);
+                                            break;
+                                        default:
+                                            Log.d("YA-DB: ", "this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
+                                    }
+                                }
+                                //Experiment test = document.toObject(Experiment.class);
+                                //Log.d("YA-DB: ", "SearchResults " + test.getName());
                                 //inside here update the feilds and stuff
                             }
                         } else {
-                            Log.d("YA-DB: ", "search failed ", task.getException());
+                            Log.d("YA-DB: ", "search failed ");
                         }
                     }
                 });
