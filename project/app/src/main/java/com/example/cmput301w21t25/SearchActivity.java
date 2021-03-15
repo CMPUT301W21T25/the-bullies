@@ -60,7 +60,7 @@ public class SearchActivity extends AppCompatActivity {
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches experiments that are NOT subscribed AND published
     public void FB_FetchNotSubscribed(ArrayList<String> subscriptionKeys) {
-        experimentList.clear();
+        experimentList.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
         if (subscriptionKeys.isEmpty() == false) {
             DocumentReference docRef = db.collection("Experiments").document();
             db.collection("Experiments")

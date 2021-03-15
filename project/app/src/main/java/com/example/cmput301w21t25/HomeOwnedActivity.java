@@ -124,7 +124,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches subscribed experiments
     public void FB_FetchOwned(ArrayList<String> ownedKeys){
-        ownedExperiments.clear();
+        ownedExperiments.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
         if(ownedKeys.isEmpty()==false){
             for (String key : ownedKeys) {
                 DocumentReference docRef = db.collection("Experiments").document(key);
