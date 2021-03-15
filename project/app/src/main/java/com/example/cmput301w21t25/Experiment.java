@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25;
 
+/* OLD IMPORTS THAT ANDROID STUDIO AXED THAT MAYBE WE STILL NEED LATER???
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -22,8 +23,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
+ */
+import java.util.ArrayList;
 
-public class Experiment { //make abstract
+public abstract class Experiment { //make abstract
 
     /****************************************
                     ATTRIBUTES
@@ -45,7 +48,7 @@ public class Experiment { //make abstract
 
     //private Region region;
     //private ArrayList<Region> geoLocations;
-    //attributes that have public getters automatically become part of the boject when converting from DB Map
+    //attributes that have public getters automatically become part of the object when converting from DB Map
 
 
     /****************************************
