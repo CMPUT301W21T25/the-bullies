@@ -23,7 +23,7 @@ public class UserProfileActivity extends AppCompatActivity {
         String userID;
         userID = getIntent().getStringExtra("USER_ID");
         FB_FetchUserInfo(userID);
-        finish();
+        //finish();
     }
 
 

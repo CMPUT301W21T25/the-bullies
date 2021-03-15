@@ -1,7 +1,13 @@
 package com.example.cmput301w21t25;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,16 +21,81 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 public class HomeOwnedActivity extends AppCompatActivity {
+
+    private ListView ownedExperimentsList;
+    private ArrayAdapter<Experiment> experimentAdapter;
+    private ArrayList<Experiment> ownedExperiments;
+
+    private float x1;
+    private float x2;
+    private float y1;
+    private float y2;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_subbed);
+        setContentView(R.layout.activity_home_created);
         String userID;
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
+        //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
         FB_FetchOwnedKeys(userID);
-        finish();
+        //finish();
+
+        ownedExperimentsList = findViewById(R.id.owned_experiment_list);
+        ownedExperiments = new ArrayList<Experiment>();
+        experimentAdapter = new CustomListExperiment(this, ownedExperiments, userID);
+        ownedExperimentsList.setAdapter(experimentAdapter);
+
+        ownedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("YA-DB: ", "Does it click?");
+            }
+        });
+
+
+        //Prevent listview from eating onTouchEvent
+        ownedExperimentsList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                onTouchEvent(event);
+                return false;
+            }
+        });
     }
+
+    //Screen switching
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                y2 = event.getY();
+                float y = (y1 - y2);
+                float x = (x1 - x2);
+
+                //To deal with sensitivity so scrolling doesn't switch screens
+                if (Math.abs(y) > Math.abs(x)) {
+                    return false;
+                }
+
+                if (x1 > (x2)) {
+                    Intent switchScreen = new Intent(HomeOwnedActivity.this, TempRightActivity.class);
+                    startActivity(switchScreen);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
+
     /********************************************
      *            DB Functions HERE             *
      ********************************************
@@ -42,7 +113,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         ownedKeys = (ArrayList<String>) document.getData().get("ownedExperiments");
-                        Log.d("YA-DB: ", "DocumentSnapshot data: " + ownedKeys);
+                        Log.d("YA-DB: ", "DocumentSnapshot data: " + ownedKeys + "User ID: " + id);
                         FB_FetchOwned(ownedKeys);
                     }
                 } else {
@@ -64,6 +135,9 @@ public class HomeOwnedActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
+                                ownedExperiments.add(document.toObject(Experiment.class));
+                                experimentAdapter.notifyDataSetChanged();
+                                //@Yalmaz I don't think we need this next line?
                                 Experiment test = document.toObject(Experiment.class);
                                 Log.d("YA-DB: ", "SearchResults " + test.getName());
                                 //inside here update the feilds and stuff
