@@ -1,9 +1,10 @@
 package com.example.cmput301w21t25;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ExperimentTest {
 
@@ -12,7 +13,7 @@ public class ExperimentTest {
     User user3 = new User();
 
     private Experiment mockExperiment() {
-        Experiment mockExperiment = new Experiment();
+        Experiment mockExperiment = new BinomialExperiment();
         addTestTrials(mockExperiment);
         return mockExperiment;
     }
