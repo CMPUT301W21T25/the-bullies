@@ -2,6 +2,8 @@ package com.example.cmput301w21t25;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,15 +17,27 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 public class HomeOwnedActivity extends AppCompatActivity {
+
+    private ListView ownedExperimentsList;
+    private ArrayAdapter<Experiment> experimentAdapter;
+    private ArrayList<Experiment> ownedExperiments;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_subbed);
+        setContentView(R.layout.activity_home_created);
         String userID;
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
+        //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
         FB_FetchOwnedKeys(userID);
-        finish();
+        //finish();
+
+        ownedExperimentsList = findViewById(R.id.owned_experiment_list);
+        ownedExperiments = new ArrayList<Experiment>();
+        experimentAdapter = new CustomListExperiment(this, ownedExperiments, userID);
+        ownedExperimentsList.setAdapter(experimentAdapter);
+
     }
     /********************************************
      *            DB Functions HERE             *
@@ -42,7 +56,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         ownedKeys = (ArrayList<String>) document.getData().get("ownedExperiments");
-                        Log.d("YA-DB: ", "DocumentSnapshot data: " + ownedKeys);
+                        Log.d("YA-DB: ", "DocumentSnapshot data: " + ownedKeys + "User ID: " + id);
                         FB_FetchOwned(ownedKeys);
                     }
                 } else {
@@ -64,6 +78,9 @@ public class HomeOwnedActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
+                                ownedExperiments.add(document.toObject(Experiment.class));
+                                experimentAdapter.notifyDataSetChanged();
+                                //@Yalmaz I don't think we need this next line?
                                 Experiment test = document.toObject(Experiment.class);
                                 Log.d("YA-DB: ", "SearchResults " + test.getName());
                                 //inside here update the feilds and stuff

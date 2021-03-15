@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         //tests for UserMangaer class and UserProfile collection
 //        testM = new UserManager();
 //        test = new User();
-//        ArrayList<String> testList = new ArrayList<>();
-//        testList.add("this");
+        //ArrayList<String> testList = new ArrayList<>();
+        //testList.add("this");
 //        testList.add("is");
 //        testList.add("not a");
 //        testList.add("test");
@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
 //        testM.FB_UpdateConductedTrials(testList,"test1");
 
         //test for Experiminet manager
-//        expMtest = new ExperimentManager();
-//        Location testloc = new Location("edm");
-//        expMtest.FB_CreateExperiment("TestName","test1", "this is a test",testloc,testList,false,false,"abstract");
+        //expMtest = new ExperimentManager();
+        //Location testloc = new Location("edm");
+        //expMtest.FB_CreateExperiment("TestName","fn-sCOqxQgG4xkv_Bekfck", "this is a test",testloc,testList,false,false,"abstract");
 //        expMtest.FB_UpdateDescription("new description","03XLnxuIaI7CW7DnpsMb");
 //        expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
 //        expMtest.FB_UpdatePublished(true,"BIKvOCxENl3ByUtNGmf7");
@@ -122,7 +122,10 @@ public class MainActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             Log.d("YA-DB:", "User document retrieved passing ID to UserProfileActivity");
-                                            Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
+                                            //EDEN:
+                                            //For list testing I'm going to send it to homeOwned instead
+                                            //Can return to userProfile activity later
+                                            Intent intent = new Intent(getBaseContext(), HomeOwnedActivity.class);
                                             intent.putExtra("USER_ID", userID);
                                             startActivity(intent);
                                             //start sublist activity
