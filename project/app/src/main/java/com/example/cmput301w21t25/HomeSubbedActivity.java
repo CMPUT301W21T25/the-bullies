@@ -142,19 +142,27 @@ public class HomeSubbedActivity extends AppCompatActivity {
                                         case "binomial":
                                             BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
                                             subscriptionList.add(binExp);
+                                            subbedExperiments.add(binExp);
+                                            experimentAdapter.notifyDataSetChanged();
                                             Log.d("YA-DB: ", "SearchResults " + subscriptionList.get(0).getName());
                                             break;
                                         case "count":
                                             final CountExperiment countExp = document.toObject(CountExperiment.class);
                                             subscriptionList.add(countExp);
+                                            subbedExperiments.add(countExp);
+                                            experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "non-neg-count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                             subscriptionList.add(nnCountExp);
+                                            subbedExperiments.add(nnCountExp);
+                                            experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "measurement":
                                             MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
                                             subscriptionList.add(mesExp);
+                                            subbedExperiments.add(mesExp);
+                                            experimentAdapter.notifyDataSetChanged();
                                             break;
                                         default:
                                             Log.d("YA-DB: ", "this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
