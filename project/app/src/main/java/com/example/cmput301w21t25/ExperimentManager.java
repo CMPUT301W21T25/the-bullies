@@ -58,7 +58,6 @@ public class ExperimentManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d("NOT_MAKING_EXPERIMENT", "DocumentSnapshot added with ID: " + documentReference.getId());
                         db.collection("UserProfile").document(ownerID).get()
                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override

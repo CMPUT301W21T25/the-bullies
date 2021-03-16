@@ -90,10 +90,17 @@ public class CreateExperimentActivity extends AppCompatActivity {
         createExperiment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                experimentManager.FB_CreateExperiment(name, experimentOwner, description, testLocal, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date());
-                Intent switchScreen = new Intent(CreateExperimentActivity.this, HomeOwnedActivity.class);
-                switchScreen.putExtra("USER_ID", userID);
-                startActivity(switchScreen);
+                Log.d("YA-DB","testing call");
+                ArrayList<String> testList = new ArrayList<>();
+                testList.add("this");
+                testList.add("is");
+                testList.add("not a");
+                testList.add("test");
+                experimentManager.FB_CreateExperiment("NEWTestName","fdNzWupOTDKvwkrVHMADau", "this is a test",testLocal,testList,false,false,"abstract",new Date());
+                //experimentManager.FB_CreateExperiment(name, experimentOwner, description, testLocal, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date());
+                //Intent switchScreen = new Intent(CreateExperimentActivity.this, HomeOwnedActivity.class);
+                //switchScreen.putExtra("USER_ID", userID);
+                //startActivity(switchScreen);
             }
         });
 
