@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,8 +26,6 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private ArrayAdapter<Experiment> experimentAdapter;
     private ArrayList<Experiment> ownedExperiments;
 
-    private FloatingActionButton createExperimentButton;
-
     private float x1;
     private float x2;
     private float y1;
@@ -41,8 +37,6 @@ public class HomeOwnedActivity extends AppCompatActivity {
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_home_created);
-
-        createExperimentButton = findViewById(R.id.exp_create_button);
 
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
@@ -62,15 +56,6 @@ public class HomeOwnedActivity extends AppCompatActivity {
             }
         });
 
-        //Floating button to create new experiment
-        createExperimentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent switchScreen = new Intent(HomeOwnedActivity.this, CreateExperimentActivity.class);
-                switchScreen.putExtra("USER_ID", userID);
-                startActivity(switchScreen);
-            }
-        });
 
         //Prevent listview from eating onTouchEvent
         ownedExperimentsList.setOnTouchListener(new View.OnTouchListener() {
@@ -80,8 +65,6 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
     }
 
     //Screen switching
@@ -166,26 +149,22 @@ public class HomeOwnedActivity extends AppCompatActivity {
                                         case "binomial":
                                             //ArrayList<Experiment>test = new ArrayList<Experiment>();
                                             BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
-                                            binExp.setFb_id(document.getId());
                                             ownedExperiments.add(binExp);
                                             Log.d("YA-DB: ", "SearchResults " + ownedExperiments.get(0).getName());
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "count":
                                             final CountExperiment countExp = document.toObject(CountExperiment.class);
-                                            countExp.setFb_id(document.getId());
                                             ownedExperiments.add(countExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "non-neg-count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
-                                            nnCountExp.setFb_id(document.getId());
                                             ownedExperiments.add(nnCountExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "measurement":
                                             MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
-                                            mesExp.setFb_id(document.getId());
                                             ownedExperiments.add(mesExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
