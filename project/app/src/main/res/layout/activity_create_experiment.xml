@@ -42,7 +42,7 @@
     <EditText
         android:id="@+id/editTextEnterDescription"
         android:layout_width="335dp"
-        android:layout_height="88dp"
+        android:layout_height="51dp"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Enter description..."
@@ -75,11 +75,13 @@
     <TextView
         android:id="@+id/textViewRegion"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
         android:text="Region:"
-        app:layout_constraintStart_toStartOf="@+id/textViewMinTrials"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMinTrials" />
+        app:layout_constraintStart_toEndOf="@+id/editTextMinTrials"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEnterDescription" />
 
     <CheckBox
         android:id="@+id/checkBoxSubscribe"
@@ -87,8 +89,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="Subscribe to experiment"
-        app:layout_constraintStart_toStartOf="@+id/textViewRegion"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRegion" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextKeywords"
+        tools:layout_editor_absoluteX="24dp" />
 
     <CheckBox
         android:id="@+id/checkBoxGeolocation"
@@ -156,5 +158,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextKeywords"
+        android:layout_width="359dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:gravity="bottom"
+        android:hint="Enter keywords separated by commas"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/textViewMinTrials"
+        app:layout_constraintTop_toBottomOf="@+id/editTextMinTrials" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
