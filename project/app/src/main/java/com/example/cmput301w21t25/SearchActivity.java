@@ -82,19 +82,23 @@ public class SearchActivity extends AppCompatActivity {
                                             switch(type){
                                                 case "binomial":
                                                     BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
+                                                    binExp.setFb_id(document.getId());
                                                     experimentList.add(binExp);
                                                     Log.d("YA-DB: ", "SearchResults " + experimentList.get(0).getName());
                                                     break;
                                                 case"count":
                                                     final CountExperiment countExp = document.toObject(CountExperiment.class);
+                                                    countExp.setFb_id(document.getId());
                                                     experimentList.add(countExp);
                                                     break;
                                                 case "non-neg-count":
                                                     NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
+                                                    nnCountExp.setFb_id(document.getId());
                                                     experimentList.add(nnCountExp);
                                                     break;
                                                 case"measurement":
                                                     MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
+                                                    mesExp.setFb_id(document.getId());
                                                     experimentList.add(mesExp);
                                                     break;
                                                 default:

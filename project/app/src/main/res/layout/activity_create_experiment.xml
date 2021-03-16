@@ -124,25 +124,29 @@
             android:id="@+id/radioButtonCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Count" />
+            android:text="Count"
+            android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:id="@+id/radioButtonNonNegInt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NonNegInt" />
+            android:text="NonNegInt"
+            android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:id="@+id/radioButtonMeasurement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Measurement" />
+            android:text="Measurement"
+            android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:id="@+id/radioButtonBinomial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Binomial" />
+            android:text="Binomial"
+            android:onClick="onRadioButtonClicked"/>
 
     </RadioGroup>
 
