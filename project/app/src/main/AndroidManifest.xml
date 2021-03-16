@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CMPUT301W21T25">
         <activity android:name=".ProfileViewActivity"></activity>
+        <activity android:name=".CreateExperimentActivity"></activity>
         <activity android:name=".TempRightActivity" />
         <activity android:name=".GenerateUserActivity" />
         <activity android:name=".HomeSubbedActivity" />
