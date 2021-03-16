@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateExperimentActivity">
+
+    <TextView
+        android:id="@+id/textViewNameQueryId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="32dp"
+        android:text="What is the name of your experiment?"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextExpName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Experiment name here..."
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/textViewNameQueryId"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNameQueryId" />
+
+    <TextView
+        android:id="@+id/textViewDescriptionId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Give a brief description of your experiment!"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/editTextExpName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextExpName" />
+
+    <EditText
+        android:id="@+id/editTextEnterDescription"
+        android:layout_width="335dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Enter description..."
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/textViewDescriptionId"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionId" />
+
+    <TextView
+        android:id="@+id/textViewMinTrials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Minimum Trials: "
+        app:layout_constraintStart_toStartOf="@+id/editTextEnterDescription"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEnterDescription" />
+
+    <EditText
+        android:id="@+id/editTextMinTrials"
+        android:layout_width="47dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="#"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/textViewMinTrials"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEnterDescription" />
+
+    <TextView
+        android:id="@+id/textViewRegion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Region:"
+        app:layout_constraintStart_toStartOf="@+id/textViewMinTrials"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMinTrials" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSubscribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Subscribe to experiment"
+        app:layout_constraintStart_toStartOf="@+id/textViewRegion"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRegion" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGeolocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Geolocation enabled"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxSubscribe"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxSubscribe" />
+
+    <CheckBox
+        android:id="@+id/checkBoxPublish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Publish on create"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxGeolocation"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxGeolocation" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxPublish">
+
+        <RadioButton
+            android:id="@+id/radioButtonCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Count" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNonNegInt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NonNegInt" />
+
+        <RadioButton
+            android:id="@+id/radioButtonMeasurement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Measurement" />
+
+        <RadioButton
+            android:id="@+id/radioButtonBinomial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Binomial" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonCreateExperiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Experiment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
