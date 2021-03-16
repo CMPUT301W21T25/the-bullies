@@ -31,11 +31,13 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private float y1;
     private float y2;
 
+    String userID;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_home_created);
-        String userID;
+
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
         //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
@@ -86,7 +88,8 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 }
 
                 if (x1 > (x2)) {
-                    Intent switchScreen = new Intent(HomeOwnedActivity.this, TempRightActivity.class);
+                    Intent switchScreen = new Intent(HomeOwnedActivity.this, HomeSubbedActivity.class);
+                    switchScreen.putExtra("USER_ID", userID);
                     startActivity(switchScreen);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
