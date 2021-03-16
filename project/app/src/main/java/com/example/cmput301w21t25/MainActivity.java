@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         //test for Experiminet manager
         //expMtest = new ExperimentManager();
-        //Location testloc = new Location("edm");
+
         //expMtest.FB_CreateExperiment("TestName","fn-sCOqxQgG4xkv_Bekfck", "this is a test",testloc,testList,false,false,"abstract");
 //        expMtest.FB_UpdateDescription("new description","03XLnxuIaI7CW7DnpsMb");
 //        expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
         //test for Trial managerTest
 //        trialManeTest = new TrialManager();
 //        Trial testTrial = new Trial();
-//        //trialManeTest.FB_CreateTrial("TestDummy","BIKvOCxENl3ByUtNGmf7",testloc,false,false,testTrial);
+//        Location testloc = new Location("edm");
+//        trialManeTest.FB_CreateTrial("TestDummy","BIKvOCxENl3ByUtNGmf7",testloc,false,false,testTrial);
 //        trialManeTest.FB_UpdateHidden(true,"13m0s2kkGBkERhcE15V2");
 //        trialManeTest.FB_UpdatePublished(true,"13m0s2kkGBkERhcE15V2");
 //        trialManeTest.FB_UpdateTrial(testTrial,"13m0s2kkGBkERhcE15V2");

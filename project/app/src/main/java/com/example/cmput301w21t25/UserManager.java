@@ -41,7 +41,7 @@ public class UserManager{
         Map<String,Object> userprofile  = new HashMap<>();
         userprofile.put("name",name);
         userprofile.put("email",email);
-        userprofile.put("user",user);
+        //userprofile.put("user",user);
         userprofile.put("subscriptions", Arrays.asList());
         userprofile.put("ownedExperiments",Arrays.asList());
         userprofile.put("conductedTrials", Arrays.asList());
@@ -60,6 +60,36 @@ public class UserManager{
     }
     /////////////////////////////////////////////////////////////////////////////////////
     //UPDATE
+    public void FB_UpdateName(String name,String id){
+        DocumentReference docRef = db.collection("UserProfile").document(id);
+        docRef
+                .update("name", name)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+    public void FB_UpdateEmail(String email,String id){
+        DocumentReference docRef = db.collection("UserProfile").document(id);
+        docRef
+                .update("email", email)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
     public void FB_UpdateSubscriptions(ArrayList subscriptions,String id){
         DocumentReference docRef = db.collection("UserProfile").document(id);
         docRef
