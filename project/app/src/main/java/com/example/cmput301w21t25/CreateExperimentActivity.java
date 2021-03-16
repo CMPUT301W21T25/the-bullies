@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,19 +55,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
         //this can be called on click when
         //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
 
-        //Get the user's name from their profile
-        DocumentReference docRef = db.collection("UserProfile").document(userID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        String experimentOwner = (String) document.getData().get("name");
-                    }
-                }
-            }
-        });
+
 
         experimentManager = new ExperimentManager();
 
@@ -110,13 +99,24 @@ public class CreateExperimentActivity extends AppCompatActivity {
                 Log.d("description", description);
                 Log.d("name", name);
                 Log.d("keywords", experimentKeywords.toString());
-
-
-
-                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, testLocal, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date());
-                //Intent switchScreen = new Intent(CreateExperimentActivity.this, HomeOwnedActivity.class);
-                //switchScreen.putExtra("USER_ID", userID);
-                //startActivity(switchScreen);
+                //Get the user's name from their profile
+                DocumentReference docRef = db.collection("UserProfile").document(userID);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String experimentOwner = (String) document.getData().get("name");
+                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, testLocal, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date());
+                                //
+                            }
+                        }
+                    }
+                });
+                Intent switchScreen = new Intent(CreateExperimentActivity.this, HomeOwnedActivity.class);
+                switchScreen.putExtra("USER_ID", userID);
+                startActivity(switchScreen);
             }
         });
 
