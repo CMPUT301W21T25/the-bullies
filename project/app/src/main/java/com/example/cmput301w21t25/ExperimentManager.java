@@ -5,13 +5,17 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,10 +31,12 @@ public class ExperimentManager {
      * */
     //attaching firebase good comments to come later please bear with me -YA
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String fb_expID = "";
+    private UserManager userManager= new UserManager();
     //extra attributes to make ur life easier:
     /////////////////////////////////////////////////////////////////////////////////////
     //INITIALIZE EXPERIMENT
-    public void FB_CreateExperiment(String name,String ownerID, String description, Location region,ArrayList<String> tags,Boolean geoEnabled, Boolean published,String type){
+    public void FB_CreateExperiment(String name, String ownerID, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("name",name);
@@ -39,6 +45,7 @@ public class ExperimentManager {
         experimentDoc.put("region",region);
         experimentDoc.put("type", type);
         experimentDoc.put("tags",tags);
+        experimentDoc.put("date",date);
         experimentDoc.put("geoEnabled",geoEnabled);
         experimentDoc.put("published",published);
         experimentDoc.put("trialKeys", Arrays.asList());//cause an experiment should start empty
@@ -52,8 +59,24 @@ public class ExperimentManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
+                        db.collection("UserProfile").document(ownerID).get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            DocumentSnapshot document = task.getResult();
+                                            if(document.exists()){
+                                                ArrayList<String> currentOwned = (ArrayList<String>)document.getData().get("ownedExperiments");
+                                                currentOwned.add(documentReference.getId());
+                                                userManager.FB_UpdateOwnedExperiments(currentOwned,ownerID);
+                                                userManager.FB_UpdateSubscriptions(currentOwned,ownerID);
+                                            }
+                                        }
+                                    }
+                                });
+
+                        }
+                    })
                 .addOnFailureListener(new OnFailureListener() {
                     //security stuff to make debuging easier
                     @Override

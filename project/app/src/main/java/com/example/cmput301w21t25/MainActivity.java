@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.installations.FirebaseInstallations;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,20 +40,21 @@ public class MainActivity extends AppCompatActivity {
         //tests for UserMangaer class and UserProfile collection
 //        testM = new UserManager();
 //        test = new User();
-        //ArrayList<String> testList = new ArrayList<>();
-        //testList.add("this");
-//        testList.add("is");
-//        testList.add("not a");
-//        testList.add("test");
+        ArrayList<String> testList = new ArrayList<>();
+        testList.add("this");
+        testList.add("is");
+        testList.add("not a");
+        testList.add("test");
 //        testM.FB_CreateUserProfile("test1","TestOne","test@test.gmail.com",test);
 //        testM.FB_UpdateSubscriptions(testList,"test1");
 //        testM.FB_UpdateOwnedExperiments(testList,"test1");
 //        testM.FB_UpdateConductedTrials(testList,"test1");
 
         //test for Experiminet manager
-        //expMtest = new ExperimentManager();
+        expMtest = new ExperimentManager();
+        Location testloc = new Location("edm");
 
-        //expMtest.FB_CreateExperiment("TestName","fn-sCOqxQgG4xkv_Bekfck", "this is a test",testloc,testList,false,false,"abstract");
+        expMtest.FB_CreateExperiment("TestName","fdNzWupOTDKvwkrVHMADau", "this is a test",testloc,testList,false,false,"abstract",new Date());
 //        expMtest.FB_UpdateDescription("new description","03XLnxuIaI7CW7DnpsMb");
 //        expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
 //        expMtest.FB_UpdatePublished(true,"BIKvOCxENl3ByUtNGmf7");
@@ -62,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         //test for Trial managerTest
 //        trialManeTest = new TrialManager();
 //        Trial testTrial = new Trial();
-//        Location testloc = new Location("edm");
 //        trialManeTest.FB_CreateTrial("TestDummy","BIKvOCxENl3ByUtNGmf7",testloc,false,false,testTrial);
 //        trialManeTest.FB_UpdateHidden(true,"13m0s2kkGBkERhcE15V2");
 //        trialManeTest.FB_UpdatePublished(true,"13m0s2kkGBkERhcE15V2");

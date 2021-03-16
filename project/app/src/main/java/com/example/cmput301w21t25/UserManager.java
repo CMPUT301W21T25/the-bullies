@@ -97,6 +97,7 @@ public class UserManager{
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        Log.d("YA-DB:","updated successfully");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
