@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
         //testing DB ill make proper tests later i promise -YA
         //tests for UserMangaer class and UserProfile collection
 //        testM = new UserManager();
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         expMtest = new ExperimentManager();
         Location testloc = new Location("edm");
 
-        //expMtest.FB_CreateExperiment("NEWTestName","fdNzWupOTDKvwkrVHMADau", "this is a test",testloc,testList,false,false,"abstract",new Date());
+        expMtest.FB_CreateExperiment("TestName","fdNzWupOTDKvwkrVHMADau", "this is a test",testloc,testList,false,false,"abstract",new Date());
 //        expMtest.FB_UpdateDescription("new description","03XLnxuIaI7CW7DnpsMb");
 //        expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
 //        expMtest.FB_UpdatePublished(true,"BIKvOCxENl3ByUtNGmf7");
