@@ -71,6 +71,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
             }
         });
 
+        experimentManager = new ExperimentManager();
 
         //This is temp I don't know what to do for location
         Location testLocal = new Location("edm");
