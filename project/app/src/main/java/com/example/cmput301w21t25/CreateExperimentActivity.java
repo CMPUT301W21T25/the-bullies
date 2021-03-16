@@ -5,6 +5,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -29,6 +30,8 @@ public class CreateExperimentActivity extends AppCompatActivity {
     EditText experimentName;
     EditText experimentDescription;
     EditText experimentTags;
+
+    ArrayList<String> experimentKeywords;
     String type;
 
     Date experimentDate;
@@ -40,6 +43,8 @@ public class CreateExperimentActivity extends AppCompatActivity {
     String experimentOwner;
 
     ExperimentManager experimentManager;
+
+    Button createExperiment;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -66,14 +71,31 @@ public class CreateExperimentActivity extends AppCompatActivity {
             }
         });
 
+
         //This is temp I don't know what to do for location
         Location testLocal = new Location("edm");
 
         experimentName = findViewById(R.id.editTextExpName);
-        experimentDescription = findViewById(R.id.editTextEnterDescription);
-        //experimentTags = findViewById(R.id.)
+        String name = experimentName.getText().toString();
 
-        experimentManager.FB_CreateExperiment(experimentName, experimentOwner, experimentDescription, testLocal, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date)
+        experimentDescription = findViewById(R.id.editTextEnterDescription);
+        String description = experimentDescription.getText().toString();
+
+        experimentTags = findViewById(R.id.editTextKeywords);
+        String keywords = experimentTags.getText().toString();
+        experimentKeywords = parseKeywords(keywords);
+
+        createExperiment = findViewById(R.id.buttonCreateExperiment);
+        createExperiment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                experimentManager.FB_CreateExperiment(name, experimentOwner, description, testLocal, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date());
+                Intent switchScreen = new Intent(CreateExperimentActivity.this, HomeOwnedActivity.class);
+                switchScreen.putExtra("USER_ID", userID);
+                startActivity(switchScreen);
+            }
+        });
+
     }
 
     public void onRadioButtonClicked(View view) {

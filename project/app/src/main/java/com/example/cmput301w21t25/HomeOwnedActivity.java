@@ -65,6 +65,8 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
     }
 
     //Screen switching
