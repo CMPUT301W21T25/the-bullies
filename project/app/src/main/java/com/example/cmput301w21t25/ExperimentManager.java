@@ -36,7 +36,7 @@ public class ExperimentManager {
     //extra attributes to make ur life easier:
     /////////////////////////////////////////////////////////////////////////////////////
     //INITIALIZE EXPERIMENT
-    public void FB_CreateExperiment(String name, String ownerID, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date){
+    public void FB_CreateExperiment(String uniqueID, String name, String ownerID, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("name",name);
@@ -58,8 +58,7 @@ public class ExperimentManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        db.collection("UserProfile").document(ownerID).get()
+                        db.collection("UserProfile").document(uniqueID).get()
                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -68,8 +67,8 @@ public class ExperimentManager {
                                             if(document.exists()){
                                                 ArrayList<String> currentOwned = (ArrayList<String>)document.getData().get("ownedExperiments");
                                                 currentOwned.add(documentReference.getId());
-                                                userManager.FB_UpdateOwnedExperiments(currentOwned,ownerID);
-                                                userManager.FB_UpdateSubscriptions(currentOwned,ownerID);
+                                                userManager.FB_UpdateOwnedExperiments(currentOwned,uniqueID);
+                                                userManager.FB_UpdateSubscriptions(currentOwned,uniqueID);
                                             }
                                         }
                                     }

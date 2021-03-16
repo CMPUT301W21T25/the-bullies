@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
-                                            Log.d("YA-DB:", "User document retrieved passing ID to UserProfileActivity");
+                                            Log.d("YA-DB:", "User document retrieved passing ID to MyUserProfileActivity");
                                             //EDEN:
                                             //For list testing I'm going to send it to homeOwned instead
                                             //Can return to userProfile activity later
