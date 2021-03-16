@@ -25,8 +25,7 @@ import java.util.Map;
 import static android.content.ContentValues.TAG;
  */
 import java.util.ArrayList;
-//abstract
-public class Experiment { //make abstract
+public abstract class Experiment { //make abstract
 
     /****************************************
                     ATTRIBUTES
