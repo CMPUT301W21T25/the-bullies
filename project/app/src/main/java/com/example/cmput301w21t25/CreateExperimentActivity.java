@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,19 +55,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
         //this can be called on click when
         //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
 
-        //Get the user's name from their profile
-        DocumentReference docRef = db.collection("UserProfile").document(userID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        String experimentOwner = (String) document.getData().get("name");
-                    }
-                }
-            }
-        });
+
 
         experimentManager = new ExperimentManager();
 
@@ -77,30 +63,60 @@ public class CreateExperimentActivity extends AppCompatActivity {
         Location testLocal = new Location("edm");
 
         experimentName = findViewById(R.id.editTextExpName);
-        String name = experimentName.getText().toString();
+
+
+        published = findViewById(R.id.checkBoxPublish);
+        geolocationEnabled = findViewById(R.id.checkBoxGeolocation);
 
         experimentDescription = findViewById(R.id.editTextEnterDescription);
-        String description = experimentDescription.getText().toString();
 
         experimentTags = findViewById(R.id.editTextKeywords);
-        String keywords = experimentTags.getText().toString();
-        experimentKeywords = parseKeywords(keywords);
+
+
 
         createExperiment = findViewById(R.id.buttonCreateExperiment);
         createExperiment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("YA-DB","testing call");
+                /*
                 ArrayList<String> testList = new ArrayList<>();
                 testList.add("this");
                 testList.add("is");
                 testList.add("not a");
                 testList.add("test");
-                experimentManager.FB_CreateExperiment("NEWTestName","fdNzWupOTDKvwkrVHMADau", "this is a test",testLocal,testList,false,false,"abstract",new Date());
-                //experimentManager.FB_CreateExperiment(name, experimentOwner, description, testLocal, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date());
-                //Intent switchScreen = new Intent(CreateExperimentActivity.this, HomeOwnedActivity.class);
-                //switchScreen.putExtra("USER_ID", userID);
-                //startActivity(switchScreen);
+                 */
+                //experimentManager.FB_CreateExperiment("NEWTestName","fdNzWupOTDKvwkrVHMADau", "this is a test",testLocal,testList,false,false,"abstract",new Date());
+
+                String description = experimentDescription.getText().toString();
+                String name = experimentName.getText().toString();
+
+                experimentKeywords = new ArrayList<String>();
+                String keywords = experimentTags.getText().toString();
+                experimentKeywords = parseKeywords(keywords);
+
+
+                Log.d("description", description);
+                Log.d("name", name);
+                Log.d("keywords", experimentKeywords.toString());
+                //Get the user's name from their profile
+                DocumentReference docRef = db.collection("UserProfile").document(userID);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String experimentOwner = (String) document.getData().get("name");
+                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, testLocal, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date());
+                                //
+                            }
+                        }
+                    }
+                });
+                Intent switchScreen = new Intent(CreateExperimentActivity.this, HomeOwnedActivity.class);
+                switchScreen.putExtra("USER_ID", userID);
+                startActivity(switchScreen);
             }
         });
 
