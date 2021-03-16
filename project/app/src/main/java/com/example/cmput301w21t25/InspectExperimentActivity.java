@@ -3,6 +3,7 @@ package com.example.cmput301w21t25;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,11 +71,11 @@ public class InspectExperimentActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
-                                        Log.d("YA-DB:", "User document retrieved passing ID to UserProfileActivity");
+                                        Log.d("YA-DB:", "User document retrieved passing ID to MyUserProfileActivity");
                                         //EDEN:
                                         //For list testing I'm going to send it to homeOwned instead
                                         //Can return to userProfile activity later
-                                        Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
+                                        Intent intent = new Intent(getBaseContext(), MyUserProfileActivity.class);
                                         intent.putExtra("USER_ID", userID);
                                         startActivity(intent);
                                     }
@@ -91,4 +92,19 @@ public class InspectExperimentActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Is called when a user clicks on the owners profile image while viewing an experiment
+     * Will switch to a profile view activity (either myuser or otheruser)
+     * Curtis
+     * @param view
+     */
+    public void viewExpOwnerButton(View view) {
+        //first we need to get the experiment owner
+
+        //check if current user = experiment owner
+
+        //switch to myprofile or otherprofile view depending on previous comment
+    }
+
 }
