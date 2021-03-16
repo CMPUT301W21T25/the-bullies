@@ -3,6 +3,7 @@ package com.example.cmput301w21t25;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,12 +15,19 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class InspectExperimentActivity extends AppCompatActivity {
+
+    private String expID;
+    private String ownerID;
+    private String currentUserID;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_home_subbed);
         String experimentID;
         experimentID = getIntent().getStringExtra("EXP_ID");
+        expID = experimentID;
+        currentUserID = getIntent().getStringExtra("")
         FB_FetchExperiment(experimentID);
         finish();
     }
@@ -70,6 +78,7 @@ public class InspectExperimentActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         String userID = (String)document.getData().get("owner");
+                        ownerID = userID;
                         DocumentReference docRef = db.collection("UserProfile").document(userID);
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -77,11 +86,11 @@ public class InspectExperimentActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
-                                        Log.d("YA-DB:", "User document retrieved passing ID to UserProfileActivity");
+                                        Log.d("YA-DB:", "User document retrieved passing ID to MyUserProfileActivity");
                                         //EDEN:
                                         //For list testing I'm going to send it to homeOwned instead
                                         //Can return to userProfile activity later
-                                        Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
+                                        Intent intent = new Intent(getBaseContext(), MyUserProfileActivity.class);
                                         intent.putExtra("USER_ID", userID);
                                         startActivity(intent);
                                     }
@@ -98,4 +107,26 @@ public class InspectExperimentActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Is called when a user clicks on the owners profile image while viewing an experiment
+     * Will switch to a profile view activity (either myuser or otheruser)
+     * Curtis
+     * @param view
+     */
+    public void viewExpOwnerButton(View view) {
+        //first we need to get the experiment owner
+        FB_FetchOwnerProfile(expID);
+
+        //check if current user = experiment owner
+        if (this.ownerID == this.currentUserID) {
+            //switch to myprofile, pass info
+            Intent intent =
+        }
+        else {
+            //switch to otherprofile, pass info
+        }
+
+    }
+
 }
