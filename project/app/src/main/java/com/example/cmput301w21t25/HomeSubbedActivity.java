@@ -141,6 +141,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
                                     switch (type) {
                                         case "binomial":
                                             BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
+                                            binExp.setFb_id(document.getId());///TO DO: PUT THIS IN FUNCTION TO CUT REPEATED CODE
                                             subscriptionList.add(binExp);
                                             subbedExperiments.add(binExp);
                                             experimentAdapter.notifyDataSetChanged();
@@ -148,18 +149,21 @@ public class HomeSubbedActivity extends AppCompatActivity {
                                             break;
                                         case "count":
                                             final CountExperiment countExp = document.toObject(CountExperiment.class);
+                                            countExp.setFb_id(document.getId());
                                             subscriptionList.add(countExp);
                                             subbedExperiments.add(countExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "non-neg-count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
+                                            nnCountExp.setFb_id(document.getId());
                                             subscriptionList.add(nnCountExp);
                                             subbedExperiments.add(nnCountExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "measurement":
                                             MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
+                                            mesExp.setFb_id(document.getId());
                                             subscriptionList.add(mesExp);
                                             subbedExperiments.add(mesExp);
                                             experimentAdapter.notifyDataSetChanged();
