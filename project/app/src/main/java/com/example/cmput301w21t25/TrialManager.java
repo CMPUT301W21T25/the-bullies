@@ -28,7 +28,7 @@ public class TrialManager {
     //extra attributes to make ur life easier:
     /////////////////////////////////////////////////////////////////////////////////////
     //INITIALIZE EXPERIMENT
-    public void FB_CreateTrial(String ownerID, String parentExperimentID, Location geoLocation, boolean published, boolean hidden,Trial trial){
+    public void FB_CreateTrial(String ownerID, String parentExperimentID, Location geoLocation, boolean published, boolean hidden,String type){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -36,7 +36,7 @@ public class TrialManager {
         trialDoc.put("geoLocation",geoLocation);
         trialDoc.put("published",published);
         trialDoc.put("hidden",hidden);
-        trialDoc.put("trial",trial);
+        trialDoc.put("type",type);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -57,14 +57,14 @@ public class TrialManager {
                 });
     }
     //overloaded for trials that dont have geolocation enabled
-    public void FB_CreateTrial(String ownerID,String parentExperimentID, boolean published,boolean hidden,Trial trial){
+    public void FB_CreateTrial(String ownerID,String parentExperimentID, boolean published,boolean hidden,String type){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
         trialDoc.put("experiment",parentExperimentID);
         trialDoc.put("published",published);
         trialDoc.put("hidden",hidden);
-        trialDoc.put("trial",trial);
+        trialDoc.put("type",type);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID

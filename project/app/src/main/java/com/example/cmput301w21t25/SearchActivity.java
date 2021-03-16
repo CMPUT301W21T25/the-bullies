@@ -78,6 +78,7 @@ public class SearchActivity extends AppCompatActivity {
                                     if (document.exists() && subscriptionKeys.contains(document.getId()) != true) {
                                         String type = (String)document.getData().get("type");
                                         if(type!=null){
+                                            //calls the create trial(parent id, parent type)
                                             switch(type){
                                                 case "binomial":
                                                     BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
