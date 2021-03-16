@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         expMtest = new ExperimentManager();
         Location testloc = new Location("edm");
 
-        expMtest.FB_CreateExperiment("TestName","fdNzWupOTDKvwkrVHMADau", "this is a test",testloc,testList,false,false,"abstract",new Date());
+        //expMtest.FB_CreateExperiment("NEWTestName","fdNzWupOTDKvwkrVHMADau", "this is a test",testloc,testList,false,false,"abstract",new Date());
 //        expMtest.FB_UpdateDescription("new description","03XLnxuIaI7CW7DnpsMb");
 //        expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
 //        expMtest.FB_UpdatePublished(true,"BIKvOCxENl3ByUtNGmf7");
