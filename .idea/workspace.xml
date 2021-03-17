@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4f834685-3a90-40fc-93a7-0508ac88418e" name="Default Changelist" comment="" />
+    <list default="true" id="4f834685-3a90-40fc-93a7-0508ac88418e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/project/app/src/main/res/layout/fragment_filter.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app/src/main/java/com/example/cmput301w21t25/HomeSubbedActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/src/main/java/com/example/cmput301w21t25/HomeSubbedActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app/src/main/java/com/example/cmput301w21t25/SearchActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/src/main/java/com/example/cmput301w21t25/SearchActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app/src/main/res/layout/activity_browse_not_subbed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/src/main/res/layout/activity_browse_not_subbed.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app/src/main/res/layout/activity_home_created.xml" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/src/main/res/layout/activity_home_created.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app/src/main/res/layout/activity_home_subbed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/src/main/res/layout/activity_home_subbed.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app/src/main/res/layout/exp_content.xml" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/src/main/res/layout/exp_content.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app/src/main/res/values-night/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/src/main/res/values-night/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/src/main/res/values/themes.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,10 +45,11 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="527" y="579" key="FileChooserDialogImpl" timestamp="1615860280477">
-      <screen x="0" y="0" width="1858" height="1080" />
+    <state x="2465" y="551" key="FileChooserDialogImpl" timestamp="1615998627741">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-791" y="643" key="FileChooserDialogImpl/-1080.-387.1018.1920/0.0.1858.1080@-1080.-387.1018.1920" timestamp="1615815397978" />
     <state x="527" y="579" key="FileChooserDialogImpl/-1080.-387.1018.1920/0.0.1858.1080@0.0.1858.1080" timestamp="1615860280477" />
+    <state x="2465" y="551" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1615998627741" />
   </component>
 </project>

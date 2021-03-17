@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,51 +8,60 @@
     android:background="#f6f5f5"
     android:orientation="vertical">
 
-    <!--
+
     <LinearLayout
+        android:id="@+id/header_liner_layout"
         android:layout_width="match_parent"
-        android:layout_height="66dp"
-        android:background="#276678"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:background="@color/custom_Blue_dark"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <TextView
-            android:id="@+id/create_text_view"
+            android:id="@+id/subbed_experiment_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10px"
-            android:text="Created Experiments"
+            android:text="Subscribed Experiments"
             android:textColor="#f6f5f5"
             android:textSize="28sp" />
 
         <ImageButton
             android:id="@+id/user_image_button"
-            android:layout_width="77dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:onClick="viewExpOwnerButton"
             android:paddingLeft="30px"
+            android:background="@android:color/transparent"
             tools:srcCompat="@android:drawable/ic_dialog_info" />
     </LinearLayout>
-    -->
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/browse_floatingActionButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_menu_search" />
 
 
     <ListView
-        android:id="@+id/subbed_experiment_list"
+        android:id="@+id/subbed_experiment_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header_liner_layout"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="13dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="-3dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/exp_search_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="11dp"
         android:clickable="true"
-        android:focusable="true"/>
+        android:focusable="true"
+        tools:srcCompat="@android:drawable/ic_search_category_default"
+        app:backgroundTint="@color/custom_Yellow_dark" />
 
-</FrameLayout>
+</RelativeLayout>

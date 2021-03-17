@@ -46,9 +46,9 @@ public class HomeSubbedActivity extends AppCompatActivity {
         FB_FetchSubscriptionsKeys(userID);
         //finish();
 
-        browseButton = findViewById(R.id.browse_floatingActionButton);
+        browseButton = findViewById(R.id.exp_search_button);
 
-        subbedExperimentsList = findViewById(R.id.subbed_experiment_list);
+        subbedExperimentsList = findViewById(R.id.subbed_experiment_list_view);
         subbedExperiments = new ArrayList<Experiment>();
         experimentAdapter = new CustomListExperiment(this, subbedExperiments, userID);
         subbedExperimentsList.setAdapter(experimentAdapter);
