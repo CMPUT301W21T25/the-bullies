@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 public class CreateExperimentActivity extends AppCompatActivity {
-//(String name, String ownerID, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date)
+    //(String name, String ownerID, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date)
     EditText experimentName;
     EditText experimentDescription;
     EditText experimentTags;
@@ -131,19 +131,19 @@ public class CreateExperimentActivity extends AppCompatActivity {
             case R.id.radioButtonCount:
                 if (checked)
                     type = "count";
-                    break;
+                break;
             case R.id.radioButtonNonNegInt:
                 if (checked)
                     type = "nonnegative count";
-                    break;
+                break;
             case R.id.radioButtonMeasurement:
                 if (checked)
                     type = "measurement";
-                    break;
+                break;
             case R.id.radioButtonBinomial:
                 if (checked)
                     type = "binomial";
-                    break;
+                break;
         }
     }
 

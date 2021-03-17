@@ -31,7 +31,6 @@ public class InspectExperimentActivity extends AppCompatActivity {
         FB_FetchExperiment(experimentID);
         finish();
     }
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public void FB_FetchExperiment(String id){
         DocumentReference docRef = db.collection("Experiment").document(id);
@@ -43,23 +42,17 @@ public class InspectExperimentActivity extends AppCompatActivity {
                     if (document.exists()) {
                         String type = (String)document.getData().get("type");
                         switch (type){
-                            case "binomial":
-                                BinomialExperiment binomialExperiment = document.toObject(BinomialExperiment.class);
-                                binomialExperiment.setFb_id(document.getId());
+                            case "Binomial":
+                                BinomialExperiment binomialExperiment = new BinomialExperiment();
+                                binomialExperiment = document.toObject(BinomialExperiment.class);
                                 break;
-                            case"count":
-                                CountExperiment countExperiment = document.toObject(CountExperiment.class);
-                                countExperiment.setFb_id(document.getId());
+                            case"Count":
+                                CountExperiment countExperiment = new CountExperiment();
+                                countExperiment = document.toObject(CountExperiment.class);
                                 break;
-                            case"non-neg-count":
-                                NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
-                                nnCountExp.setFb_id(document.getId());
-
-                                break;
-                            case"measurement":
-                                MeasurementExperiment measurementExperiment = document.toObject(MeasurementExperiment.class);
-                                measurementExperiment.setFb_id(document.getId());
-
+                            case"Measurement":
+                                MeasurementExperiment measurementExperiment = new MeasurementExperiment();
+                                measurementExperiment = document.toObject(MeasurementExperiment.class);
                                 break;
                         }
                     }
