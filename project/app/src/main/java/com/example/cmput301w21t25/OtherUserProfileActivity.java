@@ -1,6 +1,7 @@
 package com.example.cmput301w21t25;
 
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     //attributes
     private String Username;
     private String ContactInfo;
+
     private String userID;
 
     @Override
@@ -67,6 +69,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         //Intent intent = new Intent(OtherUserProfileActivity.this, <class with experiment view>)
         //add current userID to intent
         //add anything else?
+
     }
 }
 
