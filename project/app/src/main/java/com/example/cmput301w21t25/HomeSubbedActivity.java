@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,6 +27,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
     private ListView subbedExperimentsList;
     private ArrayAdapter<Experiment> experimentAdapter;
     private ArrayList<Experiment> subbedExperiments;
+    private FloatingActionButton browseButton;
 
     private float x1;
     private float x2;
@@ -44,6 +46,8 @@ public class HomeSubbedActivity extends AppCompatActivity {
         FB_FetchSubscriptionsKeys(userID);
         //finish();
 
+        browseButton = findViewById(R.id.browse_floatingActionButton);
+
         subbedExperimentsList = findViewById(R.id.subbed_experiment_list);
         subbedExperiments = new ArrayList<Experiment>();
         experimentAdapter = new CustomListExperiment(this, subbedExperiments, userID);
@@ -56,6 +60,14 @@ public class HomeSubbedActivity extends AppCompatActivity {
             }
         });
 
+        browseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent switchScreen = new Intent(HomeSubbedActivity.this, SearchActivity.class);
+                switchScreen.putExtra("USER_ID", userID);
+                startActivity(switchScreen);
+            }
+        });
 
         //Prevent listview from eating onTouchEvent
         subbedExperimentsList.setOnTouchListener(new View.OnTouchListener() {
