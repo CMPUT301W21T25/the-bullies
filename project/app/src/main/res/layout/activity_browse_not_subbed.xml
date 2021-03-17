@@ -1,51 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f6f5f5"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#f6f5f5">
 
-    <!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:background="#276678"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#276678">
 
         <TextView
-            android:id="@+id/create_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10px"
-            android:text="Created Experiments"
+            android:text="Browse Experiments"
             android:textColor="#f6f5f5"
             android:textSize="28sp" />
 
         <ImageButton
-            android:id="@+id/user_image_button"
+            android:id="@+id/browse_user_image_button"
             android:layout_width="77dp"
             android:layout_height="match_parent"
-            android:onClick="viewExpOwnerButton"
             android:paddingLeft="30px"
             tools:srcCompat="@android:drawable/ic_dialog_info" />
     </LinearLayout>
-    -->
 
     <ListView
-        android:id="@+id/owned_experiment_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/browse_experiment_list"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/exp_create_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:clickable="true"
-        android:focusable="true" />
-
-</FrameLayout>
+</LinearLayout>

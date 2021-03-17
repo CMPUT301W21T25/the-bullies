@@ -2,6 +2,7 @@ package com.example.cmput301w21t25;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,25 +17,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 public class MyUserProfileActivity extends AppCompatActivity {
+    //attributes
+    private String Username;
+    private String ContactInfo;
+    private String userID;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_subbed);
-        String userID;
-        userID = getIntent().getStringExtra("USER_ID");
+        setContentView(R.layout.activity_myprofile_view);
+        userID = getIntent().getStringExtra("userID");
         FB_FetchUserInfo(userID);
-        //finish();
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -44,8 +38,6 @@ public class MyUserProfileActivity extends AppCompatActivity {
      ********************************************
      *******************************************/
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String userName;
-    String email;
     //so far this is the only information that comprises the user profile th
     public void FB_FetchUserInfo(String id){
         DocumentReference docRef = db.collection("UserProfile").document(id);
@@ -55,10 +47,18 @@ public class MyUserProfileActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        userName = (String)document.getData().get("name");
-                        email = (String)document.getData().get("email");
-                        Log.d("YA-DB: ", "DocumentSnapshot data: " + userName);
-                        //update any feilds over here
+                        Username = (String)document.getData().get("name");
+                        ContactInfo = (String)document.getData().get("email");
+                        Log.d("YA-DB: ", "DocumentSnapshot data: " + Username);
+                        //update EDITTEXT fields
+                        EditText editName = findViewById(R.id.updateName);
+                        EditText editEmail = findViewById(R.id.updateEmail);
+                        editName.setText(Username);
+                        editEmail.setText(ContactInfo);
+
+
+
+
                     }
                 } else {
                     Log.d("YA-DB: ", "get failed with ", task.getException());

@@ -15,12 +15,21 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class InspectExperimentActivity extends AppCompatActivity {
+
+    private String expID;
+    private String ownerID;
+    private String currentUserID;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_home_subbed);
         String experimentID;
         experimentID = getIntent().getStringExtra("EXP_ID");
+        expID = experimentID;
+
+        currentUserID = getIntent().getStringExtra("");
+
         FB_FetchExperiment(experimentID);
         finish();
     }
@@ -64,6 +73,7 @@ public class InspectExperimentActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         String userID = (String)document.getData().get("owner");
+                        ownerID = userID;
                         DocumentReference docRef = db.collection("UserProfile").document(userID);
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -101,10 +111,22 @@ public class InspectExperimentActivity extends AppCompatActivity {
      */
     public void viewExpOwnerButton(View view) {
         //first we need to get the experiment owner
+        FB_FetchOwnerProfile(expID); //this updates the class attribute ownerID
 
         //check if current user = experiment owner
+        if (ownerID == currentUserID) {
+            //switch to myprofile, pass myID
+            Intent intent = new Intent(InspectExperimentActivity.this, MyUserProfileActivity.class);
+            intent.putExtra("userID", currentUserID);
+            startActivity(intent);
+        }
+        else {
+            //switch to otherprofile, pass expOwnerID
+            Intent intent = new Intent(InspectExperimentActivity.this, OtherUserProfileActivity.class);
+            intent.putExtra("userID", ownerID);
+            startActivity(intent);
+        }
 
-        //switch to myprofile or otherprofile view depending on previous comment
     }
 
 }
