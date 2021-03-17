@@ -2,6 +2,8 @@ package com.example.cmput301w21t25;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,15 +20,25 @@ import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
     public SearchManager searchManager = new SearchManager();
+    ListView browseList;
+    ArrayAdapter<Experiment> experimentArrayAdapter;
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_subbed);
+        setContentView(R.layout.activity_browse_not_subbed);
+
         String userID;
+
         userID = getIntent().getStringExtra("USER_ID");
+
+        browseList = findViewById(R.id.browse_experiment_list);
+        experimentArrayAdapter = new CustomListExperiment(this, experimentList, userID);
+        browseList.setAdapter(experimentArrayAdapter);
+
         FB_FetchExperimentList(userID);
-        finish();
+        //finish();
+
     }
 
     /********************************************
@@ -36,6 +48,8 @@ public class SearchActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<String> subscriptionKeys = new ArrayList<String>();
     ArrayList<Experiment> experimentList = new ArrayList<Experiment>();
+
+
 
     public void FB_FetchExperimentList(String id) {
         subscriptionKeys.clear();
@@ -61,7 +75,7 @@ public class SearchActivity extends AppCompatActivity {
     //this only searches experiments that are NOT subscribed AND published
     public void FB_FetchNotSubscribed(ArrayList<String> subscriptionKeys) {
         experimentList.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
-        if (subscriptionKeys.isEmpty() == false) {
+        if (subscriptionKeys.isEmpty() != false) {
             DocumentReference docRef = db.collection("Experiments").document();
             db.collection("Experiments")
                     .whereEqualTo("published", true)
@@ -83,19 +97,23 @@ public class SearchActivity extends AppCompatActivity {
                                                 case "binomial":
                                                     BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
                                                     experimentList.add(binExp);
+                                                    experimentArrayAdapter.notifyDataSetChanged();
                                                     Log.d("YA-DB: ", "SearchResults " + experimentList.get(0).getName());
                                                     break;
                                                 case"count":
                                                     final CountExperiment countExp = document.toObject(CountExperiment.class);
                                                     experimentList.add(countExp);
+                                                    experimentArrayAdapter.notifyDataSetChanged();
                                                     break;
                                                 case "non-neg-count":
                                                     NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                                     experimentList.add(nnCountExp);
+                                                    experimentArrayAdapter.notifyDataSetChanged();
                                                     break;
                                                 case"measurement":
                                                     MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
                                                     experimentList.add(mesExp);
+                                                    experimentArrayAdapter.notifyDataSetChanged();
                                                     break;
                                                 default:
                                                     Log.d("YA-DB: ","this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
