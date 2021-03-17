@@ -1,39 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#f6f5f5">
+    android:background="#f6f5f5"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/header_liner_layout"
         android:layout_width="match_parent"
-        android:layout_height="66dp"
+        android:layout_height="wrap_content"
+        android:background="@color/custom_Blue_dark"
         android:orientation="horizontal"
-        android:background="#276678">
+        android:padding="10dp">
 
         <TextView
+            android:id="@+id/browse_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10px"
-            android:text="Browse Experiments"
+            android:text="Browse experiments"
             android:textColor="#f6f5f5"
             android:textSize="28sp" />
 
         <ImageButton
-            android:id="@+id/browse_user_image_button"
-            android:layout_width="77dp"
+            android:id="@+id/user_image_button"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:onClick="viewExpOwnerButton"
             android:paddingLeft="30px"
+            android:background="@android:color/transparent"
             tools:srcCompat="@android:drawable/ic_dialog_info" />
     </LinearLayout>
 
-    <ListView
+   <ListView
+        android:id="@+id/search_exp_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/browse_experiment_list"/>
+        android:layout_below="@+id/header_liner_layout"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="13dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="-3dp"/>
 
-</LinearLayout>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/exp_filter_button"
+        android:layout_width="100dp"
+        android:layout_height="47dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="11dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="filter"
+        android:textSize="15dp"
+        tools:srcCompat="@android:drawable/ic_search_category_default"
+        app:backgroundTint="@color/custom_Yellow_dark"
+        android:gravity="center_horizontal" />
+
+
+</RelativeLayout>
