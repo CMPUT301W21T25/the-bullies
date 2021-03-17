@@ -28,7 +28,7 @@ public class InspectExperimentActivity extends AppCompatActivity {
         experimentID = getIntent().getStringExtra("EXP_ID");
         expID = experimentID;
 
-        currentUserID = getIntent().getStringExtra("")
+        currentUserID = getIntent().getStringExtra("");
 
         FB_FetchExperiment(experimentID);
         finish();
