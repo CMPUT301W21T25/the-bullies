@@ -31,7 +31,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private float y1;
     private float y2;
 
-    String userID;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -184,4 +184,19 @@ public class HomeOwnedActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * Is called when a user clicks on their profile image
+     * Will switch to a profile view activity
+     * Curtis
+     * @param view
+     */
+    public void viewExpOwnerButton(View view) {
+        //switch to profileView, pass userId
+        Intent intent = new Intent(HomeOwnedActivity.this, MyUserProfileActivity.class);
+        intent.putExtra("userID", userID);
+        startActivity(intent);
+    }
+
+
 }

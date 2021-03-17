@@ -28,6 +28,7 @@
             android:id="@+id/user_image_button"
             android:layout_width="77dp"
             android:layout_height="match_parent"
+            android:onClick="viewExpOwnerButton"
             android:paddingLeft="30px"
             tools:srcCompat="@android:drawable/ic_dialog_info" />
     </LinearLayout>
