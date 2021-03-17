@@ -61,7 +61,6 @@ public class OtherUserProfileActivity extends AppCompatActivity {
             }
         });
     }
-}
 
 
     public void backButton(View view) {
@@ -70,3 +69,8 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         //add anything else?
     }
 }
+
+
+
+
+
