@@ -27,7 +27,7 @@ public class InspectExperimentActivity extends AppCompatActivity {
         String experimentID;
         experimentID = getIntent().getStringExtra("EXP_ID");
         expID = experimentID;
-        currentUserID = getIntent().getStringExtra("")
+        //currentUserID = getIntent().getStringExtra(""); NEEDS TO BE PASSED IN
         FB_FetchExperiment(experimentID);
         finish();
     }
@@ -109,15 +109,20 @@ public class InspectExperimentActivity extends AppCompatActivity {
      */
     public void viewExpOwnerButton(View view) {
         //first we need to get the experiment owner
-        FB_FetchOwnerProfile(expID);
+        FB_FetchOwnerProfile(expID); //this updates the class attribute ownerID
 
         //check if current user = experiment owner
-        if (this.ownerID == this.currentUserID) {
-            //switch to myprofile, pass info
-            Intent intent =
+        if (ownerID == currentUserID) {
+            //switch to myprofile, pass myID
+            Intent intent = new Intent(InspectExperimentActivity.this, MyUserProfileActivity.class);
+            intent.putExtra("userID", currentUserID);
+            startActivity(intent);
         }
         else {
-            //switch to otherprofile, pass info
+            //switch to otherprofile, pass expOwnerID
+            Intent intent = new Intent(InspectExperimentActivity.this, OtherUserProfileActivity.class);
+            intent.putExtra("userID", ownerID);
+            startActivity(intent);
         }
 
     }
