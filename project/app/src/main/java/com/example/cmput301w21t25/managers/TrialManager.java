@@ -5,12 +5,14 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,17 +28,19 @@ public class TrialManager {
      * */
     //attaching firebase good comments to come later please bear with me -YA
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ExperimentManager expManager = new ExperimentManager();
     //extra attributes to make ur life easier:
     /////////////////////////////////////////////////////////////////////////////////////
     //INITIALIZE EXPERIMENT
-    public void FB_CreateTrial(String ownerID, String parentExperimentID, Location geoLocation, boolean published, boolean hidden,String type){
+    public void FB_CreateCountTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, int result, Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
         trialDoc.put("experiment",parentExperimentID);
-        trialDoc.put("geoLocation",geoLocation);
+        trialDoc.put("experimentName",parentExperimentName);
+        trialDoc.put("experimentOwnerName",parentExperimentOwnerName);
         trialDoc.put("published",published);
-        trialDoc.put("type",type);
+        trialDoc.put("result",result);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -46,6 +50,9 @@ public class TrialManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        ArrayList<String> newKeyList = parent.getTrialKeys();
+                        newKeyList.add(documentReference.getId());
+                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -56,13 +63,15 @@ public class TrialManager {
                     }
                 });
     }
-    //overloaded for trials that dont have geolocation enabled
-    public void FB_CreateTrial(String ownerID,String parentExperimentID, boolean published,boolean hidden,String type){
+    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
         trialDoc.put("experiment",parentExperimentID);
+        trialDoc.put("experimentName",parentExperimentName);
+        trialDoc.put("experimentOwnerName",parentExperimentOwnerName);
         trialDoc.put("published",published);
+        trialDoc.put("result",result);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -72,6 +81,40 @@ public class TrialManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        ArrayList<String> newKeyList = parent.getTrialKeys();
+                        newKeyList.add(documentReference.getId());
+                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    //security stuff to make debuging easier
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding experiment", e);
+                    }
+                });
+    }
+    public void FB_MeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent){
+        // Create a new experiment Hash Map this is the datatype stored in firebase for documents
+        Map<String,Object> trialDoc  = new HashMap<>();
+        trialDoc.put("user",ownerID);
+        trialDoc.put("experiment",parentExperimentID);
+        trialDoc.put("experimentName",parentExperimentName);
+        trialDoc.put("experimentOwnerName",parentExperimentOwnerName);
+        trialDoc.put("published",published);
+        trialDoc.put("result",result);
+        //experiment.put("comment", ); ill add this later
+
+        // Add a new Experiment with a generated ID
+        db.collection("TrialDocs")
+                .add(trialDoc)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        ArrayList<String> newKeyList = parent.getTrialKeys();
+                        newKeyList.add(documentReference.getId());
+                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -88,6 +131,51 @@ public class TrialManager {
         DocumentReference docRef = db.collection("TrialDocs").document(id);
         docRef
                 .update("published", published)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+    public void FB_UpdateCountResult(int result,String id){
+        DocumentReference docRef = db.collection("TrialDocs").document(id);
+        docRef
+                .update("result", result)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+    public void FB_UpdateBinomialResult(boolean result,String id){
+        DocumentReference docRef = db.collection("TrialDocs").document(id);
+        docRef
+                .update("published", result)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+    public void FB_UpdateMeasurementResult(float result,String id){
+        DocumentReference docRef = db.collection("TrialDocs").document(id);
+        docRef
+                .update("published", result)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

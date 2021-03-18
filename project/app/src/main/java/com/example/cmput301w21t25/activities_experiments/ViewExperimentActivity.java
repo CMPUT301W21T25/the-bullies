@@ -13,13 +13,21 @@ import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
+import com.example.cmput301w21t25.trials.BinomialTrial;
+import com.example.cmput301w21t25.trials.CountTrial;
+import com.example.cmput301w21t25.trials.MeasurementTrial;
+import com.example.cmput301w21t25.trials.NonNegCountTrial;
+import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 public class ViewExperimentActivity extends AppCompatActivity {
 
@@ -62,12 +70,10 @@ public class ViewExperimentActivity extends AppCompatActivity {
                             case"non-neg-count":
                                 NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                 nnCountExp.setFb_id(document.getId());
-
                                 break;
                             case"measurement":
                                 MeasurementExperiment measurementExperiment = document.toObject(MeasurementExperiment.class);
                                 measurementExperiment.setFb_id(document.getId());
-
                                 break;
                         }
                     }
@@ -115,6 +121,9 @@ public class ViewExperimentActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 
     /**
      * Is called when a user clicks on the owners profile image while viewing an experiment

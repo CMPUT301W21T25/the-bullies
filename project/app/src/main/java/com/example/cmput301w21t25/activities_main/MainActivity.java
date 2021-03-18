@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_user.GenerateUserActivity;
+import com.example.cmput301w21t25.experiments.CountExperiment;
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.user.User;
 import com.example.cmput301w21t25.managers.UserManager;
 import com.example.cmput301w21t25.managers.ExperimentManager;
@@ -45,19 +47,19 @@ public class MainActivity extends AppCompatActivity {
         //tests for UserMangaer class and UserProfile collection
 //        testM = new UserManager();
 //        test = new User();
-        ArrayList<String> testList = new ArrayList<>();
-        testList.add("this");
-        testList.add("is");
-        testList.add("not a");
-        testList.add("test");
+//        ArrayList<String> testList = new ArrayList<>();
+//        testList.add("this");
+//        testList.add("is");
+//        testList.add("not a");
+//        testList.add("test");
 //        testM.FB_CreateUserProfile("test1","TestOne","test@test.gmail.com",test);
 //        testM.FB_UpdateSubscriptions(testList,"test1");
 //        testM.FB_UpdateOwnedExperiments(testList,"test1");
 //        testM.FB_UpdateConductedTrials(testList,"test1");
 
         //test for Experiminet manager
-        expMtest = new ExperimentManager();
-        Location testloc = new Location("edm");
+//        expMtest = new ExperimentManager();
+//        Location testloc = new Location("edm");
 
         //expMtest.FB_CreateExperiment("TestName","fdNzWupOTDKvwkrVHMADau", "this is a test",testloc,testList,false,false,"abstract",new Date());
 //        expMtest.FB_UpdateDescription("new description","03XLnxuIaI7CW7DnpsMb");
@@ -68,11 +70,19 @@ public class MainActivity extends AppCompatActivity {
 
         //test for Trial managerTest
 //        trialManeTest = new TrialManager();
-//        Trial testTrial = new Trial();
-//        trialManeTest.FB_CreateTrial("TestDummy","BIKvOCxENl3ByUtNGmf7",testloc,false,false,testTrial);
-//        trialManeTest.FB_UpdateHidden(true,"13m0s2kkGBkERhcE15V2");
-//        trialManeTest.FB_UpdatePublished(true,"13m0s2kkGBkERhcE15V2");
-//        trialManeTest.FB_UpdateTrial(testTrial,"13m0s2kkGBkERhcE15V2");
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("Experiments").document("oReMYjJ95nOsNJ3fOSVV").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot doc = task.getResult();
+//                    if(doc.exists()){
+//                        trialManeTest.FB_CreateCountTrial("fdNzWupOTDKvwkrVHMADau","oReMYjJ95nOsNJ3fOSVV","Test","Test",true,20, doc.toObject(CountExperiment.class));
+//                    }
+//                }
+//            }
+//        });
+        //trialManeTest.FB_UpdateCountResult(30,"VaijIfF3nVz0dbnwOI4i");
         getLaunchInfo();
 
     }
