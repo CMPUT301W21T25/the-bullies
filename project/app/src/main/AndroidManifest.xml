@@ -19,6 +19,8 @@
         <activity android:name=".activities_experiments.ViewExperimentActivity" />
         <activity android:name=".activities_trials.ViewTrialActivity" />
         <activity android:name=".activities_experiments.ExperimentDataActivity" />
+        <activity android:name=".activities_trials.AddTrialActivity" />
+        <activity android:name=".activities_trials.ConductCountTrial" />
         <activity android:name=".activities_main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
