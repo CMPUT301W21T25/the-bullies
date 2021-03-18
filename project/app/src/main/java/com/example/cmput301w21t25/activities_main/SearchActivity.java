@@ -31,8 +31,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity{
-    // implements FilterSearchFragment.OnFragmentInteractionListener
+public class SearchActivity extends AppCompatActivity implements FilterSearchFragment.OnFragmentInteractionListener{
+    //
     public SearchManager searchManager = new SearchManager();
     ListView browseList;
     ArrayAdapter<Experiment> experimentArrayAdapter;
@@ -65,12 +65,12 @@ public class SearchActivity extends AppCompatActivity{
 
     }
 
-//    @Override
-//    public void onOkPressed(String allKeywords) {
-//        Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
-//        this.allKeywords = allKeywords;
-//        FB_FetchNotSubscribed(subscriptionKeys);
-//    }
+    @Override
+    public void onOkPressed(String allKeywords) {
+        Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
+        this.allKeywords = allKeywords;
+        FB_FetchNotSubscribed(subscriptionKeys);
+    }
 
     /********************************************
      *            DB Functions HERE             *
@@ -93,7 +93,7 @@ public class SearchActivity extends AppCompatActivity{
                     if (document.exists()) {
                         subscriptionKeys = (ArrayList<String>) document.getData().get("subscriptions");
                         Log.d("YA-DB: ", "DocumentSnapshot data: " + subscriptionKeys);
-                        FB_FetchNotSubscribed(subscriptionKeys);
+                        //FB_FetchNotSubscribed(subscriptionKeys);
                     }
                 } else {
                     Log.d("YA-DB: ", "get failed with ", task.getException());
