@@ -29,12 +29,14 @@ import com.example.cmput301w21t25.user.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+
 public abstract class Experiment implements Serializable { //make abstract
 
     /****************************************
                     ATTRIBUTES
     ****************************************/
-    private User owner;
+    private String owner;
     public String name;
     private String description;
     private String type;
@@ -42,6 +44,7 @@ public abstract class Experiment implements Serializable { //make abstract
     private int minNumTrials;
     private boolean isPublished = false;
     private String fb_id = "";
+    private Date date;
 
     private ArrayList<User> subscribedUsers = new ArrayList<User>(); //all currently subscribed users
     private ArrayList<User> allUsers = new ArrayList<User>(); //for users that were subscribed, added data, and unsubscribed
@@ -63,7 +66,7 @@ public abstract class Experiment implements Serializable { //make abstract
     public Experiment(String name) {
         this.name = name;
     }
-    public Experiment(User owner, String description, int minNumTrials) {
+    public Experiment(String owner, String description, int minNumTrials) {
         this.owner = owner;
         this.description = description;
         this.minNumTrials = minNumTrials;
@@ -102,6 +105,14 @@ public abstract class Experiment implements Serializable { //make abstract
     public void setName(String name) { this.name = name; }
 
     public void setType(String type) { this.type = type; }
+
+    public void setDate(Date date) { this.date = date; }
+
+    public Date getDate() { return date; }
+
+    public String getOwner() { return owner; }
+
+    public void setOwner(String owner) { this.owner = owner; }
 
     public void setKeywords(ArrayList<String> keywords) { this.keywords = keywords; }
 

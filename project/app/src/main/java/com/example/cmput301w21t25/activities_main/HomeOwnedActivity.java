@@ -65,7 +65,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
 
         ownedExperimentsList = findViewById(R.id.owned_experiment_list);
         ownedExperiments = new ArrayList<Experiment>();
-        experimentAdapter = new CustomListExperiment(this, ownedExperiments, userID);
+        experimentAdapter = new CustomListExperiment(this, ownedExperiments);
         ownedExperimentsList.setAdapter(experimentAdapter);
 
         ownedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

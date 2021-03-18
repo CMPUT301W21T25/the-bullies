@@ -58,7 +58,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
 
         subbedExperimentsList = findViewById(R.id.subbed_experiment_list_view);
         subbedExperiments = new ArrayList<Experiment>();
-        experimentAdapter = new CustomListExperiment(this, subbedExperiments, userID);
+        experimentAdapter = new CustomListExperiment(this, subbedExperiments);
         subbedExperimentsList.setAdapter(experimentAdapter);
 
         subbedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
