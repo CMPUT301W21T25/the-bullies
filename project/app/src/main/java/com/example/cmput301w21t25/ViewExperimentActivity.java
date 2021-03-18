@@ -14,7 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class InspectExperimentActivity extends AppCompatActivity {
+public class ViewExperimentActivity extends AppCompatActivity {
 
     private String expID;
     private String ownerID;
@@ -44,17 +44,23 @@ public class InspectExperimentActivity extends AppCompatActivity {
                     if (document.exists()) {
                         String type = (String)document.getData().get("type");
                         switch (type){
-                            case "Binomial":
-                                BinomialExperiment binomialExperiment = new BinomialExperiment();
-                                binomialExperiment = document.toObject(BinomialExperiment.class);
+                            case "binomial":
+                                BinomialExperiment binomialExperiment = document.toObject(BinomialExperiment.class);
+                                binomialExperiment.setFb_id(document.getId());
                                 break;
-                            case"Count":
-                                CountExperiment countExperiment = new CountExperiment();
-                                countExperiment = document.toObject(CountExperiment.class);
+                            case"count":
+                                CountExperiment countExperiment = document.toObject(CountExperiment.class);
+                                countExperiment.setFb_id(document.getId());
                                 break;
-                            case"Measurement":
-                                MeasurementExperiment measurementExperiment = new MeasurementExperiment();
-                                measurementExperiment = document.toObject(MeasurementExperiment.class);
+                            case"non-neg-count":
+                                NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
+                                nnCountExp.setFb_id(document.getId());
+
+                                break;
+                            case"measurement":
+                                MeasurementExperiment measurementExperiment = document.toObject(MeasurementExperiment.class);
+                                measurementExperiment.setFb_id(document.getId());
+
                                 break;
                         }
                     }
@@ -116,13 +122,13 @@ public class InspectExperimentActivity extends AppCompatActivity {
         //check if current user = experiment owner
         if (ownerID == currentUserID) {
             //switch to myprofile, pass myID
-            Intent intent = new Intent(InspectExperimentActivity.this, MyUserProfileActivity.class);
+            Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
             intent.putExtra("userID", currentUserID);
             startActivity(intent);
         }
         else {
             //switch to otherprofile, pass expOwnerID
-            Intent intent = new Intent(InspectExperimentActivity.this, OtherUserProfileActivity.class);
+            Intent intent = new Intent(ViewExperimentActivity.this, OtherUserProfileActivity.class);
             intent.putExtra("userID", ownerID);
             startActivity(intent);
         }

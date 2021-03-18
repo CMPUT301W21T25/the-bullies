@@ -37,6 +37,7 @@ public abstract class Experiment { //make abstract
     private ArrayList<String> keywords;
     private int minNumTrials;
     private boolean isPublished = false;
+    private String fb_id = "";
 
     private ArrayList<User> subscribedUsers = new ArrayList<User>(); //all currently subscribed users
     private ArrayList<User> allUsers = new ArrayList<User>(); //for users that were subscribed, added data, and unsubscribed
@@ -108,6 +109,8 @@ public abstract class Experiment { //make abstract
     }
     private String testat;
 
+    public String getFb_id(){ return this.fb_id; }
+    public void setFb_id(String id){ this.fb_id = id; }
 
     /**
      * Adds a user to the list of all users and the list of subscribed users,
