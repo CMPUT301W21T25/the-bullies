@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ConductCountTrial extends AppCompatActivity {
+public class ConductCountTrialActivity extends AppCompatActivity {
 
     Toolbar trialHeader;
     Button submitTrialButton;
