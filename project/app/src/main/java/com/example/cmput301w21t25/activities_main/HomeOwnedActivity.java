@@ -12,9 +12,10 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
-import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -22,6 +23,7 @@ import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,6 +36,8 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private ArrayAdapter<Experiment> experimentAdapter;
     private ArrayList<Experiment> ownedExperiments;
 
+
+
     private float x1;
     private float x2;
     private float y1;
@@ -41,12 +45,17 @@ public class HomeOwnedActivity extends AppCompatActivity {
 
     private String userID;
 
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_home_owned);
 
+        final FloatingActionButton createExperimentButton = findViewById(R.id.exp_create_button);
+
+
         userID = getIntent().getStringExtra("USER_ID");
+        Log.d("DK:", "UserID = " + userID);
         //this can be called on click when
         //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
         FB_FetchOwnedKeys("userID");
@@ -73,6 +82,21 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        createExperimentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newExp = new Intent(HomeOwnedActivity.this, CreateExperimentActivity.class);
+                newExp.putExtra("USER_ID", userID);
+                startActivity(newExp);
+            }
+        });
+
+
+
+
+
+
     }
 
     //Screen switching
@@ -123,7 +147,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         ownedKeys = (ArrayList<String>) document.getData().get("ownedExperiments");
-                        Log.d("YA-DB: ", "DocumentSnapshot data: " + ownedKeys + "User ID: " + id);
+                        Log.d("DK: ", "DocumentSnapshot data: " + ownedKeys + "User ID: " + id);
                         FB_FetchOwned(ownedKeys);
                     }
                 } else {
@@ -136,7 +160,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     //this only searches subscribed experiments
     public void FB_FetchOwned(ArrayList<String> ownedKeys){
         ownedExperiments.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
-        if(ownedKeys.isEmpty()==false){
+        if(!ownedKeys.isEmpty()){
             for (String key : ownedKeys) {
                 DocumentReference docRef = db.collection("Experiments").document(key);
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -168,7 +192,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
                                             ownedExperiments.add(countExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
-                                        case "non-neg-count":
+                                        case "nonnegative count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                             nnCountExp.setFb_id(document.getId());
                                             ownedExperiments.add(nnCountExp);

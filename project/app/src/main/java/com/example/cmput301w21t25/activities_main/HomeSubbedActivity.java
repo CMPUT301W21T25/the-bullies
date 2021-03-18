@@ -12,8 +12,8 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -26,7 +26,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
 import java.util.ArrayList;
 
 public class HomeSubbedActivity extends AppCompatActivity {
@@ -35,6 +34,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
     private ArrayAdapter<Experiment> experimentAdapter;
     private ArrayList<Experiment> subbedExperiments;
     private FloatingActionButton browseButton;
+
 
     private float x1;
     private float x2;
@@ -54,6 +54,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
         //finish();
 
         browseButton = findViewById(R.id.exp_search_button);
+
 
         subbedExperimentsList = findViewById(R.id.subbed_experiment_list_view);
         subbedExperiments = new ArrayList<Experiment>();
@@ -84,6 +85,9 @@ public class HomeSubbedActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+
     }
 
     //Screen switching
@@ -173,7 +177,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
                                             subbedExperiments.add(countExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
-                                        case "non-neg-count":
+                                        case "nonnegative count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                             nnCountExp.setFb_id(document.getId());
                                             subscriptionList.add(nnCountExp);
@@ -203,4 +207,5 @@ public class HomeSubbedActivity extends AppCompatActivity {
             }
         }
     }
+
 }

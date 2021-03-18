@@ -8,14 +8,14 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.managers.SearchManager;
+import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
+import com.example.cmput301w21t25.managers.SearchManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -31,12 +31,14 @@ public class SearchActivity extends AppCompatActivity {
     ListView browseList;
     ArrayAdapter<Experiment> experimentArrayAdapter;
 
+    private String userID;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_browse_not_subbed);
 
-        String userID;
+
 
         userID = getIntent().getStringExtra("USER_ID");
 
@@ -115,7 +117,7 @@ public class SearchActivity extends AppCompatActivity {
                                                     experimentList.add(countExp);
                                                     experimentArrayAdapter.notifyDataSetChanged();
                                                     break;
-                                                case "non-neg-count":
+                                                case "nonnegative count":
                                                     NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                                     nnCountExp.setFb_id(document.getId());
                                                     experimentList.add(nnCountExp);
@@ -145,5 +147,9 @@ public class SearchActivity extends AppCompatActivity {
                         }
                     });
         }
+
     }
+
+
+
 }

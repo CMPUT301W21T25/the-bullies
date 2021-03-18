@@ -30,10 +30,10 @@
             android:id="@+id/user_image_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@color/custom_Blue_light"
             android:onClick="viewExpOwnerButton"
             android:paddingLeft="30px"
-            android:background="@android:color/transparent"
-            app:srcCompat="@android:drawable/ic_dialog_info" />
+            tools:srcCompat="@android:drawable/ic_dialog_info" />
     </LinearLayout>
 
 
@@ -59,6 +59,6 @@
         android:clickable="true"
         android:focusable="true"
         app:backgroundTint="@color/custom_Yellow_dark"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        tools:srcCompat="@android:drawable/ic_input_add" />
 
 </RelativeLayout>
