@@ -33,7 +33,7 @@ public class ExperimentManager {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String fb_expID = "";
     private UserManager userManager= new UserManager();
-
+  
     //CREATE EXPERIMENT
     /**
      * This method creates an Experiment Document in the database that can later be recompiled into one of the Experiment Class's children
@@ -48,10 +48,12 @@ public class ExperimentManager {
      * @param type the type of experiment(ie: count, nonNegCount, binomial etc)
      * @param date the date and time of creation of the experiment
      */
-    public void FB_CreateExperiment(String userID, String name, String ownerName, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date){
+    public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
-        experimentDoc.put("name",name);
+        experimentDoc.put("ownerID", ownerID);
+        experimentDoc.put("name",experimentName);
+
         experimentDoc.put("owner",ownerName);
         experimentDoc.put("description",description);
         experimentDoc.put("region",region);
@@ -70,7 +72,9 @@ public class ExperimentManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        db.collection("UserProfile").document(userID).get()
+
+                        db.collection("UserProfile").document(ownerID).get()
+
                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -79,8 +83,10 @@ public class ExperimentManager {
                                             if(document.exists()){
                                                 ArrayList<String> currentOwned = (ArrayList<String>)document.getData().get("ownedExperiments");
                                                 currentOwned.add(documentReference.getId());
-                                                userManager.FB_UpdateOwnedExperiments(currentOwned,userID);
-                                                userManager.FB_UpdateSubscriptions(currentOwned,userID);
+
+                                                userManager.FB_UpdateOwnedExperiments(currentOwned,ownerID);
+                                                userManager.FB_UpdateSubscriptions(currentOwned,ownerID);
+
                                             }
                                         }
                                     }

@@ -11,13 +11,16 @@ public abstract class Trial {
     /****************************************
                     ATTRIBUTES
      ****************************************/
-    //private User user;
+    //private User user
     private String experimentName;
     private User experimenter;
     //TODO: implement geolocation info for final product!
     //attributes added -YA
-    private String user;
+    private String userID;
     private String experimentOwnerName;
+    //attributes added -EK
+    private String experimentID;
+    private Boolean published;
 
     /****************************************
                 CONSTRUCTORS
@@ -33,19 +36,24 @@ public abstract class Trial {
         this.experimenter = experimenter;
         this.experimentName = experimentName;
     }
-    //extra conductor added -YA
+
+    //extra constructor added -YA //extra attributes added -EK
 
     /**
-     * Constructor for Trial that usesses the new user attribute whcih is a string
+     * Constructor for Trial that uses the new user attribute whcih is a string
      * @author:Yalmaz
      * @param userID
      * @param experimentName
      * @param experimentOwnerName
+     * @param experimentID
+     * @param published
      */
-    public Trial(String userID,String experimentName,String experimentOwnerName) {
-        this.user = userID;
+    public Trial(String userID, String experimentName, String experimentOwnerName, String experimentID, Boolean published) {
+        this.userID = userID;
         this.experimentName=experimentName;
         this.experimentOwnerName=experimentOwnerName;
+        this.experimentID = experimentID;
+        this.published = published;
     }
     public Trial() {}
 
@@ -61,7 +69,7 @@ public abstract class Trial {
         return experimenter;
     }
     public String getUser() {
-        return user;
+        return userID;
     }
     public String getExperimentOwnerName() {
         return experimentOwnerName;

@@ -46,7 +46,7 @@ public class SearchActivity extends AppCompatActivity {
         userID = getIntent().getStringExtra("USER_ID");
 
         browseList = findViewById(R.id.search_exp_list_view);
-        experimentArrayAdapter = new CustomListExperiment(this, experimentList, userID);
+        experimentArrayAdapter = new CustomListExperiment(this, experimentList);
         browseList.setAdapter(experimentArrayAdapter);
         searchButton = findViewById(R.id.exp_filter_button);
 

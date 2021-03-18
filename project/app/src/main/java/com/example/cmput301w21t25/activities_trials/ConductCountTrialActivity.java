@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.activities_trials;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +9,7 @@ import android.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ConductCountTrialActivity extends AppCompatActivity {

@@ -38,15 +38,15 @@
         android:id="@+id/trial_count"
         android:layout_width="102dp"
         android:layout_height="100dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="52dp"
         android:background="@drawable/text_outline"
+        android:gravity="center"
         android:text="TextView"
         android:textSize="20sp"
-        android:gravity="center"
         app:layout_constraintEnd_toStartOf="@+id/increment_count_button"
         app:layout_constraintHorizontal_bias="0.933"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countExperimentInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/countExpDescription" />
 
     <Button
         android:id="@+id/submit_trial_count_button"
@@ -58,7 +58,17 @@
         app:backgroundTint="@color/custom_Blue_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trial_count" />
+        app:layout_constraintTop_toBottomOf="@+id/trial_count"
+        app:layout_constraintVertical_bias="0.445" />
+
+    <TextView
+        android:id="@+id/countExpDescription"
+        android:layout_width="414dp"
+        android:layout_height="144dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countExperimentInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

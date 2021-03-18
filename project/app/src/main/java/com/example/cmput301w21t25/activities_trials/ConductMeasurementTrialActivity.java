@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.activities_trials;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.cmput301w21t25.R;
 
 public class ConductMeasurementTrialActivity extends AppCompatActivity {
 
@@ -22,7 +24,7 @@ public class ConductMeasurementTrialActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_conduct_count_trial);
+        setContentView(R.layout.activity_conduct_measurement_trial);
 
         //Grab user ID
         userID = getIntent().getStringExtra("USER_ID");
