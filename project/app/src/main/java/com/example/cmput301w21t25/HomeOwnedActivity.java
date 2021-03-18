@@ -41,7 +41,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
         //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
-        FB_FetchOwnedKeys("fdNzWupOTDKvwkrVHMADau");
+        FB_FetchOwnedKeys("userID");
         //finish();
 
         ownedExperimentsList = findViewById(R.id.owned_experiment_list);
