@@ -25,7 +25,6 @@ public abstract class Trial {
 
     /**
      * Constructor for Trial
-     * @param user the user of the app
      * @param experimenter the creator of the experiment
      * @param experimentName the name of the experiment
      */
@@ -35,6 +34,14 @@ public abstract class Trial {
         this.experimentName = experimentName;
     }
     //extra conductor added -YA
+
+    /**
+     * Constructor for Trial that usesses the new user attribute whcih is a string
+     * @author:Yalmaz
+     * @param userID
+     * @param experimentName
+     * @param experimentOwnerName
+     */
     public Trial(String userID,String experimentName,String experimentOwnerName) {
         this.user = userID;
         this.experimentName=experimentName;
@@ -45,10 +52,8 @@ public abstract class Trial {
     /****************************************
                     METHODS
      ****************************************/
+    //public getters
 
-//    public User getUser() {
-//        return user;
-//    }
     public String getExperimentName() {
         return experimentName;
     }
