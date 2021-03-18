@@ -1,0 +1,50 @@
+package com.example.cmput301w21t25.adapters;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.experiments.Experiment;
+
+import java.util.ArrayList;
+
+public class CustomListExperiment extends ArrayAdapter<Experiment> {
+    private ArrayList<Experiment> experiments;
+    private Context context;
+    private String user;
+
+    public CustomListExperiment(Context context, ArrayList<Experiment> experiments, String user) {
+        super(context, 0, experiments);
+        this.experiments = experiments;
+        this.user = user;
+        this.context = context;
+    }
+
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View view = convertView;
+        //The content view is not displayed if the adapter is empty
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.exp_content, parent, false);
+        }
+
+        Experiment experiment = experiments.get(position);
+
+        TextView experimentDescription = view.findViewById(R.id.exp_description_text_view);
+        TextView experimentDate = view.findViewById(R.id.exp_date_text_view);
+        TextView userName = view.findViewById(R.id.user_id_text_view);
+
+        experimentDescription.setText(experiment.getName());
+        //experimentDate.setText(experiment.getDate());
+        userName.setText(user);
+
+        return view;
+    }
+
+}
