@@ -85,7 +85,6 @@ public class SearchActivity extends AppCompatActivity {
     //this only searches experiments that are NOT subscribed AND published
     public void FB_FetchNotSubscribed(ArrayList<String> subscriptionKeys) {
         experimentList.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
-        if (subscriptionKeys.isEmpty() != false) {
             DocumentReference docRef = db.collection("Experiments").document();
             db.collection("Experiments")
                     .whereEqualTo("published", true)
@@ -146,7 +145,6 @@ public class SearchActivity extends AppCompatActivity {
                             }
                         }
                     });
-        }
 
     }
 
