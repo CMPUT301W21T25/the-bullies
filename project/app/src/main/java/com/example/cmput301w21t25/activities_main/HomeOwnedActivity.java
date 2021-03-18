@@ -7,14 +7,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
-import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -33,6 +34,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private ListView ownedExperimentsList;
     private ArrayAdapter<Experiment> experimentAdapter;
     private ArrayList<Experiment> ownedExperiments;
+    final Button
 
     private float x1;
     private float x2;
@@ -41,10 +43,11 @@ public class HomeOwnedActivity extends AppCompatActivity {
 
     private String userID;
 
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_created);
+        setContentView(R.layout.activity_home_owned);
 
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
