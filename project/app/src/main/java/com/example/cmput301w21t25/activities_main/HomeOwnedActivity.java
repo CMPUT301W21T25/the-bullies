@@ -44,7 +44,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_created);
+        setContentView(R.layout.activity_home_owned);
 
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
