@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.activities_trials;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +10,7 @@ import android.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
@@ -25,7 +26,7 @@ public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_conduct_count_trial);
+        setContentView(R.layout.activity_conduct_nonnegative_count_trial);
 
         //Grab user ID
         userID = getIntent().getStringExtra("USER_ID");

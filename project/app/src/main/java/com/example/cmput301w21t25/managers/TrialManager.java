@@ -94,7 +94,7 @@ public class TrialManager {
                     }
                 });
     }
-    public void FB_MeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent){
+    public void FB_CreateMeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);

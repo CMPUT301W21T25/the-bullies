@@ -11,9 +11,10 @@ public class NonNegCountTrial extends Trial{
     private Integer positiveCount;
     private Integer result;
 
-    private NonNegCountTrial(Integer result){
+    //Don't need this? -EK
+    /*private NonNegCountTrial(Integer result){
         this.result = result;
-    }
+    }*/
 
     public Integer getResult() {
         return result;
