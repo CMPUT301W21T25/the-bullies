@@ -7,15 +7,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
-import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -28,7 +26,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
 import java.util.ArrayList;
 
 public class HomeSubbedActivity extends AppCompatActivity {
@@ -37,7 +34,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
     private ArrayAdapter<Experiment> experimentAdapter;
     private ArrayList<Experiment> subbedExperiments;
     private FloatingActionButton browseButton;
-    private ImageButton userImageButton;
+
 
     private float x1;
     private float x2;
@@ -57,7 +54,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
         //finish();
 
         browseButton = findViewById(R.id.exp_search_button);
-        userImageButton = findViewById(R.id.user_image_button);
+
 
         subbedExperimentsList = findViewById(R.id.subbed_experiment_list_view);
         subbedExperiments = new ArrayList<Experiment>();
@@ -89,16 +86,6 @@ public class HomeSubbedActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        userImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
-                intent.putExtra("userID", userID);
-                startActivity(intent);
-            }
-        });
-*/
 
 
     }
@@ -221,10 +208,4 @@ public class HomeSubbedActivity extends AppCompatActivity {
         }
     }
 
-    public void viewExpOwnerButton(View view) {
-        //switch to profileView, pass userId
-        Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
-        intent.putExtra("userID", userID);
-        startActivity(intent);
-    }
 }
