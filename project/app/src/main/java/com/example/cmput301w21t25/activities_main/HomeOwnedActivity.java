@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
+import com.example.cmput301w21t25.activities_experiments.ExperimentDataActivity;
+import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -70,6 +72,13 @@ public class HomeOwnedActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("YA-DB: ", "Does it click?");
+                Experiment experiment = (Experiment)ownedExperimentsList.getItemAtPosition(position);
+                Intent newExp = new Intent(HomeOwnedActivity.this, ExperimentDataActivity.class);
+                newExp.putExtra("USER_ID", userID);
+                newExp.putExtra("TYPE", experiment.getType());
+                newExp.putExtra("EXP", experiment);
+                //newExp.putExtra("USER_ID", experiment);
+                startActivity(newExp);
             }
         });
 
@@ -182,6 +191,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
                                             //ArrayList<Experiment>test = new ArrayList<Experiment>();
                                             BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
                                             binExp.setFb_id(document.getId());
+                                            //binExp.setTrialKeys((ArrayList<String>)document.getData().get("trialKeys"));
                                             ownedExperiments.add(binExp);
                                             Log.d("YA-DB: ", "SearchResults " + ownedExperiments.get(0).getName());
                                             experimentAdapter.notifyDataSetChanged();
@@ -189,18 +199,21 @@ public class HomeOwnedActivity extends AppCompatActivity {
                                         case "count":
                                             final CountExperiment countExp = document.toObject(CountExperiment.class);
                                             countExp.setFb_id(document.getId());
+                                            //countExp.setTrialKeys((ArrayList<String>)document.getData().get("trialKeys"));
                                             ownedExperiments.add(countExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "nonnegative count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                             nnCountExp.setFb_id(document.getId());
+                                            //nnCountExp.setTrialKeys((ArrayList<String>)document.getData().get("trialKeys"));
                                             ownedExperiments.add(nnCountExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "measurement":
                                             MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
                                             mesExp.setFb_id(document.getId());
+                                            //mesExp.setTrialKeys((ArrayList<String>)document.getData().get("trialKeys"));
                                             ownedExperiments.add(mesExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;

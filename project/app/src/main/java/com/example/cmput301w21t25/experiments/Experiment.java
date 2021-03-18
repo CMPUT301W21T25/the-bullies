@@ -27,8 +27,9 @@ import static android.content.ContentValues.TAG;
 import com.example.cmput301w21t25.trials.Trial;
 import com.example.cmput301w21t25.user.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-public abstract class Experiment { //make abstract
+public abstract class Experiment implements Serializable { //make abstract
 
     /****************************************
                     ATTRIBUTES
@@ -44,7 +45,7 @@ public abstract class Experiment { //make abstract
 
     private ArrayList<User> subscribedUsers = new ArrayList<User>(); //all currently subscribed users
     private ArrayList<User> allUsers = new ArrayList<User>(); //for users that were subscribed, added data, and unsubscribed
-    private ArrayList<Trial> trials = new ArrayList<Trial>();
+    private ArrayList<String> trialKeys = new ArrayList<String>();
     private ArrayList<Trial> hiddenTrials = new ArrayList<Trial>();
 
     //private Forum forum;
@@ -69,15 +70,20 @@ public abstract class Experiment { //make abstract
     }
 
 
+
+
     /****************************************
                     METHODS
     ****************************************/
     //private ArrayList<Comment> forum;
 
-    public ArrayList<Trial> getTrials() {
-        return trials;
-    }
 
+    public ArrayList<String> getTrialKeys() {
+        return trialKeys;
+    }
+    public void setTrialKeys(ArrayList<String> trialKeys) {
+        this.trialKeys = trialKeys;
+    }
     public ArrayList<Trial> getHiddenTrials() {
         return hiddenTrials;
     }
@@ -99,17 +105,17 @@ public abstract class Experiment { //make abstract
 
     public void setKeywords(ArrayList<String> keywords) { this.keywords = keywords; }
 
-    public void setTrials(ArrayList<Trial> trials) {
-        this.trials = trials;
-    }
-
-    public void addTrial(Trial trial) {
-        trials.add(trial);
-    }
-
-    public void deleteTrial(Trial trial) {
-        trials.remove(trial);
-    }
+//    public void setTrials(ArrayList<Trial> trials) {
+//        this.trials = trials;
+//    }
+//
+//    public void addTrial(Trial trial) {
+//        trials.add(trial);
+//    }
+//
+//    public void deleteTrial(Trial trial) {
+//        trials.remove(trial);
+//    }
     private String testat;
 
     public String getFb_id(){ return this.fb_id; }
@@ -141,18 +147,18 @@ public abstract class Experiment { //make abstract
      * @param user
      *      The user who's trials the owner wants to hide
      */
-    public void hideTrials(User user) throws IllegalArgumentException{
-
-        // throw exception if user not present in trials
-        // or if user present in hiddenTrials?
-
-        for (Trial trial : trials) {
-            if (trial.getUser() == user) {
-                hiddenTrials.add(trial);
-            }
-        }
-        trials.removeAll(hiddenTrials); //this might be inefficient?
-    }
+//    public void hideTrials(User user) throws IllegalArgumentException{
+//
+//        // throw exception if user not present in trials
+//        // or if user present in hiddenTrials?
+//
+//        for (Trial trial : trials) {
+//            if (trial.getUser() == user) {
+//                hiddenTrials.add(trial);
+//            }
+//        }
+//        trials.removeAll(hiddenTrials); //this might be inefficient?
+//    }
 
     /**
      * Allows experiment owner to show hidden trial results submitted by a given user.
@@ -160,26 +166,26 @@ public abstract class Experiment { //make abstract
      * @param user
      *      The user who's trials the owner wants to show
      */
-    public void showTrials(User user) {
-        for (Trial trial : hiddenTrials) {
-            if (trial.getUser() == user) {
-                trials.add(trial);
-            }
-        }
-
-        hiddenTrials.removeAll(trials); //this might be inefficient?
-
-    }
+//    public void showTrials(User user) {
+//        for (Trial trial : hiddenTrials) {
+//            if (trial.getUser() == user) {
+//                trials.add(trial);
+//            }
+//        }
+//
+//        hiddenTrials.removeAll(trials); //this might be inefficient?
+//
+//    }
 
     /**
      * Shows all hidden experiment trials
      */
-    public void showAllTrials() {
-        for (Trial trial : hiddenTrials) {
-            trials.add(trial);
-        }
-        hiddenTrials.clear();
-    }
+//    public void showAllTrials() {
+//        for (Trial trial : hiddenTrials) {
+//            trials.add(trial);
+//        }
+//        hiddenTrials.clear();
+//    }
 
     /**
      * Shows stats of experiment

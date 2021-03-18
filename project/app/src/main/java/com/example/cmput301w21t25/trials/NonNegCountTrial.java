@@ -9,10 +9,14 @@ package com.example.cmput301w21t25.trials;
  */
 public class NonNegCountTrial extends Trial{
     private Integer positiveCount;
-    private Integer totalCount;
+    private Integer result;
 
-    private NonNegCountTrial(Integer totalCount){
-        this.totalCount = totalCount;
+    private NonNegCountTrial(Integer result){
+        this.result = result;
+    }
+
+    public Integer getResult() {
+        return result;
     }
 
     /**

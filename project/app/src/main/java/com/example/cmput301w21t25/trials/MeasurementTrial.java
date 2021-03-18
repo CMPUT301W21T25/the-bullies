@@ -5,13 +5,17 @@ package com.example.cmput301w21t25.trials;
  * Creates a MeasurementTrial which extends Trial. Records a float trial result
  */
 public class MeasurementTrial extends Trial {
-    private Float measurement;
+    private Float result;
+
+    public Float getResult() {
+        return result;
+    }
 
     /**
      * records the measurement of the trial
-     * @param measurement
+     * @param result
      */
-    private void addResult(Float measurement){
-        this.measurement = measurement;
+    private void addResult(Float result){
+        this.result = result;
     }
 }
