@@ -89,8 +89,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="Subscribe to experiment"
-        app:layout_constraintTop_toBottomOf="@+id/editTextKeywords"
-        tools:layout_editor_absoluteX="24dp" />
+        app:layout_constraintStart_toStartOf="@+id/editTextKeywords"
+        app:layout_constraintTop_toBottomOf="@+id/editTextKeywords" />
 
     <CheckBox
         android:id="@+id/checkBoxGeolocation"
@@ -124,24 +124,28 @@
             android:id="@+id/radioButtonCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
             android:text="Count" />
 
         <RadioButton
             android:id="@+id/radioButtonNonNegInt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
             android:text="NonNegInt" />
 
         <RadioButton
             android:id="@+id/radioButtonMeasurement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
             android:text="Measurement" />
 
         <RadioButton
             android:id="@+id/radioButtonBinomial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
             android:text="Binomial" />
 
     </RadioGroup>
@@ -153,7 +157,8 @@
         android:text="Create Experiment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <EditText
         android:id="@+id/editTextKeywords"

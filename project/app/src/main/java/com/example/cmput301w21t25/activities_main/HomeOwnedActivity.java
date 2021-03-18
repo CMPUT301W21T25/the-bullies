@@ -37,6 +37,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private ArrayList<Experiment> ownedExperiments;
 
 
+
     private float x1;
     private float x2;
     private float y1;
@@ -145,7 +146,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         ownedKeys = (ArrayList<String>) document.getData().get("ownedExperiments");
-                        Log.d("YA-DB: ", "DocumentSnapshot data: " + ownedKeys + "User ID: " + id);
+                        Log.d("DK: ", "DocumentSnapshot data: " + ownedKeys + "User ID: " + id);
                         FB_FetchOwned(ownedKeys);
                     }
                 } else {
