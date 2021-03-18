@@ -9,4 +9,3 @@ Curtis Kennedy
 Eden Knechtel  
 Duncan Krammer  
 Samadhi Ranatunga  
-Jingsheng Zhang  
