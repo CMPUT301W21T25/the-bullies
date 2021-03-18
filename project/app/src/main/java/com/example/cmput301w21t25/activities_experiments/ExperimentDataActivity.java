@@ -34,15 +34,15 @@ public class ExperimentDataActivity extends AppCompatActivity {
                 break;
             case "binomial":
                 BinomialExperiment binomialParent = (BinomialExperiment) getIntent().getSerializableExtra("EXP");
-                //FB_FetchSummary(binomialParent);
+                FB_FetchSummary(binomialParent);
                 break;
             case "non-neg-count":
                 NonNegCountExperiment nnCountParent = (NonNegCountExperiment) getIntent().getSerializableExtra("EXP");
-                //FB_FetchSummary(nnCountParent);
+                FB_FetchSummary(nnCountParent);
                 break;
             case "measurement":
                 MeasurementExperiment measurementParent = (MeasurementExperiment) getIntent().getSerializableExtra("EXP");
-                //FB_FetchSummary(measurementParent);
+                FB_FetchSummary(measurementParent);
                 break;
         }
         //finish();
@@ -60,7 +60,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
+                        if (document.exists()&&(Boolean) document.getData().get("published")==true) {
                             Long value = (Long) document.getData().get("result");
                             countSUM = countSUM + value.intValue();
                             Log.d("YA-DB: trial", String.valueOf(countSUM));
@@ -84,7 +84,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
+                        if (document.exists()&&(Boolean) document.getData().get("published")==true) {
                             Long value = (Long) document.getData().get("result");
                             countSUM = countSUM + value.intValue();
                         }
@@ -106,7 +106,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
+                        if (document.exists()&&(Boolean) document.getData().get("published")==true) {
                             Double value = (Double) document.getData().get("result");
                             countSUMF = countSUMF + value.floatValue();
                         }
@@ -127,7 +127,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
+                        if (document.exists()&&(Boolean) document.getData().get("published")==true) {
                             if((Boolean) document.getData().get("result")){
                                 successCount++;
                                 Log.d("YA-DB: ", String.valueOf(successCount));

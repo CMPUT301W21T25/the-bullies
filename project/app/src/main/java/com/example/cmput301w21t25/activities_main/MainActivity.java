@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_user.GenerateUserActivity;
+import com.example.cmput301w21t25.experiments.CountExperiment;
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.user.User;
 import com.example.cmput301w21t25.managers.UserManager;
 import com.example.cmput301w21t25.managers.ExperimentManager;
@@ -67,8 +69,19 @@ public class MainActivity extends AppCompatActivity {
 //        expMtest.FB_UpdateConductedTrials(testList,"BIKvOCxENl3ByUtNGmf7");
 
         //test for Trial managerTest
-        trialManeTest = new TrialManager();
-        //trialManeTest.FB_CreateCountTrial("fdNzWupOTDKvwkrVHMADau","oReMYjJ95nOsNJ3fOSVV","Test","Test",true,20);
+//        trialManeTest = new TrialManager();
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("Experiments").document("oReMYjJ95nOsNJ3fOSVV").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot doc = task.getResult();
+//                    if(doc.exists()){
+//                        trialManeTest.FB_CreateCountTrial("fdNzWupOTDKvwkrVHMADau","oReMYjJ95nOsNJ3fOSVV","Test","Test",true,20, doc.toObject(CountExperiment.class));
+//                    }
+//                }
+//            }
+//        });
         //trialManeTest.FB_UpdateCountResult(30,"VaijIfF3nVz0dbnwOI4i");
         getLaunchInfo();
 

@@ -5,12 +5,14 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,10 +28,11 @@ public class TrialManager {
      * */
     //attaching firebase good comments to come later please bear with me -YA
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ExperimentManager expManager = new ExperimentManager();
     //extra attributes to make ur life easier:
     /////////////////////////////////////////////////////////////////////////////////////
     //INITIALIZE EXPERIMENT
-    public void FB_CreateCountTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,int result){
+    public void FB_CreateCountTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, int result, Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -47,6 +50,9 @@ public class TrialManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        ArrayList<String> newKeyList = parent.getTrialKeys();
+                        newKeyList.add(documentReference.getId());
+                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -57,7 +63,7 @@ public class TrialManager {
                     }
                 });
     }
-    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result){
+    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -75,6 +81,9 @@ public class TrialManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        ArrayList<String> newKeyList = parent.getTrialKeys();
+                        newKeyList.add(documentReference.getId());
+                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -85,7 +94,7 @@ public class TrialManager {
                     }
                 });
     }
-    public void FB_MeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result){
+    public void FB_MeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -103,6 +112,9 @@ public class TrialManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        ArrayList<String> newKeyList = parent.getTrialKeys();
+                        newKeyList.add(documentReference.getId());
+                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
