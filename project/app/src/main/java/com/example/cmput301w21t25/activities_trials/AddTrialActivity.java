@@ -26,10 +26,10 @@ public class AddTrialActivity extends AppCompatActivity {
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         String userID;
-        Experiment expID;
         userID = getIntent().getStringExtra("USER_ID");
-        expID = (Experiment) getIntent().getSerializableExtra("EXP_ID");
-        FB_FetchTrials(userID);
+        Experiment exp = (Experiment) getIntent().getSerializableExtra("EXP_ID");
+        String expID = exp.getFb_id();
+        FB_FetchTrialKeys(expID,userID);
         //finish();
 
     }
@@ -44,20 +44,23 @@ public class AddTrialActivity extends AppCompatActivity {
      ********************************************
      *******************************************/
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ArrayList<String> subscriptionKeys = new ArrayList<String>();
+    ArrayList<String> trialKeys = new ArrayList<String>();
     ArrayList<Experiment> experimentList = new ArrayList<Experiment>();
-    public void FB_FetchTrials(String id) {
-        subscriptionKeys.clear();
-        DocumentReference docRef = db.collection("UserProfile").document(id);
+    public void FB_FetchTrialKeys(String expID,String userID) {
+        trialKeys.clear();
+        DocumentReference docRef = db.collection("Experiments").document(expID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        subscriptionKeys = (ArrayList<String>) document.getData().get("subscriptions");
-                        Log.d("YA-DB: ", "DocumentSnapshot data: " + subscriptionKeys);
+                    if (document.exists()&&(Boolean)document.getData().get("published")==true) {//combine into one really big conditional?
+                        trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
+                        Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
                         //FB_FetchNotSubscribed(subscriptionKeys);
+                    }
+                    else if(document.exists()&&(Boolean)document.getData().get("published")==false&&(String)document.getData().get("ownerID")==userID){
+                        trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
                     }
                 } else {
                     Log.d("YA-DB: ", "get failed with ", task.getException());
@@ -65,4 +68,27 @@ public class AddTrialActivity extends AppCompatActivity {
             }
         });
     }
+    public void FB_FetchTrials(String expID,String userID) {
+        trialKeys.clear();
+        DocumentReference docRef = db.collection("Experiments").document(expID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()&&(Boolean)document.getData().get("published")==true) {//combine into one really big conditional?
+                        trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
+                        Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
+                        //FB_FetchNotSubscribed(subscriptionKeys);
+                    }
+                    else if(document.exists()&&(Boolean)document.getData().get("published")==false&&(String)document.getData().get("ownerID")==userID){
+                        trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
+                    }
+                } else {
+                    Log.d("YA-DB: ", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
 }
