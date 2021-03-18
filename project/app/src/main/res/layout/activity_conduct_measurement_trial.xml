@@ -45,14 +45,15 @@
         android:id="@+id/measurementEntry"
         android:layout_width="186dp"
         android:layout_height="102dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="68dp"
         android:background="@drawable/text_outline"
         android:ems="10"
         android:gravity="center"
         android:hint="enter measurement"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/measurementExperimentInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/measureExpDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

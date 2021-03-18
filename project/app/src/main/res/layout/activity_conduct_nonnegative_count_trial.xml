@@ -38,21 +38,24 @@
         app:backgroundTint="@color/custom_Blue_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nonnegativeCountEntry" />
+        app:layout_constraintTop_toBottomOf="@+id/nonnegativeCountEntry"
+        app:layout_constraintVertical_bias="0.437" />
 
     <EditText
         android:id="@+id/nonnegativeCountEntry"
         android:layout_width="126dp"
         android:layout_height="104dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="72dp"
         android:background="@drawable/text_outline"
         android:ems="10"
         android:gravity="center"
         android:hint="enter count"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nonnegativeCountExperimentInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/nonnegativeExpDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
