@@ -41,38 +41,51 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/non_neg_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"
-            android:text="Non-Negative Count"
-            android:textSize="12sp"
-            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/count"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="Count"
+                android:textAlignment="center"
+                android:textSize="12sp" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/binomial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="Binomial"
-            android:textSize="12sp"
-            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/measurement"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="Measurement"
+                android:textAlignment="center"
+                android:textSize="12sp" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/measurement"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="Measurement"
-            android:textSize="12sp"
-            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/binomial"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="Binomial"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/non_neg_count"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="Non-Negative Count"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+        </com.google.android.material.chip.ChipGroup>
+
     </LinearLayout>
 
     <!--

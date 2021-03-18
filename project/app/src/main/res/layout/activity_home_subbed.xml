@@ -15,12 +15,13 @@
         android:layout_height="wrap_content"
         android:background="@color/custom_Blue_dark"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        >
 
         <TextView
             android:id="@+id/subbed_experiment_text_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:paddingLeft="10px"
             android:text="Subscribed Experiments"
@@ -31,9 +32,9 @@
             android:id="@+id/user_image_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@android:color/transparent"
             android:onClick="viewExpOwnerButton"
             android:paddingLeft="30px"
-            android:background="@android:color/transparent"
             app:srcCompat="@android:drawable/ic_dialog_info" />
     </LinearLayout>
 
