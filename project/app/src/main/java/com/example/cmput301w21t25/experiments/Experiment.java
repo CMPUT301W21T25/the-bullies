@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.experiments;
 
 /* OLD IMPORTS THAT ANDROID STUDIO AXED THAT MAYBE WE STILL NEED LATER???
 import android.util.Log;
@@ -24,6 +24,9 @@ import java.util.Map;
 
 import static android.content.ContentValues.TAG;
  */
+import com.example.cmput301w21t25.trials.Trial;
+import com.example.cmput301w21t25.user.User;
+
 import java.util.ArrayList;
 public abstract class Experiment { //make abstract
 
@@ -157,7 +160,7 @@ public abstract class Experiment { //make abstract
      * @param user
      *      The user who's trials the owner wants to show
      */
-    void showTrials(User user) {
+    public void showTrials(User user) {
         for (Trial trial : hiddenTrials) {
             if (trial.getUser() == user) {
                 trials.add(trial);
@@ -171,7 +174,7 @@ public abstract class Experiment { //make abstract
     /**
      * Shows all hidden experiment trials
      */
-    void showAllTrials() {
+    public void showAllTrials() {
         for (Trial trial : hiddenTrials) {
             trials.add(trial);
         }

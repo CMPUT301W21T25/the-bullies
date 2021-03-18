@@ -1,10 +1,13 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
+
+import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.managers.SearchManager;
 
 //For testing purposes
 public class TempRightActivity extends AppCompatActivity {

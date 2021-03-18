@@ -1,4 +1,6 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.trials;
+
+import com.example.cmput301w21t25.user.User;
 
 /**
  * This is an abstract class which creates a trial based on which experiment type was used

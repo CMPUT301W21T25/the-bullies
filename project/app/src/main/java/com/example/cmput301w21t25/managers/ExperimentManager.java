@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.managers;
 
 import android.location.Location;
 import android.util.Log;

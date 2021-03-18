@@ -1,14 +1,12 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.managers;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.cmput301w21t25.user.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -37,7 +35,7 @@ public class UserManager{
     //INITIALIZE PROFILE
     //creates userProfile
     //user is only created at the first launch that means that we can initalize it with empty experiment and trial lists
-    public void FB_CreateUserProfile(String id,String name,String email,User user){
+    public void FB_CreateUserProfile(String id, String name, String email, User user){
         Map<String,Object> userprofile  = new HashMap<>();
         userprofile.put("name",name);
         userprofile.put("email",email);

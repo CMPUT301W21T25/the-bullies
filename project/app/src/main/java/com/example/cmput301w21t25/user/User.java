@@ -1,4 +1,7 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.user;
+import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.trials.Trial;
+
 import java.util.ArrayList;
 
 public class User {

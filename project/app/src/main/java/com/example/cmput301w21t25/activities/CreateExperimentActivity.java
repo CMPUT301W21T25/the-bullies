@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.activities;
 
 import android.content.Intent;
 import android.location.Location;
@@ -13,6 +13,8 @@ import android.widget.RadioButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.managers.ExperimentManager;
+import com.example.cmput301w21t25.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;

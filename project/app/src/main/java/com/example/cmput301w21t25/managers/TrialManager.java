@@ -1,10 +1,11 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.managers;
 
 import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -86,7 +87,7 @@ public class TrialManager {
     }
     /////////////////////////////////////////////////////////////////////////////////////
     //UPDATE TRIAL
-    public void FB_UpdateTrial(Trial trial,String id){
+    public void FB_UpdateTrial(Trial trial, String id){
         DocumentReference docRef = db.collection("TrialDocs").document(id);
         docRef
                 .update("trial", trial)

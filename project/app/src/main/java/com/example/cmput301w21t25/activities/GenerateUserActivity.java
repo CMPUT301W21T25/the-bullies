@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.user.User;
+import com.example.cmput301w21t25.managers.UserManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class GenerateUserActivity extends AppCompatActivity {

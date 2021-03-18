@@ -1,7 +1,4 @@
-package com.example.cmput301w21t25;
-
-import android.content.Context;
-import android.widget.Toast;
+package com.example.cmput301w21t25.trials;
 
 /**
  * @author Samadhi

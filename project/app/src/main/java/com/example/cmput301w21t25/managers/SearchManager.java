@@ -1,7 +1,6 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.managers;
 
-import android.util.Log;
-import android.widget.ArrayAdapter;
+import com.example.cmput301w21t25.experiments.Experiment;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;

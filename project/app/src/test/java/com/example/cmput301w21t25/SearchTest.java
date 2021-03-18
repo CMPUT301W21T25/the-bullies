@@ -1,5 +1,9 @@
 package com.example.cmput301w21t25;
 
+import com.example.cmput301w21t25.experiments.BinomialExperiment;
+import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.managers.SearchManager;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
