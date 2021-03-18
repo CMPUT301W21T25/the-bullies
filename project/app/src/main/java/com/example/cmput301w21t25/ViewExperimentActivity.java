@@ -14,7 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class InspectExperimentActivity extends AppCompatActivity {
+public class ViewExperimentActivity extends AppCompatActivity {
 
     private String expID;
     private String ownerID;
@@ -116,13 +116,13 @@ public class InspectExperimentActivity extends AppCompatActivity {
         //check if current user = experiment owner
         if (ownerID == currentUserID) {
             //switch to myprofile, pass myID
-            Intent intent = new Intent(InspectExperimentActivity.this, MyUserProfileActivity.class);
+            Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
             intent.putExtra("userID", currentUserID);
             startActivity(intent);
         }
         else {
             //switch to otherprofile, pass expOwnerID
-            Intent intent = new Intent(InspectExperimentActivity.this, OtherUserProfileActivity.class);
+            Intent intent = new Intent(ViewExperimentActivity.this, OtherUserProfileActivity.class);
             intent.putExtra("userID", ownerID);
             startActivity(intent);
         }

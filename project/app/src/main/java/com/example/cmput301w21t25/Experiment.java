@@ -108,6 +108,8 @@ public abstract class Experiment { //make abstract
     }
     private String testat;
 
+    public String getFb_id(){return this.fb_id;}
+    public void setFb_id(String id){this.fb_id = id;}
 
     /**
      * Adds a user to the list of all users and the list of subscribed users,

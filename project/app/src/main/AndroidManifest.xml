@@ -17,7 +17,7 @@
         <activity android:name=".SearchActivity" />
         <activity android:name=".MyUserProfileActivity" />
         <activity android:name=".HomeOwnedActivity" />
-        <activity android:name=".InspectExperimentActivity" />
+        <activity android:name=".ViewExperimentActivity" />
         <activity android:name=".InspectTrialActivity" />
         <activity android:name=".ExperimentDataActivity" />
         <activity android:name=".MainActivity">
