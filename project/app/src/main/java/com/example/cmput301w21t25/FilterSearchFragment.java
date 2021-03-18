@@ -35,7 +35,6 @@ public class FilterSearchFragment extends DialogFragment{
      * this will be returned to the SearchActivity to be processed
      */
 
-
     public interface OnFragmentInteractionListener{
         void onOkPressed(String allKeywords);
     }
@@ -69,21 +68,21 @@ public class FilterSearchFragment extends DialogFragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         allKeywords = keywordSentence.getText().toString();
-                        if(allKeywords == ""){
-                            //TODO: this is not working? whay???
-                            Toast.makeText(view.getContext(), "Please enter a keyword", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            //keywords = sentence.split(" ");
-                            for(int i = 0; i <chipGroup.getChildCount();i++){
-                                 Chip chip = (Chip) chipGroup.getChildAt(i);
-                                 if(chip.isChecked()){
-                                     allKeywords.concat(", " + chip.getText());
-                                 }
-                            }
-                            //TODO: Return the keywords/chips to be used to sort? Or use SearchManager
-                        }
-                        listener.onOkPressed(allKeywords);
+//                        if(allKeywords == ""){
+//                            //TODO: this is not working? whay???
+//                            Toast.makeText(view.getContext(), "Please enter a keyword", Toast.LENGTH_SHORT).show();
+//                        }
+//                        else{
+//                            //keywords = sentence.split(" ");
+//                            for(int i = 0; i <chipGroup.getChildCount();i++){
+//                                 Chip chip = (Chip) chipGroup.getChildAt(i);
+//                                 if(chip.isChecked()){
+//                                     allKeywords.concat(", " + chip.getText());
+//                                 }
+//                            }
+//                            //TODO: Return the keywords/chips to be used to sort? Or use SearchManager
+//                        }
+                        //listener.onOkPressed(allKeywords);
                     }
                 }).create();
 
