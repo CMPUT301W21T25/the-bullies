@@ -1,5 +1,10 @@
 package com.example.cmput301w21t25;
 
+import com.example.cmput301w21t25.experiments.BinomialExperiment;
+import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.trials.Trial;
+import com.example.cmput301w21t25.user.User;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

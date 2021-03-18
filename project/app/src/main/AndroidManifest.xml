@@ -9,18 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CMPUT301W21T25">
-        <activity android:name=".OtherUserProfileActivity"></activity>
-        <activity android:name=".CreateExperimentActivity"></activity>
-        <activity android:name=".TempRightActivity" />
-        <activity android:name=".GenerateUserActivity" />
-        <activity android:name=".HomeSubbedActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".MyUserProfileActivity" />
-        <activity android:name=".HomeOwnedActivity" />
-        <activity android:name=".ViewExperimentActivity" />
-        <activity android:name=".ViewTrialActivity" />
-        <activity android:name=".ExperimentDataActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities_user.OtherUserProfileActivity" />
+        <activity android:name=".activities_experiments.CreateExperimentActivity" />
+        <activity android:name=".activities_user.GenerateUserActivity" />
+        <activity android:name=".activities_main.HomeSubbedActivity" />
+        <activity android:name=".activities_main.SearchActivity" />
+        <activity android:name=".activities_user.MyUserProfileActivity" />
+        <activity android:name=".activities_main.HomeOwnedActivity" />
+        <activity android:name=".activities_experiments.ViewExperimentActivity" />
+        <activity android:name=".activities_trials.ViewTrialActivity" />
+        <activity android:name=".activities_experiments.ExperimentDataActivity" />
+        <activity android:name=".activities_main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
