@@ -2,10 +2,7 @@ package com.example.cmput301w21t25;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -21,14 +18,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-/**
- * Search through a list of all published experiments.
- */
 public class SearchActivity extends AppCompatActivity {
     public SearchManager searchManager = new SearchManager();
     ListView browseList;
     ArrayAdapter<Experiment> experimentArrayAdapter;
-    Button searchButton;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -42,21 +35,11 @@ public class SearchActivity extends AppCompatActivity {
         browseList = findViewById(R.id.search_exp_list_view);
         experimentArrayAdapter = new CustomListExperiment(this, experimentList, userID);
         browseList.setAdapter(experimentArrayAdapter);
-        searchButton = findViewById(R.id.exp_filter_button);
 
         FB_FetchExperimentList(userID);
-
-        searchButton.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new FilterSearchFragment().show(getSupportFragmentManager(),"FILTER_SEARCH");
-            }
-        });
         //finish();
 
-
     }
-
 
     /********************************************
      *            DB Functions HERE             *
@@ -65,6 +48,7 @@ public class SearchActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<String> subscriptionKeys = new ArrayList<String>();
     ArrayList<Experiment> experimentList = new ArrayList<Experiment>();
+
 
 
     public void FB_FetchExperimentList(String id) {
