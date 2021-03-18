@@ -2,6 +2,7 @@ package com.example.cmput301w21t25;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,11 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.chip.ChipGroup;
+
 import java.util.ArrayList;
 
-public class FilterSearchFragment extends DialogFragment {
+public class FilterSearchFragment extends DialogFragment{
     private EditText keywordSentence;
-    private String[] keywords;
+    private ChipGroup chipGroup;
+    //private String[] keywords;
     //TODO: learn how chips work?? How to record the return??
     private ArrayList<String> tags;
 
@@ -33,6 +37,14 @@ public class FilterSearchFragment extends DialogFragment {
         super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_filter,null);
         keywordSentence = view.findViewById(R.id.keyword_edit_text);
+        chipGroup = view.findViewById(R.id.chip_group);
+
+        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup group, int checkedId) {
+
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -44,11 +56,14 @@ public class FilterSearchFragment extends DialogFragment {
                         String sentence = keywordSentence.getText().toString();
 
                         if(sentence == ""){
+                            //TODO: this is not working? whay???
                             Toast.makeText(view.getContext(), "Please enter a keyword", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            keywords = sentence.split(" ");
-                            //TODO: Return the keywords/chips to be used to sort
+                            //keywords = sentence.split(" ");
+                            //TODO: Return the keywords/chips to be used to sort? Or use SearchManager
+
+
                         }
                     }
                 }).create();
