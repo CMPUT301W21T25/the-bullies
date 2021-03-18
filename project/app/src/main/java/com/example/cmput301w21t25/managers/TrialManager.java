@@ -36,7 +36,6 @@ public class TrialManager {
         trialDoc.put("experiment",parentExperimentID);
         trialDoc.put("geoLocation",geoLocation);
         trialDoc.put("published",published);
-        trialDoc.put("hidden",hidden);
         trialDoc.put("type",type);
         //experiment.put("comment", ); ill add this later
 
@@ -64,8 +63,6 @@ public class TrialManager {
         trialDoc.put("user",ownerID);
         trialDoc.put("experiment",parentExperimentID);
         trialDoc.put("published",published);
-        trialDoc.put("hidden",hidden);
-        trialDoc.put("type",type);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -87,36 +84,6 @@ public class TrialManager {
     }
     /////////////////////////////////////////////////////////////////////////////////////
     //UPDATE TRIAL
-    public void FB_UpdateTrial(Trial trial, String id){
-        DocumentReference docRef = db.collection("TrialDocs").document(id);
-        docRef
-                .update("trial", trial)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
-    }
-    public void FB_UpdateHidden(boolean hidden,String id){
-        DocumentReference docRef = db.collection("TrialDocs").document(id);
-        docRef
-                .update("hidden", hidden)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
-    }
     public void FB_UpdatePublished(boolean published,String id){
         DocumentReference docRef = db.collection("TrialDocs").document(id);
         docRef
