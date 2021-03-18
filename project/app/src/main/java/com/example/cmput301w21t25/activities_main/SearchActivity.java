@@ -1,13 +1,16 @@
 package com.example.cmput301w21t25.activities_main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.managers.SearchManager;
@@ -31,12 +34,14 @@ public class SearchActivity extends AppCompatActivity {
     ListView browseList;
     ArrayAdapter<Experiment> experimentArrayAdapter;
 
+    private String userID;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_browse_not_subbed);
 
-        String userID;
+
 
         userID = getIntent().getStringExtra("USER_ID");
 
@@ -145,5 +150,16 @@ public class SearchActivity extends AppCompatActivity {
                         }
                     });
         }
+
     }
+
+
+    public void viewExpOwnerButton(View view) {
+        //switch to profileView, pass userId
+        Intent intent = new Intent(SearchActivity.this, MyUserProfileActivity.class);
+        intent.putExtra("userID", userID);
+        startActivity(intent);
+    }
+
+
 }
