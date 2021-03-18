@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
 import com.example.cmput301w21t25.activities_experiments.ExperimentDataActivity;
-import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -34,45 +33,35 @@ import java.util.ArrayList;
 
 public class HomeOwnedActivity extends AppCompatActivity {
 
-    private ListView ownedExperimentsList;
+    private ListView ownedExperimentsListView;
+    private ArrayList<Experiment> ownedExperimentsList;
     private ArrayAdapter<Experiment> experimentAdapter;
-    private ArrayList<Experiment> ownedExperiments;
-
-
-
+    private String userID;
     private float x1;
     private float x2;
     private float y1;
     private float y2;
-
-    private String userID;
-
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_home_owned);
 
+        userID = getIntent().getStringExtra("USER_ID");
+        FB_FetchOwnedKeys(userID);
+
+        ownedExperimentsList = new ArrayList<Experiment>();
+        ownedExperimentsListView = findViewById(R.id.owned_experiment_list);
+        experimentAdapter = new CustomListExperiment(this, ownedExperimentsList);
+        ownedExperimentsListView.setAdapter(experimentAdapter);
+
         final FloatingActionButton createExperimentButton = findViewById(R.id.exp_create_button);
 
-
-        userID = getIntent().getStringExtra("USER_ID");
-        Log.d("DK:", "UserID = " + userID);
-        //this can be called on click when
-        //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
-        FB_FetchOwnedKeys(userID);
-        //finish();
-
-        ownedExperimentsList = findViewById(R.id.owned_experiment_list);
-        ownedExperiments = new ArrayList<Experiment>();
-        experimentAdapter = new CustomListExperiment(this, ownedExperiments);
-        ownedExperimentsList.setAdapter(experimentAdapter);
-
-        ownedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ownedExperimentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("YA-DB: ", "Does it click?");
-                Experiment experiment = (Experiment)ownedExperimentsList.getItemAtPosition(position);
+                Experiment experiment = (Experiment) ownedExperimentsListView.getItemAtPosition(position);
                 Intent newExp = new Intent(HomeOwnedActivity.this, ExperimentDataActivity.class);
                 newExp.putExtra("USER_ID", userID);
                 newExp.putExtra("TYPE", experiment.getType());
@@ -83,8 +72,8 @@ public class HomeOwnedActivity extends AppCompatActivity {
         });
 
 
-        //Prevent listview from eating onTouchEvent
-        ownedExperimentsList.setOnTouchListener(new View.OnTouchListener() {
+        //Prevent ListView from eating onTouchEvent
+        ownedExperimentsListView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 onTouchEvent(event);
@@ -92,6 +81,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
             }
         });
 
+        // OnClickListener to transfer user to Create Experiment Activity
         createExperimentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,11 +90,6 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 startActivity(newExp);
             }
         });
-
-
-
-
-
 
     }
 
@@ -168,7 +153,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches subscribed experiments
     public void FB_FetchOwned(ArrayList<String> ownedKeys){
-        ownedExperiments.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
+        ownedExperimentsList.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
         if(!ownedKeys.isEmpty()){
             for (String key : ownedKeys) {
                 DocumentReference docRef = db.collection("Experiments").document(key);
@@ -192,29 +177,29 @@ public class HomeOwnedActivity extends AppCompatActivity {
                                             BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
                                             binExp.setFb_id(document.getId());
                                             //binExp.setTrialKeys((ArrayList<String>)document.getData().get("trialKeys"));
-                                            ownedExperiments.add(binExp);
-                                            Log.d("YA-DB: ", "SearchResults " + ownedExperiments.get(0).getName());
+                                            ownedExperimentsList.add(binExp);
+                                            Log.d("YA-DB: ", "SearchResults " + ownedExperimentsList.get(0).getName());
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "count":
                                             final CountExperiment countExp = document.toObject(CountExperiment.class);
                                             countExp.setFb_id(document.getId());
                                             //countExp.setTrialKeys((ArrayList<String>)document.getData().get("trialKeys"));
-                                            ownedExperiments.add(countExp);
+                                            ownedExperimentsList.add(countExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "nonnegative count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                             nnCountExp.setFb_id(document.getId());
                                             //nnCountExp.setTrialKeys((ArrayList<String>)document.getData().get("trialKeys"));
-                                            ownedExperiments.add(nnCountExp);
+                                            ownedExperimentsList.add(nnCountExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "measurement":
                                             MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
                                             mesExp.setFb_id(document.getId());
                                             //mesExp.setTrialKeys((ArrayList<String>)document.getData().get("trialKeys"));
-                                            ownedExperiments.add(mesExp);
+                                            ownedExperimentsList.add(mesExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         default:
