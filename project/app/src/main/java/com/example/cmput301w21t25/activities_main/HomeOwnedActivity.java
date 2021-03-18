@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
-import com.example.cmput301w21t25.activities_experiments.ExperimentDataActivity;
+import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -62,7 +62,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("DK: ", "Position clicked = " + position);
                 Experiment experiment = (Experiment) ownedExperimentsListView.getItemAtPosition(position);
-                Intent viewExp = new Intent(HomeOwnedActivity.this, ExperimentDataActivity.class);
+                Intent viewExp = new Intent(HomeOwnedActivity.this, ViewExperimentActivity.class);
 
                 Bundle expBundle = new Bundle();
                 expBundle.putSerializable("EXP_OBJ", experiment);

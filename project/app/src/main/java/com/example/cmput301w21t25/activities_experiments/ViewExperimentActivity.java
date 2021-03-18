@@ -41,6 +41,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
         TextView expDesc = findViewById(R.id.exp_description_text_view);
 
         expName.setText(exp.getName());
+        expDesc.setText(exp.getDescription()); // currently an error but should resolve on merge
 
 
 
