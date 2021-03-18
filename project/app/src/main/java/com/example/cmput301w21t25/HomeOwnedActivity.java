@@ -41,7 +41,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
         //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
-        FB_FetchOwnedKeys("fdNzWupOTDKvwkrVHMADau");
+        FB_FetchOwnedKeys("userID");
         //finish();
 
         ownedExperimentsList = findViewById(R.id.owned_experiment_list);
@@ -149,22 +149,26 @@ public class HomeOwnedActivity extends AppCompatActivity {
                                         case "binomial":
                                             //ArrayList<Experiment>test = new ArrayList<Experiment>();
                                             BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
+                                            binExp.setFb_id(document.getId());
                                             ownedExperiments.add(binExp);
                                             Log.d("YA-DB: ", "SearchResults " + ownedExperiments.get(0).getName());
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "count":
                                             final CountExperiment countExp = document.toObject(CountExperiment.class);
+                                            countExp.setFb_id(document.getId());
                                             ownedExperiments.add(countExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "non-neg-count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
+                                            nnCountExp.setFb_id(document.getId());
                                             ownedExperiments.add(nnCountExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "measurement":
                                             MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
+                                            mesExp.setFb_id(document.getId());
                                             ownedExperiments.add(mesExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
