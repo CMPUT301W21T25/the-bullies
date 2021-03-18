@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25.activities;
+package com.example.cmput301w21t25.activities_main;
 
 import android.content.Intent;
 import android.location.Location;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_user.GenerateUserActivity;
 import com.example.cmput301w21t25.user.User;
 import com.example.cmput301w21t25.managers.UserManager;
 import com.example.cmput301w21t25.managers.ExperimentManager;
@@ -86,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_UP:
                 x2 = event.getX();
                 if (x1 > (x2)) {
-                    Intent switchScreen = new Intent(MainActivity.this, TempRightActivity.class);
-                    startActivity(switchScreen);
+                    //Intent switchScreen = new Intent(MainActivity.this, TempRightActivity.class);
+                    //startActivity(switchScreen);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 break;

@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25.activities;
+package com.example.cmput301w21t25.activities_experiments;
 
 import android.os.Bundle;
 import android.util.Log;

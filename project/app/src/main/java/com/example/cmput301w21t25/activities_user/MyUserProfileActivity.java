@@ -1,10 +1,8 @@
-package com.example.cmput301w21t25.activities;
+package com.example.cmput301w21t25.activities_user;
 
 import android.os.Bundle;
-
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,24 +10,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cmput301w21t25.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class OtherUserProfileActivity extends AppCompatActivity {
+public class MyUserProfileActivity extends AppCompatActivity {
     //attributes
     private String Username;
     private String ContactInfo;
-
     private String userID;
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_otherprofile_view);
+        setContentView(R.layout.activity_myprofile_view);
         userID = getIntent().getStringExtra("userID");
         FB_FetchUserInfo(userID);
     }
+
+
 
 
     /********************************************
@@ -49,11 +49,12 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                         Username = (String)document.getData().get("name");
                         ContactInfo = (String)document.getData().get("email");
                         Log.d("YA-DB: ", "DocumentSnapshot data: " + Username);
-                        //update VIEWTEXT fields
-                        TextView viewName = findViewById(R.id.viewName);
-                        viewName.setText(Username);
-                        TextView viewEmail = findViewById(R.id.viewEmail);
-                        viewEmail.setText(ContactInfo);
+                        //update EDITTEXT fields
+                        EditText editName = findViewById(R.id.updateName);
+                        EditText editEmail = findViewById(R.id.updateEmail);
+                        editName.setText(Username);
+                        editEmail.setText(ContactInfo);
+
 
 
 
@@ -64,17 +65,4 @@ public class OtherUserProfileActivity extends AppCompatActivity {
             }
         });
     }
-
-
-    public void backButton(View view) {
-        //Intent intent = new Intent(OtherUserProfileActivity.this, <class with experiment view>)
-        //add current userID to intent
-        //add anything else?
-
-    }
 }
-
-
-
-
-

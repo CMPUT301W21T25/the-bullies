@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25.activities;
+package com.example.cmput301w21t25.activities_main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,51 +21,63 @@ import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
 import java.util.ArrayList;
 
-public class HomeOwnedActivity extends AppCompatActivity {
+public class HomeSubbedActivity extends AppCompatActivity {
 
-    private ListView ownedExperimentsList;
+    private ListView subbedExperimentsList;
     private ArrayAdapter<Experiment> experimentAdapter;
-    private ArrayList<Experiment> ownedExperiments;
+    private ArrayList<Experiment> subbedExperiments;
+    private FloatingActionButton browseButton;
 
     private float x1;
     private float x2;
     private float y1;
     private float y2;
 
-    private String userID;
+    String userID;
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_created);
+        setContentView(R.layout.activity_home_subbed);
 
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
-        //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
-        FB_FetchOwnedKeys("userID");
+        FB_FetchSubscriptionsKeys(userID);
         //finish();
 
-        ownedExperimentsList = findViewById(R.id.owned_experiment_list);
-        ownedExperiments = new ArrayList<Experiment>();
-        experimentAdapter = new CustomListExperiment(this, ownedExperiments, userID);
-        ownedExperimentsList.setAdapter(experimentAdapter);
+        browseButton = findViewById(R.id.exp_search_button);
 
-        ownedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        subbedExperimentsList = findViewById(R.id.subbed_experiment_list_view);
+        subbedExperiments = new ArrayList<Experiment>();
+        experimentAdapter = new CustomListExperiment(this, subbedExperiments, userID);
+        subbedExperimentsList.setAdapter(experimentAdapter);
+
+        subbedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("YA-DB: ", "Does it click?");
             }
         });
 
+        browseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent switchScreen = new Intent(HomeSubbedActivity.this, SearchActivity.class);
+                switchScreen.putExtra("USER_ID", userID);
+                startActivity(switchScreen);
+            }
+        });
 
         //Prevent listview from eating onTouchEvent
-        ownedExperimentsList.setOnTouchListener(new View.OnTouchListener() {
+        subbedExperimentsList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 onTouchEvent(event);
@@ -94,26 +106,25 @@ public class HomeOwnedActivity extends AppCompatActivity {
                     return false;
                 }
 
-                if (x1 > (x2)) {
-                    Intent switchScreen = new Intent(HomeOwnedActivity.this, HomeSubbedActivity.class);
+                if (x1 < (x2)) {
+                    Intent switchScreen = new Intent(HomeSubbedActivity.this, HomeOwnedActivity.class);
                     switchScreen.putExtra("USER_ID", userID);
                     startActivity(switchScreen);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }
                 break;
         }
         return super.onTouchEvent(event);
     }
-
-
     /********************************************
      *            DB Functions HERE             *
      ********************************************
      *******************************************/
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ArrayList<String> ownedKeys = new ArrayList<String>();
-    public void FB_FetchOwnedKeys(String id){
-        ownedKeys.clear();
+    ArrayList<String>subscriptionKeys = new ArrayList<String>();
+    ArrayList<Experiment>subscriptionList = new ArrayList<Experiment>();
+    public void FB_FetchSubscriptionsKeys(String id){
+        subscriptionKeys.clear();
         DocumentReference docRef = db.collection("UserProfile").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -121,9 +132,9 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        ownedKeys = (ArrayList<String>) document.getData().get("ownedExperiments");
-                        Log.d("YA-DB: ", "DocumentSnapshot data: " + ownedKeys + "User ID: " + id);
-                        FB_FetchOwned(ownedKeys);
+                        subscriptionKeys = (ArrayList<String>) document.getData().get("subscriptions");
+                        Log.d("YA-DB: ", "DocumentSnapshot data: " + subscriptionKeys);
+                        FB_FetchSubscriptions(subscriptionKeys);
                     }
                 } else {
                     Log.d("YA-DB: ", "get failed with ", task.getException());
@@ -133,10 +144,10 @@ public class HomeOwnedActivity extends AppCompatActivity {
     }
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches subscribed experiments
-    public void FB_FetchOwned(ArrayList<String> ownedKeys){
-        ownedExperiments.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
-        if(ownedKeys.isEmpty()==false){
-            for (String key : ownedKeys) {
+    public void FB_FetchSubscriptions(ArrayList<String> subscriptionKeys){
+        subscriptionList.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
+        if(subscriptionKeys.isEmpty()==false){
+            for (String key : subscriptionKeys) {
                 DocumentReference docRef = db.collection("Experiments").document(key);
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -144,39 +155,36 @@ public class HomeOwnedActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                //ownedExperiments.add(document.toObject(Experiment.class));
-                                //@Yalmaz I don't think we need this next line?
-                                //Experiment test = document.toObject(Experiment.class);
-                                //Log.d("YA-DB: ", "SearchResults " + test.getName());
                                 String type = (String)document.getData().get("type");
-                                Log.d("YA-DB: ", "testing");
-
                                 if(type!=null) {
                                     switch (type) {
                                         case "binomial":
-                                            //ArrayList<Experiment>test = new ArrayList<Experiment>();
                                             BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
-                                            binExp.setFb_id(document.getId());
-                                            ownedExperiments.add(binExp);
-                                            Log.d("YA-DB: ", "SearchResults " + ownedExperiments.get(0).getName());
+                                            binExp.setFb_id(document.getId());///TO DO: PUT THIS IN FUNCTION TO CUT REPEATED CODE
+                                            subscriptionList.add(binExp);
+                                            subbedExperiments.add(binExp);
                                             experimentAdapter.notifyDataSetChanged();
+                                            Log.d("YA-DB: ", "SearchResults " + subscriptionList.get(0).getName());
                                             break;
                                         case "count":
                                             final CountExperiment countExp = document.toObject(CountExperiment.class);
                                             countExp.setFb_id(document.getId());
-                                            ownedExperiments.add(countExp);
+                                            subscriptionList.add(countExp);
+                                            subbedExperiments.add(countExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "non-neg-count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                             nnCountExp.setFb_id(document.getId());
-                                            ownedExperiments.add(nnCountExp);
+                                            subscriptionList.add(nnCountExp);
+                                            subbedExperiments.add(nnCountExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         case "measurement":
                                             MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
                                             mesExp.setFb_id(document.getId());
-                                            ownedExperiments.add(mesExp);
+                                            subscriptionList.add(mesExp);
+                                            subbedExperiments.add(mesExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
                                         default:
@@ -195,19 +203,4 @@ public class HomeOwnedActivity extends AppCompatActivity {
             }
         }
     }
-
-    /**
-     * Is called when a user clicks on their profile image
-     * Will switch to a profile view activity
-     * Curtis
-     * @param view
-     */
-    public void viewExpOwnerButton(View view) {
-        //switch to profileView, pass userId
-        Intent intent = new Intent(HomeOwnedActivity.this, MyUserProfileActivity.class);
-        intent.putExtra("userID", userID);
-        startActivity(intent);
-    }
-
-
 }
