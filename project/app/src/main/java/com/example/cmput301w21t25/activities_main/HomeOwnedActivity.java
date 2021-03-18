@@ -53,6 +53,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
         final FloatingActionButton createExperimentButton = findViewById(R.id.exp_create_button);
 
         userID = getIntent().getStringExtra("USER_ID");
+        Log.d("DK:", "UserID = " + userID);
         //this can be called on click when
         //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
         FB_FetchOwnedKeys("userID");
@@ -157,7 +158,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     //this only searches subscribed experiments
     public void FB_FetchOwned(ArrayList<String> ownedKeys){
         ownedExperiments.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
-        if(ownedKeys.isEmpty()==false){
+        if(!ownedKeys.isEmpty()){
             for (String key : ownedKeys) {
                 DocumentReference docRef = db.collection("Experiments").document(key);
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
