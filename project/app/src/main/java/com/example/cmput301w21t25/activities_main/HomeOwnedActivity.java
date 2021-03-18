@@ -53,6 +53,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
 
         final FloatingActionButton createExperimentButton = findViewById(R.id.exp_create_button);
 
+
         userID = getIntent().getStringExtra("USER_ID");
         Log.d("DK:", "UserID = " + userID);
         //this can be called on click when
