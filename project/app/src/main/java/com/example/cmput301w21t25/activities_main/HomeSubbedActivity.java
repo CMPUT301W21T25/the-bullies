@@ -173,7 +173,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
                                             subbedExperiments.add(countExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
-                                        case "non-neg-count":
+                                        case "nonnegative count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                             nnCountExp.setFb_id(document.getId());
                                             subscriptionList.add(nnCountExp);

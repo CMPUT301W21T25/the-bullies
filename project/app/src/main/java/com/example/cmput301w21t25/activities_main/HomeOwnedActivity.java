@@ -190,7 +190,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
                                             ownedExperiments.add(countExp);
                                             experimentAdapter.notifyDataSetChanged();
                                             break;
-                                        case "non-neg-count":
+                                        case "nonnegative count":
                                             NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                             nnCountExp.setFb_id(document.getId());
                                             ownedExperiments.add(nnCountExp);

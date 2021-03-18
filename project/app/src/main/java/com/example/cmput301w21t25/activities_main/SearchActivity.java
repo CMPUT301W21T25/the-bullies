@@ -115,7 +115,7 @@ public class SearchActivity extends AppCompatActivity {
                                                     experimentList.add(countExp);
                                                     experimentArrayAdapter.notifyDataSetChanged();
                                                     break;
-                                                case "non-neg-count":
+                                                case "nonnegative count":
                                                     NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                                     nnCountExp.setFb_id(document.getId());
                                                     experimentList.add(nnCountExp);
