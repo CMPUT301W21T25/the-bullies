@@ -44,17 +44,23 @@ public class ViewExperimentActivity extends AppCompatActivity {
                     if (document.exists()) {
                         String type = (String)document.getData().get("type");
                         switch (type){
-                            case "Binomial":
-                                BinomialExperiment binomialExperiment = new BinomialExperiment();
-                                binomialExperiment = document.toObject(BinomialExperiment.class);
+                            case "binomial":
+                                BinomialExperiment binomialExperiment = document.toObject(BinomialExperiment.class);
+                                binomialExperiment.setFb_id(document.getId());
                                 break;
-                            case"Count":
-                                CountExperiment countExperiment = new CountExperiment();
-                                countExperiment = document.toObject(CountExperiment.class);
+                            case"count":
+                                CountExperiment countExperiment = document.toObject(CountExperiment.class);
+                                countExperiment.setFb_id(document.getId());
                                 break;
-                            case"Measurement":
-                                MeasurementExperiment measurementExperiment = new MeasurementExperiment();
-                                measurementExperiment = document.toObject(MeasurementExperiment.class);
+                            case"non-neg-count":
+                                NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
+                                nnCountExp.setFb_id(document.getId());
+
+                                break;
+                            case"measurement":
+                                MeasurementExperiment measurementExperiment = document.toObject(MeasurementExperiment.class);
+                                measurementExperiment.setFb_id(document.getId());
+
                                 break;
                         }
                     }
