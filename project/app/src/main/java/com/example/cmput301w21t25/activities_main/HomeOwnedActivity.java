@@ -60,17 +60,19 @@ public class HomeOwnedActivity extends AppCompatActivity {
         ownedExperimentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("YA-DB: ", "Does it click?");
+                Log.d("DK: ", "Position clicked = " + position);
                 Experiment experiment = (Experiment) ownedExperimentsListView.getItemAtPosition(position);
-                Intent newExp = new Intent(HomeOwnedActivity.this, ExperimentDataActivity.class);
-                newExp.putExtra("USER_ID", userID);
-                newExp.putExtra("TYPE", experiment.getType());
-                newExp.putExtra("EXP", experiment);
-                //newExp.putExtra("USER_ID", experiment);
-                startActivity(newExp);
+                Intent viewExp = new Intent(HomeOwnedActivity.this, ExperimentDataActivity.class);
+
+                Bundle expBundle = new Bundle();
+                expBundle.putSerializable("EXP_OBJ", experiment);
+
+                viewExp.putExtra("USER_ID", userID);
+                viewExp.putExtra("EXP_BUNDLE", expBundle);
+
+                startActivity(viewExp);
             }
         });
-
 
         //Prevent ListView from eating onTouchEvent
         ownedExperimentsListView.setOnTouchListener(new View.OnTouchListener() {
