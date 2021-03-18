@@ -58,7 +58,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
         Log.d("DK:", "UserID = " + userID);
         //this can be called on click when
         //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
-        FB_FetchOwnedKeys("userID");
+        FB_FetchOwnedKeys(userID);
         //finish();
 
         ownedExperimentsList = findViewById(R.id.owned_experiment_list);
