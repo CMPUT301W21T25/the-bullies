@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class SearchManager {
+
+    public SearchManager(){
+
+    }
+
     public ArrayList<String> parseKeywords(String keywords) {
 
         ArrayList<String> keywordList = new ArrayList<String>();

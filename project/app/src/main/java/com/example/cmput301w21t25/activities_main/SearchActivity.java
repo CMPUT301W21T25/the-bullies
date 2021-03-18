@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,11 +31,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements FilterSearchFragment.OnFragmentInteractionListener{
     public SearchManager searchManager = new SearchManager();
     ListView browseList;
     ArrayAdapter<Experiment> experimentArrayAdapter;
     Button searchButton;
+    String allKeywords;
 
     private String userID;
 
@@ -60,6 +62,13 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onOkPressed(String allKeywords) {
+        Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
+        this.allKeywords = allKeywords;
+        FB_FetchNotSubscribed(subscriptionKeys);
     }
 
     /********************************************
@@ -152,13 +161,10 @@ public class SearchActivity extends AppCompatActivity {
                                     }
                                 }
                                 //call search manager here
-                                //searchManager.searchExperimentKeywords();
+                                searchManager.searchExperiments(allKeywords, experimentList);
                             }
                         }
                     });
 
     }
-
-
-
 }
