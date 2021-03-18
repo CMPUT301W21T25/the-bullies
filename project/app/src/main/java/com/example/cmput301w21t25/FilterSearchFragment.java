@@ -37,9 +37,8 @@ public class FilterSearchFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Filter Experiment")
-                .setNegativeButton("Cancel",null)
-                .setPositiveButton("Filter", new DialogInterface.OnClickListener() {
+                .setNegativeButton("CANCEL",null)
+                .setPositiveButton("FILTER", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String sentence = keywordSentence.getText().toString();

@@ -34,7 +34,7 @@
             android:onClick="viewExpOwnerButton"
             android:paddingLeft="30px"
             android:background="@android:color/transparent"
-            tools:srcCompat="@android:drawable/ic_dialog_info" />
+            app:srcCompat="@android:drawable/ic_dialog_info" />
     </LinearLayout>
 
 
@@ -61,7 +61,7 @@
         android:layout_marginBottom="11dp"
         android:clickable="true"
         android:focusable="true"
-        tools:srcCompat="@android:drawable/ic_search_category_default"
+        app:srcCompat="@android:drawable/ic_search_category_default"
         app:backgroundTint="@color/custom_Yellow_dark" />
 
 </RelativeLayout>

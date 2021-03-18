@@ -3,14 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/list_info_background"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:layout_margin="10px">
 
     <TextView
         android:id="@+id/keyword_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter a keyword:" />
+        android:textAlignment="center"
+        android:text="Enter a keyword:"
+        android:textSize="20sp"
+        android:gravity="center_horizontal" />
 
     <EditText
         android:id="@+id/keyword_edit_text"
@@ -19,10 +22,14 @@
         android:ems="10"/>
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tag_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose a tag to filter by:" />
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:text="Choose a tag to filter by:"
+        android:gravity="center_horizontal" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +37,7 @@
         android:orientation="horizontal">
 
         <com.google.android.material.chip.ChipGroup
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
@@ -81,9 +88,13 @@
 
     </LinearLayout>
 
+    <!--
     <Button
         android:id="@+id/search_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search" />
+        android:text="Search"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/custom_Yellow_dark"/>
+    -->
 </LinearLayout>
