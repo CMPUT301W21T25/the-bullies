@@ -2,12 +2,16 @@ package com.example.cmput301w21t25.activities_main;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.FilterSearchFragment;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -30,6 +34,7 @@ public class SearchActivity extends AppCompatActivity {
     public SearchManager searchManager = new SearchManager();
     ListView browseList;
     ArrayAdapter<Experiment> experimentArrayAdapter;
+    Button searchButton;
 
     private String userID;
 
@@ -38,16 +43,22 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(passedData);
         setContentView(R.layout.activity_browse_not_subbed);
 
-
-
         userID = getIntent().getStringExtra("USER_ID");
 
         browseList = findViewById(R.id.search_exp_list_view);
         experimentArrayAdapter = new CustomListExperiment(this, experimentList, userID);
         browseList.setAdapter(experimentArrayAdapter);
+        searchButton = findViewById(R.id.exp_filter_button);
 
         FB_FetchExperimentList(userID);
         //finish();
+
+        searchButton.setOnClickListener(new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new FilterSearchFragment().show(getSupportFragmentManager(),"FILTER_SEARCH");
+            }
+        });
 
     }
 

@@ -6,18 +6,11 @@
     android:padding="5dp"
     android:layout_margin="10px">
 
-    <TextView
-        android:id="@+id/keyword_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Enter a keyword:"
-        android:textSize="20sp"
-        android:gravity="center_horizontal" />
 
     <EditText
         android:id="@+id/keyword_edit_text"
         android:layout_width="match_parent"
+        android:hint="Enter a keyword:"
         android:layout_height="wrap_content"
         android:ems="10"/>
 
