@@ -130,7 +130,9 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
                                                     BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
                                                     binExp.setFb_id(document.getId());
                                                     experimentList.add(binExp);
+                                                    Log.d("BINOMIAL", String.valueOf(experimentList));
                                                     experimentArrayAdapter.notifyDataSetChanged();
+                                                    Log.d("BUTTS", "Life is Trash");
                                                     Log.d("YA-DB: ", "SearchResults " + experimentList.get(0).getName());
                                                     break;
                                                 case"count":
@@ -138,6 +140,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
                                                     countExp.setFb_id(document.getId());
                                                     experimentList.add(countExp);
                                                     experimentArrayAdapter.notifyDataSetChanged();
+                                                    Log.d("BUTTS", "Life is Trash");
                                                     Log.d("StupidWhy", String.valueOf(countExp.getTags()));
                                                     break;
                                                 case "nonnegative count":
@@ -145,12 +148,14 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
                                                     nnCountExp.setFb_id(document.getId());
                                                     experimentList.add(nnCountExp);
                                                     experimentArrayAdapter.notifyDataSetChanged();
+                                                    Log.d("BUTTS", "Life is Trash");
                                                     break;
                                                 case"measurement":
                                                     MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
                                                     mesExp.setFb_id(document.getId());
                                                     experimentList.add(mesExp);
                                                     experimentArrayAdapter.notifyDataSetChanged();
+                                                    Log.d("BUTTS", "Life is Trash");
                                                     //Log.d("StupidWhy", String.valueOf(mesExp.getTags()));
                                                     break;
                                                 default:
@@ -167,8 +172,10 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
                                 }
                                 //call search manager here
                                 if(allKeywords != null){
-                                    Log.d("YA-DB returning: ", String.valueOf(allKeywords));
-                                    experimentList = searchManager.searchExperiments(allKeywords, experimentList);
+                                    //Get keyword matches
+                                    ArrayList<Experiment> temp = searchManager.searchExperiments(allKeywords, experimentList);
+                                    experimentList.clear();
+                                    experimentList.addAll(temp);
                                     experimentArrayAdapter.notifyDataSetChanged();
                                 }
                                 else{
