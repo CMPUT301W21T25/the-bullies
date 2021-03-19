@@ -127,8 +127,8 @@ public class TrialManager {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                         ArrayList<String> newKeyList = parent.getTrialKeys();
-                        newKeyList.add(documentReference.getId());
-                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+//                        newKeyList.add(documentReference.getId());
+//                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
 
                         DocumentReference docRef = db.collection("Experiments").document(parentExperimentID);
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -189,8 +189,8 @@ public class TrialManager {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                         ArrayList<String> newKeyList = parent.getTrialKeys();
-                        newKeyList.add(documentReference.getId());
-                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+//                        newKeyList.add(documentReference.getId());
+//                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
 
                         DocumentReference docRef = db.collection("Experiments").document(parentExperimentID);
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
