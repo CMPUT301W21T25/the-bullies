@@ -31,7 +31,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public abstract class Experiment implements Serializable { //make abstract
+public abstract class Experiment implements Serializable {
 
     /****************************************
                     ATTRIBUTES

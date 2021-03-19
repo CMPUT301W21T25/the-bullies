@@ -47,6 +47,13 @@ public class ExperimentDataActivity extends AppCompatActivity {
     TextView deviationTextView;
     TextView successRateTextView;
 
+    private double mean;
+    private double sDev;
+    private double median;
+    private double Lquart;
+    private double Uquart;
+    private double successRate;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle passedData) {
@@ -54,6 +61,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_experiment_data);
         String type;
         type = getIntent().getStringExtra("TYPE");
+        Experiment exp = (Experiment) getIntent().getSerializableExtra("EXP");
 
         experimentInfo = findViewById(R.id.viewExperimentDataInfo);
         descriptionTextView = findViewById(R.id.viewExperimentDataDescription);
@@ -67,35 +75,35 @@ public class ExperimentDataActivity extends AppCompatActivity {
 
         switch(type){
             case "count":
-                CountExperiment countParent = (CountExperiment) getIntent().getSerializableExtra("EXP");
-                displayExperimentInfo(countParent);
+                CountExperiment countParent = (CountExperiment) exp;
                 FB_FetchSummary(countParent);
                 break;
             case "binomial":
-                BinomialExperiment binomialParent = (BinomialExperiment) getIntent().getSerializableExtra("EXP");
-                displayExperimentInfo(binomialParent);
+                BinomialExperiment binomialParent = (BinomialExperiment) exp;
                 FB_FetchSummary(binomialParent);
                 break;
             case "non-neg-count":
-                NonNegCountExperiment nnCountParent = (NonNegCountExperiment) getIntent().getSerializableExtra("EXP");
-                displayExperimentInfo(nnCountParent);
+                NonNegCountExperiment nnCountParent = (NonNegCountExperiment) exp;
                 FB_FetchSummary(nnCountParent);
                 break;
             case "measurement":
-                MeasurementExperiment measurementParent = (MeasurementExperiment) getIntent().getSerializableExtra("EXP");
-                displayExperimentInfo(measurementParent);
+                MeasurementExperiment measurementParent = (MeasurementExperiment) exp;
                 FB_FetchSummary(measurementParent);
                 break;
         }
 
-        //finish();
-    }
+        experimentInfo.setTitle(exp.getName());
+        experimentInfo.setSubtitle(formatDate(exp.getDate()));
+        descriptionTextView.setText(exp.getDescription());
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void displayExperimentInfo(Experiment experiment) {
-        experimentInfo.setTitle(experiment.getName());
-        experimentInfo.setSubtitle(formatDate(experiment.getDate()));
-        descriptionTextView.setText(experiment.getDescription());
+        if (exp.getType() == "binomial") {
+
+        }
+
+        else  {
+
+        }
+        //finish();
     }
 
     private String formatDate(Date date) {
@@ -122,18 +130,17 @@ public class ExperimentDataActivity extends AppCompatActivity {
                             countSUM = countSUM + trial.getResult();//total
                         }
                     }
-                    double mean = countSUM/Double.valueOf(values.size());//mean
+                    mean = countSUM/Double.valueOf(values.size());//mean
                     double squareDiff =0;
                     double total = 0;
-                    double sDev =0.0;
                     for(int i =0;i<values.size();i++){
                         squareDiff =Math.pow((values.get(i)-mean),2);
                         total++;
                     }
                     sDev = sqrt((squareDiff/total));//standard deviation
-                    int median = values.get(values.size()/2);
-                    int Lquart = values.get(values.size()/4);
-                    int Uquart = values.get(3*values.size()/4);
+                    median = values.get(values.size()/2);
+                    Lquart = values.get(values.size()/4);
+                    Uquart = values.get(3*values.size()/4);
                 }
             }
         });
@@ -153,18 +160,17 @@ public class ExperimentDataActivity extends AppCompatActivity {
                             countSUM = countSUM + trial.getResult();//total
                         }
                     }
-                    double mean = countSUM/Double.valueOf(values.size());//mean
+                    mean = countSUM/Double.valueOf(values.size());//mean
                     double squareDiff =0;
                     double total = 0;
-                    double sDev =0.0;
                     for(int i =0;i<values.size();i++){
                         squareDiff =Math.pow((values.get(i)-mean),2);
                         total++;
                     }
                     sDev = sqrt((squareDiff/total));//standard deviation
-                    int median = values.get(values.size()/2);
-                    int Lquart = values.get(values.size()/4);
-                    int Uquart = values.get(3*values.size()/4);
+                    median = values.get(values.size()/2);
+                    Lquart = values.get(values.size()/4);
+                    Uquart = values.get(3*values.size()/4);
                 }
             }
         });
@@ -185,18 +191,17 @@ public class ExperimentDataActivity extends AppCompatActivity {
                             countSUMF = countSUMF + trial.getResult();//total
                         }
                     }
-                    double mean = countSUM/Double.valueOf(values.size());//mean
+                    mean = countSUM/Double.valueOf(values.size());//mean
                     double squareDiff =0;
                     double total = 0;
-                    double sDev =0.0;
                     for(int i =0;i<values.size();i++){
                         squareDiff =Math.pow((values.get(i)-mean),2);
                         total++;
                     }
                     sDev = sqrt((squareDiff/total));//standard deviation
-                    float median = values.get(values.size()/2);
-                    float Lquart = values.get(values.size()/4);
-                    float Uquart = values.get(3*values.size()/4);
+                    median = values.get(values.size()/2);
+                    Lquart = values.get(values.size()/4);
+                    Uquart = values.get(3*values.size()/4);
                 }
             }
         });
@@ -221,7 +226,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                             totalCount++;//total
                         }
                     }
-                    Float successRate = Float.valueOf((successCount / totalCount));
+                    successRate = Float.valueOf((successCount / totalCount));
                 }
             }
         });

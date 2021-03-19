@@ -31,6 +31,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
     EditText experimentName;
     EditText experimentDescription;
     EditText experimentTags;
+    EditText minimumTrials;
 
     ArrayList<String> experimentKeywords;
     String type;
@@ -62,6 +63,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
         experimentName = findViewById(R.id.editTextExpName);
         experimentDescription = findViewById(R.id.editTextEnterDescription);
         experimentTags = findViewById(R.id.editTextKeywords);
+        minimumTrials = findViewById(R.id.editTextMinTrials);
 
         published = findViewById(R.id.checkBoxPublish);
         geolocationEnabled = findViewById(R.id.checkBoxGeolocation);
@@ -82,6 +84,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
 
                 String description = experimentDescription.getText().toString();
                 String name = experimentName.getText().toString();
+                String minTrials = minimumTrials.getText().toString();
 
                 //Experiment keywords parsed and cast to lower case on creation to ensure
                 //compatibility with User keyword search later on
@@ -102,7 +105,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 experimentOwner = (String) document.getData().get("name");
-                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, testLocal, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date());
+                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, testLocal, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials);
                                 //
                             }
                         }
