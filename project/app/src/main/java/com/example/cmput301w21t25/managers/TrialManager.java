@@ -33,7 +33,7 @@ public class TrialManager {
     //extra attributes to make ur life easier:
     /////////////////////////////////////////////////////////////////////////////////////
     //INITIALIZE EXPERIMENT
-    public void FB_CreateCountTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, int result, Experiment parent, Date date){
+    public void FB_CreateCountTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, int result, Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -42,7 +42,7 @@ public class TrialManager {
         trialDoc.put("experimentOwnerName",parentExperimentOwnerName);
         trialDoc.put("published",published);
         trialDoc.put("result",result);
-        trialDoc.put("date", date);
+        trialDoc.put("date", new Date());
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -65,7 +65,7 @@ public class TrialManager {
                     }
                 });
     }
-    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent, Date date){
+    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -74,7 +74,7 @@ public class TrialManager {
         trialDoc.put("experimentOwnerName",parentExperimentOwnerName);
         trialDoc.put("published",published);
         trialDoc.put("result",result);
-        trialDoc.put("date", date);
+        trialDoc.put("date", new Date());
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -97,7 +97,7 @@ public class TrialManager {
                     }
                 });
     }
-    public void FB_CreateMeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent, Date date){
+    public void FB_CreateMeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -106,7 +106,7 @@ public class TrialManager {
         trialDoc.put("experimentOwnerName",parentExperimentOwnerName);
         trialDoc.put("published",published);
         trialDoc.put("result",result);
-        trialDoc.put("date", date);
+        trialDoc.put("date", new Date());
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
