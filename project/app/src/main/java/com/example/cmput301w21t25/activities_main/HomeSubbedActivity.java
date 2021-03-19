@@ -57,7 +57,6 @@ public class HomeSubbedActivity extends AppCompatActivity {
 
         browseButton = findViewById(R.id.exp_search_button);
 
-
         subbedExperimentsList = findViewById(R.id.subbed_experiment_list_view);
         subbedExperiments = new ArrayList<Experiment>();
         experimentAdapter = new CustomListExperiment(this, subbedExperiments);
@@ -97,6 +96,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
                 return false;
             }
         });
+
 
 
 
