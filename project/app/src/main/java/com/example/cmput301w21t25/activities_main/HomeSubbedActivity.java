@@ -45,12 +45,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
 
     String userID;
 
-    @Override
-    protected void onResume() {
-        //list refresh
-        super.onResume();
-        FB_FetchSubscriptionsKeys(userID);
-    }
+
 
     @Override
     protected void onCreate(Bundle passedData) {
