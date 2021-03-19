@@ -18,10 +18,15 @@ public class NonNegCountTrial extends Trial{
         this.result = result;
     }*/
 
+    /**
+     * getter for the result of the trial
+     * @return Integer value which is the result of the trial
+     */
     public Integer getResult() {
         return result;
     }
 
+    //these methods are not utilized yet and are subject to change as such have yet to be documented fully
     /**
      * @param result This is the number which will be recorded for the trial
      */

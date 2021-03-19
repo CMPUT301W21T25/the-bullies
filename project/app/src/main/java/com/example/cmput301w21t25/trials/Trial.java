@@ -44,7 +44,7 @@ public abstract class Trial {
 
     /**
      * Constructor for Trial that uses the new user attribute whcih is a string
-     * @author:Yalmaz
+     * @author Yalmaz
      * @param userID
      * @param experimentName
      * @param experimentOwnerName
@@ -65,19 +65,31 @@ public abstract class Trial {
     /****************************************
                     METHODS
      ****************************************/
-    //public getters
-
+    /**
+     * getter for the experiment name
+     * @return returns string value which is the experiment name
+     */
     public String getExperimentName() {
         return experimentName;
     }
-    public User getExperimenter() {
-        return experimenter;
-    }
+    /**
+     * getter for the user
+     * @return returns string value which is the user ID
+     */
     public String getUser() {
         return userID;
+    }
+    /**
+     * getter for the trial date
+     * @return returns Date object that is the date of creation for this trial
+     */
+    public Date getDate() { return date; }
+
+    //these methods are not fully implement and thus have not been documented yet
+    public User getExperimenter() {
+        return experimenter;
     }
     public String getExperimentOwnerName() {
         return experimentOwnerName;
     }
-    public Date getDate() { return date; }
 }
