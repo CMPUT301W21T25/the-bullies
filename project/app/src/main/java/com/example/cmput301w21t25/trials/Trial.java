@@ -6,7 +6,6 @@ import java.util.Date;
 
 /**
  * This is an abstract class which creates a trial based on which experiment type was used
- * @author Samadhi
  */
 public abstract class Trial {
 

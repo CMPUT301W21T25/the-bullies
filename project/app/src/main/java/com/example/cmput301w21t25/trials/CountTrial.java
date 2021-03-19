@@ -16,8 +16,7 @@ public class CountTrial extends Trial{
      * @param result records the total count of the trial
      */
 
-    private void setResult(Integer result){ this.result = result; }
-
+    public void setResult(Integer result){ this.result = result; }
     public Integer getResult() {
         return result;
     }

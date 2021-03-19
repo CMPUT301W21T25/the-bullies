@@ -25,7 +25,7 @@ public class NonNegCountTrial extends Trial{
     /**
      * @param result This is the number which will be recorded for the trial
      */
-    private void setResult(Integer result){ this.result = result;
+    public void setResult(Integer result){ this.result = result;
 
         //This should probably be checked when we get the input, not when we try and set it -EK
         /*if(count >= 0){
