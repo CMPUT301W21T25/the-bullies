@@ -28,6 +28,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
     private String expID;
     private String ownerID;
     private String userID;
+    private Bundle expBundle;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -42,25 +43,13 @@ public class ViewExperimentActivity extends AppCompatActivity {
 
         expName.setText(exp.getName());
         expDesc.setText(exp.getDescription()); // currently an error but should resolve on merge
+        expID = exp.getFb_id(); //ck
 
-
-
-
-        /*
-        String experimentID;
-        experimentID = getIntent().getStringExtra("EXP_ID");
-        expID = experimentID;
-
-        userID = getIntent().getStringExtra("");
-
-        FB_FetchExperiment(experimentID);
-        finish();
-         */
     }
 
     private Experiment unpackExperiment() {
 
-        Bundle expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
+        expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
         Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
         return exp;
     }
@@ -104,14 +93,14 @@ public class ViewExperimentActivity extends AppCompatActivity {
         });
     }
     public void FB_FetchOwnerProfile(String id){//the input param is the exp ID
-        DocumentReference docRef = db.collection("Experiment").document(id);
+        DocumentReference docRef = db.collection("Experiments").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        String userID = (String)document.getData().get("owner");
+                        String userID = (String)document.getData().get("ownerID");
                         ownerID = userID;
                         DocumentReference docRef = db.collection("UserProfile").document(userID);
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -124,9 +113,25 @@ public class ViewExperimentActivity extends AppCompatActivity {
                                         //EDEN:
                                         //For list testing I'm going to send it to homeOwned instead
                                         //Can return to userProfile activity later
-                                        Intent intent = new Intent(getBaseContext(), MyUserProfileActivity.class);
-                                        intent.putExtra("USER_ID", userID);
-                                        startActivity(intent);
+
+                                        //check if current user = experiment owner
+                                        if (ownerID == userID) {
+                                            //switch to myprofile
+                                            Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
+                                            intent.putExtra("userID", userID);
+                                            intent.putExtra("prevScreen", "Experiment");
+                                            intent.putExtra("EXP_BUNDLE", expBundle);
+                                            startActivity(intent);
+                                        }
+                                        else {
+                                            //switch to otherprofile
+                                            Intent intent = new Intent(ViewExperimentActivity.this, OtherUserProfileActivity.class);
+                                            intent.putExtra("ownerID", ownerID);
+                                            intent.putExtra("prevScreen", "Experiment");
+                                            intent.putExtra("EXP_BUNDLE", expBundle);
+                                            startActivity(intent);
+                                        }
+
                                     }
                                 } else {
                                     Log.d("YA-DB:", "User Profile Query Failed", task.getException());
@@ -143,8 +148,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * Is called when a user clicks on the owners profile image while viewing an experiment
      * Will switch to a profile view activity (either myuser or otheruser)
@@ -152,23 +155,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
      * @param view
      */
     public void viewExpOwnerButton(View view) {
-        //first we need to get the experiment owner
-        FB_FetchOwnerProfile(expID); //this updates the class attribute ownerID
-
-        //check if current user = experiment owner
-        if (ownerID == userID) {
-            //switch to myprofile, pass myID
-            Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
-            intent.putExtra("userID", userID);
-            startActivity(intent);
-        }
-        else {
-            //switch to otherprofile, pass expOwnerID
-            Intent intent = new Intent(ViewExperimentActivity.this, OtherUserProfileActivity.class);
-            intent.putExtra("userID", ownerID);
-            startActivity(intent);
-        }
-
+        FB_FetchOwnerProfile(expID);
     }
 
 }
