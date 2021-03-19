@@ -1,5 +1,7 @@
 package com.example.cmput301w21t25.managers;
 
+import android.util.Log;
+
 import com.example.cmput301w21t25.experiments.Experiment;
 
 import java.util.ArrayList;
@@ -9,6 +11,8 @@ import java.util.StringTokenizer;
  * @author Eden
  */
 public class SearchManager {
+
+    public SearchManager(){ }
 
     /**
      * Parses string of user input keywords in order to be compared with experiment keywords
@@ -152,13 +156,16 @@ public class SearchManager {
 
         //Compares (user input) keywords with experiment keywords
         for (int i = 0; i < allExperiments.size(); i++) {
-            ArrayList<String> experimentKeywords = allExperiments.get(i).getKeywords();
+            //TODO: change to experiemntTagsssgsg
+            ArrayList<String> experimentKeywords = allExperiments.get(i).getTags();
             nextDocument:
-            for (String titleWord: experimentKeywords) {
-                for (String keyword: keywordList) {
-                    if (titleWord.equals(keyword)) {
-                        keywordExperiments.add(allExperiments.get(i));
-                        break nextDocument;
+            if(experimentKeywords != null){
+                for (String titleWord: experimentKeywords) {
+                    for (String keyword: keywordList) {
+                        if (titleWord.equals(keyword)) {
+                            keywordExperiments.add(allExperiments.get(i));
+                            break nextDocument;
+                        }
                     }
                 }
             }
@@ -179,8 +186,10 @@ public class SearchManager {
      * An ArrayList of Experiments that had a keyword match
      */
     public ArrayList<Experiment> searchExperiments(String keywords, ArrayList<Experiment> allExperiments) {
+        //Log.d("SearchManager PASS", String.valueOf(3));
         //Parse user keyword input
         ArrayList<String> keywordList = this.parseKeywords(keywords);
+        Log.d("KEYWORD_LIST", String.valueOf(keywordList));
         ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();
 
         //Add type matches to keyword experiment list and remove them from all experiment list (as
@@ -194,6 +203,8 @@ public class SearchManager {
             }
         }
 
+        Log.d("TYPE_MATCH", String.valueOf(keywordExperiments));
+
         //The same as with type, but with experiment name matches
         ArrayList<Experiment> experimentNameKeywordExperiments = this.searchExperimentName(keywordList, allExperiments);
         for (int i = 0; i < experimentNameKeywordExperiments.size(); i++) {
@@ -202,6 +213,7 @@ public class SearchManager {
             }
         }
 
+        Log.d("TITLE_MATCH", String.valueOf(keywordExperiments));
         //The same as with type, but with experiment keyword matches
         ArrayList<Experiment> experimentKeywordsKeywordExperiments = this.searchExperimentKeywords(keywordList, allExperiments);
         for (int i = 0; i < experimentKeywordsKeywordExperiments.size(); i++) {
@@ -209,7 +221,7 @@ public class SearchManager {
                 keywordExperiments.add(experimentKeywordsKeywordExperiments.get(i));
             }
         }
-
+        Log.d("KEYWORD_EXPERIMENTS", String.valueOf(keywordExperiments));
         return keywordExperiments;
     }
 

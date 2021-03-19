@@ -18,9 +18,12 @@ import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ViewExperimentActivity extends AppCompatActivity {
@@ -100,9 +103,8 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        String userID = (String)document.getData().get("ownerID");
-                        ownerID = userID;
-                        DocumentReference docRef = db.collection("UserProfile").document(userID);
+                        ownerID = (String)document.getData().get("ownerID");
+                        DocumentReference docRef = db.collection("UserProfile").document(ownerID);
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -115,7 +117,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                                         //Can return to userProfile activity later
 
                                         //check if current user = experiment owner
-                                        if (ownerID == userID) {
+                                        if (ownerID.equals(userID)) {
                                             //switch to myprofile
                                             Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
                                             intent.putExtra("userID", userID);
@@ -156,6 +158,26 @@ public class ViewExperimentActivity extends AppCompatActivity {
      */
     public void viewExpOwnerButton(View view) {
         FB_FetchOwnerProfile(expID);
+    }
+
+    public void subscribeButton(View view) {
+        //This method will subscribe the user to the experiment
+        //do i need to check if we're already subscribed? (firestore wont add duplicates)
+        DocumentReference docRef = db.collection("UserProfile").document(userID);
+        docRef
+                .update("subscriptions", FieldValue.arrayUnion(expID))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("curtis", "you subscribed");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("curtis", "failed to subscribe");
+                    }
+                });
     }
 
 }

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -45,6 +46,13 @@ public class HomeSubbedActivity extends AppCompatActivity {
     String userID;
 
     @Override
+    protected void onResume() {
+        //list refresh
+        super.onResume();
+        FB_FetchSubscriptionsKeys(userID);
+    }
+
+    @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_home_subbed);
@@ -65,7 +73,17 @@ public class HomeSubbedActivity extends AppCompatActivity {
         subbedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("YA-DB: ", "Does it click?");
+                Log.d("DK: ", "Position clicked = " + position);
+                Experiment experiment = (Experiment) subbedExperimentsList.getItemAtPosition(position);
+                Intent viewExp = new Intent(HomeSubbedActivity.this, ViewExperimentActivity.class);
+
+                Bundle expBundle = new Bundle();
+                expBundle.putSerializable("EXP_OBJ", experiment);
+
+                viewExp.putExtra("USER_ID", userID);
+                viewExp.putExtra("EXP_BUNDLE", expBundle);
+
+                startActivity(viewExp);
             }
         });
 

@@ -14,6 +14,7 @@ import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
 import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
+import com.example.cmput301w21t25.activities_main.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -89,6 +90,9 @@ public class MyUserProfileActivity extends AppCompatActivity {
                 // go back to experiment view
                 intent = new Intent(MyUserProfileActivity.this, ViewExperimentActivity.class);
                 intent.putExtra("EXP_BUNDLE", expBundle);
+            case "Browse":
+                intent = new Intent(MyUserProfileActivity.this, SearchActivity.class);
+                break;
 
             //default:
                 //intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);

@@ -40,7 +40,7 @@ public abstract class Experiment implements Serializable { //make abstract
     public String name;
     private String description;
     private String type;
-    private ArrayList<String> keywords;
+    private ArrayList<String> tags;
     private int minNumTrials;
     private boolean isPublished = false;
     private String fb_id = "";
@@ -100,7 +100,7 @@ public abstract class Experiment implements Serializable { //make abstract
 
     public String getType() { return type; }
 
-    public ArrayList<String> getKeywords() { return keywords; }
+    public ArrayList<String> getTags() { return tags; }
 
     public void setName(String name) { this.name = name; }
 
@@ -114,11 +114,12 @@ public abstract class Experiment implements Serializable { //make abstract
 
     public void setOwner(String owner) { this.owner = owner; }
 
+
+    public void setTags(ArrayList<String> tags) { this.tags = tags; }
+
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }
-
-    public void setKeywords(ArrayList<String> keywords) { this.keywords = keywords; }
 
 //    public void setTrials(ArrayList<Trial> trials) {
 //        this.trials = trials;

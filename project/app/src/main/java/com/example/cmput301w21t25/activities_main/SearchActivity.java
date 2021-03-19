@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25.activities_main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.FilterSearchFragment;
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
+import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
@@ -30,16 +33,25 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements FilterSearchFragment.OnFragmentInteractionListener{
+    //
     public SearchManager searchManager = new SearchManager();
     ListView browseList;
     ArrayAdapter<Experiment> experimentArrayAdapter;
     Button searchButton;
+    String allKeywords;
 
     private String userID;
+    @Override
+    protected void onResume() {
+        //this is curtis testing the subscription refresh, it works lets goooo
+        super.onResume();
+        FB_FetchExperimentList(userID);
+    }
 
     @Override
     protected void onCreate(Bundle passedData) {
+        Log.d("onCreate PASS", "hello!");
         super.onCreate(passedData);
         setContentView(R.layout.activity_browse_not_subbed);
 
@@ -48,6 +60,26 @@ public class SearchActivity extends AppCompatActivity {
         browseList = findViewById(R.id.search_exp_list_view);
         experimentArrayAdapter = new CustomListExperiment(this, experimentList);
         browseList.setAdapter(experimentArrayAdapter);
+
+        browseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("DK: ", "Position clicked = " + position);
+                Experiment experiment = (Experiment) browseList.getItemAtPosition(position);
+                Intent viewExp = new Intent(SearchActivity.this, ViewExperimentActivity.class);
+
+                Bundle expBundle = new Bundle();
+                expBundle.putSerializable("EXP_OBJ", experiment);
+
+                viewExp.putExtra("USER_ID", userID);
+                viewExp.putExtra("EXP_BUNDLE", expBundle);
+
+                startActivity(viewExp);
+            }
+        });
+
+
+
         searchButton = findViewById(R.id.exp_filter_button);
 
         FB_FetchExperimentList(userID);
@@ -60,6 +92,15 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onOkPressed(String allKeywords) {
+        //Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
+        this.allKeywords = allKeywords;
+        Log.d("returning",allKeywords);
+        FB_FetchExperimentList(userID);
+        //searchManager.searchExperiments(allKeywords, experimentList);
     }
 
     /********************************************
@@ -118,7 +159,9 @@ public class SearchActivity extends AppCompatActivity {
                                                     BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
                                                     binExp.setFb_id(document.getId());
                                                     experimentList.add(binExp);
+                                                    Log.d("BINOMIAL", String.valueOf(experimentList));
                                                     experimentArrayAdapter.notifyDataSetChanged();
+                                                    Log.d("BUTTS", "Life is Trash");
                                                     Log.d("YA-DB: ", "SearchResults " + experimentList.get(0).getName());
                                                     break;
                                                 case"count":
@@ -126,18 +169,23 @@ public class SearchActivity extends AppCompatActivity {
                                                     countExp.setFb_id(document.getId());
                                                     experimentList.add(countExp);
                                                     experimentArrayAdapter.notifyDataSetChanged();
+                                                    Log.d("BUTTS", "Life is Trash");
+                                                    Log.d("StupidWhy", String.valueOf(countExp.getTags()));
                                                     break;
                                                 case "nonnegative count":
                                                     NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
                                                     nnCountExp.setFb_id(document.getId());
                                                     experimentList.add(nnCountExp);
                                                     experimentArrayAdapter.notifyDataSetChanged();
+                                                    Log.d("BUTTS", "Life is Trash");
                                                     break;
                                                 case"measurement":
                                                     MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
                                                     mesExp.setFb_id(document.getId());
                                                     experimentList.add(mesExp);
                                                     experimentArrayAdapter.notifyDataSetChanged();
+                                                    Log.d("BUTTS", "Life is Trash");
+                                                    //Log.d("StupidWhy", String.valueOf(mesExp.getTags()));
                                                     break;
                                                 default:
                                                     Log.d("YA-DB: ","this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
@@ -152,13 +200,34 @@ public class SearchActivity extends AppCompatActivity {
                                     }
                                 }
                                 //call search manager here
-                                //searchManager.searchExperimentKeywords();
+                                if(allKeywords != null){
+                                    //Get keyword matches
+                                    ArrayList<Experiment> temp = searchManager.searchExperiments(allKeywords, experimentList);
+                                    experimentList.clear();
+                                    experimentList.addAll(temp);
+                                    experimentArrayAdapter.notifyDataSetChanged();
+                                }
+                                else{
+                                    Log.d("YA-DB returning", "keywords is null");
+                                }
+
                             }
                         }
                     });
 
     }
 
-
-
+    /**
+     * Is called when a user clicks on their profile image
+     * Will switch to a profile view activity
+     * Curtis
+     * @param view
+     */
+    public void viewBrowseiButton(View view) {
+        //switch to profileView, pass userId
+        Intent intent = new Intent(SearchActivity.this, MyUserProfileActivity.class);
+        intent.putExtra("userID", userID);
+        intent.putExtra("prevScreen", "Browse");
+        startActivity(intent);
+    }
 }
