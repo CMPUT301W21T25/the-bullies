@@ -105,14 +105,12 @@ public class AddTrialActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists()&&(Boolean)document.getData().get("published")!=true) {//combine into one really big conditional?
+
+                    if (document.exists()&&(String)document.getData().get("ownerID")==userID) {//combine into one really big conditional?
+
                         trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
                         Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
                         FB_FetchTrials(parent);
-                        //FB_FetchNotSubscribed(subscriptionKeys);
-                    }
-                    else if(document.exists()&&(Boolean)document.getData().get("published")==false&&(String)document.getData().get("ownerID")==userID){
-                        trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
                     }
                 } else {
                     Log.d("YA-DB: ", "get failed with ", task.getException());

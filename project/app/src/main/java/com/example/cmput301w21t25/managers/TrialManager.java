@@ -7,9 +7,12 @@ import androidx.annotation.NonNull;
 
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.trials.Trial;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -59,16 +62,29 @@ public class TrialManager {
         trialDoc.put("date", new Date());
         //experiment.put("comment", ); ill add this later
 
-
         db.collection("TrialDocs")
                 .add(trialDoc)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        ArrayList<String> newKeyList = parent.getTrialKeys();
-                        newKeyList.add(documentReference.getId());
-                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+                        DocumentReference docRef = db.collection("Experiments").document(parentExperimentID);
+                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                        ArrayList<String> newKeyList = (ArrayList<String>) document.getData().get("trialKeys");
+                                        newKeyList.add(documentReference.getId());
+                                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+                                    }
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -113,6 +129,25 @@ public class TrialManager {
                         ArrayList<String> newKeyList = parent.getTrialKeys();
                         newKeyList.add(documentReference.getId());
                         expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+
+                        DocumentReference docRef = db.collection("Experiments").document(parentExperimentID);
+                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                        ArrayList<String> newKeyList = (ArrayList<String>) document.getData().get("trialKeys");
+                                        newKeyList.add(documentReference.getId());
+                                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+                                    }
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -156,6 +191,26 @@ public class TrialManager {
                         ArrayList<String> newKeyList = parent.getTrialKeys();
                         newKeyList.add(documentReference.getId());
                         expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+
+                        DocumentReference docRef = db.collection("Experiments").document(parentExperimentID);
+                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                        ArrayList<String> newKeyList = (ArrayList<String>) document.getData().get("trialKeys");
+                                        newKeyList.add(documentReference.getId());
+                                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+                                    }
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
