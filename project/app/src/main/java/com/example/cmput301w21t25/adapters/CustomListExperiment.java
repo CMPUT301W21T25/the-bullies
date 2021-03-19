@@ -18,6 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * @author Eden
+ * A custom array adapter to display experiments in a list view
+ */
 public class CustomListExperiment extends ArrayAdapter<Experiment> {
     private ArrayList<Experiment> experiments;
     private Context context;
@@ -42,6 +46,7 @@ public class CustomListExperiment extends ArrayAdapter<Experiment> {
         TextView experimentDescription = view.findViewById(R.id.exp_description_text_view);
         TextView experimentDate = view.findViewById(R.id.exp_date_text_view);
         TextView userName = view.findViewById(R.id.user_id_text_view);
+        //We currently aren't displaying images
         ImageView userImage = view.findViewById(R.id.imageView2);
 
         date = experiment.getDate();
@@ -50,11 +55,17 @@ public class CustomListExperiment extends ArrayAdapter<Experiment> {
         experimentDescription.setText(experiment.getName());
         experimentDate.setText(dateString);
         userName.setText(experiment.getOwner());
-        //userImage.setBackgroundResource(0);
 
         return view;
     }
 
+    /**
+     *
+     * @param date
+     * The date the experiment was created
+     * @return
+     * A formatted version of the date (String)
+     */
     String formatDate(Date date) {
 
         SimpleDateFormat condensedDate = new SimpleDateFormat("MM-dd-yyyy");

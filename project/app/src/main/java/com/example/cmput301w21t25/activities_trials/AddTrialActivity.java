@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.adapters.CustomListTrial;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -50,6 +51,8 @@ public class AddTrialActivity extends AppCompatActivity {
 
         addTrialButton = findViewById(R.id.trial_create_button);
         trialListView = findViewById(R.id.add_trial_list);
+        trialArrayAdapter = new CustomListTrial(this, trialList);
+        trialListView.setAdapter(trialArrayAdapter);
 
         //finish();
     }
