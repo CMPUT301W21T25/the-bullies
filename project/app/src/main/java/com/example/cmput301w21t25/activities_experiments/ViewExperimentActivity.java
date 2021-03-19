@@ -94,7 +94,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
         });
     }
     public void FB_FetchOwnerProfile(String id){//the input param is the exp ID
-        DocumentReference docRef = db.collection("Experiment").document(id);
+        DocumentReference docRef = db.collection("Experiments").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -113,14 +113,18 @@ public class ViewExperimentActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 Log.i("curtis", "CHECK5");
                                 if (task.isSuccessful()) {
+                                    Log.i("curtis", "CHECK6");
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
+                                        Log.i("curtis", "CHECK7");
                                         Log.d("YA-DB:", "User document retrieved passing ID to MyUserProfileActivity");
                                         //EDEN:
                                         //For list testing I'm going to send it to homeOwned instead
                                         //Can return to userProfile activity later
                                         //check if current user = experiment owner
-
+                                        Log.i("expID", id);
+                                        Log.i("ownerID", ownerID);
+                                        Log.i("userID", userID);
                                         if (ownerID == userID) {
                                             //switch to myprofile, pass myID
                                             Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
