@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
-import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
-import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -24,7 +22,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     //attributes
     private String Username;
     private String ContactInfo;
-    private String userID;
+    private String ownerID;
     private String prevScreen;
     private Bundle bundle;
 
@@ -32,11 +30,11 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_otherprofile_view);
-        userID = getIntent().getStringExtra("userID");
+        ownerID = getIntent().getStringExtra("ownerID");
         prevScreen = getIntent().getStringExtra("prevScreen");
         bundle = getIntent().getBundleExtra("bundle");
 
-        FB_FetchUserInfo(userID);
+        FB_FetchUserInfo(ownerID);
     }
 
 
@@ -83,7 +81,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
         }
 
-        intent.putExtra("USER_ID", userID);
+        intent.putExtra("USER_ID", ownerID);
         intent.putExtra("bundle", bundle);
         startActivity(intent);
     }
