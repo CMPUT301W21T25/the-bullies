@@ -7,10 +7,10 @@ import com.example.cmput301w21t25.managers.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +28,7 @@ public class FilterSearchFragment extends DialogFragment{
     private OnFragmentInteractionListener listener;
     private EditText keywordSentence;
     private ChipGroup chipGroup;
-    private String allKeywords;
+    private StringBuilder allKeyWords = new StringBuilder("");
 
     /**
      * This method sets the buttons to be clicked. If the user enters the correct keywords/filters,
@@ -67,22 +67,17 @@ public class FilterSearchFragment extends DialogFragment{
                 .setPositiveButton("FILTER", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        allKeywords = keywordSentence.getText().toString();
-                        if(allKeywords == ""){
-                            //TODO: this is not working? whay???
-                            Toast.makeText(view.getContext(), "Please enter a keyword", Toast.LENGTH_SHORT).show();
+
+                        allKeyWords.append(keywordSentence.getText().toString());
+                        //TODO: This can be combined with parse? Talk to EDEN
+                        for(int i = 0; i <chipGroup.getChildCount();i++){
+                             Chip chip = (Chip) chipGroup.getChildAt(i);
+                             if(chip.isChecked()){
+                                 allKeyWords.append(", " + chip.getText().toString().toLowerCase());
+                             }
                         }
-                        else{
-                            //keywords = sentence.split(" ");
-                            for(int i = 0; i <chipGroup.getChildCount();i++){
-                                 Chip chip = (Chip) chipGroup.getChildAt(i);
-                                 if(chip.isChecked()){
-                                     allKeywords.concat(", " + chip.getText());
-                                 }
-                            }
-                            //TODO: Return the keywords/chips to be used to sort? Or use SearchManager
-                        }
-                        listener.onOkPressed(allKeywords);
+                        //TODO: Return the keywords/chips to be used to sort? Or use SearchManager
+                        listener.onOkPressed(allKeyWords.toString());
                     }
                 }).create();
 

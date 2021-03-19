@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +42,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
 
     @Override
     protected void onCreate(Bundle passedData) {
+        Log.d("onCreate PASS", "hello!");
         super.onCreate(passedData);
         setContentView(R.layout.activity_browse_not_subbed);
 
@@ -67,10 +67,11 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
 
     @Override
     public void onOkPressed(String allKeywords) {
-        Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
         this.allKeywords = allKeywords;
         Log.d("returning",allKeywords);
         FB_FetchExperimentList(userID);
+        //searchManager.searchExperiments(allKeywords, experimentList);
     }
 
     /********************************************
@@ -137,6 +138,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
                                                     countExp.setFb_id(document.getId());
                                                     experimentList.add(countExp);
                                                     experimentArrayAdapter.notifyDataSetChanged();
+                                                    Log.d("StupidWhy", String.valueOf(countExp.getTags()));
                                                     break;
                                                 case "nonnegative count":
                                                     NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
@@ -149,6 +151,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
                                                     mesExp.setFb_id(document.getId());
                                                     experimentList.add(mesExp);
                                                     experimentArrayAdapter.notifyDataSetChanged();
+                                                    //Log.d("StupidWhy", String.valueOf(mesExp.getTags()));
                                                     break;
                                                 default:
                                                     Log.d("YA-DB: ","this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
@@ -165,7 +168,8 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
                                 //call search manager here
                                 if(allKeywords != null){
                                     Log.d("YA-DB returning: ", String.valueOf(allKeywords));
-                                    //searchManager.searchExperiments(allKeywords, experimentList);
+                                    experimentList = searchManager.searchExperiments(allKeywords, experimentList);
+                                    experimentArrayAdapter.notifyDataSetChanged();
                                 }
                                 else{
                                     Log.d("YA-DB returning", "keywords is null");

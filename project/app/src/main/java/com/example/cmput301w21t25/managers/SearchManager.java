@@ -1,5 +1,7 @@
 package com.example.cmput301w21t25.managers;
 
+import android.util.Log;
+
 import com.example.cmput301w21t25.experiments.Experiment;
 
 import java.util.ArrayList;
@@ -118,13 +120,16 @@ public class SearchManager {
 
         //Compares (user input) keywords with experiment keywords
         for (int i = 0; i < allExperiments.size(); i++) {
-            ArrayList<String> experimentKeywords = allExperiments.get(i).getKeywords();
+            //TODO: change to experiemntTagsssgsg
+            ArrayList<String> experimentKeywords = allExperiments.get(i).getTags();
             nextDocument:
-            for (String titleWord: experimentKeywords) {
-                for (String keyword: keywordList) {
-                    if (titleWord.equals(keyword)) {
-                        keywordExperiments.add(allExperiments.get(i));
-                        break nextDocument;
+            if(experimentKeywords != null){
+                for (String titleWord: experimentKeywords) {
+                    for (String keyword: keywordList) {
+                        if (titleWord.equals(keyword)) {
+                            keywordExperiments.add(allExperiments.get(i));
+                            break nextDocument;
+                        }
                     }
                 }
             }
@@ -134,6 +139,7 @@ public class SearchManager {
     }
 
     public ArrayList<Experiment> searchExperiments(String keywords, ArrayList<Experiment> allExperiments) {
+        //Log.d("SearchManager PASS", String.valueOf(3));
         //Parse user keyword input
         ArrayList<String> keywordList = this.parseKeywords(keywords);
         ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();

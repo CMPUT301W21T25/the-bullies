@@ -46,8 +46,9 @@
                 android:text="Count"
                 android:textAlignment="center"
                 android:textSize="12sp"
+                android:textColor="@color/black"
                 app:chipBackgroundColor="@color/custom_Yellow_light"
-                app:checkedIcon="@color/custom_Yellow_dark"/>
+                app:checkedIconEnabled="@color/custom_Yellow_dark"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/measurement"
@@ -59,8 +60,9 @@
                 android:text="Measurement"
                 android:textAlignment="center"
                 android:textSize="12sp"
+                android:textColor="@color/black"
                 app:chipBackgroundColor="@color/custom_Yellow_light"
-                app:checkedIcon="@color/custom_Yellow_dark"/>
+                app:checkedIconEnabled="@color/custom_Yellow_dark"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/binomial"
@@ -72,8 +74,9 @@
                 android:text="Binomial"
                 android:textAlignment="center"
                 android:textSize="12sp"
+                android:textColor="@color/black"
                 app:chipBackgroundColor="@color/custom_Yellow_light"
-                app:checkedIcon="@color/custom_Yellow_dark"/>
+                app:checkedIconEnabled="@color/custom_Yellow_dark"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/non_neg_count"
@@ -85,8 +88,9 @@
                 android:text="Non-Negative Count"
                 android:textAlignment="center"
                 android:textSize="12sp"
+                android:textColor="@color/black"
                 app:chipBackgroundColor="@color/custom_Yellow_light"
-                app:checkedIcon="@color/custom_Yellow_dark"/>
+                app:checkedIconEnabled="@color/custom_Yellow_dark"/>
         </com.google.android.material.chip.ChipGroup>
 
     </LinearLayout>
