@@ -17,4 +17,8 @@ public class CountTrial extends Trial{
      */
 
     private void setResult(Integer result){ this.result = result; }
+
+    public Integer getResult() {
+        return result;
+    }
 }
