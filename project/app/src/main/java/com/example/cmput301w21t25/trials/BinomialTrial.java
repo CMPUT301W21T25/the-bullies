@@ -16,7 +16,7 @@ public class BinomialTrial extends Trial {
      * @param result Boolean result of the trial
      */
 
-    private void addResult(Boolean result){
+    private void setResult(Boolean result){
         this.result = result;
     }
 }
