@@ -55,6 +55,7 @@ public class AddTrialActivity extends AppCompatActivity {
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Launches a conduct trial activity based on type of experiment
                 Intent switchScreen = null;
                 switch (exp.getType()) {
                     case "count":
@@ -104,7 +105,9 @@ public class AddTrialActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
+
                     if (document.exists()&&(String)document.getData().get("ownerID")==userID) {//combine into one really big conditional?
+
                         trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
                         Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
                         FB_FetchTrials(parent);
@@ -133,19 +136,23 @@ public class AddTrialActivity extends AppCompatActivity {
                                         //ArrayList<Experiment>test = new ArrayList<Experiment>();
                                         BinomialTrial binTrial = document.toObject(BinomialTrial.class);
                                         trialList.add(binTrial);
+                                        trialArrayAdapter.notifyDataSetChanged();
                                         break;
                                     case "count":
                                         CountTrial countTrial = document.toObject(CountTrial.class);
                                         trialList.add(countTrial);
+                                        trialArrayAdapter.notifyDataSetChanged();
                                         Log.d("YA-DB: ", String.valueOf(trialList));
                                         break;
                                     case "nonnegative count":
                                         NonNegCountTrial nnCountTrial = document.toObject(NonNegCountTrial.class);
                                         trialList.add(nnCountTrial);
+                                        trialArrayAdapter.notifyDataSetChanged();
                                         break;
                                     case "measurement":
                                         MeasurementTrial mesTrial = document.toObject(MeasurementTrial.class);
                                         trialList.add(mesTrial);
+                                        trialArrayAdapter.notifyDataSetChanged();
                                         break;
                                     default:
                                         Log.d("YA-DB: ", "this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");

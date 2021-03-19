@@ -34,14 +34,12 @@ public class CreateExperimentActivity extends AppCompatActivity {
 
     ArrayList<String> experimentKeywords;
     String type;
+    String experimentOwner;
 
-    Date experimentDate;
     Location experimentLocation;
 
     CheckBox published;
     CheckBox geolocationEnabled;
-
-    String experimentOwner;
 
     ExperimentManager experimentManager;
 
@@ -51,31 +49,22 @@ public class CreateExperimentActivity extends AppCompatActivity {
 
     public void onCreate(Bundle passedData){
         super.onCreate(passedData);
-        //Change layout
         setContentView(R.layout.activity_create_experiment);
         String userID;
         userID = getIntent().getStringExtra("USER_ID");
-        //this can be called on click when
-        //User ID for testing (has owned experiment): fdNzWupOTDKvwkrVHMADau
 
-
-
+        //Initialize experiment manager
         experimentManager = new ExperimentManager();
 
         //This is temp I don't know what to do for location
         Location testLocal = new Location("edm");
 
         experimentName = findViewById(R.id.editTextExpName);
-
+        experimentDescription = findViewById(R.id.editTextEnterDescription);
+        experimentTags = findViewById(R.id.editTextKeywords);
 
         published = findViewById(R.id.checkBoxPublish);
         geolocationEnabled = findViewById(R.id.checkBoxGeolocation);
-
-        experimentDescription = findViewById(R.id.editTextEnterDescription);
-
-        experimentTags = findViewById(R.id.editTextKeywords);
-
-
 
         createExperiment = findViewById(R.id.buttonCreateExperiment);
         createExperiment.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +83,8 @@ public class CreateExperimentActivity extends AppCompatActivity {
                 String description = experimentDescription.getText().toString();
                 String name = experimentName.getText().toString();
 
+                //Experiment keywords parsed and cast to lower case on creation to ensure
+                //compatibility with User keyword search later on
                 experimentKeywords = new ArrayList<String>();
                 String keywords = experimentTags.getText().toString();
                 experimentKeywords = parseKeywords(keywords);
@@ -110,7 +101,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                String experimentOwner = (String) document.getData().get("name");
+                                experimentOwner = (String) document.getData().get("name");
                                 experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, testLocal, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date());
                                 //
                             }
@@ -125,6 +116,12 @@ public class CreateExperimentActivity extends AppCompatActivity {
 
     }
 
+    //Called on click from the layout
+
+    /**
+     * Assigns the experiment a type based on which radio button is selected
+     * @param view
+     */
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();

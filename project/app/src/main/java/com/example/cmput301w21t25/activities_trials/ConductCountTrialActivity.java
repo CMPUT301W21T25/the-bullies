@@ -1,6 +1,7 @@
 package com.example.cmput301w21t25.activities_trials;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
@@ -21,6 +23,7 @@ public class ConductCountTrialActivity extends AppCompatActivity {
     Button submitTrialButton;
     FloatingActionButton incrementButton;
     TextView countDisplay;
+    TextView description;
 
     private Experiment trialParent;
     private String userID;
@@ -28,6 +31,7 @@ public class ConductCountTrialActivity extends AppCompatActivity {
 
     private TrialManager trialManager;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle passedData) {
         super.onCreate(passedData);
@@ -40,9 +44,16 @@ public class ConductCountTrialActivity extends AppCompatActivity {
         trialManager = new TrialManager();
 
         trialHeader = findViewById(R.id.countExperimentInfo);
+
         submitTrialButton = findViewById(R.id.submit_trial_count_button);
         incrementButton = findViewById(R.id.increment_count_button);
         countDisplay = findViewById(R.id.trial_count);
+        description = findViewById(R.id.countExperimentInfo);
+
+        //Display Experiment info on conduct Trial page
+        trialHeader.setTitle(trialParent.getName());
+        trialHeader.setSubtitle(trialParent.getOwner());
+        description.setText(trialParent.getDescription());
 
         //On click, increment the value stored in count, displayed in countDisplay
         incrementButton.setOnClickListener(new View.OnClickListener() {

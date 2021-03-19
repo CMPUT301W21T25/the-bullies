@@ -48,7 +48,7 @@ public class CustomListTrial extends ArrayAdapter<Trial> {
         date = trial.getDate();
         dateString = formatDate(date);
 
-        experimentName.setText(trial.getExperimentName() + "Trial");
+        experimentName.setText(trial.getExperimentName() + " Trial");
         trialDate.setText(dateString);
 
         return view;
