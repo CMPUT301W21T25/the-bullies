@@ -149,7 +149,7 @@ public class SearchManager {
      * A User inputted String of keywords parsed into an ArrayList of Strings
      * @param allExperiments
      * An ArrayList of Experiments that had a keyword match
-     * @return
+     * @return a list of experiments that meet the search criterion
      */
     public ArrayList<Experiment> searchExperimentKeywords(ArrayList<String> keywordList, ArrayList<Experiment> allExperiments) {
         ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();

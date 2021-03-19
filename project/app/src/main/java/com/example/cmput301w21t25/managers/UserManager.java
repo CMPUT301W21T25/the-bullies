@@ -65,6 +65,14 @@ public class UserManager{
                 });
     }
     //MAKE SURE USERNAME AND EMAIL ARE UNIQUE
+
+    /**
+     * @author Curtis Kennedy
+     * this ensures that the user name and email are unique
+     * @param text this is the string value the function will check the uniqueness of (ie: the input username or the input email)
+     * @param type this is the a string that tells the function weather its checking for email or username
+     * @return
+     */
     public boolean FB_isUnique(String text, String type) {
         final boolean[] success = {true};
         //text is the text that you want to make sure is unique, like a username

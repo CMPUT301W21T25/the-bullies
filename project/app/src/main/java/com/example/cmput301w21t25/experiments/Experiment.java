@@ -31,6 +31,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * author: Duncan
+ */
 public abstract class Experiment implements Serializable { //make abstract
 
     /****************************************

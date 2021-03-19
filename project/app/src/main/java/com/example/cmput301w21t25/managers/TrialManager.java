@@ -27,7 +27,7 @@ public class TrialManager {
      * please look over this before continuing work
      * Database stuff starting here ill add proper comments later in a bit of a rush atm
      * methods to get and set to database use as u please attributes in this section are listed below
-     * @author:Yalmaz Abdullah
+     * @author Yalmaz Abdullah
      * todo: update comments, add security and exceptions, complete incomplete methods,CHECK IF THIS STUFF WORKS RIGHT
      * */
     //ATTRIBUTES
