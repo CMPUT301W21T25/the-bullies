@@ -31,10 +31,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * author: Duncan
- */
-public abstract class Experiment implements Serializable { //make abstract
+public abstract class Experiment implements Serializable {
 
     /****************************************
                     ATTRIBUTES
@@ -117,6 +114,9 @@ public abstract class Experiment implements Serializable { //make abstract
 
     public void setOwner(String owner) { this.owner = owner; }
 
+    public int getMinNumTrials() { return minNumTrials; }
+
+    public void setMinNumTrials(int minNumTrials) { this.minNumTrials = minNumTrials; }
 
     public void setTags(ArrayList<String> tags) { this.tags = tags; }
 

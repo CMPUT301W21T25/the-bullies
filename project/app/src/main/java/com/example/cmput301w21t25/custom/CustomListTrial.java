@@ -61,7 +61,7 @@ public class CustomListTrial extends ArrayAdapter<Trial> {
      * @return
      * A formatted version of the date (String)
      */
-    String formatDate(Date date) {
+    private String formatDate(Date date) {
 
         SimpleDateFormat condensedDate = new SimpleDateFormat("MM-dd-yyyy");
         String formattedDate = condensedDate.format(date);

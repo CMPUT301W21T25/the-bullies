@@ -51,12 +51,12 @@ public class ExperimentManager {
      * @param type the type of experiment(ie: count, nonNegCount, binomial etc)
      * @param date the date and time of creation of the experiment
      */
-    public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date){
+    public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date, int minTrials){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("ownerID", ownerID);
         experimentDoc.put("name",experimentName);
-
+        experimentDoc.put("minNumTrials", minTrials);
         experimentDoc.put("owner",ownerName);
         experimentDoc.put("description",description);
         experimentDoc.put("region",region);
