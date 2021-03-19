@@ -43,9 +43,11 @@ public class ViewExperimentActivity extends AppCompatActivity {
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
+        TextView expType = findViewById(R.id.exp_type_text_view);
 
         expName.setText(exp.getName());
-        expDesc.setText(exp.getDescription()); // currently an error but should resolve on merge
+        expDesc.setText(exp.getDescription());
+        expType.setText(exp.getType());
         expID = exp.getFb_id(); //ck
 
     }
