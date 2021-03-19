@@ -17,10 +17,14 @@
         <activity android:name=".activities_user.MyUserProfileActivity" />
         <activity android:name=".activities_main.HomeOwnedActivity" />
         <activity android:name=".activities_experiments.ViewExperimentActivity" />
+        <activity android:name=".activities_experiments.ViewSubbedExperimentActivity" />
         <activity android:name=".activities_trials.ViewTrialActivity" />
         <activity android:name=".activities_experiments.ExperimentDataActivity" />
         <activity android:name=".activities_trials.AddTrialActivity" />
         <activity android:name=".activities_trials.ConductCountTrialActivity" />
+        <activity android:name=".activities_trials.ConductMeasurementTrialActivity" />
+        <activity android:name=".activities_trials.ConductBinomialTrialActivity" />
+        <activity android:name=".activities_trials.ConductNonnegativeCountTrialActivity" />
         <activity android:name=".activities_main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

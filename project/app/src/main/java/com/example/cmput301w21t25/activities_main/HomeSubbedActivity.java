@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
+import com.example.cmput301w21t25.activities_experiments.ViewSubbedExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
-import com.example.cmput301w21t25.adapters.CustomListExperiment;
+import com.example.cmput301w21t25.custom.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -64,7 +64,6 @@ public class HomeSubbedActivity extends AppCompatActivity {
 
         browseButton = findViewById(R.id.exp_search_button);
 
-
         subbedExperimentsList = findViewById(R.id.subbed_experiment_list_view);
         subbedExperiments = new ArrayList<Experiment>();
         experimentAdapter = new CustomListExperiment(this, subbedExperiments);
@@ -75,7 +74,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("DK: ", "Position clicked = " + position);
                 Experiment experiment = (Experiment) subbedExperimentsList.getItemAtPosition(position);
-                Intent viewExp = new Intent(HomeSubbedActivity.this, ViewExperimentActivity.class);
+                Intent viewExp = new Intent(HomeSubbedActivity.this, ViewSubbedExperimentActivity.class);
 
                 Bundle expBundle = new Bundle();
                 expBundle.putSerializable("EXP_OBJ", experiment);
@@ -104,6 +103,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
                 return false;
             }
         });
+
 
 
 
