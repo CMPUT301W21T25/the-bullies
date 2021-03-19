@@ -2,6 +2,8 @@ package com.example.cmput301w21t25.trials;
 
 import com.example.cmput301w21t25.user.User;
 
+import java.util.Date;
+
 /**
  * This is an abstract class which creates a trial based on which experiment type was used
  * @author Samadhi
@@ -21,6 +23,7 @@ public abstract class Trial {
     //attributes added -EK
     private String experimentID;
     private Boolean published;
+    private Date date;
 
     /****************************************
                 CONSTRUCTORS
@@ -39,12 +42,13 @@ public abstract class Trial {
     }
 
     //extra conductor added -YA //extra attributes added -EK
-    public Trial(String userID, String experimentName, String experimentOwnerName, String experimentID, Boolean published) {
+    public Trial(String userID, String experimentName, String experimentOwnerName, String experimentID, Boolean published, Date date) {
         this.userID = userID;
         this.experimentName=experimentName;
         this.experimentOwnerName=experimentOwnerName;
         this.experimentID = experimentID;
         this.published = published;
+        this.date = date;
     }
     public Trial() {}
 
@@ -67,4 +71,5 @@ public abstract class Trial {
     public String getExperimentOwnerName() {
         return experimentOwnerName;
     }
+    public Date getDate() { return date; }
 }
