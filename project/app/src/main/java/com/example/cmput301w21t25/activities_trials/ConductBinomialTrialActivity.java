@@ -19,6 +19,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * @author Eden
+ * Conduct binomial trial activity, allows experimenter to increment count. On completion, sends
+ * trial to database as doc, returns to add trial list view.
  */
 public class ConductBinomialTrialActivity extends AppCompatActivity {
 
