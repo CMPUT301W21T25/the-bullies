@@ -15,6 +15,8 @@ import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
 import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
 import com.example.cmput301w21t25.activities_main.SearchActivity;
+import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +34,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
     private String userID;
     private String prevScreen;
     private Bundle expBundle;
+    private Experiment exp;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -41,6 +44,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
         prevScreen = getIntent().getStringExtra("prevScreen");
         //try to get bundle, (only from experiment view)
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
+        exp = (Experiment) getIntent().getSerializableExtra("TRIAL_PARENT");
 
         FB_FetchUserInfo(userID);
     }
@@ -83,20 +87,32 @@ public class MyUserProfileActivity extends AppCompatActivity {
         switch (prevScreen) {
             case "Owned":
                 intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
+                Log.i("curtis", "going back to owned");
                 break;
             case "Subbed":
                 intent = new Intent(MyUserProfileActivity.this, HomeSubbedActivity.class);
+                Log.i("curtis", "going back to subbed");
                 break;
             case "Experiment":
                 // go back to experiment view
                 intent = new Intent(MyUserProfileActivity.this, ViewExperimentActivity.class);
                 intent.putExtra("EXP_BUNDLE", expBundle);
+                Log.i("curtis", "going back to viewing an experiment");
+                break;
             case "Browse":
                 intent = new Intent(MyUserProfileActivity.this, SearchActivity.class);
+                Log.i("curtis", "going back to browse page");
+                break;
+            case "AddTrial":
+                intent = new Intent(MyUserProfileActivity.this, AddTrialActivity.class);
+                //add experiment
+                intent.putExtra("TRIAL_PARENT", exp);
+                Log.i("curtis", "going back to add trial page");
                 break;
 
-            //default:
-                //intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
+            default:
+                intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
+                Log.i("curtis", "going back to default owned");
         }
 
         intent.putExtra("USER_ID", userID);
