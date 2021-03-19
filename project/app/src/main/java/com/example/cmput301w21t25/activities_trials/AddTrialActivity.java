@@ -59,6 +59,7 @@ public class AddTrialActivity extends AppCompatActivity {
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Launches a conduct trial activity based on type of experiment
                 switch (exp.getType()) {
                     case "count":
                         Intent switchScreen = new Intent(AddTrialActivity.this, ConductCountTrialActivity.class);
