@@ -227,10 +227,11 @@ public class HomeOwnedActivity extends AppCompatActivity {
      * Curtis
      * @param view
      */
-    public void viewExpOwnerButton(View view) {
+    public void viewOwnediButton(View view) {
         //switch to profileView, pass userId
         Intent intent = new Intent(HomeOwnedActivity.this, MyUserProfileActivity.class);
         intent.putExtra("userID", userID);
+        intent.putExtra("prevScreen", "Owned");
         startActivity(intent);
     }
 
