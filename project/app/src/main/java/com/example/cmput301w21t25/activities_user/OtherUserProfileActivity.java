@@ -24,7 +24,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     private String ContactInfo;
     private String ownerID;
     private String prevScreen;
-    private Bundle bundle;
+    private Bundle expBundle;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -32,7 +32,8 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_otherprofile_view);
         ownerID = getIntent().getStringExtra("ownerID");
         prevScreen = getIntent().getStringExtra("prevScreen");
-        bundle = getIntent().getBundleExtra("bundle");
+        //try to get bundle, (only from experiment view)
+        expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
 
         FB_FetchUserInfo(ownerID);
     }
@@ -77,12 +78,12 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         switch (prevScreen) {
             case "Experiment":
                 intent = new Intent(OtherUserProfileActivity.this, ViewExperimentActivity.class);
+                intent.putExtra("EXP_BUNDLE", expBundle);
                 break;
 
         }
 
         intent.putExtra("USER_ID", ownerID);
-        intent.putExtra("bundle", bundle);
         startActivity(intent);
     }
 }

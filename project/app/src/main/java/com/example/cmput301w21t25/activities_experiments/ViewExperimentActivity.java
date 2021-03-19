@@ -100,9 +100,8 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        String userID = (String)document.getData().get("ownerID");
-                        ownerID = userID;
-                        DocumentReference docRef = db.collection("UserProfile").document(userID);
+                        ownerID = (String)document.getData().get("ownerID");
+                        DocumentReference docRef = db.collection("UserProfile").document(ownerID);
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -115,7 +114,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                                         //Can return to userProfile activity later
 
                                         //check if current user = experiment owner
-                                        if (ownerID == userID) {
+                                        if (ownerID.equals(userID)) {
                                             //switch to myprofile
                                             Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
                                             intent.putExtra("userID", userID);
