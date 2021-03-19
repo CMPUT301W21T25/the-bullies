@@ -4,11 +4,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -29,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,14 +61,17 @@ public class ExperimentDataActivity extends AppCompatActivity {
         super.onCreate(passedData);
         setContentView(R.layout.activity_view_experiment_data);
         String type;
-        type = getIntent().getStringExtra("TYPE");
         Experiment exp = (Experiment) getIntent().getSerializableExtra("EXP");
+        type = exp.getType();
+        Log.d("WHAT_IS_TYPE", type);
 
         experimentInfo = findViewById(R.id.viewExperimentDataInfo);
         descriptionTextView = findViewById(R.id.viewExperimentDataDescription);
         minimumTrialsTextView = findViewById(R.id.minimumTrials);
+
         currentTrialsTextView = findViewById(R.id.conductedTrials);
         quartilesTextView = findViewById(R.id.quartiles);
+
         medianTextView = findViewById(R.id.median);
         meanTextView = findViewById(R.id.mean);
         deviationTextView = findViewById(R.id.stDev);
@@ -96,13 +100,8 @@ public class ExperimentDataActivity extends AppCompatActivity {
         experimentInfo.setSubtitle(formatDate(exp.getDate()));
         descriptionTextView.setText(exp.getDescription());
 
-        if (exp.getType() == "binomial") {
-
-        }
-
-        else  {
-
-        }
+        minimumTrialsTextView.setText(Double.toString(exp.getMinNumTrials()));
+        currentTrialsTextView.setText(Double.toString(exp.getTrialKeys().size()));
         //finish();
     }
 
@@ -192,9 +191,9 @@ public class ExperimentDataActivity extends AppCompatActivity {
                         }
                     }
                     mean = countSUM/Double.valueOf(values.size());//mean
-                    double squareDiff =0;
+                    double squareDiff = 0;
                     double total = 0;
-                    for(int i =0;i<values.size();i++){
+                    for(int i = 0;i<values.size();i++){
                         squareDiff =Math.pow((values.get(i)-mean),2);
                         total++;
                     }
@@ -226,10 +225,24 @@ public class ExperimentDataActivity extends AppCompatActivity {
                             totalCount++;//total
                         }
                     }
-                    successRate = Float.valueOf((successCount / totalCount));
+                    if (totalCount != 0) {
+                        successRate = Double.valueOf((successCount / totalCount));
+                    }
+                    else successRate = 0;
+                    showBinomialStats();
                 }
             }
         });
     }
+
+    public void showBinomialStats() {
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+            Log.d("BINOMIAL_ROUTE", "Are you here?");
+            medianTextView.setText("N/A");
+            meanTextView.setText("N/A");
+            deviationTextView.setText("N/A");
+            successRateTextView.setText(decimalFormat.format(successRate));
+        }
 
 }

@@ -84,7 +84,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
 
                 String description = experimentDescription.getText().toString();
                 String name = experimentName.getText().toString();
-                String minTrials = minimumTrials.getText().toString();
+                Integer minTrials = Integer.parseInt(minimumTrials.getText().toString());
 
                 //Experiment keywords parsed and cast to lower case on creation to ensure
                 //compatibility with User keyword search later on

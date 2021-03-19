@@ -114,6 +114,9 @@ public abstract class Experiment implements Serializable {
 
     public void setOwner(String owner) { this.owner = owner; }
 
+    public int getMinNumTrials() { return minNumTrials; }
+
+    public void setMinNumTrials(int minNumTrials) { this.minNumTrials = minNumTrials; }
 
     public void setTags(ArrayList<String> tags) { this.tags = tags; }
 
