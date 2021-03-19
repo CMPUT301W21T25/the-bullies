@@ -76,8 +76,7 @@ public class TrialManager {
                     }
                 });
     }
-  
-    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent, Date date){
+ 
     /**
      * This is a method that creates a Binomial Trial document in the database
      * @param ownerID this is the ID of the user who created the experiment
@@ -87,8 +86,9 @@ public class TrialManager {
      * @param published this is a boolean to show weather the trial is published or not
      * @param result this is the result of the trial that you want to store
      * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
+     * @param date this is the date that the trial was created
      */
-    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent){
+    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent, Date date){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -121,8 +121,6 @@ public class TrialManager {
                 });
     }
 
-    public void FB_CreateMeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent, Date date){
-
     /**
      * This is a method that creates a Measurement Trial document in the database
      * @param ownerID this is the ID of the user who created the experiment
@@ -132,8 +130,9 @@ public class TrialManager {
      * @param published this is a boolean to show weather the trial is published or not
      * @param result this is the result of the trial that you want to store
      * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
+     * @param date this is the date the trial was created
      */
-    public void FB_CreateMeasurementTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, float result, Experiment parent){
+    public void FB_CreateMeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent, Date date){
 
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
