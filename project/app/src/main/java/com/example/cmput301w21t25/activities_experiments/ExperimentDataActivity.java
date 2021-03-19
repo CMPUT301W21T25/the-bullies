@@ -2,6 +2,8 @@ package com.example.cmput301w21t25.activities_experiments;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,10 +32,20 @@ import java.util.ArrayList;
 import static java.lang.Math.sqrt;
 
 public class ExperimentDataActivity extends AppCompatActivity {
+    Toolbar experimentInfo;
+
+    TextView descriptionTextView;
+    TextView minimumTrialsTextView;
+    TextView currentTrialsTextView;
+    TextView quartilesTextView;
+    TextView medianTextView;
+    TextView meanTextView;
+    TextView deviationTextView;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_subbed);
+        setContentView(R.layout.activity_view_experiment_data);
         String type;
         type = getIntent().getStringExtra("TYPE");
         switch(type){
@@ -54,6 +66,8 @@ public class ExperimentDataActivity extends AppCompatActivity {
                 FB_FetchSummary(measurementParent);
                 break;
         }
+
+
         //finish();
     }
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -172,7 +186,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                             totalCount++;//total
                         }
                     }
-                    Integer failCount = totalCount=successCount;
+                    Float successRate = Float.valueOf((successCount / totalCount));
                 }
             }
         });
