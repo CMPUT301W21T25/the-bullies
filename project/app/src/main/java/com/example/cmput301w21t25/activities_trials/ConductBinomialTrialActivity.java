@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25.activities_trials;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,11 @@ import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.TrialManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+/**
+ * @author Eden
+ * Conduct binomial trial activity, allows experimenter to increment count. On completion, sends
+ * trial to database as doc, returns to add trial list view.
+ */
 public class ConductBinomialTrialActivity extends AppCompatActivity {
 
     Toolbar trialHeader;
@@ -28,7 +34,6 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
     private Boolean result;
 
     TrialManager trialManager;
-    Bundle experiment;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -39,32 +44,33 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
         //Grab user ID
         userID = getIntent().getStringExtra("USER_ID");
         //Pass experiment object to access attributes
-        experiment = getIntent().getBundleExtra("EXP_BUNDLE");
-        trialParent = (Experiment) experiment.getSerializable("TRIAL_PARENT");
+        trialParent = (Experiment) getIntent().getSerializableExtra("TRIAL_PARENT");
         //Set up trial manager
         trialManager = new TrialManager();
 
+
         trialHeader = findViewById(R.id.binomialExperimentInfo);
+        description = findViewById(R.id.binomialExpDescription);
         successButton = findViewById(R.id.binomialSuccessButton);
         failureButton = findViewById(R.id.binomialFailureButton);
-        description = findViewById(R.id.binomialExpDescription);
 
+        //Display Experiment info on conduct Trial page
         trialHeader.setTitle(trialParent.getName());
         trialHeader.setSubtitle(trialParent.getOwner());
         description.setText(trialParent.getDescription());
 
-        //On click, increment the value stored in count, displayed in countDisplay
+        //On click, assign True or False value of Boolean Experiment
         successButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 result = true;
                 //Call function that creates trial with result and switches activity
                 trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, result, trialParent);
-                /*
-                Intent switchScreen = new Intent(HomeOwnedActivity.this, HomeSubbedActivity.class);
+                Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
+                //Passes the parent Experiment back as it is needed in the add Trial list view
                 switchScreen.putExtra("USER_ID", userID);
+                switchScreen.putExtra("TRIAL_PARENT", trialParent);
                 startActivity(switchScreen);
-                 */
             }
         });
 
@@ -75,6 +81,10 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
                 result = false;
                 //Call function that creates trial with result and switches activity
                 trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, result, trialParent);
+                Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
+                switchScreen.putExtra("USER_ID", userID);
+                switchScreen.putExtra("TRIAL_PARENT", trialParent);
+                startActivity(switchScreen);
             }
         });
     }

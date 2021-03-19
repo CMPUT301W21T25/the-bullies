@@ -13,6 +13,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,10 @@ public class TrialManager {
      * */
     //ATTRIBUTES
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    //extra attributes to make ur life easier:
+    /////////////////////////////////////////////////////////////////////////////////////
+    //INITIALIZE EXPERIMENT
     private ExperimentManager expManager = new ExperimentManager();//this is used to update the list of trial keys associated of the parent experiment
 
     //CREATE TRIALS
@@ -42,6 +47,7 @@ public class TrialManager {
      * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
      */
     public void FB_CreateCountTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, int result, Experiment parent){
+
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -50,6 +56,9 @@ public class TrialManager {
         trialDoc.put("experimentOwnerName",parentExperimentOwnerName);
         trialDoc.put("published",published);
         trialDoc.put("result",result);
+        trialDoc.put("date", new Date());
+        //experiment.put("comment", ); ill add this later
+
 
         db.collection("TrialDocs")
                 .add(trialDoc)
@@ -70,6 +79,7 @@ public class TrialManager {
                     }
                 });
     }
+ 
     /**
      * This is a method that creates a Binomial Trial document in the database
      * @param ownerID this is the ID of the user who created the experiment
@@ -81,6 +91,7 @@ public class TrialManager {
      * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
      */
     public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent){
+
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -89,6 +100,7 @@ public class TrialManager {
         trialDoc.put("experimentOwnerName",parentExperimentOwnerName);
         trialDoc.put("published",published);
         trialDoc.put("result",result);
+        trialDoc.put("date", new Date());
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -122,8 +134,7 @@ public class TrialManager {
      * @param result this is the result of the trial that you want to store
      * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
      */
-    public void FB_CreateMeasurementTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, float result, Experiment parent){
-
+    public void FB_CreateMeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -132,6 +143,7 @@ public class TrialManager {
         trialDoc.put("experimentOwnerName",parentExperimentOwnerName);
         trialDoc.put("published",published);
         trialDoc.put("result",result);
+        trialDoc.put("date", new Date());
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID

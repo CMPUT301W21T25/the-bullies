@@ -8,6 +8,8 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.adapters.CustomListTrial;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -20,6 +22,7 @@ import com.example.cmput301w21t25.trials.NonNegCountTrial;
 import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,17 +31,29 @@ import java.util.ArrayList;
 
 public class AddTrialActivity extends AppCompatActivity {
 
-    ListView browseList;
-    ArrayAdapter<Experiment> experimentArrayAdapter;
+    ListView trialListView;
+    ArrayAdapter<Trial> trialArrayAdapter;
+    FloatingActionButton addTrialButton;
+
+    String userID;
+    Experiment exp;
+    String expID;
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        String userID;
+        setContentView(R.layout.activity_trial_list);
+
         userID = getIntent().getStringExtra("USER_ID");
-        Experiment exp = (Experiment) getIntent().getSerializableExtra("EXP");
-        String expID = exp.getFb_id();
+        exp = (Experiment) getIntent().getSerializableExtra("EXP");
+        expID = exp.getFb_id();
         FB_FetchTrialKeys(expID,userID,exp);
+
+        addTrialButton = findViewById(R.id.trial_create_button);
+        trialListView = findViewById(R.id.add_trial_list);
+        trialArrayAdapter = new CustomListTrial(this, trialList);
+        trialListView.setAdapter(trialArrayAdapter);
+
         //finish();
     }
 

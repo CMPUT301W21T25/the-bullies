@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:onClick="viewExpOwnerButton"
+            android:onClick="viewSubbediButton"
             android:paddingLeft="30px"
             app:srcCompat="@android:drawable/ic_dialog_info" />
     </LinearLayout>
