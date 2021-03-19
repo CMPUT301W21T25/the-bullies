@@ -19,6 +19,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * @author Eden
+ * A custom array adapter used to display trials in list views
+ */
 public class CustomListTrial extends ArrayAdapter<Trial> {
     private ArrayList<Trial> trials;
     private Context context;
@@ -52,6 +56,13 @@ public class CustomListTrial extends ArrayAdapter<Trial> {
         return view;
     }
 
+    /**
+     *
+     * @param date
+     * The date the experiment was created
+     * @return
+     * A formatted version of the date (String)
+     */
     String formatDate(Date date) {
 
         SimpleDateFormat condensedDate = new SimpleDateFormat("MM-dd-yyyy");
