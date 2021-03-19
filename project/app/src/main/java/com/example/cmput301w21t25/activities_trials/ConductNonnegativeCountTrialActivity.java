@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -49,7 +50,7 @@ public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
         trialHeader = findViewById(R.id.nonnegativeCountExperimentInfo);
         submitTrialButton = findViewById(R.id.submit_trial_nonnegative_count_button);
         countDisplay = findViewById(R.id.nonnegativeCountEntry);
-        description = findViewById(R.id.nonnegativeCountExperimentInfo);
+        description = findViewById(R.id.nonnegativeExpDescription);
 
         //Display Experiment info on conduct Trial page
         trialHeader.setTitle(trialParent.getName());

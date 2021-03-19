@@ -138,19 +138,23 @@ public class AddTrialActivity extends AppCompatActivity {
                                         //ArrayList<Experiment>test = new ArrayList<Experiment>();
                                         BinomialTrial binTrial = document.toObject(BinomialTrial.class);
                                         trialList.add(binTrial);
+                                        trialArrayAdapter.notifyDataSetChanged();
                                         break;
                                     case "count":
                                         CountTrial countTrial = document.toObject(CountTrial.class);
                                         trialList.add(countTrial);
+                                        trialArrayAdapter.notifyDataSetChanged();
                                         Log.d("YA-DB: ", String.valueOf(trialList));
                                         break;
                                     case "nonnegative count":
                                         NonNegCountTrial nnCountTrial = document.toObject(NonNegCountTrial.class);
                                         trialList.add(nnCountTrial);
+                                        trialArrayAdapter.notifyDataSetChanged();
                                         break;
                                     case "measurement":
                                         MeasurementTrial mesTrial = document.toObject(MeasurementTrial.class);
                                         trialList.add(mesTrial);
+                                        trialArrayAdapter.notifyDataSetChanged();
                                         break;
                                     default:
                                         Log.d("YA-DB: ", "this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
