@@ -18,7 +18,6 @@ public class SearchManager {
                 keywordList.add(keyword.trim().toLowerCase());
             }
         }
-
         /*//For testing purposes
         for (String i: keywordList) {
             Log.d("TEST_PARSE", i);

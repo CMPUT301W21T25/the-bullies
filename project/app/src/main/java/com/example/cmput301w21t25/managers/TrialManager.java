@@ -24,16 +24,27 @@ public class TrialManager {
      * please look over this before continuing work
      * Database stuff starting here ill add proper comments later in a bit of a rush atm
      * methods to get and set to database use as u please attributes in this section are listed below
-     * -YA
+     * @author:Yalmaz Abdullah
      * todo: update comments, add security and exceptions, complete incomplete methods,CHECK IF THIS STUFF WORKS RIGHT
      * */
-    //attaching firebase good comments to come later please bear with me -YA
+    //ATTRIBUTES
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private ExperimentManager expManager = new ExperimentManager();
-    //extra attributes to make ur life easier:
-    /////////////////////////////////////////////////////////////////////////////////////
-    //INITIALIZE EXPERIMENT
-    public void FB_CreateCountTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, int result, Experiment parent, Date date){
+
+    private ExperimentManager expManager = new ExperimentManager();//this is used to update the list of trial keys associated of the parent experiment
+
+    //CREATE TRIALS
+    /**
+     * This is a method that creates a Count Trial document in the database (this is used to store NonNegCount Trials) it also updates the associated Experiment's list of trial keys
+     * @param ownerID this is the ID of the user who created the experiment
+     * @param parentExperimentID this is the ID of the experiment this trial will be associated with
+     * @param parentExperimentName this is the name of the experiment this trial will be associated with
+     * @param parentExperimentOwnerName this is the name of the owner of the experiment
+     * @param published this is a boolean to show weather the trial is published or not
+     * @param result this is the result of the trial that you want to store
+     * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
+     */
+    public void FB_CreateCountTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, int result, Experiment parent){
+
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -45,7 +56,7 @@ public class TrialManager {
         trialDoc.put("date", date);
         //experiment.put("comment", ); ill add this later
 
-        // Add a new Experiment with a generated ID
+
         db.collection("TrialDocs")
                 .add(trialDoc)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -65,7 +76,19 @@ public class TrialManager {
                     }
                 });
     }
+  
     public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent, Date date){
+    /**
+     * This is a method that creates a Binomial Trial document in the database
+     * @param ownerID this is the ID of the user who created the experiment
+     * @param parentExperimentID this is the ID of the experiment this trial will be associated with
+     * @param parentExperimentName this is the name of the experiment this trial will be associated with
+     * @param parentExperimentOwnerName this is the name of the owner of the experiment
+     * @param published this is a boolean to show weather the trial is published or not
+     * @param result this is the result of the trial that you want to store
+     * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
+     */
+    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -97,7 +120,21 @@ public class TrialManager {
                     }
                 });
     }
+
     public void FB_CreateMeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent, Date date){
+
+    /**
+     * This is a method that creates a Measurement Trial document in the database
+     * @param ownerID this is the ID of the user who created the experiment
+     * @param parentExperimentID this is the ID of the experiment this trial will be associated with
+     * @param parentExperimentName this is the name of the experiment this trial will be associated with
+     * @param parentExperimentOwnerName this is the name of the owner of the experiment
+     * @param published this is a boolean to show weather the trial is published or not
+     * @param result this is the result of the trial that you want to store
+     * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
+     */
+    public void FB_CreateMeasurementTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, float result, Experiment parent){
+
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -129,8 +166,13 @@ public class TrialManager {
                     }
                 });
     }
-    /////////////////////////////////////////////////////////////////////////////////////
-    //UPDATE TRIAL
+
+    //UPDATE THE TRIALS
+    /**
+     * Updates the published field in the database for the trial associated with the provided ID
+     * @param published this is the boolean that you want to change the published field to
+     * @param id this is the ID of the trial you want to update
+     */
     public void FB_UpdatePublished(boolean published,String id){
         DocumentReference docRef = db.collection("TrialDocs").document(id);
         docRef
@@ -146,6 +188,11 @@ public class TrialManager {
                     }
                 });
     }
+    /**
+     * Update the results for a Count Trial or NonNegCount Trial
+     * @param result the new result
+     * @param id the ID of the trial you want to update
+     */
     public void FB_UpdateCountResult(int result,String id){
         DocumentReference docRef = db.collection("TrialDocs").document(id);
         docRef
@@ -161,6 +208,11 @@ public class TrialManager {
                     }
                 });
     }
+    /**
+     * Update the results for a Binomial Trial
+     * @param result the new result
+     * @param id the ID of the trial you want to update
+     */
     public void FB_UpdateBinomialResult(boolean result,String id){
         DocumentReference docRef = db.collection("TrialDocs").document(id);
         docRef
@@ -176,6 +228,11 @@ public class TrialManager {
                     }
                 });
     }
+    /**
+     * Update the results for a Measurement Trial
+     * @param result the new result
+     * @param id the ID of the trial you want to update
+     */
     public void FB_UpdateMeasurementResult(float result,String id){
         DocumentReference docRef = db.collection("TrialDocs").document(id);
         docRef
@@ -191,11 +248,7 @@ public class TrialManager {
                     }
                 });
     }
-
     /**
      * End of database stuff -YA
      * */
-
-
-    //METHOD THAT CHECKS WHICH TYPE OF TRIAL TO MAKE AND THEN MAKES IT
 }

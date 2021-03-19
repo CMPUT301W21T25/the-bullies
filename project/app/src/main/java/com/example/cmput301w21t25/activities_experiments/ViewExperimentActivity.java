@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,38 +17,57 @@ import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
-import com.example.cmput301w21t25.trials.BinomialTrial;
-import com.example.cmput301w21t25.trials.CountTrial;
-import com.example.cmput301w21t25.trials.MeasurementTrial;
-import com.example.cmput301w21t25.trials.NonNegCountTrial;
-import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-
 public class ViewExperimentActivity extends AppCompatActivity {
 
     private String expID;
     private String ownerID;
-    private String currentUserID;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_subbed);
+        setContentView(R.layout.activity_view_experiment);
+
+        userID = getIntent().getStringExtra("USER_ID");
+        Experiment exp = unpackExperiment();
+
+        TextView expName = findViewById(R.id.exp_name_text_view);
+        TextView expDesc = findViewById(R.id.exp_description_text_view);
+
+        expName.setText(exp.getName());
+        expDesc.setText(exp.getDescription()); // currently an error but should resolve on merge
+
+
+
+
+        /*
         String experimentID;
         experimentID = getIntent().getStringExtra("EXP_ID");
         expID = experimentID;
 
-        currentUserID = getIntent().getStringExtra("");
+        userID = getIntent().getStringExtra("");
 
         FB_FetchExperiment(experimentID);
         finish();
+         */
     }
+
+    private Experiment unpackExperiment() {
+
+        Bundle expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
+        Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
+        return exp;
+    }
+
+
+
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public void FB_FetchExperiment(String id){
         DocumentReference docRef = db.collection("Experiment").document(id);
@@ -136,10 +156,10 @@ public class ViewExperimentActivity extends AppCompatActivity {
         FB_FetchOwnerProfile(expID); //this updates the class attribute ownerID
 
         //check if current user = experiment owner
-        if (ownerID == currentUserID) {
+        if (ownerID == userID) {
             //switch to myprofile, pass myID
             Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
-            intent.putExtra("userID", currentUserID);
+            intent.putExtra("userID", userID);
             startActivity(intent);
         }
         else {
