@@ -18,4 +18,5 @@ public class MeasurementTrial extends Trial {
     private void setResult(Float result){
         this.result = result;
     }
+
 }
