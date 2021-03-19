@@ -4,10 +4,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.cmput301w21t25.user.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +63,57 @@ public class UserManager{
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
+    }
+    //MAKE SURE USERNAME AND EMAIL ARE UNIQUE
+    public boolean FB_isUnique(String text, String type) {
+        final boolean[] success = {true};
+        //text is the text that you want to make sure is unique, like a username
+        //type is either "userName" or "email" to indicate what are to check for uniqueness
+        if (type.equals("userName")) {
+            //username check
+            Log.i("TYPE OF CHECK", "USERNAME");
+            db.collection("UserProfile")
+                    .whereEqualTo("name", text)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                //fail
+                                Log.i("USERNAME CHECK", "USERNAME IS NOT UNIQUE");
+                                success[0] = false;
+                            }
+                            else {
+                                //yay this name is unique
+                                Log.i("USERNAME CHECK", "USERNAME IS UNIQUE");
+                                success[0] = true;
+                            }
+                        }
+                    });
+        }
+        else {
+            //email check
+            Log.i("TYPE OF CHECK", "EMAIL");
+            db.collection("UserProfile")
+                    .whereEqualTo("email", text)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                //fail
+                                Log.i("EMAIL CHECK", "EMAIL IS NOT UNIQUE");
+                                success[0] = false;
+                            }
+                            else {
+                                //yay this name is unique
+                                Log.i("EMAIL CHECK", "EMAIL IS UNIQUE");
+                                success[0] = true;
+                            }
+                        }
+                    });
+        }
+        return success[0];
     }
 
     //UPDATE PROFILE

@@ -37,8 +37,8 @@ public class ExperimentManager {
     //CREATE EXPERIMENT
     /**
      * This method creates an Experiment Document in the database that can later be recompiled into one of the Experiment Class's children
-     * @param userID the ID of the user who is creating the experiment
-     * @param name the name of the experiment
+     * @param ownerID the ID of the user who is creating the experiment
+     * @param experimentName the name of the experiment
      * @param ownerName the name of the owner of the experiment
      * @param description a brief description of the experiment
      * @param region the geolocation of the region

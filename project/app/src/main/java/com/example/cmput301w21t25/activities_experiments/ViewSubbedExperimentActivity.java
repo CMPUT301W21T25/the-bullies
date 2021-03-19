@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -26,41 +28,45 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class ViewExperimentActivity extends AppCompatActivity {
+public class ViewSubbedExperimentActivity extends AppCompatActivity {
 
     private String expID;
     private String ownerID;
     private String userID;
     private Bundle expBundle;
 
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_view_experiment);
+        setContentView(R.layout.activity_view_subbed_experiment);
 
         userID = getIntent().getStringExtra("USER_ID");
-        Experiment exp = unpackExperiment();
+        expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
+        Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
         TextView expType = findViewById(R.id.exp_type_text_view);
+        final Button addTrialButton = findViewById(R.id.add_trial_button);
 
         expName.setText(exp.getName());
         expDesc.setText(exp.getDescription());
         expType.setText(exp.getType());
         expID = exp.getFb_id(); //ck
 
+        //Make add trial button open add trials page
+        addTrialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newTrial = new Intent(ViewSubbedExperimentActivity.this, AddTrialActivity.class);
+                newTrial.putExtra("USER_ID", userID);
+                newTrial.putExtra("TRIAL_PARENT", exp);
+                startActivity(newTrial);
+
+            }
+        });
     }
-
-    private Experiment unpackExperiment() {
-
-        expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
-        Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
-        return exp;
-    }
-
-
-
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public void FB_FetchExperiment(String id){
@@ -121,7 +127,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                                         //check if current user = experiment owner
                                         if (ownerID.equals(userID)) {
                                             //switch to myprofile
-                                            Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
+                                            Intent intent = new Intent(ViewSubbedExperimentActivity.this, MyUserProfileActivity.class);
                                             intent.putExtra("userID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
@@ -129,7 +135,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                                         }
                                         else {
                                             //switch to otherprofile
-                                            Intent intent = new Intent(ViewExperimentActivity.this, OtherUserProfileActivity.class);
+                                            Intent intent = new Intent(ViewSubbedExperimentActivity.this, OtherUserProfileActivity.class);
                                             intent.putExtra("ownerID", ownerID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);

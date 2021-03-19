@@ -11,12 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.adapters.CustomListTrial;
-import com.example.cmput301w21t25.experiments.BinomialExperiment;
-import com.example.cmput301w21t25.experiments.CountExperiment;
+import com.example.cmput301w21t25.custom.CustomListTrial;
 import com.example.cmput301w21t25.experiments.Experiment;
-import com.example.cmput301w21t25.experiments.MeasurementExperiment;
-import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.example.cmput301w21t25.trials.BinomialTrial;
 import com.example.cmput301w21t25.trials.CountTrial;
 import com.example.cmput301w21t25.trials.MeasurementTrial;
@@ -60,30 +56,31 @@ public class AddTrialActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Launches a conduct trial activity based on type of experiment
+                Intent switchScreen = null;
                 switch (exp.getType()) {
                     case "count":
-                        Intent switchScreen = new Intent(AddTrialActivity.this, ConductCountTrialActivity.class);
+                        switchScreen = new Intent(AddTrialActivity.this, ConductCountTrialActivity.class);
                         switchScreen.putExtra("USER_ID", userID);
                         switchScreen.putExtra("TRIAL_PARENT", exp);
                         startActivity(switchScreen);
                         break;
                     case "nonnegative count":
-                        Intent switchScreen2 = new Intent(AddTrialActivity.this, ConductNonnegativeCountTrialActivity.class);
-                        switchScreen2.putExtra("USER_ID", userID);
-                        switchScreen2.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen2);
+                        switchScreen = new Intent(AddTrialActivity.this, ConductNonnegativeCountTrialActivity.class);
+                        switchScreen.putExtra("USER_ID", userID);
+                        switchScreen.putExtra("TRIAL_PARENT", exp);
+                        startActivity(switchScreen);
                         break;
                     case "binomial":
-                        Intent switchScreen3 = new Intent(AddTrialActivity.this, ConductBinomialTrialActivity.class);
-                        switchScreen3.putExtra("USER_ID", userID);
-                        switchScreen3.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen3);
+                        switchScreen = new Intent(AddTrialActivity.this, ConductBinomialTrialActivity.class);
+                        switchScreen.putExtra("USER_ID", userID);
+                        switchScreen.putExtra("TRIAL_PARENT", exp);
+                        startActivity(switchScreen);
                         break;
                     case "measurement":
-                        Intent switchScreen4 = new Intent(AddTrialActivity.this, ConductMeasurementTrialActivity.class);
-                        switchScreen4.putExtra("USER_ID", userID);
-                        switchScreen4.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen4);
+                        switchScreen = new Intent(AddTrialActivity.this, ConductMeasurementTrialActivity.class);
+                        switchScreen.putExtra("USER_ID", userID);
+                        switchScreen.putExtra("TRIAL_PARENT", exp);
+                        startActivity(switchScreen);
                         break;
                 }
             }

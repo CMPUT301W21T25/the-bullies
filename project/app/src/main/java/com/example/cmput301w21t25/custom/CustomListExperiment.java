@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25.adapters;
+package com.example.cmput301w21t25.custom;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -49,12 +49,12 @@ public class SearchTest {
 
         Experiment experiment1 = mockExperiment();
         experiment1.setName("Duncan is a Dingus");
-        experiment1.setKeywords(keywords1);
+        experiment1.setTags(keywords1);
         experiment1.setType("binomial");
 
         Experiment experiment2 = mockExperiment();
         experiment2.setName("Yup that's True");
-        experiment2.setKeywords(keywords2);
+        experiment2.setTags(keywords2);
         experiment2.setType("measurement");
 
         experiments.add(experiment1);

@@ -143,7 +143,7 @@
             android:layout_marginLeft="35dp"
             android:layout_marginBottom="54dp"
             android:onClick="subscribeButton"
-            android:text="subscribe" />
+            android:text="Add Trial" />
     </LinearLayout>
 
 </RelativeLayout>

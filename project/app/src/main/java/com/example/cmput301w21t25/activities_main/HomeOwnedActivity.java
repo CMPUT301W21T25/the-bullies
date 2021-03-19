@@ -16,7 +16,7 @@ import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
 import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
-import com.example.cmput301w21t25.adapters.CustomListExperiment;
+import com.example.cmput301w21t25.custom.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -41,6 +41,13 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private float x2;
     private float y1;
     private float y2;
+
+    @Override
+    protected void onResume() {
+        //list refresh
+        super.onResume();
+        FB_FetchOwnedKeys(userID);
+    }
 
     @Override
     protected void onCreate(Bundle passedData) {
