@@ -12,7 +12,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cmput301w21t25.custom.FilterSearchFragment;
+import com.example.cmput301w21t25.FilterSearchFragment;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
