@@ -106,7 +106,7 @@ public class AddTrialActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
 
-                    if (document.exists()&&(Boolean)document.getData().get("published")==false) {//combine into one really big conditional?
+                    if (document.exists()) {//combine into one really big conditional?
 
                         trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
                         Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
@@ -129,7 +129,7 @@ public class AddTrialActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
+                            if (document.exists()&&(Boolean)document.getData().get("published")==false) {
                                 Log.d("YA-DB: ", "testing");
                                 switch (type) {
                                     case "binomial":
