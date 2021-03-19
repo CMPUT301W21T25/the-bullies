@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.custom;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.cmput301w21t25.R;
 
 import java.util.ArrayList;
 

@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
-import com.example.cmput301w21t25.adapters.CustomListExperiment;
+import com.example.cmput301w21t25.custom.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;

@@ -11,12 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.adapters.CustomListTrial;
-import com.example.cmput301w21t25.experiments.BinomialExperiment;
-import com.example.cmput301w21t25.experiments.CountExperiment;
+import com.example.cmput301w21t25.custom.CustomListTrial;
 import com.example.cmput301w21t25.experiments.Experiment;
-import com.example.cmput301w21t25.experiments.MeasurementExperiment;
-import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.example.cmput301w21t25.trials.BinomialTrial;
 import com.example.cmput301w21t25.trials.CountTrial;
 import com.example.cmput301w21t25.trials.MeasurementTrial;
