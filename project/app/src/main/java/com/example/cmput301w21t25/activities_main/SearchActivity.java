@@ -69,7 +69,8 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
     public void onOkPressed(String allKeywords) {
         Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
         this.allKeywords = allKeywords;
-        FB_FetchNotSubscribed(subscriptionKeys);
+        Log.d("returning",allKeywords);
+        FB_FetchExperimentList(userID);
     }
 
     /********************************************
@@ -93,7 +94,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
                     if (document.exists()) {
                         subscriptionKeys = (ArrayList<String>) document.getData().get("subscriptions");
                         Log.d("YA-DB: ", "DocumentSnapshot data: " + subscriptionKeys);
-                        //FB_FetchNotSubscribed(subscriptionKeys);
+                        FB_FetchNotSubscribed(subscriptionKeys);
                     }
                 } else {
                     Log.d("YA-DB: ", "get failed with ", task.getException());
@@ -162,7 +163,14 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
                                     }
                                 }
                                 //call search manager here
-                                searchManager.searchExperiments(allKeywords, experimentList);
+                                if(allKeywords != null){
+                                    Log.d("YA-DB returning: ", String.valueOf(allKeywords));
+                                    //searchManager.searchExperiments(allKeywords, experimentList);
+                                }
+                                else{
+                                    Log.d("YA-DB returning", "keywords is null");
+                                }
+
                             }
                         }
                     });
