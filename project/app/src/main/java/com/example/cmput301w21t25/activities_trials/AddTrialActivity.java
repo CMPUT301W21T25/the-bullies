@@ -106,7 +106,7 @@ public class AddTrialActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
 
-                    if (document.exists()&&(String)document.getData().get("ownerID")==userID) {//combine into one really big conditional?
+                    if (document.exists()&&(Boolean)document.getData().get("published")==false) {//combine into one really big conditional?
 
                         trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
                         Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
