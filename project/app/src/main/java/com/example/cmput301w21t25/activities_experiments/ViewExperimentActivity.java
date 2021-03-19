@@ -32,7 +32,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_view_experiment);
+        setContentView(R.layout.activity_view_experiment_updated);
 
         userID = getIntent().getStringExtra("USER_ID");
         Experiment exp = unpackExperiment();
