@@ -19,12 +19,9 @@ import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.example.cmput301w21t25.trials.BinomialTrial;
 import com.example.cmput301w21t25.trials.CountTrial;
 import com.example.cmput301w21t25.trials.MeasurementTrial;
-import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -70,7 +67,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
         minimumTrialsTextView = findViewById(R.id.minimumTrials);
 
         currentTrialsTextView = findViewById(R.id.conductedTrials);
-        quartilesTextView = findViewById(R.id.quartiles);
+        quartilesTextView = findViewById(R.id.Lquartiles);
 
         medianTextView = findViewById(R.id.median);
         meanTextView = findViewById(R.id.mean);
