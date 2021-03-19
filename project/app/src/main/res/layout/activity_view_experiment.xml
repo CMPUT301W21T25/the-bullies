@@ -35,6 +35,14 @@
         android:layout_marginRight="38dp"
         android:onClick="viewExpOwnerButton" />
 
+    <Button
+        android:id="@+id/exp_owner_button"
+        android:layout_width="93dp"
+        android:layout_height="54dp"
+        android:layout_below="@id/top_space"
+        android:layout_toLeftOf="@id/right_space"
+        android:onClick="viewExpOwnerButton" />
+
     <TextView
         android:id="@+id/exp_name_text_view"
         android:layout_width="wrap_content"
@@ -53,13 +61,15 @@
         android:layout_below="@id/top_space"
         android:layout_toLeftOf="@id/right_space"
         android:background="@color/black"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:visibility="gone"
+        tools:srcCompat="@tools:sample/avatars"
+        tools:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/info_linear_layout"
         android:layout_width="363dp"
         android:layout_height="353dp"
-        android:layout_below="@id/exp_owner_image_view"
+        android:layout_below="@id/exp_name_text_view"
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
         android:paddingTop="24dp">
