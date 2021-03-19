@@ -1,13 +1,16 @@
 package com.example.cmput301w21t25.activities_trials;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
@@ -19,6 +22,7 @@ public class ConductMeasurementTrialActivity extends AppCompatActivity {
     Toolbar trialHeader;
     Button submitTrialButton;
     EditText measurementDisplay;
+    TextView description;
 
     private Experiment trialParent;
     private String userID;
@@ -27,6 +31,7 @@ public class ConductMeasurementTrialActivity extends AppCompatActivity {
 
     private TrialManager trialManager;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle passedData) {
         super.onCreate(passedData);
@@ -43,6 +48,12 @@ public class ConductMeasurementTrialActivity extends AppCompatActivity {
         trialHeader = findViewById(R.id.measurementExperimentInfo);
         submitTrialButton = findViewById(R.id.submit_trial_measurement_button);
         measurementDisplay = findViewById(R.id.measurementEntry);
+        description = findViewById(R.id.measurementExperimentInfo);
+
+        //Display Experiment info on conduct Trial page
+        trialHeader.setTitle(trialParent.getName());
+        trialHeader.setSubtitle(trialParent.getOwner());
+        description.setText(trialParent.getDescription());
 
         //On click, confirm trial, return to trial list view
         submitTrialButton.setOnClickListener(new View.OnClickListener() {
