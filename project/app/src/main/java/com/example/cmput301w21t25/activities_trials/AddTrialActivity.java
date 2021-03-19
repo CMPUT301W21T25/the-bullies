@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
+import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListTrial;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.trials.BinomialTrial;
@@ -165,6 +167,18 @@ public class AddTrialActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    public void addTrialiButton(View view) {
+        //switch to profileView, pass userId
+        Intent intent = new Intent(AddTrialActivity.this, MyUserProfileActivity.class);
+        intent.putExtra("userID", userID);
+        intent.putExtra("prevScreen", "AddTrial");
+        //bundle experiment to return to
+
+        intent.putExtra("TRIAL_PARENT", exp);
+        startActivity(intent);
+
     }
 
 }
