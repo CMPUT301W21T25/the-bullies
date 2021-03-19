@@ -1,11 +1,13 @@
 package com.example.cmput301w21t25.activities_experiments;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
@@ -27,7 +29,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static java.lang.Math.sqrt;
 
@@ -41,35 +45,66 @@ public class ExperimentDataActivity extends AppCompatActivity {
     TextView medianTextView;
     TextView meanTextView;
     TextView deviationTextView;
+    TextView successRateTextView;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_view_experiment_data);
         String type;
         type = getIntent().getStringExtra("TYPE");
+
+        experimentInfo = findViewById(R.id.viewExperimentDataInfo);
+        descriptionTextView = findViewById(R.id.viewExperimentDataDescription);
+        minimumTrialsTextView = findViewById(R.id.minimumTrials);
+        currentTrialsTextView = findViewById(R.id.conductedTrials);
+        quartilesTextView = findViewById(R.id.quartiles);
+        medianTextView = findViewById(R.id.median);
+        meanTextView = findViewById(R.id.mean);
+        deviationTextView = findViewById(R.id.stDev);
+        successRateTextView = findViewById(R.id.successRate);
+
         switch(type){
             case "count":
                 CountExperiment countParent = (CountExperiment) getIntent().getSerializableExtra("EXP");
+                displayExperimentInfo(countParent);
                 FB_FetchSummary(countParent);
                 break;
             case "binomial":
                 BinomialExperiment binomialParent = (BinomialExperiment) getIntent().getSerializableExtra("EXP");
+                displayExperimentInfo(binomialParent);
                 FB_FetchSummary(binomialParent);
                 break;
             case "non-neg-count":
                 NonNegCountExperiment nnCountParent = (NonNegCountExperiment) getIntent().getSerializableExtra("EXP");
+                displayExperimentInfo(nnCountParent);
                 FB_FetchSummary(nnCountParent);
                 break;
             case "measurement":
                 MeasurementExperiment measurementParent = (MeasurementExperiment) getIntent().getSerializableExtra("EXP");
+                displayExperimentInfo(measurementParent);
                 FB_FetchSummary(measurementParent);
                 break;
         }
 
-
         //finish();
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void displayExperimentInfo(Experiment experiment) {
+        experimentInfo.setTitle(experiment.getName());
+        experimentInfo.setSubtitle(formatDate(experiment.getDate()));
+        descriptionTextView.setText(experiment.getDescription());
+    }
+
+    private String formatDate(Date date) {
+
+        SimpleDateFormat condensedDate = new SimpleDateFormat("MM-dd-yyyy");
+        String formattedDate = condensedDate.format(date);
+        return formattedDate;
+    }
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Integer countSUM = 0;
     public void FB_FetchSummary(CountExperiment parent){
