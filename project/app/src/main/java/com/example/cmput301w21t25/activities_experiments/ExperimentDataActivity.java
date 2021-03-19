@@ -3,6 +3,7 @@ package com.example.cmput301w21t25.activities_experiments;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,8 @@ public class ExperimentDataActivity extends AppCompatActivity {
     TextView descriptionTextView;
     TextView minimumTrialsTextView;
     TextView currentTrialsTextView;
-    TextView quartilesTextView;
+    TextView LquartilesTextView;
+    TextView UquartilesTextView;
     TextView medianTextView;
     TextView meanTextView;
     TextView deviationTextView;
@@ -65,10 +67,10 @@ public class ExperimentDataActivity extends AppCompatActivity {
         experimentInfo = findViewById(R.id.viewExperimentDataInfo);
         descriptionTextView = findViewById(R.id.viewExperimentDataDescription);
         minimumTrialsTextView = findViewById(R.id.minimumTrials);
-
         currentTrialsTextView = findViewById(R.id.conductedTrials);
-        quartilesTextView = findViewById(R.id.Lquartiles);
 
+        LquartilesTextView = findViewById(R.id.Lquartiles);
+        UquartilesTextView = findViewById(R.id.Uquartiles);
         medianTextView = findViewById(R.id.median);
         meanTextView = findViewById(R.id.mean);
         deviationTextView = findViewById(R.id.stDev);
@@ -97,8 +99,8 @@ public class ExperimentDataActivity extends AppCompatActivity {
         experimentInfo.setSubtitle(formatDate(exp.getDate()));
         descriptionTextView.setText(exp.getDescription());
 
-        minimumTrialsTextView.setText(Double.toString(exp.getMinNumTrials()));
-        currentTrialsTextView.setText(Double.toString(exp.getTrialKeys().size()));
+        minimumTrialsTextView.setText("Minimum Number of Trials: " + Integer.toString(exp.getMinNumTrials()));
+        currentTrialsTextView.setText("Current Number of Trials: " + Integer.toString(exp.getTrialKeys().size()));
         //finish();
     }
 
@@ -236,10 +238,12 @@ public class ExperimentDataActivity extends AppCompatActivity {
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
             Log.d("BINOMIAL_ROUTE", "Are you here?");
-            medianTextView.setText("N/A");
-            meanTextView.setText("N/A");
-            deviationTextView.setText("N/A");
-            successRateTextView.setText(decimalFormat.format(successRate));
+            medianTextView.setText("Median: N/A");
+            meanTextView.setText("Mean: N/A");
+            deviationTextView.setText("Standard Deviation: N/A");
+            LquartilesTextView.setText("N/A");
+            UquartilesTextView.setText("N/A");
+            successRateTextView.setText("Success Rate: " + decimalFormat.format(successRate));
         }
 
 }
