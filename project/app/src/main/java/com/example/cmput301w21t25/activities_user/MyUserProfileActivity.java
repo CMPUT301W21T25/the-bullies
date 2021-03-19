@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
 import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +29,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
     private String ContactInfo;
     private String userID;
     private String prevScreen;
+    private Bundle expBundle;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -35,6 +37,9 @@ public class MyUserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_myprofile_view);
         userID = getIntent().getStringExtra("userID");
         prevScreen = getIntent().getStringExtra("prevScreen");
+        //try to get bundle, (only from experiment view)
+        expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
+
         FB_FetchUserInfo(userID);
     }
 
@@ -63,10 +68,6 @@ public class MyUserProfileActivity extends AppCompatActivity {
                         EditText editEmail = findViewById(R.id.updateEmail);
                         editName.setText(Username);
                         editEmail.setText(ContactInfo);
-
-
-
-
                     }
                 } else {
                     Log.d("YA-DB: ", "get failed with ", task.getException());
@@ -86,6 +87,9 @@ public class MyUserProfileActivity extends AppCompatActivity {
                 break;
             case "Experiment":
                 // go back to experiment view
+                intent = new Intent(MyUserProfileActivity.this, ViewExperimentActivity.class);
+                intent.putExtra("EXP_BUNDLE", expBundle);
+
             //default:
                 //intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
         }

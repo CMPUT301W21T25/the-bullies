@@ -28,7 +28,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
     private String expID;
     private String ownerID;
     private String userID;
-    private Bundle bundle;
+    private Bundle expBundle;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -44,13 +44,12 @@ public class ViewExperimentActivity extends AppCompatActivity {
         expName.setText(exp.getName());
         expDesc.setText(exp.getDescription()); // currently an error but should resolve on merge
         expID = exp.getFb_id(); //ck
-        Log.i("curtis", expID);
 
     }
 
     private Experiment unpackExperiment() {
 
-        Bundle expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
+        expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
         Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
         return exp;
     }
@@ -98,54 +97,40 @@ public class ViewExperimentActivity extends AppCompatActivity {
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                Log.i("curtis", "CHECK2");
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    Log.i("curtis", "CHECK3");
-                    Log.i("curtis", id);
                     if (document.exists()) {
-                        Log.i("curtis", "CHECK4");
-                        String userID = (String)document.getData().get("owner");
+                        String userID = (String)document.getData().get("ownerID");
                         ownerID = userID;
                         DocumentReference docRef = db.collection("UserProfile").document(userID);
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                Log.i("curtis", "CHECK5");
                                 if (task.isSuccessful()) {
-                                    Log.i("curtis", "CHECK6");
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
-                                        Log.i("curtis", "CHECK7");
                                         Log.d("YA-DB:", "User document retrieved passing ID to MyUserProfileActivity");
                                         //EDEN:
                                         //For list testing I'm going to send it to homeOwned instead
                                         //Can return to userProfile activity later
+
                                         //check if current user = experiment owner
-                                        Log.i("expID", id);
-                                        Log.i("ownerID", ownerID);
-                                        Log.i("userID", userID);
                                         if (ownerID == userID) {
-                                            //switch to myprofile, pass myID
+                                            //switch to myprofile
                                             Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
                                             intent.putExtra("userID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
-                                            intent.putExtra("bundle", bundle);
+                                            intent.putExtra("EXP_BUNDLE", expBundle);
                                             startActivity(intent);
                                         }
                                         else {
-                                            //switch to otherprofile, pass expOwnerID
+                                            //switch to otherprofile
                                             Intent intent = new Intent(ViewExperimentActivity.this, OtherUserProfileActivity.class);
                                             intent.putExtra("userID", ownerID);
                                             intent.putExtra("prevScreen", "Experiment");
-                                            intent.putExtra("bundle", bundle);
+                                            intent.putExtra("EXP_BUNDLE", expBundle);
                                             startActivity(intent);
                                         }
-                                        Log.i("curtis", "CHECKED");
-
-
-
-
 
                                     }
                                 } else {
@@ -163,8 +148,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * Is called when a user clicks on the owners profile image while viewing an experiment
      * Will switch to a profile view activity (either myuser or otheruser)
@@ -172,9 +155,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
      * @param view
      */
     public void viewExpOwnerButton(View view) {
-        //first we need to get the experiment owner
-        FB_FetchOwnerProfile(expID); //this updates the class attribute ownerID
-        Log.d("curtis", "CHECK");
+        FB_FetchOwnerProfile(expID);
     }
 
 }
