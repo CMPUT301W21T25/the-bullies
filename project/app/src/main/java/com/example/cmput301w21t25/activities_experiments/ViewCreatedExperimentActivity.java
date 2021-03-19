@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
+import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,11 +35,15 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
     private String ownerID;
     private String userID;
     private Bundle expBundle;
+    private ExperimentManager em = new ExperimentManager();
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_view_created_experiment);
+
+        final Button editButton = findViewById(R.id.edit_button);
+        final Button publishButton = findViewById(R.id.publish_button);
 
         userID = getIntent().getStringExtra("USER_ID");
         Experiment exp = unpackExperiment();
@@ -50,6 +56,21 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         expDesc.setText(exp.getDescription());
         expType.setText(exp.getType());
         expID = exp.getFb_id(); //ck
+
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        publishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                em.FB_UpdatePublished(true, expID);
+            }
+        });
 
     }
 
