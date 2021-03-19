@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.SearchActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -180,6 +181,11 @@ public class ViewExperimentActivity extends AppCompatActivity {
                         Log.d("curtis", "failed to subscribe");
                     }
                 });
+
+        Intent intent = new Intent(ViewExperimentActivity.this, SearchActivity.class);
+        intent.putExtra("USER_ID", userID);
+        startActivity(intent);
+
     }
 
 }
