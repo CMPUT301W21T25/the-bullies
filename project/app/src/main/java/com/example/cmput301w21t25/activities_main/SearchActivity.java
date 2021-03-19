@@ -42,12 +42,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
     String allKeywords;
 
     private String userID;
-    @Override
-    protected void onResume() {
-        //this is curtis testing the subscription refresh, it works lets goooo
-        super.onResume();
-        FB_FetchExperimentList(userID);
-    }
+
 
     @Override
     protected void onCreate(Bundle passedData) {

@@ -15,6 +15,7 @@ import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
 import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
 import com.example.cmput301w21t25.activities_main.SearchActivity;
+import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -109,6 +110,9 @@ public class MyUserProfileActivity extends AppCompatActivity {
         UserManager userManager = new UserManager();
         userManager.FB_UpdateName(name, userID);
         userManager.FB_UpdateEmail(email, userID);
+
+        ExperimentManager experimentManager = new ExperimentManager();
+        experimentManager.FB_UpdateName(userID);
 
         goBackButton(view);
     }

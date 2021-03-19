@@ -12,6 +12,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firestore.v1.Document;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -102,6 +105,51 @@ public class ExperimentManager {
                     }
                 });
     }
+
+
+    public void FB_UpdateName(String OwnerID) {
+        //needs an owner id to update their experiments
+        //grabs their current name, changes them on experiments
+        DocumentReference docRef = db.collection("UserProfile").document(OwnerID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        String name = document.getString("name");
+                        FB_changeName(OwnerID, name);
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void FB_changeName(String ownerID, String name) {
+        //do not use this method by itself
+        db.collection("Experiments")
+                .whereEqualTo("ownerID", ownerID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                document.getReference().update("owner", name);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
 
     //UPDATE EXPERIMENT
     /**

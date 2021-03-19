@@ -42,12 +42,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private float y1;
     private float y2;
 
-    @Override
-    protected void onResume() {
-        //list refresh
-        super.onResume();
-        FB_FetchOwnedKeys(userID);
-    }
+
 
     @Override
     protected void onCreate(Bundle passedData) {
