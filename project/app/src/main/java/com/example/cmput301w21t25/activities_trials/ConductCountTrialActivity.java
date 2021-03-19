@@ -48,7 +48,7 @@ public class ConductCountTrialActivity extends AppCompatActivity {
         submitTrialButton = findViewById(R.id.submit_trial_count_button);
         incrementButton = findViewById(R.id.increment_count_button);
         countDisplay = findViewById(R.id.trial_count);
-        description = findViewById(R.id.countExperimentInfo);
+        description = findViewById(R.id.countExpDescription);
 
         //Display Experiment info on conduct Trial page
         trialHeader.setTitle(trialParent.getName());
