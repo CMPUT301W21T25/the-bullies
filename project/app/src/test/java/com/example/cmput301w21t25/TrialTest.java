@@ -59,6 +59,6 @@ public class TrialTest {
         MeasurementTrial mockTrial = mockMeasurementTrial();
         mockTrial.setResult(3.6f);
 
-        assertTrue(mockTrial.getResult()==3.6);
+        assertTrue(mockTrial.getResult()==3.6f);
     }
 }
