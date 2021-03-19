@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
@@ -207,5 +208,20 @@ public class HomeSubbedActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * Is called when a user clicks on their profile image
+     * Will switch to a profile view activity
+     * Curtis
+     * @param view
+     */
+    public void viewSubbediButton(View view) {
+        //switch to profileView, pass userId
+        Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
+        intent.putExtra("userID", userID);
+        intent.putExtra("prevScreen", "Subbed");
+        startActivity(intent);
+    }
+
 
 }
