@@ -48,7 +48,7 @@ public class ConductMeasurementTrialActivity extends AppCompatActivity {
         trialHeader = findViewById(R.id.measurementExperimentInfo);
         submitTrialButton = findViewById(R.id.submit_trial_measurement_button);
         measurementDisplay = findViewById(R.id.measurementEntry);
-        description = findViewById(R.id.measurementExperimentInfo);
+        description = findViewById(R.id.measureExpDescription);
 
         //Display Experiment info on conduct Trial page
         trialHeader.setTitle(trialParent.getName());
