@@ -8,27 +8,32 @@ package com.example.cmput301w21t25.trials;
  * TODO: update UML after approval of teammates
  */
 public class NonNegCountTrial extends Trial{
+    //We can likely get rid of the count to keep track of "out of how many" if we just count
+    //how many trials an experiment has, multiply that by the "out of" value
     private Integer positiveCount;
     private Integer result;
 
-    private NonNegCountTrial(Integer result){
+    //Don't need this? -EK
+    /*private NonNegCountTrial(Integer result){
         this.result = result;
-    }
+    }*/
 
     public Integer getResult() {
         return result;
     }
 
     /**
-     * @param count This is the number which will be recorded for the trial
+     * @param result This is the number which will be recorded for the trial
      */
-    private void addResult(Integer count){
-        if(count >= 0){
-            this.positiveCount = count;
+    private void setResult(Integer result){ this.result = result;
+
+        //This should probably be checked when we get the input, not when we try and set it -EK
+        /*if(count >= 0){
+            this.result = result;
         }
         else{
             //TODO: Show toast for adding a negative number StuPid put pOsiTiVe
-        }
+        }*/
 
     }
 

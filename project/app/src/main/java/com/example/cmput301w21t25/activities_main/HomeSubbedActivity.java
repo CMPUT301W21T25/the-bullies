@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
+import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
@@ -64,7 +66,17 @@ public class HomeSubbedActivity extends AppCompatActivity {
         subbedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("YA-DB: ", "Does it click?");
+                Log.d("DK: ", "Position clicked = " + position);
+                Experiment experiment = (Experiment) subbedExperimentsList.getItemAtPosition(position);
+                Intent viewExp = new Intent(HomeSubbedActivity.this, ViewExperimentActivity.class);
+
+                Bundle expBundle = new Bundle();
+                expBundle.putSerializable("EXP_OBJ", experiment);
+
+                viewExp.putExtra("USER_ID", userID);
+                viewExp.putExtra("EXP_BUNDLE", expBundle);
+
+                startActivity(viewExp);
             }
         });
 
@@ -207,5 +219,20 @@ public class HomeSubbedActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * Is called when a user clicks on their profile image
+     * Will switch to a profile view activity
+     * Curtis
+     * @param view
+     */
+    public void viewSubbediButton(View view) {
+        //switch to profileView, pass userId
+        Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
+        intent.putExtra("userID", userID);
+        intent.putExtra("prevScreen", "Subbed");
+        startActivity(intent);
+    }
+
 
 }

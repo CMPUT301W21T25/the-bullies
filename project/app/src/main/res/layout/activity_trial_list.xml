@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10px"
-            android:text="Created Experiments"
+            android:text="Add Trials"
             android:textColor="#f6f5f5"
             android:textSize="28sp" />
 
@@ -31,14 +31,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:onClick="viewOwnediButton"
+            android:onClick="viewExpOwnerButton"
             android:paddingLeft="30px"
             app:srcCompat="@android:drawable/ic_dialog_info" />
     </LinearLayout>
 
 
     <ListView
-        android:id="@+id/owned_experiment_list"
+        android:id="@+id/add_trial_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header_liner_layout"
@@ -47,7 +47,7 @@
         android:layout_alignParentLeft="true"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/exp_create_button"
+        android:id="@+id/trial_create_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

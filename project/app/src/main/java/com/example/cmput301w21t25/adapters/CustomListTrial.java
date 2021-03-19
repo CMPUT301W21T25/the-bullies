@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.trials.Trial;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,17 +21,17 @@ import java.util.Date;
 
 /**
  * @author Eden
- * A custom array adapter to display experiments in a list view
+ * A custom array adapter used to display trials in list views
  */
-public class CustomListExperiment extends ArrayAdapter<Experiment> {
-    private ArrayList<Experiment> experiments;
+public class CustomListTrial extends ArrayAdapter<Trial> {
+    private ArrayList<Trial> trials;
     private Context context;
     private Date date;
     private String dateString;
 
-    public CustomListExperiment(Context context, ArrayList<Experiment> experiments) {
-        super(context, 0, experiments);
-        this.experiments = experiments;
+    public CustomListTrial(Context context, ArrayList<Trial> trials) {
+        super(context,0,trials);
+        this.trials = trials;
         this.context = context;
     }
 
@@ -38,23 +39,19 @@ public class CustomListExperiment extends ArrayAdapter<Experiment> {
         View view = convertView;
         //The content view is not displayed if the adapter is empty
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.exp_content, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.trial_content, parent, false);
         }
 
-        Experiment experiment = experiments.get(position);
+        Trial trial = trials.get(position);
 
-        TextView experimentDescription = view.findViewById(R.id.exp_description_text_view);
-        TextView experimentDate = view.findViewById(R.id.exp_date_text_view);
-        TextView userName = view.findViewById(R.id.user_id_text_view);
-        //We currently aren't displaying images
-        ImageView userImage = view.findViewById(R.id.imageView2);
+        TextView experimentName = view.findViewById(R.id.trial_parent_name);
+        TextView trialDate = view.findViewById(R.id.trial_date);
 
-        date = experiment.getDate();
+        date = trial.getDate();
         dateString = formatDate(date);
 
-        experimentDescription.setText(experiment.getName());
-        experimentDate.setText(dateString);
-        userName.setText(experiment.getOwner());
+        experimentName.setText(trial.getExperimentName() + "Trial");
+        trialDate.setText(dateString);
 
         return view;
     }

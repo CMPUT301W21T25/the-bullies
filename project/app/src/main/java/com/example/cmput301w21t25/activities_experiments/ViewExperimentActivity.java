@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,38 +17,49 @@ import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
-import com.example.cmput301w21t25.trials.BinomialTrial;
-import com.example.cmput301w21t25.trials.CountTrial;
-import com.example.cmput301w21t25.trials.MeasurementTrial;
-import com.example.cmput301w21t25.trials.NonNegCountTrial;
-import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 
 public class ViewExperimentActivity extends AppCompatActivity {
 
     private String expID;
     private String ownerID;
-    private String currentUserID;
+    private String userID;
+    private Bundle expBundle;
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_subbed);
-        String experimentID;
-        experimentID = getIntent().getStringExtra("EXP_ID");
-        expID = experimentID;
+        setContentView(R.layout.activity_view_experiment);
 
-        currentUserID = getIntent().getStringExtra("");
+        userID = getIntent().getStringExtra("USER_ID");
+        Experiment exp = unpackExperiment();
 
-        FB_FetchExperiment(experimentID);
-        finish();
+        TextView expName = findViewById(R.id.exp_name_text_view);
+        TextView expDesc = findViewById(R.id.exp_description_text_view);
+
+        expName.setText(exp.getName());
+        expDesc.setText(exp.getDescription()); // currently an error but should resolve on merge
+        expID = exp.getFb_id(); //ck
+
     }
+
+    private Experiment unpackExperiment() {
+
+        expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
+        Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
+        return exp;
+    }
+
+
+
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public void FB_FetchExperiment(String id){
         DocumentReference docRef = db.collection("Experiment").document(id);
@@ -84,16 +96,15 @@ public class ViewExperimentActivity extends AppCompatActivity {
         });
     }
     public void FB_FetchOwnerProfile(String id){//the input param is the exp ID
-        DocumentReference docRef = db.collection("Experiment").document(id);
+        DocumentReference docRef = db.collection("Experiments").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        String userID = (String)document.getData().get("owner");
-                        ownerID = userID;
-                        DocumentReference docRef = db.collection("UserProfile").document(userID);
+                        ownerID = (String)document.getData().get("ownerID");
+                        DocumentReference docRef = db.collection("UserProfile").document(ownerID);
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -104,9 +115,25 @@ public class ViewExperimentActivity extends AppCompatActivity {
                                         //EDEN:
                                         //For list testing I'm going to send it to homeOwned instead
                                         //Can return to userProfile activity later
-                                        Intent intent = new Intent(getBaseContext(), MyUserProfileActivity.class);
-                                        intent.putExtra("USER_ID", userID);
-                                        startActivity(intent);
+
+                                        //check if current user = experiment owner
+                                        if (ownerID.equals(userID)) {
+                                            //switch to myprofile
+                                            Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
+                                            intent.putExtra("userID", userID);
+                                            intent.putExtra("prevScreen", "Experiment");
+                                            intent.putExtra("EXP_BUNDLE", expBundle);
+                                            startActivity(intent);
+                                        }
+                                        else {
+                                            //switch to otherprofile
+                                            Intent intent = new Intent(ViewExperimentActivity.this, OtherUserProfileActivity.class);
+                                            intent.putExtra("ownerID", ownerID);
+                                            intent.putExtra("prevScreen", "Experiment");
+                                            intent.putExtra("EXP_BUNDLE", expBundle);
+                                            startActivity(intent);
+                                        }
+
                                     }
                                 } else {
                                     Log.d("YA-DB:", "User Profile Query Failed", task.getException());
@@ -123,8 +150,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * Is called when a user clicks on the owners profile image while viewing an experiment
      * Will switch to a profile view activity (either myuser or otheruser)
@@ -132,23 +157,27 @@ public class ViewExperimentActivity extends AppCompatActivity {
      * @param view
      */
     public void viewExpOwnerButton(View view) {
-        //first we need to get the experiment owner
-        FB_FetchOwnerProfile(expID); //this updates the class attribute ownerID
+        FB_FetchOwnerProfile(expID);
+    }
 
-        //check if current user = experiment owner
-        if (ownerID == currentUserID) {
-            //switch to myprofile, pass myID
-            Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
-            intent.putExtra("userID", currentUserID);
-            startActivity(intent);
-        }
-        else {
-            //switch to otherprofile, pass expOwnerID
-            Intent intent = new Intent(ViewExperimentActivity.this, OtherUserProfileActivity.class);
-            intent.putExtra("userID", ownerID);
-            startActivity(intent);
-        }
-
+    public void subscribeButton(View view) {
+        //This method will subscribe the user to the experiment
+        //do i need to check if we're already subscribed? (firestore wont add duplicates)
+        DocumentReference docRef = db.collection("UserProfile").document(userID);
+        docRef
+                .update("subscriptions", FieldValue.arrayUnion(expID))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("curtis", "you subscribed");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("curtis", "failed to subscribe");
+                    }
+                });
     }
 
 }

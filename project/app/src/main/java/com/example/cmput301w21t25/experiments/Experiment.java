@@ -114,7 +114,12 @@ public abstract class Experiment implements Serializable { //make abstract
 
     public void setOwner(String owner) { this.owner = owner; }
 
+
     public void setTags(ArrayList<String> tags) { this.tags = tags; }
+
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
 
 //    public void setTrials(ArrayList<Trial> trials) {
 //        this.trials = trials;

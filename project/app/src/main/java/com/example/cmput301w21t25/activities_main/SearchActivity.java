@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25.activities_main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.FilterSearchFragment;
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
+import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.adapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
@@ -39,6 +42,12 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
     String allKeywords;
 
     private String userID;
+    @Override
+    protected void onResume() {
+        //this is curtis testing the subscription refresh, it works lets goooo
+        super.onResume();
+        FB_FetchExperimentList(userID);
+    }
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -51,6 +60,26 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         browseList = findViewById(R.id.search_exp_list_view);
         experimentArrayAdapter = new CustomListExperiment(this, experimentList);
         browseList.setAdapter(experimentArrayAdapter);
+
+        browseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("DK: ", "Position clicked = " + position);
+                Experiment experiment = (Experiment) browseList.getItemAtPosition(position);
+                Intent viewExp = new Intent(SearchActivity.this, ViewExperimentActivity.class);
+
+                Bundle expBundle = new Bundle();
+                expBundle.putSerializable("EXP_OBJ", experiment);
+
+                viewExp.putExtra("USER_ID", userID);
+                viewExp.putExtra("EXP_BUNDLE", expBundle);
+
+                startActivity(viewExp);
+            }
+        });
+
+
+
         searchButton = findViewById(R.id.exp_filter_button);
 
         FB_FetchExperimentList(userID);
@@ -186,5 +215,19 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
                         }
                     });
 
+    }
+
+    /**
+     * Is called when a user clicks on their profile image
+     * Will switch to a profile view activity
+     * Curtis
+     * @param view
+     */
+    public void viewBrowseiButton(View view) {
+        //switch to profileView, pass userId
+        Intent intent = new Intent(SearchActivity.this, MyUserProfileActivity.class);
+        intent.putExtra("userID", userID);
+        intent.putExtra("prevScreen", "Browse");
+        startActivity(intent);
     }
 }

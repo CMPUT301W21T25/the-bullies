@@ -1,13 +1,17 @@
 package com.example.cmput301w21t25.activities_trials;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.adapters.CustomListTrial;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -20,6 +24,7 @@ import com.example.cmput301w21t25.trials.NonNegCountTrial;
 import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,17 +33,61 @@ import java.util.ArrayList;
 
 public class AddTrialActivity extends AppCompatActivity {
 
-    ListView browseList;
-    ArrayAdapter<Experiment> experimentArrayAdapter;
+    ListView trialListView;
+    ArrayAdapter<Trial> trialArrayAdapter;
+    FloatingActionButton addTrialButton;
+
+    String userID;
+    Experiment exp;
+    String expID;
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        String userID;
+        setContentView(R.layout.activity_trial_list);
+
         userID = getIntent().getStringExtra("USER_ID");
-        Experiment exp = (Experiment) getIntent().getSerializableExtra("EXP");
-        String expID = exp.getFb_id();
+        exp = (Experiment) getIntent().getSerializableExtra("TRIAL_PARENT");
+        expID = exp.getFb_id();
         FB_FetchTrialKeys(expID,userID,exp);
+
+        addTrialButton = findViewById(R.id.trial_create_button);
+        trialListView = findViewById(R.id.add_trial_list);
+        trialArrayAdapter = new CustomListTrial(this, trialList);
+        trialListView.setAdapter(trialArrayAdapter);
+
+        addTrialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (exp.getType()) {
+                    case "count":
+                        Intent switchScreen = new Intent(AddTrialActivity.this, ConductCountTrialActivity.class);
+                        switchScreen.putExtra("USER_ID", userID);
+                        switchScreen.putExtra("TRIAL_PARENT", exp);
+                        startActivity(switchScreen);
+                        break;
+                    case "nonnegative count":
+                        Intent switchScreen2 = new Intent(AddTrialActivity.this, ConductNonnegativeCountTrialActivity.class);
+                        switchScreen2.putExtra("USER_ID", userID);
+                        switchScreen2.putExtra("TRIAL_PARENT", exp);
+                        startActivity(switchScreen2);
+                        break;
+                    case "binomial":
+                        Intent switchScreen3 = new Intent(AddTrialActivity.this, ConductBinomialTrialActivity.class);
+                        switchScreen3.putExtra("USER_ID", userID);
+                        switchScreen3.putExtra("TRIAL_PARENT", exp);
+                        startActivity(switchScreen3);
+                        break;
+                    case "measurement":
+                        Intent switchScreen4 = new Intent(AddTrialActivity.this, ConductMeasurementTrialActivity.class);
+                        switchScreen4.putExtra("USER_ID", userID);
+                        switchScreen4.putExtra("TRIAL_PARENT", exp);
+                        startActivity(switchScreen4);
+                        break;
+                }
+            }
+        });
+
         //finish();
     }
 
