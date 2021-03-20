@@ -235,6 +235,26 @@ public class ExperimentManager {
                     }
                 });
     }
+    /**
+     * This method updates the published boolean of the experiment
+     * @param ended this is the new isEnded boolean
+     * @param id this is the id of the experiment you want to update
+     */
+    public void FB_UpdateEnded(Boolean ended,String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("isEnded", ended)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
 
     /**
      * This method updates the list of trial keys
