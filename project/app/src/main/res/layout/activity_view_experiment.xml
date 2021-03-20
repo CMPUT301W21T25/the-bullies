@@ -29,7 +29,8 @@
         android:layout_height="54dp"
         android:layout_below="@id/top_space"
         android:layout_toLeftOf="@id/right_space"
-        android:onClick="viewExpOwnerButton" />
+        android:onClick="viewExpOwnerButton"
+        android:text="Owner" />
 
     <TextView
         android:id="@+id/exp_name_text_view"
@@ -117,6 +118,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="165dp"
+        android:onClick="dataButton"
         android:text="view data" />
 
     <LinearLayout

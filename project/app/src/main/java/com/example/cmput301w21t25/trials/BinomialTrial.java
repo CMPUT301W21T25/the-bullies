@@ -6,6 +6,10 @@ package com.example.cmput301w21t25.trials;
 public class BinomialTrial extends Trial {
     private Boolean result;
 
+    /**
+     * getter for the result of the trial
+     * @return boolean value which is the result of the trial
+     */
     public Boolean getResult() {
         return result;
     }
