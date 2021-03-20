@@ -162,22 +162,26 @@ public class AddTrialActivity extends AppCompatActivity {
                                     case "binomial":
                                         //ArrayList<Experiment>test = new ArrayList<Experiment>();
                                         BinomialTrial binTrial = document.toObject(BinomialTrial.class);
+                                        binTrial.setTrialId(document.getId());
                                         trialList.add(binTrial);
                                         trialArrayAdapter.notifyDataSetChanged();
                                         break;
                                     case "count":
                                         CountTrial countTrial = document.toObject(CountTrial.class);
+                                        countTrial.setTrialId(document.getId());
                                         trialList.add(countTrial);
                                         trialArrayAdapter.notifyDataSetChanged();
                                         Log.d("YA-DB: ", String.valueOf(trialList));
                                         break;
                                     case "nonnegative count":
                                         NonNegCountTrial nnCountTrial = document.toObject(NonNegCountTrial.class);
+                                        nnCountTrial.setTrialId(document.getId());
                                         trialList.add(nnCountTrial);
                                         trialArrayAdapter.notifyDataSetChanged();
                                         break;
                                     case "measurement":
                                         MeasurementTrial mesTrial = document.toObject(MeasurementTrial.class);
+                                        mesTrial.setTrialId(document.getId());
                                         trialList.add(mesTrial);
                                         trialArrayAdapter.notifyDataSetChanged();
                                         break;

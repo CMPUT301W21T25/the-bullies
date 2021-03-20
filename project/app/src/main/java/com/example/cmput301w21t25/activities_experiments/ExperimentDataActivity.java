@@ -37,7 +37,7 @@ import java.util.Date;
 import static java.lang.Math.sqrt;
 
 /**
- * this activity is used to view the data of an experiment
+ * This activity is used to view the data of an experiment
  */
 public class ExperimentDataActivity extends AppCompatActivity {
     Toolbar experimentInfo;
