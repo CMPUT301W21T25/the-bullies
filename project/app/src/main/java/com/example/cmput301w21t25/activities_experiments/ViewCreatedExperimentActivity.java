@@ -30,6 +30,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Allows for extracting the created experiments from the database
+ */
 public class ViewCreatedExperimentActivity extends AppCompatActivity {
 
     private String expID;
@@ -37,6 +40,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
     private String userID;
     private Bundle expBundle;
     private ExperimentManager em = new ExperimentManager();
+    private Experiment exp;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -48,9 +52,10 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         final Button addTrialButton = findViewById(R.id.add_trial_button);
 
         userID = getIntent().getStringExtra("USER_ID");
-        Experiment exp = unpackExperiment();
+        exp = unpackExperiment();
         expID = exp.getFb_id(); //ck
         FB_FetchExperiment(expID);
+
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
@@ -132,6 +137,11 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Allows for viewing of the owner of the experiment's profile
+     * @param id id of the owner
+     */
     public void FB_FetchOwnerProfile(String id){//the input param is the exp ID
         DocumentReference docRef = db.collection("Experiments").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -219,6 +229,13 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
 
+    }
+
+    public void dataButton(View view) {
+        Intent switchScreens = new Intent(ViewCreatedExperimentActivity.this, ExperimentDataActivity.class);
+        switchScreens.putExtra("USER_ID", userID);
+        switchScreens.putExtra("EXP", exp);
+        startActivity(switchScreens);
     }
 
 }

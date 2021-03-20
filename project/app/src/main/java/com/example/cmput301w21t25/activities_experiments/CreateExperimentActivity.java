@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 /**
- * this activity is used to create a new experiment
+ * this activity is used to create a new experiment and add it to
  */
 public class CreateExperimentActivity extends AppCompatActivity {
     //(String name, String ownerID, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date)
@@ -153,6 +153,12 @@ public class CreateExperimentActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method will take a String of keywords and change it into a list of keywards
+     * which will be added to the experiment
+     * @param keywords String of keywords which are added to the experiment
+     * @return returns an ArrayList of keywords
+     */
     public ArrayList<String> parseKeywords(String keywords) {
 
         ArrayList<String> keywordList = new ArrayList<String>();

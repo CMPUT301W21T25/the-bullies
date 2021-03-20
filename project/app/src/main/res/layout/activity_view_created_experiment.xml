@@ -118,6 +118,7 @@
         android:layout_below="@id/info_linear_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
+        android:onClick="dataButton"
         android:text="view data" />
 
     <LinearLayout

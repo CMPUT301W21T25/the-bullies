@@ -47,7 +47,7 @@ public class CustomListExperiment extends ArrayAdapter<Experiment> {
         TextView experimentDate = view.findViewById(R.id.exp_date_text_view);
         TextView userName = view.findViewById(R.id.user_id_text_view);
         //We currently aren't displaying images
-        ImageView userImage = view.findViewById(R.id.imageView2);
+        //ImageView userImage = view.findViewById(R.id.imageView2);
 
         date = experiment.getDate();
         dateString = formatDate(date);
