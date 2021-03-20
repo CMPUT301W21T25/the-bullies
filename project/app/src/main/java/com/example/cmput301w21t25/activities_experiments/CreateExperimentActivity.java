@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+/**
+ * this activity is used to create a new experiment
+ */
 public class CreateExperimentActivity extends AppCompatActivity {
     //(String name, String ownerID, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date)
     EditText experimentName;

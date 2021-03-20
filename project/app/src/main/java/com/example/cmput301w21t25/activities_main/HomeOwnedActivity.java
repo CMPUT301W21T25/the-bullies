@@ -31,6 +31,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+/**
+ * this activity shows a list of all the experiments this user has created
+ */
 public class HomeOwnedActivity extends AppCompatActivity {
 
     private ListView ownedExperimentsListView;
@@ -129,12 +132,13 @@ public class HomeOwnedActivity extends AppCompatActivity {
     }
 
 
-    /********************************************
-     *            DB Functions HERE             *
-     ********************************************
-     *******************************************/
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<String> ownedKeys = new ArrayList<String>();
+    /**
+     * this fetches a list of keys of experiments the user is subscribed to and then calls FB_FetchOwned() on them.
+     * @param id id of the user
+     */
     public void FB_FetchOwnedKeys(String id){
         ownedKeys.clear();
         DocumentReference docRef = db.collection("UserProfile").document(id);
@@ -156,6 +160,10 @@ public class HomeOwnedActivity extends AppCompatActivity {
     }
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches subscribed experiments
+    /**
+     * Fetches list of owned experiments using the provided list of keys. It then updates experiment adapater
+     * @param ownedKeys a list of keys of the experiments this user created
+     */
     public void FB_FetchOwned(ArrayList<String> ownedKeys){
         ownedExperimentsList.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
         if(!ownedKeys.isEmpty()){

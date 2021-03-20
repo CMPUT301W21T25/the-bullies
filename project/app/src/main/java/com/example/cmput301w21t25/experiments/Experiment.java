@@ -31,6 +31,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * this class is an Abstract class for experiments
+ * it sets up the most important methods for the classes that the children will inherit
+ */
 public abstract class Experiment implements Serializable {
 
     /****************************************
@@ -97,6 +101,7 @@ public abstract class Experiment implements Serializable {
     public String retTest(){
         return "test";
     }
+
 
     public String getType() { return type; }
 

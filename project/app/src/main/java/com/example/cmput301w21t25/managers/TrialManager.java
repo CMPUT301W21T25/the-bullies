@@ -209,8 +209,6 @@ public class TrialManager {
                                 }
                             }
                         });
-
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
