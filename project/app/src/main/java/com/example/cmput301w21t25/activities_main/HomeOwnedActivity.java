@@ -25,9 +25,12 @@ import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -44,6 +47,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private float x2;
     private float y1;
     private float y2;
+    private int publishedTrials = 0;
 
 
 
@@ -62,11 +66,30 @@ public class HomeOwnedActivity extends AppCompatActivity {
 
         final FloatingActionButton createExperimentButton = findViewById(R.id.exp_create_button);
 
+
+        //Prevent ListView from eating onTouchEvent
+        ownedExperimentsListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                onTouchEvent(event);
+                return false;
+            }
+        });
+
         ownedExperimentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("DK: ", "Position clicked = " + position);
                 Experiment experiment = (Experiment) ownedExperimentsListView.getItemAtPosition(position);
+                FB_FetchPublishedTrials(experiment);
+
+                int pubTrials = publishedTrials;
+                experiment.setCurrentNumTrials(pubTrials);
+                Log.d("pubTrials", String.valueOf(pubTrials));
+                Log.d("getTrials", String.valueOf(experiment.getCurrentNumTrials()));
+
+
+
                 Intent viewExp = new Intent(HomeOwnedActivity.this, ViewCreatedExperimentActivity.class);
 
                 Bundle expBundle = new Bundle();
@@ -76,15 +99,6 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 viewExp.putExtra("EXP_BUNDLE", expBundle);
 
                 startActivity(viewExp);
-            }
-        });
-
-        //Prevent ListView from eating onTouchEvent
-        ownedExperimentsListView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                onTouchEvent(event);
-                return false;
             }
         });
 
@@ -229,6 +243,28 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    public void FB_FetchPublishedTrials(Experiment parent) {
+
+        Log.d("DK", "Fetching Published Trials");
+        ArrayList<String> keys = parent.getTrialKeys();
+        ArrayList<Integer> trials = new ArrayList<Integer>();
+        CollectionReference docRef = db.collection("TrialDocs");
+        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (keys.contains(document.getId())) {
+                            publishedTrials += 1;
+                            Log.d("Published Trials", String.valueOf(publishedTrials));
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**

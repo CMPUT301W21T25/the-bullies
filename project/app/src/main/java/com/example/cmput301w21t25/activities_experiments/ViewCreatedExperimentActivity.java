@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_main.SearchActivity;
+import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -24,10 +25,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class ViewCreatedExperimentActivity extends AppCompatActivity {
 
@@ -35,6 +41,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
     private String ownerID;
     private String userID;
     private Bundle expBundle;
+    private int publishedTrials = 0;
     private ExperimentManager em = new ExperimentManager();
 
     @Override
@@ -44,18 +51,27 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
 
         final Button editButton = findViewById(R.id.edit_button);
         final Button publishButton = findViewById(R.id.publish_button);
+        final Button addTrialButton = findViewById(R.id.add_trial_button);
 
         userID = getIntent().getStringExtra("USER_ID");
         Experiment exp = unpackExperiment();
+        //FB_FetchPublishedTrials(exp);
+        expID = exp.getFb_id(); //ck
+        FB_FetchExperiment(expID);
+
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
         TextView expType = findViewById(R.id.exp_type_text_view);
+        TextView minTrials = findViewById(R.id.min_trials_text_view);
+        TextView currTrials = findViewById(R.id.current_trials_text_view);
 
         expName.setText(exp.getName());
         expDesc.setText(exp.getDescription());
         expType.setText(exp.getType());
-        expID = exp.getFb_id(); //ck
+        minTrials.setText("Minimum Trials: " + String.valueOf(exp.getMinNumTrials()));
+        currTrials.setText("Current Trials: " + String.valueOf(exp.getCurrentNumTrials()));
+
 
 
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +85,16 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 em.FB_UpdatePublished(true, expID);
+            }
+        });
+
+        addTrialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newTrial = new Intent(ViewCreatedExperimentActivity.this, AddTrialActivity.class);
+                newTrial.putExtra("USER_ID", userID);
+                newTrial.putExtra("TRIAL_PARENT", exp);
+                startActivity(newTrial);
             }
         });
 
@@ -171,6 +197,27 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void FB_FetchPublishedTrials(Experiment parent) {
+
+        ArrayList<String> keys = parent.getTrialKeys();
+        ArrayList<Integer> trials = new ArrayList<Integer>();
+        CollectionReference docRef = db.collection("TrialDocs");
+        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (keys.contains(document.getId())) {
+                            publishedTrials += 1;
+                        }
+                    }
+                }
+            }
+        });
+        parent.setCurrentNumTrials(publishedTrials);
     }
 
 

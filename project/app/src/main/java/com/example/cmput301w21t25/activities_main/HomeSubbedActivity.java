@@ -67,6 +67,16 @@ public class HomeSubbedActivity extends AppCompatActivity {
         experimentAdapter = new CustomListExperiment(this, subbedExperiments);
         subbedExperimentsList.setAdapter(experimentAdapter);
 
+
+        //Prevent listview from eating onTouchEvent
+        subbedExperimentsList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                onTouchEvent(event);
+                return false;
+            }
+        });
+
         subbedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -93,14 +103,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
             }
         });
 
-        //Prevent listview from eating onTouchEvent
-        subbedExperimentsList.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                onTouchEvent(event);
-                return false;
-            }
-        });
+
 
 
 
