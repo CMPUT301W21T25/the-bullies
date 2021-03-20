@@ -47,7 +47,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
     TextView deviationTextView;
     TextView successRateTextView;
 
-    public double mean;
+    private double mean;
     private double sDev;
     private double median;
     private double Lquart;
@@ -85,7 +85,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                 BinomialExperiment binomialParent = (BinomialExperiment) exp;
                 FB_FetchSummary(binomialParent);
                 break;
-            case "non-neg-count":
+            case "nonnegative count":
                 NonNegCountExperiment nnCountParent = (NonNegCountExperiment) exp;
                 FB_FetchSummary(nnCountParent);
                 break;
@@ -138,7 +138,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                     if (total != 0) {
                         sDev = sqrt((squareDiff/total));//standard deviation
                     }
-                    else sDev = 0;
+                    else { sDev = 0; }
                     median = values.get(values.size()/2);
                     Lquart = values.get(values.size()/4);
                     Uquart = values.get(3*values.size()/4);
@@ -154,6 +154,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
         docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                Log.d("BEGINNING","WHERE YOU AT");
                 if(task.isSuccessful()){
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if(keys.contains(document.getId())){
@@ -172,10 +173,12 @@ public class ExperimentDataActivity extends AppCompatActivity {
                     if (total != 0) {
                         sDev = sqrt((squareDiff/total));//standard deviation
                     }
-                    else sDev = 0;
+                    else { sDev = 0; }
+                    //Have to fix this shit
                     median = values.get(values.size()/2);
                     Lquart = values.get(values.size()/4);
                     Uquart = values.get(3*values.size()/4);
+                    Log.d("BEFORE_CALL","WHERE YOU AT");
                     showNonBinomialStats();
                 }
             }
@@ -194,7 +197,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                         if(keys.contains(document.getId())){
                             MeasurementTrial trial = document.toObject(MeasurementTrial.class);
                             values.add(trial.getResult());
-                            countSUMF = countSUMF + trial.getResult();//total
+                            countSUMF += trial.getResult();//total
                         }
                     }
                     mean = countSUM/Double.valueOf(values.size());//mean
@@ -207,7 +210,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                     if (total != 0) {
                         sDev = sqrt((squareDiff/total));//standard deviation
                     }
-                    else sDev = 0;
+                    else { sDev = 0; }
                     median = values.get(values.size()/2);
                     Lquart = values.get(values.size()/4);
                     Uquart = values.get(3*values.size()/4);
@@ -260,6 +263,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
     public void showNonBinomialStats() {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
+        Log.d("GET_HERE?","WHERE YOU AT");
         medianTextView.setText("Median: " + decimalFormat.format(median));
         meanTextView.setText("Mean: " + decimalFormat.format(mean));
         deviationTextView.setText("Standard Deviation: " + decimalFormat.format(sDev));
