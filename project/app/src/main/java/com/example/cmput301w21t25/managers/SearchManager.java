@@ -189,7 +189,7 @@ public class SearchManager {
         //Log.d("SearchManager PASS", String.valueOf(3));
         //Parse user keyword input
         ArrayList<String> keywordList = this.parseKeywords(keywords);
-        Log.d("KEYWORD_LIST", String.valueOf(keywordList));
+        //Log.d("KEYWORD_LIST", String.valueOf(keywordList));
         ArrayList<Experiment> keywordExperiments = new ArrayList<Experiment>();
 
         //Add type matches to keyword experiment list and remove them from all experiment list (as
@@ -203,7 +203,7 @@ public class SearchManager {
             }
         }
 
-        Log.d("TYPE_MATCH", String.valueOf(keywordExperiments));
+        //Log.d("TYPE_MATCH", String.valueOf(keywordExperiments));
 
         //The same as with type, but with experiment name matches
         ArrayList<Experiment> experimentNameKeywordExperiments = this.searchExperimentName(keywordList, allExperiments);
@@ -213,7 +213,7 @@ public class SearchManager {
             }
         }
 
-        Log.d("TITLE_MATCH", String.valueOf(keywordExperiments));
+        //Log.d("TITLE_MATCH", String.valueOf(keywordExperiments));
         //The same as with type, but with experiment keyword matches
         ArrayList<Experiment> experimentKeywordsKeywordExperiments = this.searchExperimentKeywords(keywordList, allExperiments);
         for (int i = 0; i < experimentKeywordsKeywordExperiments.size(); i++) {
@@ -221,7 +221,7 @@ public class SearchManager {
                 keywordExperiments.add(experimentKeywordsKeywordExperiments.get(i));
             }
         }
-        Log.d("KEYWORD_EXPERIMENTS", String.valueOf(keywordExperiments));
+        //Log.d("KEYWORD_EXPERIMENTS", String.valueOf(keywordExperiments));
         return keywordExperiments;
     }
 

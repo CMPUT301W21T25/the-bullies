@@ -8,4 +8,7 @@ public class BinomialExperiment extends Experiment {
     public boolean getResult() {
         return result;
     }
+
+    //Only for testing!!
+    public void testOnlySetResult(boolean result) {this.result = result;}
 }

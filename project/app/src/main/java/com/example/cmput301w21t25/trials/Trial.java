@@ -79,4 +79,14 @@ public abstract class Trial {
         return experimentOwnerName;
     }
     public Date getDate() { return date; }
+
+    //These classes are for testing purposes and should not be called in regular classes
+    // - Samadhi
+    public void testOnlySetExperimentName(String experimentName){
+        this.experimentName = experimentName;
+    }
+    public void testOnlySetPublished(Boolean published){
+        this.published = published;
+    }
+    public boolean testOnlyGetPublished(){return published;}
 }

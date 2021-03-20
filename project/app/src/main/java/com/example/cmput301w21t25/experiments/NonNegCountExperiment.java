@@ -9,4 +9,8 @@ public class NonNegCountExperiment extends CountExperiment {
     public int getResult() {
         return result;
     }
+
+    //Test only!!
+    public void testOnlySetResult(int result) {this.result = result;}
+
 }

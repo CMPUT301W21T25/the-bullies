@@ -32,6 +32,15 @@ public class TrialTest {
     }
 
     @Test
+    void testGeneralTrial() {
+        BinomialTrial mockTrial = mockBinomialTrial();
+        mockTrial.testOnlySetExperimentName("mockName");
+        mockTrial.testOnlySetPublished(false);
+
+        assertTrue(mockTrial.getExperimentName() == "mockName");
+        assertTrue(mockTrial.testOnlyGetPublished() == false);
+    }
+    @Test
     void testBinomialTrial() {
         BinomialTrial mockTrial = mockBinomialTrial();
         mockTrial.setResult(true);
