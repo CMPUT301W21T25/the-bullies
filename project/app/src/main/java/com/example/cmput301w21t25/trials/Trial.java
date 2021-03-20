@@ -84,6 +84,8 @@ public abstract class Trial {
      */
     public Date getDate() { return date; }
 
+    public void setPublished(Boolean published) { this.published = published; }
+
     //these methods are not fully implement and thus have not been documented yet
     public User getExperimenter() {
         return experimenter;

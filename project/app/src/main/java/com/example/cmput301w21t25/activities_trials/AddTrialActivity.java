@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -15,6 +16,7 @@ import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListTrial;
 import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.managers.TrialManager;
 import com.example.cmput301w21t25.trials.BinomialTrial;
 import com.example.cmput301w21t25.trials.CountTrial;
 import com.example.cmput301w21t25.trials.MeasurementTrial;
@@ -38,14 +40,18 @@ public class AddTrialActivity extends AppCompatActivity {
     ArrayAdapter<Trial> trialArrayAdapter;
     FloatingActionButton addTrialButton;
 
-    String userID;
-    Experiment exp;
-    String expID;
+    private String userID;
+    private Experiment exp;
+    private String expID;
+
+    private TrialManager trialManager;
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_trial_list);
+
+        trialManager = new TrialManager();
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = (Experiment) getIntent().getSerializableExtra("TRIAL_PARENT");
@@ -56,6 +62,13 @@ public class AddTrialActivity extends AppCompatActivity {
         trialListView = findViewById(R.id.add_trial_list);
         trialArrayAdapter = new CustomListTrial(this, trialList);
         trialListView.setAdapter(trialArrayAdapter);
+
+        trialListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                publishTrial(position);
+            }
+        });
 
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +208,18 @@ public class AddTrialActivity extends AppCompatActivity {
         intent.putExtra("TRIAL_PARENT", exp);
         startActivity(intent);
 
+    }
+
+    /**
+     * Published a trial at the position clicked on in the trial list view
+     * @param position
+     * The index of the trial you want to publish in the list
+     */
+    public void publishTrial(int position) {
+        Trial temp = trialList.remove(position);
+        temp.setPublished(true);
+        trialManager.FB_UpdatePublished(true, );
+        trialArrayAdapter.notifyDataSetChanged();
     }
 
 }

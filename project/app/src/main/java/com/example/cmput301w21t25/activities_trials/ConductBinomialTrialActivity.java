@@ -30,7 +30,6 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
 
     private String userID;
     private Experiment trialParent;
-    private Boolean result;
 
     TrialManager trialManager;
 
@@ -62,9 +61,8 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
         successButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                result = true;
                 //Call function that creates trial with result and switches activity
-                trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, result, trialParent);
+                trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, true, trialParent);
                 Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
                 //Passes the parent Experiment back as it is needed in the add Trial list view
                 switchScreen.putExtra("USER_ID", userID);
@@ -77,9 +75,8 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
         failureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                result = false;
                 //Call function that creates trial with result and switches activity
-                trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, result, trialParent);
+                trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, false, trialParent);
                 Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
                 switchScreen.putExtra("USER_ID", userID);
                 switchScreen.putExtra("TRIAL_PARENT", trialParent);

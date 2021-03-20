@@ -18,6 +18,7 @@ import com.example.cmput301w21t25.managers.TrialManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
+ * @author Eden
  * this activity is used to conduct trials for count type experiments On completion, sends
  * trial to database as doc, returns to add trial list view.
  */
@@ -63,8 +64,7 @@ public class ConductCountTrialActivity extends AppCompatActivity {
         incrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count += 1;
-                countDisplay.setText(Integer.toString(count));
+                updateCount();
             }
         });
 
@@ -80,5 +80,13 @@ public class ConductCountTrialActivity extends AppCompatActivity {
                 startActivity(switchScreen);
             }
         });
+    }
+
+    /**
+     * Increments the trial result count and displays it on the activity layout
+     */
+    public void updateCount() {
+        count += 1;
+        countDisplay.setText(Integer.toString(count));
     }
 }
