@@ -5,16 +5,17 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firestore.v1.Document;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,13 +51,19 @@ public class ExperimentManager {
      * @param published a boolean that tells weather or not the experiment is published or not
      * @param type the type of experiment(ie: count, nonNegCount, binomial etc)
      * @param date the date and time of creation of the experiment
+     * @param minTrials the minimum number of trials required to end an experiment
+     * @param pubTrials the current number of published trials an experiment has
      */
-    public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date, int minTrials){
+    public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName,
+                                    String description, Location region, ArrayList<String> tags,
+                                    Boolean geoEnabled, Boolean published, String type, Date date,
+                                    int minTrials, int pubTrials){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("ownerID", ownerID);
         experimentDoc.put("name",experimentName);
         experimentDoc.put("minNumTrials", minTrials);
+        experimentDoc.put("publishedTrials", pubTrials);
         experimentDoc.put("owner",ownerName);
         experimentDoc.put("description",description);
         experimentDoc.put("region",region);
@@ -256,6 +263,29 @@ public class ExperimentManager {
                     }
                 });
     }
+
+    public void FB_UpdatePublishedTrials(Experiment parent) {
+
+        Log.d("DK", "Fetching Published Trials");
+        ArrayList<String> keys = parent.getTrialKeys();
+        ArrayList<Integer> trials = new ArrayList<Integer>();
+        CollectionReference docRef = db.collection("TrialDocs");
+        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (keys.contains(document.getId())) {
+                            publishedTrials += 1;
+                            Log.d("Published Trials", String.valueOf(publishedTrials));
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     /**
      * End of database stuff -YA
      * */

@@ -245,28 +245,6 @@ public class HomeOwnedActivity extends AppCompatActivity {
         }
     }
 
-    public void FB_FetchPublishedTrials(Experiment parent) {
-
-        Log.d("DK", "Fetching Published Trials");
-        ArrayList<String> keys = parent.getTrialKeys();
-        ArrayList<Integer> trials = new ArrayList<Integer>();
-        CollectionReference docRef = db.collection("TrialDocs");
-        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (keys.contains(document.getId())) {
-                            publishedTrials += 1;
-                            Log.d("Published Trials", String.valueOf(publishedTrials));
-                        }
-                    }
-                }
-            }
-        });
-    }
-
     /**
      * Is called when a user clicks on their profile image
      * Will switch to a profile view activity
