@@ -238,6 +238,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                     }
                     else { sDev = 0; }
                     medianDouble = calculateMedianFloat(values);
+                    Log.d("MEDIAN_MEASUREMENT", String.valueOf(medianDouble));
                     if (values.size() > 0) {
                         Lquart = values.get(values.size()/4);
                         Uquart = values.get(3*values.size()/4);
@@ -345,10 +346,12 @@ public class ExperimentDataActivity extends AppCompatActivity {
         }
 
         else {
-            if (type == "measurement") {
+            if (type.equals("measurement")) {
+                Log.d("MEDIAN_MEASUREMENT_2", String.valueOf(medianDouble));
                 medianTextView.setText("Median: " + decimalFormat.format(medianDouble));
             }
             else {
+                Log.d("MEDIAN_MEASUREMENT_2", String.valueOf(medianDouble));
                 medianTextView.setText("Median: " + Integer.toString(medianInt));
             }
             meanTextView.setText("Mean: " + decimalFormat.format(mean));
