@@ -30,12 +30,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
 import static java.lang.Math.sqrt;
 
 /**
- * this activity is used to view the data of an experiment
+ * This activity is used to view the data of an experiment
  */
 public class ExperimentDataActivity extends AppCompatActivity {
     Toolbar experimentInfo;
@@ -50,19 +52,21 @@ public class ExperimentDataActivity extends AppCompatActivity {
     TextView deviationTextView;
     TextView successRateTextView;
 
-    public double mean;
+    private double mean;
     private double sDev;
-    private double median;
+    private double medianDouble;
+    private int medianInt;
     private double Lquart;
     private double Uquart;
     private double successRate;
+
+    private String type;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_view_experiment_data);
-        String type;
         Experiment exp = (Experiment) getIntent().getSerializableExtra("EXP");
         type = exp.getType();
         Log.d("WHAT_IS_TYPE", type);
@@ -88,7 +92,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                 BinomialExperiment binomialParent = (BinomialExperiment) exp;
                 FB_FetchSummary(binomialParent);
                 break;
-            case "non-neg-count":
+            case "nonnegative count":
                 NonNegCountExperiment nnCountParent = (NonNegCountExperiment) exp;
                 FB_FetchSummary(nnCountParent);
                 break;
@@ -103,7 +107,6 @@ public class ExperimentDataActivity extends AppCompatActivity {
         descriptionTextView.setText(exp.getDescription());
 
         minimumTrialsTextView.setText("Minimum Number of Trials: " + Integer.toString(exp.getMinNumTrials()));
-        currentTrialsTextView.setText("Current Number of Trials: " + Integer.toString(exp.getTrialKeys().size()));
         //finish();
     }
 
@@ -141,7 +144,9 @@ public class ExperimentDataActivity extends AppCompatActivity {
                             countSUM = countSUM + trial.getResult();//total
                         }
                     }
-                    mean = countSUM/Double.valueOf(values.size());//mean
+                    if (values.size() > 0) {
+                        mean = countSUM/Double.valueOf(values.size());//mean
+                    }
                     double squareDiff =0;
                     double total = 0;
                     for(int i =0;i<values.size();i++){
@@ -151,11 +156,14 @@ public class ExperimentDataActivity extends AppCompatActivity {
                     if (total != 0) {
                         sDev = sqrt((squareDiff/total));//standard deviation
                     }
-                    else sDev = 0;
-                    median = values.get(values.size()/2);
-                    Lquart = values.get(values.size()/4);
-                    Uquart = values.get(3*values.size()/4);
-                    showNonBinomialStats();
+
+                    else { sDev = 0; }
+                    medianInt = calculateMedianInt(values);
+                    if (values.size() > 0) {
+                        Lquart = values.get(values.size()/4);
+                        Uquart = values.get(3*values.size()/4);
+                    }
+                    showNonBinomialStats(values.size());
                 }
             }
         });
@@ -167,6 +175,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
         docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                Log.d("BEGINNING","WHERE YOU AT");
                 if(task.isSuccessful()){
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if(keys.contains(document.getId())){
@@ -175,21 +184,26 @@ public class ExperimentDataActivity extends AppCompatActivity {
                             countSUM = countSUM + trial.getResult();//total
                         }
                     }
-                    mean = countSUM/Double.valueOf(values.size());//mean
+                    if (values.size() > 0) {
+                        mean = countSUM/Double.valueOf(values.size());//mean
+                    }
                     double squareDiff =0;
                     double total = 0;
-                    for(int i =0;i<values.size();i++){
+                    for(int i = 0; i < values.size(); i++){
                         squareDiff =Math.pow((values.get(i)-mean),2);
                         total++;
                     }
                     if (total != 0) {
                         sDev = sqrt((squareDiff/total));//standard deviation
                     }
-                    else sDev = 0;
-                    median = values.get(values.size()/2);
-                    Lquart = values.get(values.size()/4);
-                    Uquart = values.get(3*values.size()/4);
-                    showNonBinomialStats();
+                    else { sDev = 0; }
+                    medianInt = calculateMedianInt(values);
+                    if (values.size() > 0) {
+                        Lquart = values.get(values.size()/4);
+                        Uquart = values.get(3*values.size()/4);
+                    }
+                    showNonBinomialStats(values.size());
+
                 }
             }
         });
@@ -207,10 +221,12 @@ public class ExperimentDataActivity extends AppCompatActivity {
                         if(keys.contains(document.getId())){
                             MeasurementTrial trial = document.toObject(MeasurementTrial.class);
                             values.add(trial.getResult());
-                            countSUMF = countSUMF + trial.getResult();//total
+                            countSUMF += trial.getResult();//total
                         }
                     }
-                    mean = countSUM/Double.valueOf(values.size());//mean
+                    if (values.size() > 0) {
+                        mean = countSUM/Double.valueOf(values.size());//mean
+                    }
                     double squareDiff = 0;
                     double total = 0;
                     for(int i = 0;i<values.size();i++){
@@ -220,11 +236,13 @@ public class ExperimentDataActivity extends AppCompatActivity {
                     if (total != 0) {
                         sDev = sqrt((squareDiff/total));//standard deviation
                     }
-                    else sDev = 0;
-                    median = values.get(values.size()/2);
-                    Lquart = values.get(values.size()/4);
-                    Uquart = values.get(3*values.size()/4);
-                    showNonBinomialStats();
+                    else { sDev = 0; }
+                    medianDouble = calculateMedianFloat(values);
+                    if (values.size() > 0) {
+                        Lquart = values.get(values.size()/4);
+                        Uquart = values.get(3*values.size()/4);
+                    }
+                    showNonBinomialStats(values.size());
                 }
             }
         });
@@ -253,35 +271,88 @@ public class ExperimentDataActivity extends AppCompatActivity {
                         successRate = Double.valueOf(((float) successCount / (float) totalCount));
                     }
                     else successRate = 0;
-                    showBinomialStats();
+                    showBinomialStats(values.size());
                 }
             }
         });
     }
 
     /**
+     * Calculates the experiment's median. Used for the measurement experiment.
+     * @param arrayList
+     * An ArrayList of trials that have been uploaded to the experiment
+     * @return
+     * The value at the calculated index
+     */
+    public Double calculateMedianFloat(ArrayList<Float> arrayList)
+    {
+        if (arrayList.size() == 0) return Double.NEGATIVE_INFINITY;
+
+        //Sort the array
+        Collections.sort(arrayList);
+
+        //Check is there's a midpoint
+        if (arrayList.size() % 2 != 0) {
+            return (double) arrayList.get(arrayList.size() / 2);
+        }
+
+        //Else calculate the average of inner indices
+        return (double) arrayList.get((int)(Math.floor(arrayList.size() / 2) + Math.ceil(arrayList.size() / 2)) / 2);
+    }
+
+    public int calculateMedianInt(ArrayList<Integer> arrayList)
+    {
+        if (arrayList.size() == 0) return -1;
+
+        //Sort the array
+        Collections.sort(arrayList);
+
+        //Check is there's a midpoint
+        if (arrayList.size() % 2 != 0) {
+            return arrayList.get(arrayList.size() / 2);
+        }
+
+        //Else calculate the average of inner indices
+        return arrayList.get((int)(Math.floor(arrayList.size() / 2) + Math.ceil(arrayList.size() / 2)) / 2);
+    }
+
+    /**
      * used to show stats of binomial trial
      */
-    public void showBinomialStats() {
-            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    public void showBinomialStats(int numTrials) {
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        currentTrialsTextView.setText("Current Number of Trials: " + Integer.toString(numTrials));
 
+        medianTextView.setText("Median: N/A");
+        meanTextView.setText("Mean: N/A");
+        deviationTextView.setText("Standard Deviation: N/A");
+        LquartilesTextView.setText("LQuartiles: N/A");
+        UquartilesTextView.setText("UQuartiles: N/A");
+        successRateTextView.setText("Success Rate: " + decimalFormat.format(successRate));
+    }
+
+    public void showNonBinomialStats(int numTrials) {
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        currentTrialsTextView.setText("Current Number of Trials: " + Integer.toString(numTrials));
+
+        if (numTrials <= 0) {
             medianTextView.setText("Median: N/A");
             meanTextView.setText("Mean: N/A");
             deviationTextView.setText("Standard Deviation: N/A");
             LquartilesTextView.setText("LQuartiles: N/A");
             UquartilesTextView.setText("UQuartiles: N/A");
+            successRateTextView.setText("Success Rate: N/A");
+        } else {
+            if (type == "measurement") {
+                medianTextView.setText("Median: " + decimalFormat.format(medianDouble));
+            } else {
+                medianTextView.setText("Median: " + Integer.toString(medianInt));
+            }
+            meanTextView.setText("Mean: " + decimalFormat.format(mean));
+            deviationTextView.setText("Standard Deviation: " + decimalFormat.format(sDev));
+            LquartilesTextView.setText("LQuartiles: " + decimalFormat.format(Lquart));
+            UquartilesTextView.setText("UQuartiles: " + decimalFormat.format(Uquart));
             successRateTextView.setText("Success Rate: " + decimalFormat.format(successRate));
         }
-
-    public void showNonBinomialStats() {
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-
-        medianTextView.setText("Median: " + decimalFormat.format(median));
-        meanTextView.setText("Mean: " + decimalFormat.format(mean));
-        deviationTextView.setText("Standard Deviation: " + decimalFormat.format(sDev));
-        LquartilesTextView.setText("LQuartiles: " + decimalFormat.format(Lquart));
-        UquartilesTextView.setText("UQuartiles: " + decimalFormat.format(Uquart));
-        successRateTextView.setText("Success Rate: " + decimalFormat.format(successRate));
     }
-
 }

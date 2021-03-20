@@ -21,7 +21,12 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
-//Sources to cite: https://www.youtube.com/watch?v=_i9kB9MIGhE
+
+/**
+ * This method sets the buttons to be clicked. If the user enters the correct keywords/filters,
+ * this will be returned to the SearchActivity to be processed
+ */
+
 public class FilterSearchFragment extends DialogFragment{
     public SearchManager searchManager = new SearchManager();
     private ArrayList<Experiment> filteredExperiments;
@@ -29,11 +34,6 @@ public class FilterSearchFragment extends DialogFragment{
     private EditText keywordSentence;
     private ChipGroup chipGroup;
     private StringBuilder allKeyWords = new StringBuilder("");
-
-    /**
-     * This method sets the buttons to be clicked. If the user enters the correct keywords/filters,
-     * this will be returned to the SearchActivity to be processed
-     */
 
     public interface OnFragmentInteractionListener{
         void onOkPressed(String allKeywords);

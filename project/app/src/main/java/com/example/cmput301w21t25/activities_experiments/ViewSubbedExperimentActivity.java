@@ -29,7 +29,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
- * this activity is used to view an experiment in the HomeSubbedActivity list
+ * This activity is used to view an experiment in the HomeSubbedActivity list
  */
 public class ViewSubbedExperimentActivity extends AppCompatActivity {
 
@@ -38,6 +38,7 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
     private String userID;
     private Bundle expBundle;
 
+    private Experiment exp;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -46,7 +47,7 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
 
         userID = getIntent().getStringExtra("USER_ID");
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
-        Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
+        exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
@@ -178,6 +179,10 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         FB_FetchOwnerProfile(expID);
     }
 
+    /**
+     * When button is clicked, the experiment is added to the users Subscribed experiments list
+     * @param view
+     */
     public void subscribeButton(View view) {
         //This method will subscribe the user to the experiment
         //do i need to check if we're already subscribed? (firestore wont add duplicates)
@@ -196,6 +201,13 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
                         Log.d("curtis", "failed to subscribe");
                     }
                 });
+    }
+
+    public void dataButton(View view) {
+        Intent switchScreens = new Intent(ViewSubbedExperimentActivity.this, ExperimentDataActivity.class);
+        switchScreens.putExtra("USER_ID", userID);
+        switchScreens.putExtra("EXP", exp);
+        startActivity(switchScreens);
     }
 
 }

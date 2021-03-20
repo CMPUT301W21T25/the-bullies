@@ -33,6 +33,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * This activity starts the search activity which filters through a list of unsubscribed, published
+ * experiments based on a filter that the user inputs
+ */
+
 public class SearchActivity extends AppCompatActivity implements FilterSearchFragment.OnFragmentInteractionListener{
     //
     public SearchManager searchManager = new SearchManager();
@@ -89,6 +94,11 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
 
     }
 
+    /**
+     * When the Filter button is pressed, the keywords entered are returned before being passed into
+     * the database
+     * @param allKeywords the keywords to be returned and passed into the database
+     */
     @Override
     public void onOkPressed(String allKeywords) {
         //Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
@@ -106,8 +116,10 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
     ArrayList<String> subscriptionKeys = new ArrayList<String>();
     ArrayList<Experiment> experimentList = new ArrayList<Experiment>();
 
-
-
+    /**
+     * This fetches the list of all experiments
+     * @param id id of the user
+     */
     public void FB_FetchExperimentList(String id) {
         subscriptionKeys.clear();
         DocumentReference docRef = db.collection("UserProfile").document(id);
@@ -128,6 +140,10 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         });
     }
 
+    /**
+     * This fetches a list of all subscribed experiments
+     * @param subscriptionKeys the keys of the experiments which are subbed to
+     */
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches experiments that are NOT subscribed AND published
     public void FB_FetchNotSubscribed(ArrayList<String> subscriptionKeys) {

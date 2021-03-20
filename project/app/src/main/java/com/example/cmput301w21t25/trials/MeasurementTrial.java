@@ -19,7 +19,7 @@ public class MeasurementTrial extends Trial {
      * records the measurement of the trial
      * @param result
      */
-    private void setResult(Float result){
+    public void setResult(Float result){
         this.result = result;
     }
 }

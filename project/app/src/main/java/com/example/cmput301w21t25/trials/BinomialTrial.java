@@ -1,7 +1,6 @@
 package com.example.cmput301w21t25.trials;
 
 /**
- * @author Samadhi
  * Creates a BinomialTrial which extends Trial. Records a boolean trial result
  */
 public class BinomialTrial extends Trial {
@@ -15,8 +14,12 @@ public class BinomialTrial extends Trial {
         return result;
     }
 
-    //this method has not been fully implemented and as such has not been documented yet
-    private void setResult(Boolean result){
+    /**
+     * adds result to the trial
+     * @param result Boolean result of the trial
+     */
+
+    public void setResult(Boolean result){
         this.result = result;
     }
 }

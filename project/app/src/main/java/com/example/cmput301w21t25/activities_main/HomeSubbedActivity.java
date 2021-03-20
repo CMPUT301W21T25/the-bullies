@@ -107,7 +107,11 @@ public class HomeSubbedActivity extends AppCompatActivity {
 
     }
 
-    //Screen switching
+    /**
+     * This touch event is for switching between screens
+     * @param event the swipe on the screen
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 

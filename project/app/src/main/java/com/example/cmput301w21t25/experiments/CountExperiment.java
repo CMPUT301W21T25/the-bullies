@@ -14,4 +14,8 @@ public class CountExperiment extends Experiment {
         return result;
     }
 
+    //Test only!!
+    public void testOnlySetResult(int result) {this.result = result;}
+
+
 }

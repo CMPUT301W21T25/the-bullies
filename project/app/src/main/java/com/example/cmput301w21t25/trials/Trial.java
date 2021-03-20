@@ -6,7 +6,6 @@ import java.util.Date;
 
 /**
  * This is an abstract class which creates a trial based on which experiment type was used
- * @author Samadhi
  */
 public abstract class Trial {
 
@@ -92,4 +91,15 @@ public abstract class Trial {
     public String getExperimentOwnerName() {
         return experimentOwnerName;
     }
+
+    //These classes are for testing purposes and should not be called in regular classes
+    // - Samadhi
+    public void testOnlySetExperimentName(String experimentName){
+        this.experimentName = experimentName;
+    }
+    public void testOnlySetPublished(Boolean published){
+        this.published = published;
+    }
+    public boolean testOnlyGetPublished(){return published;}
+
 }

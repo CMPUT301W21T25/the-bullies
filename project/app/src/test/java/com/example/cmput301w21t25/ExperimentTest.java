@@ -1,122 +1,77 @@
-//package com.example.cmput301w21t25;
-//
-//import com.example.cmput301w21t25.experiments.BinomialExperiment;
-//import com.example.cmput301w21t25.experiments.Experiment;
-//import com.example.cmput301w21t25.trials.Trial;
-//import com.example.cmput301w21t25.user.User;
-//
-//import org.junit.jupiter.api.Test;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertFalse;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
-//
-//public class ExperimentTest {
-//
-//    User user1 = new User();
-//    User user2 = new User();
-//    User user3 = new User();
-//
-//    private Experiment mockExperiment() {
-//        Experiment mockExperiment = new BinomialExperiment();
-//        addTestTrials(mockExperiment);
-//        return mockExperiment;
-//    }
-//
-//    private void addTestTrials(Experiment experiment) {
-//        Trial user1Trial = new Trial(user1);
-//        Trial user2Trial1 = new Trial(user2);
-//        Trial user2Trial2 = new Trial(user2);
-//
-////        experiment.addTrial(user1Trial);
-////        experiment.addTrial(user2Trial1);
-////        experiment.addTrial(user2Trial2);
-//    }
-//
-//
-//    @Test
-//    void testAddTrial() {
-//        Experiment exp = mockExperiment();
-//        Trial trial = new Trial(new User());
-//
-//        assertEquals(3, exp.getTrials().size());
-//
-//        exp.addTrial(trial);
-//
-//        assertEquals(4, exp.getTrials().size());
-//    }
-//
-//    @Test
-//    void testDeleteTrial() {
-//        Experiment exp = mockExperiment();
-//
-//        assertEquals(3, exp.getTrials().size());
-//
-//        exp.deleteTrial(exp.getTrials().get(0));
-//
-//        assertEquals(2, exp.getTrials().size());
-//    }
-//
-//    @Test
-//    void testHideTrials() {
-//        Experiment exp = mockExperiment();
-//        assertEquals(0, exp.getHiddenTrials().size());
-//
-//        exp.hideTrials(user1);
-//
-//        for (Trial trial: exp.getTrials()) {
-//            assertFalse(trial.getUser() == user1);
-//        }
-//
-//        for (Trial trial: exp.getHiddenTrials()) {
-//            assertTrue(trial.getUser() == user1);
-//        }
-//
-//        assertEquals(1, exp.getHiddenTrials().size());
-//        assertEquals(2, exp.getTrials().size());
-//        //test if given user is not present
-//        //test if trials are already hidden
-//
-//        //exp.hideTrials(user3);
-//
-//
-//    }
-//
-//    @Test
-//    void testShowTrials() {
-//        Experiment exp = mockExperiment();
-//        exp.hideTrials(user2);
-//        assertEquals(1, exp.getTrials().size());
-//
-//        for (Trial trial: exp.getTrials()) {
-//            assertTrue(trial.getUser() == user1);
-//        }
-//
-//        exp.showTrials(user2);
-//        assertEquals(3, exp.getTrials().size());
-//        assertEquals(0, exp.getHiddenTrials().size());
-//
-//        //test if given user is not present
-//        //test if trials are already shown
-//
-//        exp.showTrials(user3);
-//    }
-//
-//    @Test
-//    void testShowAllTrials() {
-//        Experiment exp = mockExperiment();
-//        exp.hideTrials(user1);
-//        exp.hideTrials(user2);
-//
-//        assertEquals(0, exp.getTrials().size());
-//
-//        exp.showAllTrials();
-//
-//        assertEquals(3, exp.getTrials().size());
-//
-//        //test if trials are already shown
-//    }
-//
-//
-//
-//}
+package com.example.cmput301w21t25;
+import com.example.cmput301w21t25.experiments.BinomialExperiment;
+import com.example.cmput301w21t25.experiments.CountExperiment;
+import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.experiments.MeasurementExperiment;
+import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
+import com.example.cmput301w21t25.trials.BinomialTrial;
+import com.example.cmput301w21t25.trials.CountTrial;
+import com.example.cmput301w21t25.trials.MeasurementTrial;
+import com.example.cmput301w21t25.trials.NonNegCountTrial;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class ExperimentTest {
+
+    private BinomialExperiment mockBinomialExperiment() {
+        BinomialExperiment experiment = new BinomialExperiment();
+        return experiment;
+    }
+
+    private NonNegCountExperiment mockNNCountExperiment() {
+        NonNegCountExperiment experiment = new NonNegCountExperiment();
+        return experiment;
+    }
+
+    private CountExperiment mockCountExperiment() {
+        CountExperiment experiment = new CountExperiment();
+        return experiment;
+    }
+
+    private MeasurementExperiment mockMeasurementExperiment() {
+        MeasurementExperiment experiment = new MeasurementExperiment();
+        return experiment;
+    }
+
+    @Test
+    void testGeneralExperiment(){
+        BinomialExperiment testExperiment = mockBinomialExperiment();
+        assertEquals(null, testExperiment.getDescription());
+
+        testExperiment.setDescription("This is a test description");
+        assertEquals("This is a test description", testExperiment.getDescription());
+    }
+
+    @Test
+    void testBinomialExperiment(){
+        BinomialExperiment testExperiment = mockBinomialExperiment();
+        testExperiment.testOnlySetResult(true);
+
+        assertEquals(true, testExperiment.getResult());
+    }
+    @Test
+    void testNNCountExperiment(){
+        NonNegCountExperiment testExperiment = mockNNCountExperiment();
+        testExperiment.testOnlySetResult(3);
+
+        assertEquals(3, testExperiment.getResult());
+
+    }
+    @Test
+    void testCountExperiment(){
+        CountExperiment testExperiment = mockCountExperiment();
+        testExperiment.testOnlySetResult(5);
+
+        assertEquals(5, testExperiment.getResult());
+
+    }
+    @Test
+    void testMeasurementExperiment(){
+        MeasurementExperiment testExperiment = mockMeasurementExperiment();
+        testExperiment.testOnlySetResult(3.5f);
+
+        assertEquals(3.5f, testExperiment.getResult());
+    }
+}

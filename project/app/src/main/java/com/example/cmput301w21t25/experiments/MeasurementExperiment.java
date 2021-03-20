@@ -11,4 +11,8 @@ public class MeasurementExperiment extends Experiment {
     public float getResult() {
         return result;
     }
+
+    //Test only!!
+    public void testOnlySetResult(float result) {this.result = result;}
+
 }
