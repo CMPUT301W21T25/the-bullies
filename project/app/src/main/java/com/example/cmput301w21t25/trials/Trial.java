@@ -23,6 +23,7 @@ public abstract class Trial {
     private String experimentID;
     private Boolean published;
     private Date date;
+    private String trialId;
 
     /****************************************
                 CONSTRUCTORS
@@ -83,6 +84,18 @@ public abstract class Trial {
      * @return returns Date object that is the date of creation for this trial
      */
     public Date getDate() { return date; }
+
+    public String getTrialId() {
+        return trialId;
+    }
+
+    public void setTrialId(String trialId) {
+        this.trialId = trialId;
+    }
+
+    public Boolean getPublished() {
+        return published;
+    }
 
     //these methods are not fully implement and thus have not been documented yet
     public User getExperimenter() {
