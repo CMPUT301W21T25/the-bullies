@@ -29,6 +29,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Allows for extracting the created experiments from the database
+ */
 public class ViewCreatedExperimentActivity extends AppCompatActivity {
 
     private String expID;
@@ -119,6 +122,11 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Allows for viewing of the owner of the experiment's profile
+     * @param id id of the owner
+     */
     public void FB_FetchOwnerProfile(String id){//the input param is the exp ID
         DocumentReference docRef = db.collection("Experiments").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

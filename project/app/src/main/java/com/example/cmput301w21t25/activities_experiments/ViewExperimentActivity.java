@@ -57,6 +57,10 @@ public class ViewExperimentActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method is to unpack and extract the experiment from the Intent Bundle
+     * @return experiment to be viewed
+     */
     private Experiment unpackExperiment() {
 
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
@@ -166,12 +170,16 @@ public class ViewExperimentActivity extends AppCompatActivity {
      * Is called when a user clicks on the owners profile image while viewing an experiment
      * Will switch to a profile view activity (either myuser or otheruser)
      * Curtis
-     * @param view
+     * @param view the experiment view
      */
     public void viewExpOwnerButton(View view) {
         FB_FetchOwnerProfile(expID);
     }
 
+    /**
+     * This sets the subscribe button on the view
+     * @param view the experiment view
+     */
     public void subscribeButton(View view) {
         //This method will subscribe the user to the experiment
         //do i need to check if we're already subscribed? (firestore wont add duplicates)
@@ -197,6 +205,10 @@ public class ViewExperimentActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets the button to be clicked to view the statistics/graphs of the experiment
+     * @param view the experiment view
+     */
     public void dataButton(View view) {
         Intent switchScreens = new Intent(ViewExperimentActivity.this, ExperimentDataActivity.class);
         switchScreens.putExtra("USER_ID", userID);
