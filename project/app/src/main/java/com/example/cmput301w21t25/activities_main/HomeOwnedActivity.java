@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
-import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
+import com.example.cmput301w21t25.activities_experiments.ViewCreatedExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -31,12 +31,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+/**
+ * this activity shows a list of all the experiments this user has created
+ */
 public class HomeOwnedActivity extends AppCompatActivity {
 
     private ListView ownedExperimentsListView;
     private ArrayList<Experiment> ownedExperimentsList;
     private ArrayAdapter<Experiment> experimentAdapter;
     private String userID;
+
+    //Variables to access on touch events
     private float x1;
     private float x2;
     private float y1;
@@ -64,7 +69,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("DK: ", "Position clicked = " + position);
                 Experiment experiment = (Experiment) ownedExperimentsListView.getItemAtPosition(position);
-                Intent viewExp = new Intent(HomeOwnedActivity.this, ViewExperimentActivity.class);
+                Intent viewExp = new Intent(HomeOwnedActivity.this, ViewCreatedExperimentActivity.class);
 
                 Bundle expBundle = new Bundle();
                 expBundle.putSerializable("EXP_OBJ", experiment);
@@ -129,12 +134,13 @@ public class HomeOwnedActivity extends AppCompatActivity {
     }
 
 
-    /********************************************
-     *            DB Functions HERE             *
-     ********************************************
-     *******************************************/
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<String> ownedKeys = new ArrayList<String>();
+    /**
+     * this fetches a list of keys of experiments the user is subscribed to and then calls FB_FetchOwned() on them.
+     * @param id id of the user
+     */
     public void FB_FetchOwnedKeys(String id){
         ownedKeys.clear();
         DocumentReference docRef = db.collection("UserProfile").document(id);
@@ -156,6 +162,10 @@ public class HomeOwnedActivity extends AppCompatActivity {
     }
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches subscribed experiments
+    /**
+     * Fetches list of owned experiments using the provided list of keys. It then updates experiment adapater
+     * @param ownedKeys a list of keys of the experiments this user created
+     */
     public void FB_FetchOwned(ArrayList<String> ownedKeys){
         ownedExperimentsList.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
         if(!ownedKeys.isEmpty()){

@@ -15,6 +15,8 @@ import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
 import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
 import com.example.cmput301w21t25.activities_main.SearchActivity;
+import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +26,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.cmput301w21t25.managers.UserManager;
 
+/**
+ * this activity is used to view the profile of the user
+ * @author Curtis Yalmaz
+ */
 
 public class MyUserProfileActivity extends AppCompatActivity {
     //attributes
@@ -32,6 +38,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
     private String userID;
     private String prevScreen;
     private Bundle expBundle;
+    private Experiment exp;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -41,19 +48,21 @@ public class MyUserProfileActivity extends AppCompatActivity {
         prevScreen = getIntent().getStringExtra("prevScreen");
         //try to get bundle, (only from experiment view)
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
-
+        exp = (Experiment) getIntent().getSerializableExtra("TRIAL_PARENT");
         FB_FetchUserInfo(userID);
     }
 
 
 
 
-    /********************************************
-     * DB Functions HERE!!!!!!!!!!!!!!!!!!!!!!!!!
-     ********************************************
-     *******************************************/
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     //so far this is the only information that comprises the user profile th
+
+    /**
+     * This method fetches user info from the database using the provided id
+     * @param id the id of the user
+     */
     public void FB_FetchUserInfo(String id){
         DocumentReference docRef = db.collection("UserProfile").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -78,30 +87,51 @@ public class MyUserProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * method used to setup the behaviour of the back button for navigation
+     * @param view
+     */
     public void goBackButton(View view) {
         Intent intent = null;
         switch (prevScreen) {
             case "Owned":
                 intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
+                Log.i("curtis", "going back to owned");
                 break;
             case "Subbed":
                 intent = new Intent(MyUserProfileActivity.this, HomeSubbedActivity.class);
+                Log.i("curtis", "going back to subbed");
                 break;
             case "Experiment":
                 // go back to experiment view
                 intent = new Intent(MyUserProfileActivity.this, ViewExperimentActivity.class);
                 intent.putExtra("EXP_BUNDLE", expBundle);
+                Log.i("curtis", "going back to viewing an experiment");
+                break;
             case "Browse":
                 intent = new Intent(MyUserProfileActivity.this, SearchActivity.class);
+                Log.i("curtis", "going back to browse page");
+                break;
+            case "AddTrial":
+                intent = new Intent(MyUserProfileActivity.this, AddTrialActivity.class);
+                //add experiment
+                intent.putExtra("TRIAL_PARENT", exp);
+                Log.i("curtis", "going back to add trial page");
                 break;
 
-            //default:
-                //intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
+            default:
+                intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
+                Log.i("curtis", "going back to default owned");
         }
 
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
     }
+
+    /**
+     * method used to define the behaviour of the update Button
+     * @param view
+     */
     public void updateButton(View view) {
         EditText newName = findViewById(R.id.updateName);
         EditText newEmail = findViewById(R.id.updateEmail);

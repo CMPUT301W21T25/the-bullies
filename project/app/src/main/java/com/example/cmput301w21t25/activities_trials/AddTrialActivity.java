@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
+import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListTrial;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.trials.BinomialTrial;
@@ -27,6 +29,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+/**
+ * this activity is used to add new trials and view unpublished trials
+ */
 public class AddTrialActivity extends AppCompatActivity {
 
     ListView trialListView;
@@ -90,13 +95,17 @@ public class AddTrialActivity extends AppCompatActivity {
     }
 
 
-    /********************************************
-     *            DB Functions HERE             *
-     ********************************************
-     *******************************************/
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<String> trialKeys = new ArrayList<String>();
     ArrayList<Trial> trialList = new ArrayList<Trial>();
+
+    /**
+     * this method is used to fetch Trials using the array of keys stored in the parent experiment's
+     * document and calling FB_FetchTrials on them
+     * @param expID id of parent experiment
+     * @param userID id of parent user
+     * @param parent parent experiment object
+     */
     public void FB_FetchTrialKeys(String expID,String userID,Experiment parent) {
         trialKeys.clear();
         DocumentReference docRef = db.collection("Experiments").document(expID);
@@ -106,7 +115,7 @@ public class AddTrialActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
 
-                    if (document.exists()&&(Boolean)document.getData().get("published")==false) {//combine into one really big conditional?
+                    if (document.exists()) {//combine into one really big conditional?
 
                         trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
                         Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
@@ -118,6 +127,11 @@ public class AddTrialActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * this method fetches the trials from the fetched keys and parent experiment
+     * @param parent parent experiment object
+     */
     public void FB_FetchTrials(Experiment parent) {
         trialList.clear();
         String type = parent.getType();
@@ -129,7 +143,7 @@ public class AddTrialActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
+                            if (document.exists()&&(Boolean)document.getData().get("published")==false) {
                                 Log.d("YA-DB: ", "testing");
                                 switch (type) {
                                     case "binomial":
@@ -165,6 +179,22 @@ public class AddTrialActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    /**
+     * this method defines the behaviour of the addTrialButton
+     * @param view
+     */
+    public void addTrialiButton(View view) {
+        //switch to profileView, pass userId
+        Intent intent = new Intent(AddTrialActivity.this, MyUserProfileActivity.class);
+        intent.putExtra("userID", userID);
+        intent.putExtra("prevScreen", "AddTrial");
+        //bundle experiment to return to
+
+        intent.putExtra("TRIAL_PARENT", exp);
+        startActivity(intent);
+
     }
 
 }

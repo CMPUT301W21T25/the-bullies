@@ -17,6 +17,10 @@ import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.TrialManager;
 
+/**
+ * this activity is used to conduct experiments for measurement type experiments On completion, sends
+ * trial to database as doc, returns to add trial list view.
+ */
 public class ConductMeasurementTrialActivity extends AppCompatActivity {
 
     Toolbar trialHeader;
@@ -48,7 +52,7 @@ public class ConductMeasurementTrialActivity extends AppCompatActivity {
         trialHeader = findViewById(R.id.measurementExperimentInfo);
         submitTrialButton = findViewById(R.id.submit_trial_measurement_button);
         measurementDisplay = findViewById(R.id.measurementEntry);
-        description = findViewById(R.id.measurementExperimentInfo);
+        description = findViewById(R.id.measureExpDescription);
 
         //Display Experiment info on conduct Trial page
         trialHeader.setTitle(trialParent.getName());

@@ -18,6 +18,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * this activity is used to view the profile of user other then the owner of the device
+ * @author Curtis
+ */
 public class OtherUserProfileActivity extends AppCompatActivity {
     //attributes
     private String Username;
@@ -39,10 +43,10 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     }
 
 
-    /********************************************
-     * DB Functions HERE!!!!!!!!!!!!!!!!!!!!!!!!!
-     ********************************************
-     *******************************************/
+    /**
+     * This method fetches user info from the database using the provided id
+     * @param id the id of the user
+     */
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     //so far this is the only information that comprises the user profile th
     public void FB_FetchUserInfo(String id){
@@ -73,6 +77,10 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * method used to define the behaviour of the update Button
+     * @param view
+     */
     public void backButton(View view) {
         Intent intent = null;
         switch (prevScreen) {

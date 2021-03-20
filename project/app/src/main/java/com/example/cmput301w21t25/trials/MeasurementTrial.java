@@ -7,6 +7,10 @@ package com.example.cmput301w21t25.trials;
 public class MeasurementTrial extends Trial {
     private Float result;
 
+    /**
+     * getter for the result of the trial
+     * @return float value which is the result of the trial
+     */
     public Float getResult() {
         return result;
     }
@@ -15,8 +19,7 @@ public class MeasurementTrial extends Trial {
      * records the measurement of the trial
      * @param result
      */
-    private void setResult(Float result){
+    public void setResult(Float result){
         this.result = result;
     }
-
 }
