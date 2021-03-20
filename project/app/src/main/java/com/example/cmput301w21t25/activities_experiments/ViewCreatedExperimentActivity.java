@@ -36,6 +36,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
     private String userID;
     private Bundle expBundle;
     private ExperimentManager em = new ExperimentManager();
+    private Experiment exp;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -46,7 +47,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         final Button publishButton = findViewById(R.id.publish_button);
 
         userID = getIntent().getStringExtra("USER_ID");
-        Experiment exp = unpackExperiment();
+        exp = unpackExperiment();
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
@@ -207,6 +208,13 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
 
+    }
+
+    public void dataButton(View view) {
+        Intent switchScreens = new Intent(ViewCreatedExperimentActivity.this, ExperimentDataActivity.class);
+        switchScreens.putExtra("USER_ID", userID);
+        switchScreens.putExtra("EXP", exp);
+        startActivity(switchScreens);
     }
 
 }

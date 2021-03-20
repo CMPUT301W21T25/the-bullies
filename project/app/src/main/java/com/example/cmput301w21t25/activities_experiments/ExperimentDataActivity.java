@@ -157,10 +157,12 @@ public class ExperimentDataActivity extends AppCompatActivity {
                         sDev = sqrt((squareDiff/total));//standard deviation
                     }
 
-                    else sDev = 0;
+                    else { sDev = 0; }
                     medianInt = calculateMedianInt(values);
-                    Lquart = values.get(values.size()/4);
-                    Uquart = values.get(3*values.size()/4);
+                    if (values.size() > 0) {
+                        Lquart = values.get(values.size()/4);
+                        Uquart = values.get(3*values.size()/4);
+                    }
                     showNonBinomialStats(values.size());
                 }
             }
@@ -194,10 +196,12 @@ public class ExperimentDataActivity extends AppCompatActivity {
                     if (total != 0) {
                         sDev = sqrt((squareDiff/total));//standard deviation
                     }
-                    else sDev = 0;
+                    else { sDev = 0; }
                     medianInt = calculateMedianInt(values);
-                    Lquart = values.get(values.size()/4);
-                    Uquart = values.get(3*values.size()/4);
+                    if (values.size() > 0) {
+                        Lquart = values.get(values.size()/4);
+                        Uquart = values.get(3*values.size()/4);
+                    }
                     showNonBinomialStats(values.size());
 
                 }
@@ -232,10 +236,12 @@ public class ExperimentDataActivity extends AppCompatActivity {
                     if (total != 0) {
                         sDev = sqrt((squareDiff/total));//standard deviation
                     }
-                    else sDev = 0;
+                    else { sDev = 0; }
                     medianDouble = calculateMedianFloat(values);
-                    Lquart = values.get(values.size()/4);
-                    Uquart = values.get(3*values.size()/4);
+                    if (values.size() > 0) {
+                        Lquart = values.get(values.size()/4);
+                        Uquart = values.get(3*values.size()/4);
+                    }
                     showNonBinomialStats(values.size());
                 }
             }
@@ -314,31 +320,39 @@ public class ExperimentDataActivity extends AppCompatActivity {
      * used to show stats of binomial trial
      */
     public void showBinomialStats(int numTrials) {
-            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         currentTrialsTextView.setText("Current Number of Trials: " + Integer.toString(numTrials));
 
-            medianTextView.setText("Median: N/A");
-            meanTextView.setText("Mean: N/A");
-            deviationTextView.setText("Standard Deviation: N/A");
-            LquartilesTextView.setText("LQuartiles: N/A");
-            UquartilesTextView.setText("UQuartiles: N/A");
-            successRateTextView.setText("Success Rate: " + decimalFormat.format(successRate));
-        }
+        medianTextView.setText("Median: N/A");
+        meanTextView.setText("Mean: N/A");
+        deviationTextView.setText("Standard Deviation: N/A");
+        LquartilesTextView.setText("LQuartiles: N/A");
+        UquartilesTextView.setText("UQuartiles: N/A");
+        successRateTextView.setText("Success Rate: " + decimalFormat.format(successRate));
+    }
 
     public void showNonBinomialStats(int numTrials) {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         currentTrialsTextView.setText("Current Number of Trials: " + Integer.toString(numTrials));
 
-
-        if (type == "measurement") {
-            medianTextView.setText("Median: " + decimalFormat.format(medianDouble));
+        if (numTrials <= 0) {
+            medianTextView.setText("Median: N/A");
+            meanTextView.setText("Mean: N/A");
+            deviationTextView.setText("Standard Deviation: N/A");
+            LquartilesTextView.setText("LQuartiles: N/A");
+            UquartilesTextView.setText("UQuartiles: N/A");
+            successRateTextView.setText("Success Rate: N/A");
+        } else {
+            if (type == "measurement") {
+                medianTextView.setText("Median: " + decimalFormat.format(medianDouble));
+            } else {
+                medianTextView.setText("Median: " + Integer.toString(medianInt));
+            }
+            meanTextView.setText("Mean: " + decimalFormat.format(mean));
+            deviationTextView.setText("Standard Deviation: " + decimalFormat.format(sDev));
+            LquartilesTextView.setText("LQuartiles: " + decimalFormat.format(Lquart));
+            UquartilesTextView.setText("UQuartiles: " + decimalFormat.format(Uquart));
+            successRateTextView.setText("Success Rate: " + decimalFormat.format(successRate));
         }
-        else medianTextView.setText("Median: " + Integer.toString(medianInt));
-        meanTextView.setText("Mean: " + decimalFormat.format(mean));
-        deviationTextView.setText("Standard Deviation: " + decimalFormat.format(sDev));
-        LquartilesTextView.setText("LQuartiles: " + decimalFormat.format(Lquart));
-        UquartilesTextView.setText("UQuartiles: " + decimalFormat.format(Uquart));
-        successRateTextView.setText("Success Rate: " + decimalFormat.format(successRate));
     }
-
 }

@@ -38,6 +38,7 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
     private String userID;
     private Bundle expBundle;
 
+    private Experiment exp;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -46,7 +47,7 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
 
         userID = getIntent().getStringExtra("USER_ID");
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
-        Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
+        exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
@@ -196,6 +197,13 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
                         Log.d("curtis", "failed to subscribe");
                     }
                 });
+    }
+
+    public void dataButton(View view) {
+        Intent switchScreens = new Intent(ViewSubbedExperimentActivity.this, ExperimentDataActivity.class);
+        switchScreens.putExtra("USER_ID", userID);
+        switchScreens.putExtra("EXP", exp);
+        startActivity(switchScreens);
     }
 
 }
