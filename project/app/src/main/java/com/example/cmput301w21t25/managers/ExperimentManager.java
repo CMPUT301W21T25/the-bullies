@@ -5,12 +5,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.cmput301w21t25.experiments.Experiment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -264,26 +262,20 @@ public class ExperimentManager {
                 });
     }
 
-    public void FB_UpdatePublishedTrials(Experiment parent) {
-
-        Log.d("DK", "Fetching Published Trials");
-        ArrayList<String> keys = parent.getTrialKeys();
-        ArrayList<Integer> trials = new ArrayList<Integer>();
-        CollectionReference docRef = db.collection("TrialDocs");
-        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (keys.contains(document.getId())) {
-                            publishedTrials += 1;
-                            Log.d("Published Trials", String.valueOf(publishedTrials));
-                        }
+    public void FB_UpdatePublishedTrials(int publishedTrials, String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("publishedTrials", publishedTrials)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
                     }
-                }
-            }
-        });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
     }
 
     /**
