@@ -41,7 +41,8 @@ public class ExperimentTest {
 
 
     @Test
-    public void testname1() {
+    public void MainActivityTest() {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
     }
 
