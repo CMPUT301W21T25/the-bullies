@@ -34,6 +34,9 @@ import java.util.Date;
 
 import static java.lang.Math.sqrt;
 
+/**
+ * this activity is used to view the data of an experiment
+ */
 public class ExperimentDataActivity extends AppCompatActivity {
     Toolbar experimentInfo;
 
@@ -104,6 +107,11 @@ public class ExperimentDataActivity extends AppCompatActivity {
         //finish();
     }
 
+    /**
+     * returns date in the proper format
+     * @param date the date that needs to be formated
+     * @return
+     */
     private String formatDate(Date date) {
 
         SimpleDateFormat condensedDate = new SimpleDateFormat("MM-dd-yyyy");
@@ -113,6 +121,11 @@ public class ExperimentDataActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Integer countSUM = 0;
+
+    /**
+     * this function fetches all the trials associated with the provided experiment and calculates summaries according to their type
+     * @param parent the experiment whose summaries are to be retrived the datatype of parent is used to determine which override is used
+     */
     public void FB_FetchSummary(CountExperiment parent){
         ArrayList<String>keys = parent.getTrialKeys();
         ArrayList<Integer> values = new ArrayList<Integer>();
@@ -246,6 +259,9 @@ public class ExperimentDataActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * used to show stats of binomial trial
+     */
     public void showBinomialStats() {
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
 

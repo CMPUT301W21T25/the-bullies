@@ -26,6 +26,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.cmput301w21t25.managers.UserManager;
 
+/**
+ * this activity is used to view the profile of the user
+ * @author Curtis Yalmaz
+ */
 
 public class MyUserProfileActivity extends AppCompatActivity {
     //attributes
@@ -45,19 +49,20 @@ public class MyUserProfileActivity extends AppCompatActivity {
         //try to get bundle, (only from experiment view)
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
         exp = (Experiment) getIntent().getSerializableExtra("TRIAL_PARENT");
-
         FB_FetchUserInfo(userID);
     }
 
 
 
 
-    /********************************************
-     * DB Functions HERE!!!!!!!!!!!!!!!!!!!!!!!!!
-     ********************************************
-     *******************************************/
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     //so far this is the only information that comprises the user profile th
+
+    /**
+     * This method fetches user info from the database using the provided id
+     * @param id the id of the user
+     */
     public void FB_FetchUserInfo(String id){
         DocumentReference docRef = db.collection("UserProfile").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -82,6 +87,10 @@ public class MyUserProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * method used to setup the behaviour of the back button for navigation
+     * @param view
+     */
     public void goBackButton(View view) {
         Intent intent = null;
         switch (prevScreen) {
@@ -118,6 +127,11 @@ public class MyUserProfileActivity extends AppCompatActivity {
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
     }
+
+    /**
+     * method used to define the behaviour of the update Button
+     * @param view
+     */
     public void updateButton(View view) {
         EditText newName = findViewById(R.id.updateName);
         EditText newEmail = findViewById(R.id.updateEmail);

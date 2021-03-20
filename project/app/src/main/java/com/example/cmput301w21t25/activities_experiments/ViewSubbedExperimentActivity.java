@@ -28,6 +28,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * this activity is used to view an experiment in the HomeSubbedActivity list
+ */
 public class ViewSubbedExperimentActivity extends AppCompatActivity {
 
     private String expID;
@@ -68,7 +71,9 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         });
     }
 
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //not used will be deleted after confirmed that its safe to do so -YA
     public void FB_FetchExperiment(String id){
         DocumentReference docRef = db.collection("Experiment").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -103,6 +108,11 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * this method is used to fetch user profile associate with the provided id
+     * @param id provided user ID of the user to be fetched from DB
+     */
     public void FB_FetchOwnerProfile(String id){//the input param is the exp ID
         DocumentReference docRef = db.collection("Experiments").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

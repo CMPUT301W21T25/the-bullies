@@ -30,6 +30,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+/**
+ * this activity shows a list of all the experiments this user is subscribed to
+ */
 public class HomeSubbedActivity extends AppCompatActivity {
 
     private ListView subbedExperimentsList;
@@ -134,13 +137,15 @@ public class HomeSubbedActivity extends AppCompatActivity {
         }
         return super.onTouchEvent(event);
     }
-    /********************************************
-     *            DB Functions HERE             *
-     ********************************************
-     *******************************************/
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<String>subscriptionKeys = new ArrayList<String>();
     ArrayList<Experiment>subscriptionList = new ArrayList<Experiment>();
+
+    /**
+     * this fetches a list of keys of experiments the user is subscribed to and then calls FB_FetchSubscriptions() on them.
+     * @param id id of the user
+     */
     public void FB_FetchSubscriptionsKeys(String id){
         subscriptionKeys.clear();
         DocumentReference docRef = db.collection("UserProfile").document(id);
@@ -160,6 +165,11 @@ public class HomeSubbedActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Fetches list of subscribed experiments using the provided list of keys. It then updates experiment adapater
+     * @param subscriptionKeys a list of keys of the experiments this user is subscribed to
+     */
     //right now this searches the search val in both tags and description ill sperate them out if u want
     //this only searches subscribed experiments
     public void FB_FetchSubscriptions(ArrayList<String> subscriptionKeys){

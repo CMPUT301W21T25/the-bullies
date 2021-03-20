@@ -31,6 +31,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * this class is an Abstract class for experiments
+ * it sets up the most important methods for the classes that the children will inherit
+ */
 public abstract class Experiment implements Serializable {
 
     /****************************************
@@ -45,6 +49,7 @@ public abstract class Experiment implements Serializable {
     private boolean isPublished = false;
     private String fb_id = "";
     private Date date;
+    private boolean isEnded = false;
 
     private ArrayList<User> subscribedUsers = new ArrayList<User>(); //all currently subscribed users
     private ArrayList<User> allUsers = new ArrayList<User>(); //for users that were subscribed, added data, and unsubscribed
@@ -96,6 +101,10 @@ public abstract class Experiment implements Serializable {
     }
     public String retTest(){
         return "test";
+    }
+
+    public boolean getIsEnded() {
+        return isEnded;
     }
 
     public String getType() { return type; }
