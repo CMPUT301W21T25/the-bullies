@@ -65,6 +65,7 @@ public class ExperimentManager {
         experimentDoc.put("date",date);
         experimentDoc.put("geoEnabled",geoEnabled);
         experimentDoc.put("published",published);
+        experimentDoc.put("isEnded",false);
         experimentDoc.put("trialKeys", Arrays.asList());//cause an experiment should start empty
 
         //experiment.put("comment", ); ill add this later
