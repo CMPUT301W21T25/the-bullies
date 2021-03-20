@@ -19,7 +19,6 @@ public class ExperimentTest {
     @Rule
     public ActivityTestRule<MainActivity> rule =
             new ActivityTestRule<>(MainActivity.class, true, true);
-    }
 
     /**
      * Runs before all tests and creates solo instance.
@@ -37,6 +36,8 @@ public class ExperimentTest {
     public void start() throws Exception{
         Activity activity = rule.getActivity();
     }
+
+
 
 
 
