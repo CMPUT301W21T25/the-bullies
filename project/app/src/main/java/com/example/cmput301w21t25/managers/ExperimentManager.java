@@ -14,7 +14,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firestore.v1.Document;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,13 +49,19 @@ public class ExperimentManager {
      * @param published a boolean that tells weather or not the experiment is published or not
      * @param type the type of experiment(ie: count, nonNegCount, binomial etc)
      * @param date the date and time of creation of the experiment
+     * @param minTrials the minimum number of trials required to end an experiment
+     * @param pubTrials the current number of published trials an experiment has
      */
-    public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date, int minTrials){
+    public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName,
+                                    String description, Location region, ArrayList<String> tags,
+                                    Boolean geoEnabled, Boolean published, String type, Date date,
+                                    int minTrials, int pubTrials){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("ownerID", ownerID);
         experimentDoc.put("name",experimentName);
         experimentDoc.put("minNumTrials", minTrials);
+        experimentDoc.put("publishedTrials", pubTrials);
         experimentDoc.put("owner",ownerName);
         experimentDoc.put("description",description);
         experimentDoc.put("region",region);
@@ -276,6 +281,23 @@ public class ExperimentManager {
                     }
                 });
     }
+
+    public void FB_UpdatePublishedTrials(int publishedTrials, String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("publishedTrials", publishedTrials)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+
     /**
      * End of database stuff -YA
      * */

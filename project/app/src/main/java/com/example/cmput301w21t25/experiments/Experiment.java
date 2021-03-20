@@ -46,6 +46,7 @@ public abstract class Experiment implements Serializable {
     private String type;
     private ArrayList<String> tags;
     private int minNumTrials;
+    private int currentNumTrials;
     private boolean isPublished = false;
     private String fb_id = "";
     private Date date;
@@ -132,6 +133,11 @@ public abstract class Experiment implements Serializable {
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }
+
+    public void setCurrentNumTrials(int currentNumTrials) {
+        this.currentNumTrials = currentNumTrials;
+    }
+    public int getCurrentNumTrials() { return currentNumTrials; }
 
 //    public void setTrials(ArrayList<Trial> trials) {
 //        this.trials = trials;

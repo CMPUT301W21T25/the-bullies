@@ -48,16 +48,22 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         userID = getIntent().getStringExtra("USER_ID");
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
         exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
+        expID = exp.getFb_id(); //ck
+        FB_FetchExperiment(expID);
+
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
         TextView expType = findViewById(R.id.exp_type_text_view);
+        TextView minTrials = findViewById(R.id.min_trials_text_view);
+        TextView currTrials = findViewById(R.id.current_trials_text_view);
         final Button addTrialButton = findViewById(R.id.add_trial_button);
 
         expName.setText(exp.getName());
         expDesc.setText(exp.getDescription());
         expType.setText(exp.getType());
-        expID = exp.getFb_id(); //ck
+        minTrials.setText("Minimum Trials: " + String.valueOf(exp.getMinNumTrials()));
+        currTrials.setText("Current Trials: " + String.valueOf(exp.getCurrentNumTrials()));
 
         //Make add trial button open add trials page
         addTrialButton.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +173,6 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
             }
         });
     }
-
 
     /**
      * Is called when a user clicks on the owners profile image while viewing an experiment

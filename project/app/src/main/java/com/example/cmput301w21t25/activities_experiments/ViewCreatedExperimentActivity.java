@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_main.SearchActivity;
+import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -48,19 +49,25 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
 
         final Button editButton = findViewById(R.id.edit_button);
         final Button publishButton = findViewById(R.id.publish_button);
+        final Button addTrialButton = findViewById(R.id.add_trial_button);
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = unpackExperiment();
+        expID = exp.getFb_id(); //ck
+        FB_FetchExperiment(expID);
+
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
         TextView expType = findViewById(R.id.exp_type_text_view);
+        TextView minTrials = findViewById(R.id.min_trials_text_view);
+        TextView currTrials = findViewById(R.id.current_trials_text_view);
 
         expName.setText(exp.getName());
         expDesc.setText(exp.getDescription());
         expType.setText(exp.getType());
-        expID = exp.getFb_id(); //ck
-
+        minTrials.setText("Minimum Trials: " + String.valueOf(exp.getMinNumTrials()));
+        currTrials.setText("Current Trials: " + String.valueOf(exp.getCurrentNumTrials()));
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +83,16 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             }
         });
 
+        addTrialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newTrial = new Intent(ViewCreatedExperimentActivity.this, AddTrialActivity.class);
+                newTrial.putExtra("USER_ID", userID);
+                newTrial.putExtra("TRIAL_PARENT", exp);
+                startActivity(newTrial);
+            }
+        });
+
     }
 
     private Experiment unpackExperiment() {
@@ -84,9 +101,6 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
         return exp;
     }
-
-
-
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public void FB_FetchExperiment(String id){
@@ -181,7 +195,6 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             }
         });
     }
-
 
     /**
      * Is called when a user clicks on the owners profile image while viewing an experiment

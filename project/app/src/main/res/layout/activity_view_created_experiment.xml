@@ -84,7 +84,7 @@
 
         <TextView
             android:id="@+id/min_trials_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginTop="5dp"
             android:padding="6dp"
@@ -142,7 +142,6 @@
             android:layout_height="60dp"
             android:layout_marginStart="35dp"
             android:layout_marginLeft="35dp"
-            android:onClick="subscribeButton"
             android:text="Add Trial" />
     </LinearLayout>
 

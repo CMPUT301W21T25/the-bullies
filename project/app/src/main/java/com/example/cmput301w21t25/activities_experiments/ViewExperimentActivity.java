@@ -45,15 +45,20 @@ public class ViewExperimentActivity extends AppCompatActivity {
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = unpackExperiment();
+        expID = exp.getFb_id(); //ck
+        FB_FetchExperiment(expID);
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
         TextView expType = findViewById(R.id.exp_type_text_view);
+        TextView minTrials = findViewById(R.id.min_trials_text_view);
+        TextView currTrials = findViewById(R.id.current_trials_text_view);
 
         expName.setText(exp.getName());
         expDesc.setText(exp.getDescription());
         expType.setText(exp.getType());
-        expID = exp.getFb_id(); //ck
+        minTrials.setText("Minimum Trials: " + String.valueOf(exp.getMinNumTrials()));
+        currTrials.setText("Current Trials: " + String.valueOf(exp.getCurrentNumTrials()));
 
     }
 
@@ -164,7 +169,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
             }
         });
     }
-
 
     /**
      * Is called when a user clicks on the owners profile image while viewing an experiment
