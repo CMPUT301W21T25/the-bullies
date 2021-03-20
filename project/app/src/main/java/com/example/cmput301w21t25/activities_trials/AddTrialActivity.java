@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
@@ -25,9 +26,14 @@ import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -121,24 +127,46 @@ public class AddTrialActivity extends AppCompatActivity {
      */
     public void FB_FetchTrialKeys(String expID,String userID,Experiment parent) {
         trialKeys.clear();
-        DocumentReference docRef = db.collection("Experiments").document(expID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        CollectionReference collectionReference = db.collection("Experiments");
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-
-                    if (document.exists()) {//combine into one really big conditional?
-
-                        trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
+                    FirebaseFirestoreException error) {
+                trialKeys.clear();
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                {
+                    if(expID.equals(doc.getId())){
+                        trialKeys = (ArrayList<String>) doc.getData().get("trialKeys");
                         Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
                         FB_FetchTrials(parent);
                     }
-                } else {
-                    Log.d("YA-DB: ", "get failed with ", task.getException());
+//                    Log.d(TAG, String.valueOf(doc.getData().get("Province Name")));
+//                    String city = doc.getId();
+//                    String province = (String) doc.getData().get("Province Name");
+//                    cityDataList.add(new City(city, province)); // Adding the cities and provinces from FireStore
                 }
             }
         });
+
+
+//        DocumentReference docRef = db.collection("Experiments").document(expID);
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//
+//                    if (document.exists()) {//combine into one really big conditional?
+//
+//                        trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
+//                        Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
+//                        FB_FetchTrials(parent);
+//                    }
+//                } else {
+//                    Log.d("YA-DB: ", "get failed with ", task.getException());
+//                }
+//            }
+//        });
     }
 
     /**
