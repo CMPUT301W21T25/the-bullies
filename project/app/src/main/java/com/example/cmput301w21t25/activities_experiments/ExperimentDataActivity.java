@@ -141,16 +141,16 @@ public class ExperimentDataActivity extends AppCompatActivity {
                         if(keys.contains(document.getId())){
                             CountTrial trial = document.toObject(CountTrial.class);
                             values.add(trial.getResult());
-                            countSUM = countSUM + trial.getResult();//total
+                            countSUM += trial.getResult();//total
                         }
                     }
                     if (values.size() > 0) {
-                        mean = countSUM/Double.valueOf(values.size());//mean
+                        mean = countSUM / (double) values.size();//mean
                     }
                     double squareDiff =0;
                     double total = 0;
                     for(int i =0;i<values.size();i++){
-                        squareDiff =Math.pow((values.get(i)-mean),2);
+                        squareDiff += Math.pow((values.get(i)-mean),2);
                         total++;
                     }
                     if (total != 0) {
@@ -181,16 +181,16 @@ public class ExperimentDataActivity extends AppCompatActivity {
                         if(keys.contains(document.getId())){
                             CountTrial trial = document.toObject(CountTrial.class);
                             values.add(trial.getResult());
-                            countSUM = countSUM + trial.getResult();//total
+                            countSUM += trial.getResult();//total
                         }
                     }
                     if (values.size() > 0) {
-                        mean = countSUM/Double.valueOf(values.size());//mean
+                        mean = countSUM/ (double) values.size();//mean
                     }
                     double squareDiff =0;
                     double total = 0;
                     for(int i = 0; i < values.size(); i++){
-                        squareDiff =Math.pow((values.get(i)-mean),2);
+                        squareDiff += Math.pow((values.get(i)-mean),2);
                         total++;
                     }
                     if (total != 0) {
@@ -208,7 +208,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
             }
         });
     }
-    private Float countSUMF;
+    private Float countSUMF = 0f;
     public void FB_FetchSummary(MeasurementExperiment parent){
         ArrayList<String>keys = parent.getTrialKeys();
         ArrayList<Float> values = new ArrayList<Float>();
@@ -225,12 +225,12 @@ public class ExperimentDataActivity extends AppCompatActivity {
                         }
                     }
                     if (values.size() > 0) {
-                        mean = countSUM/Double.valueOf(values.size());//mean
+                        mean = countSUMF/ (double) values.size();//mean
                     }
                     double squareDiff = 0;
                     double total = 0;
                     for(int i = 0;i<values.size();i++){
-                        squareDiff =Math.pow((values.get(i)-mean),2);
+                        squareDiff += Math.pow((values.get(i)-mean),2);
                         total++;
                     }
                     if (total != 0) {
@@ -268,7 +268,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                         }
                     }
                     if (totalCount != 0) {
-                        successRate = Double.valueOf(((float) successCount / (float) totalCount));
+                        successRate = (float) successCount / (float) totalCount;
                     }
                     else successRate = 0;
                     showBinomialStats(values.size());
@@ -342,17 +342,20 @@ public class ExperimentDataActivity extends AppCompatActivity {
             LquartilesTextView.setText("LQuartiles: N/A");
             UquartilesTextView.setText("UQuartiles: N/A");
             successRateTextView.setText("Success Rate: N/A");
-        } else {
+        }
+
+        else {
             if (type == "measurement") {
                 medianTextView.setText("Median: " + decimalFormat.format(medianDouble));
-            } else {
+            }
+            else {
                 medianTextView.setText("Median: " + Integer.toString(medianInt));
             }
             meanTextView.setText("Mean: " + decimalFormat.format(mean));
             deviationTextView.setText("Standard Deviation: " + decimalFormat.format(sDev));
             LquartilesTextView.setText("LQuartiles: " + decimalFormat.format(Lquart));
             UquartilesTextView.setText("UQuartiles: " + decimalFormat.format(Uquart));
-            successRateTextView.setText("Success Rate: " + decimalFormat.format(successRate));
+            successRateTextView.setText("Success Rate: N/A");
         }
     }
 }
