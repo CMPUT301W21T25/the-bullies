@@ -8,13 +8,14 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.robotium.solo.Solo;
+import android.test.ActivityInstrumentationTestCase2;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class ExperimentTest {
+public class ExperimentTest extends ActivityInstrumentationTestCase2{
     private Solo solo;
 
     @Rule
