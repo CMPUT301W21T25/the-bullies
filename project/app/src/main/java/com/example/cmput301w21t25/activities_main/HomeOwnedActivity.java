@@ -40,6 +40,8 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private ArrayList<Experiment> ownedExperimentsList;
     private ArrayAdapter<Experiment> experimentAdapter;
     private String userID;
+
+    //Variables to access on touch events
     private float x1;
     private float x2;
     private float y1;
