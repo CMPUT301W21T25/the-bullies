@@ -30,7 +30,7 @@
         android:layout_below="@id/top_space"
         android:layout_toLeftOf="@id/right_space"
         android:onClick="viewExpOwnerButton"
-        android:text="Owner" />
+        android:text="User" />
 
     <TextView
         android:id="@+id/exp_name_text_view"
@@ -114,38 +114,59 @@
     <Button
         android:id="@+id/view_data_button"
         android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="60dp"
+        android:layout_below="@id/info_linear_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="165dp"
-        android:onClick="dataButton"
+        android:layout_marginTop="36dp"
         android:text="view data" />
 
     <LinearLayout
         android:id="@+id/button_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/view_data_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="42dp"
+        android:layout_marginTop="12dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/comments_button"
             android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="55dp"
+            android:layout_height="60dp"
             android:text="Comments" />
 
         <Button
             android:id="@+id/add_trial_button"
             android:layout_width="150dp"
-            android:layout_height="45dp"
+            android:layout_height="60dp"
             android:layout_marginStart="35dp"
             android:layout_marginLeft="35dp"
-            android:layout_marginBottom="54dp"
             android:onClick="subscribeButton"
-            android:text="subscribe" />
+            android:text="Add Trial" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_linear_layout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_linear_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:text="Edit" />
+
+        <Button
+            android:id="@+id/publish_button"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:text="Publish" />
     </LinearLayout>
 
 </RelativeLayout>
