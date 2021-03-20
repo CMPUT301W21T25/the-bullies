@@ -72,10 +72,16 @@ public abstract class Trial {
     public String getExperimentName() {
         return experimentName;
     }
+
+    public String getExperimentID() {
+        return experimentID;
+    }
+
     /**
      * getter for the user
      * @return returns string value which is the user ID
      */
+
     public String getUser() {
         return userID;
     }

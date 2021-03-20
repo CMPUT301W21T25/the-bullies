@@ -112,6 +112,7 @@ public class TrialManager {
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
         trialDoc.put("experiment",parentExperimentID);
+        trialDoc.put("experimentID",parent.getFb_id());
         trialDoc.put("experimentName",parentExperimentName);
         trialDoc.put("experimentOwnerName",parentExperimentOwnerName);
         trialDoc.put("published",published);
