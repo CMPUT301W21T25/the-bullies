@@ -222,7 +222,7 @@ public class AddTrialActivity extends AppCompatActivity {
     public void publishTrial(int position) {
         Trial temp = trialList.remove(position);
         temp.setPublished(true);
-        trialManager.FB_UpdatePublished(true, );
+        trialManager.FB_UpdatePublished(true, temp.getTrialId());
         trialArrayAdapter.notifyDataSetChanged();
     }
 
