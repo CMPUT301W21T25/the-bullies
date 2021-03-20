@@ -9,9 +9,9 @@ import java.util.ArrayList;
  * This is a user object that will hold user related data from the databse
  */
 public class User {
-    private ArrayList<Experiment> subscribedExperiments;
-    private ArrayList<Trial> conductedTrials;
-    private ArrayList<Experiment> ownedExperiments;
+//    private ArrayList<Experiment> subscribedExperiments;
+//    private ArrayList<Trial> conductedTrials;
+//    private ArrayList<Experiment> ownedExperiments;
 
     private String name;
     private String email;
@@ -55,26 +55,26 @@ public class User {
         return email;
     }
 
-    private void subscribeTo(Experiment experiment) {
-        this.subscribedExperiments.add(experiment);
-    }
+//    private void subscribeTo(Experiment experiment) {
+//        this.subscribedExperiments.add(experiment);
+//    }
+//
+//    private void unsubscribeFrom(Experiment experiment) {
+//        this.subscribedExperiments.remove(experiment);
+//    }
 
-    private void unsubscribeFrom(Experiment experiment) {
-        this.subscribedExperiments.remove(experiment);
-    }
-
-    private void generateQRCode() {
-    }
-
-    private void registerBarCode() {
-    }
-
-    private void scanQRCode() {
-    }
-
-    private void scanBarCode() {
-    }
-
-    private void printQRCode() {
-    }
+//    private void generateQRCode() {
+//    }
+//
+//    private void registerBarCode() {
+//    }
+//
+//    private void scanQRCode() {
+//    }
+//
+//    private void scanBarCode() {
+//    }
+//
+//    private void printQRCode() {
+//    }
 }
