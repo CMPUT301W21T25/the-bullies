@@ -22,15 +22,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 /**
  * this activity is used to view from a list
@@ -42,7 +37,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
     private String userID;
     private Bundle expBundle;
     private Experiment exp;
-    private int publishedTrials = 0;
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -51,7 +45,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = unpackExperiment();
-        FB_FetchPublishedTrials(exp);
         expID = exp.getFb_id(); //ck
         FB_FetchExperiment(expID);
 
@@ -172,28 +165,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void FB_FetchPublishedTrials(Experiment parent) {
-
-        ArrayList<String> keys = parent.getTrialKeys();
-        ArrayList<Integer> trials = new ArrayList<Integer>();
-        CollectionReference docRef = db.collection("TrialDocs");
-        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (keys.contains(document.getId())) {
-                            publishedTrials += 1;
-                        }
-                    }
-                }
-            }
-        });
-        parent.setCurrentNumTrials(publishedTrials);
-    }
-
 
     /**
      * Is called when a user clicks on the owners profile image while viewing an experiment

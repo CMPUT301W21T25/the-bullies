@@ -23,15 +23,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 /**
  * this activity is used to view an experiment in the HomeSubbedActivity list
@@ -42,7 +37,6 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
     private String ownerID;
     private String userID;
     private Bundle expBundle;
-    private int publishedTrials = 0;
 
 
     @Override
@@ -53,8 +47,6 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         userID = getIntent().getStringExtra("USER_ID");
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
         Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
-        publishedTrials = FB_FetchPublishedTrials(exp);
-        Log.d("DKkkkkkkkkkkkkkkkkkkk: ", String.valueOf(publishedTrials));
         expID = exp.getFb_id(); //ck
         FB_FetchExperiment(expID);
 
@@ -179,30 +171,6 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
             }
         });
     }
-
-    public int FB_FetchPublishedTrials(Experiment parent) {
-
-        Log.d("DK", "Fetching Published Trials");
-        ArrayList<String> keys = parent.getTrialKeys();
-        ArrayList<Integer> trials = new ArrayList<Integer>();
-        CollectionReference docRef = db.collection("TrialDocs");
-        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (keys.contains(document.getId())) {
-                            publishedTrials += 1;
-                            Log.d("Published Trials", String.valueOf(publishedTrials));
-                        }
-                    }
-                }
-            }
-        });
-        return publishedTrials;
-    }
-
 
     /**
      * Is called when a user clicks on the owners profile image while viewing an experiment

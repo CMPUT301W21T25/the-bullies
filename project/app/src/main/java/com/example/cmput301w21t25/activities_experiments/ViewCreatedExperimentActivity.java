@@ -25,15 +25,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 public class ViewCreatedExperimentActivity extends AppCompatActivity {
 
@@ -41,7 +36,6 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
     private String ownerID;
     private String userID;
     private Bundle expBundle;
-    private int publishedTrials = 0;
     private ExperimentManager em = new ExperimentManager();
 
     @Override
@@ -55,10 +49,8 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
 
         userID = getIntent().getStringExtra("USER_ID");
         Experiment exp = unpackExperiment();
-        //FB_FetchPublishedTrials(exp);
         expID = exp.getFb_id(); //ck
         FB_FetchExperiment(expID);
-
 
         TextView expName = findViewById(R.id.exp_name_text_view);
         TextView expDesc = findViewById(R.id.exp_description_text_view);
@@ -71,8 +63,6 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         expType.setText(exp.getType());
         minTrials.setText("Minimum Trials: " + String.valueOf(exp.getMinNumTrials()));
         currTrials.setText("Current Trials: " + String.valueOf(exp.getCurrentNumTrials()));
-
-
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,9 +96,6 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         Experiment exp = (Experiment) expBundle.getSerializable("EXP_OBJ");
         return exp;
     }
-
-
-
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public void FB_FetchExperiment(String id){
@@ -198,28 +185,6 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void FB_FetchPublishedTrials(Experiment parent) {
-
-        ArrayList<String> keys = parent.getTrialKeys();
-        ArrayList<Integer> trials = new ArrayList<Integer>();
-        CollectionReference docRef = db.collection("TrialDocs");
-        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (keys.contains(document.getId())) {
-                            publishedTrials += 1;
-                        }
-                    }
-                }
-            }
-        });
-        parent.setCurrentNumTrials(publishedTrials);
-    }
-
 
     /**
      * Is called when a user clicks on the owners profile image while viewing an experiment
