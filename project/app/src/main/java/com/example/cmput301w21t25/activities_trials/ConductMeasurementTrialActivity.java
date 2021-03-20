@@ -18,6 +18,7 @@ import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.TrialManager;
 
 /**
+ * @author Eden
  * this activity is used to conduct experiments for measurement type experiments On completion, sends
  * trial to database as doc, returns to add trial list view.
  */

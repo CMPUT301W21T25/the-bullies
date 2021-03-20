@@ -85,6 +85,8 @@ public abstract class Trial {
      */
     public Date getDate() { return date; }
 
+    public void setPublished(Boolean published) { this.published = published; }
+
     public String getTrialId() {
         return trialId;
     }
