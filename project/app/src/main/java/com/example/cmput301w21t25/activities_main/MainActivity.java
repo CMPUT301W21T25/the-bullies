@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_user.GenerateUserActivity;
+import com.example.cmput301w21t25.emulator.EmulatorDemo;
 import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.user.User;
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //EmulatorDemo emu = new EmulatorDemo(); //curtis
+
         //setContentView(R.layout.activity_main);
         //testing DB ill make proper tests later i promise -YA
         //tests for UserMangaer class and UserProfile collection
