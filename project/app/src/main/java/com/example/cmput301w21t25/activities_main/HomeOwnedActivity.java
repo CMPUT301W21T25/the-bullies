@@ -12,6 +12,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.FirestoreCallback;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
 import com.example.cmput301w21t25.activities_experiments.ViewCreatedExperimentActivity;
@@ -22,6 +23,7 @@ import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
+import com.example.cmput301w21t25.managers.UserManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -47,6 +49,8 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private float y1;
     private float y2;
     private int publishedTrials = 0;
+    private ArrayList<String>key = new ArrayList<String>();
+
 
 
 
@@ -63,8 +67,20 @@ public class HomeOwnedActivity extends AppCompatActivity {
         experimentAdapter = new CustomListExperiment(this, ownedExperimentsList);
         ownedExperimentsListView.setAdapter(experimentAdapter);
 
-        final FloatingActionButton createExperimentButton = findViewById(R.id.exp_create_button);
+        /////////////////////////////////////////////
+        UserManager userManager = new UserManager();
+        ArrayList<String> keys = new ArrayList<String>();
+        userManager.FB_FetchOwnedExperimentKeys(userID, new FirestoreCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                key = list;
+            }
+        });
 
+
+
+
+        final FloatingActionButton createExperimentButton = findViewById(R.id.exp_create_button);
 
         //Prevent ListView from eating onTouchEvent
         ownedExperimentsListView.setOnTouchListener(new View.OnTouchListener() {
@@ -257,6 +273,5 @@ public class HomeOwnedActivity extends AppCompatActivity {
         intent.putExtra("prevScreen", "Owned");
         startActivity(intent);
     }
-
 
 }

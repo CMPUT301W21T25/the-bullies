@@ -2,14 +2,19 @@ package com.example.cmput301w21t25.managers;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.example.cmput301w21t25.FirestoreCallback;
 import com.example.cmput301w21t25.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -73,7 +78,7 @@ public class UserManager{
      * @param type this is the a string that tells the function weather its checking for email or username
      * @return
      */
-    public boolean FB_isUnique(String text, String type) {
+    public boolean FB_isUnique(String text, String type) {//is this working?
         final boolean[] success = {true};
         //text is the text that you want to make sure is unique, like a username
         //type is either "userName" or "email" to indicate what are to check for uniqueness
@@ -230,6 +235,22 @@ public class UserManager{
                     }
                 });
     }
+
+
+    //this function is a test function to pull the keys synchronously, they dont but were close enough
+    public void FB_FetchOwnedExperimentKeys(String id,FirestoreCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
+        db.collection("UserProfile").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                if(doc != null && doc.exists()){
+                    ArrayList<String> key = (ArrayList<String>) doc.get("ownedExperiments");
+                    Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    fsCallback.onCallback(key);
+                }
+            }
+        });
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////
     //since we can update trials and stuff i dont see the need of making delete functions, if u want them ill put them in
     /**

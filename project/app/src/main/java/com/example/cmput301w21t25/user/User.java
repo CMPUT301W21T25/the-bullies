@@ -1,6 +1,14 @@
 package com.example.cmput301w21t25.user;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.trials.Trial;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -15,6 +23,7 @@ public class User {
 
     private String name;
     private String email;
+    private String userID;
 
 
     public User(){
@@ -54,6 +63,12 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    public String getUserID() {
+        return userID;
+    }
+
+
 
 //    private void subscribeTo(Experiment experiment) {
 //        this.subscribedExperiments.add(experiment);

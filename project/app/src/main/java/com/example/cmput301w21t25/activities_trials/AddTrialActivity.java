@@ -148,7 +148,6 @@ public class AddTrialActivity extends AppCompatActivity {
             }
         });
 
-
 //        DocumentReference docRef = db.collection("Experiments").document(expID);
 //        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //            @Override
