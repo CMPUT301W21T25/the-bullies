@@ -16,7 +16,7 @@ public class Comment {
     private String commentParent;
     private String respondingTo;
 
-    private Integer commentChildren;
+    private Integer commentChildren = 0;
 
     private Date commentDate;
 
