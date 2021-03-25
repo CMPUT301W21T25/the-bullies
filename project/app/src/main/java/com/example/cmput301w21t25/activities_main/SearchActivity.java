@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.FilterSearchFragment;
+import com.example.cmput301w21t25.FirestoreExperimentCallback;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
@@ -83,7 +84,12 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
 
         searchButton = findViewById(R.id.exp_filter_button);
 
-        experimentManager.FB_UpdateBrowseExperimentAdapter(userID,experimentArrayAdapter,experimentList);
+        experimentManager.FB_UpdateBrowseExperimentAdapter(userID, experimentArrayAdapter, experimentList, new FirestoreExperimentCallback() {
+            @Override
+            public void onCallback(ArrayList<Experiment> list) {
+
+            }
+        });
         //finish();
 
         searchButton.setOnClickListener(new AdapterView.OnClickListener() {
@@ -105,7 +111,15 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         //Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
         this.allKeywords = allKeywords;
         Log.d("returning",allKeywords);
-        experimentManager.FB_UpdateBrowseExperimentAdapter(userID,experimentArrayAdapter,experimentList);
+        experimentManager.FB_UpdateBrowseExperimentAdapter(userID, experimentArrayAdapter, experimentList, new FirestoreExperimentCallback() {
+            @Override
+            public void onCallback(ArrayList<Experiment> list) {
+                ArrayList<Experiment> temp =  searchManager.searchExperiments(allKeywords, list);
+                experimentList.clear();
+                experimentList.addAll(temp);
+                experimentArrayAdapter.notifyDataSetChanged();
+            }
+        });
         //searchManager.searchExperiments(allKeywords, experimentList);
     }
 

@@ -8,11 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.cmput301w21t25.FirestoreCallback;
-import com.example.cmput301w21t25.custom.CustomListExperiment;
+import com.example.cmput301w21t25.FirestoreExperimentCallback;
+import com.example.cmput301w21t25.FirestoreStringCallback;
 import com.example.cmput301w21t25.experiments.Experiment;
-import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
-import com.google.android.gms.measurement.api.AppMeasurementSdk;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -278,7 +276,7 @@ public class ExperimentManager {
     // FETCH EXPERIMENTS
     //
     public void FB_UpdateOwnedExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
-        userManager.FB_FetchOwnedExperimentKeys(userID, new FirestoreCallback() {
+        userManager.FB_FetchOwnedExperimentKeys(userID, new FirestoreStringCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
                 if(list.size()>0){
@@ -306,7 +304,7 @@ public class ExperimentManager {
 
     }
     public void FB_UpdateSubbedExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
-        userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreCallback() {
+        userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreStringCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
                 if(list.size()>0){
@@ -332,33 +330,35 @@ public class ExperimentManager {
             }
         });
     }
-    public void FB_UpdateBrowseExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
-        userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreCallback() {
+    public void FB_UpdateBrowseExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments, FirestoreExperimentCallback fsCallBack){
+        userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreStringCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
                 if(list.size()>0){
                     Log.d("YA-DB: ", "calling the fetch" );
                     db.collection("Experiments").whereNotIn(FieldPath.documentId(),list).whereEqualTo("published", true)
-                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                                    experiments.clear();
-                                    experimentAdapter.notifyDataSetChanged();
-                                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
-                                    {
-                                        Experiment experiment = doc.toObject(Experiment.class);
-                                        experiment.setFb_id(doc.getId());
-                                        experiments.add(experiment);
-                                        experimentAdapter.notifyDataSetChanged();
-                                        Log.d("YA-DB: ", "fetched: " + experiments);
-                                    }
-                                }
-                            });
+                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            experiments.clear();
+                            experimentAdapter.notifyDataSetChanged();
+                            for(QueryDocumentSnapshot doc: task.getResult())
+                            {
+                                Experiment experiment = doc.toObject(Experiment.class);
+                                experiment.setFb_id(doc.getId());
+                                experiments.add(experiment);
+                                experimentAdapter.notifyDataSetChanged();
+                                Log.d("YA-DBS: ", "fetched: " + experiments);
+                                fsCallBack.onCallback(experiments);
+                            }
+                        }
+                    });
                 }
 
             }
         });
     }
+
     public void FB_UpdateExperimentTextViews(String expID, TextView expName,TextView expDesc,TextView expType,TextView minTrials,TextView currTrials){
         db.collection("Experiments").whereEqualTo(FieldPath.documentId(),expID)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {

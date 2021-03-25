@@ -9,28 +9,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cmput301w21t25.FirestoreCallback;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
 import com.example.cmput301w21t25.activities_experiments.ViewCreatedExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListExperiment;
-import com.example.cmput301w21t25.experiments.BinomialExperiment;
-import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
-import com.example.cmput301w21t25.experiments.MeasurementExperiment;
-import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
-import com.example.cmput301w21t25.managers.UserManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 

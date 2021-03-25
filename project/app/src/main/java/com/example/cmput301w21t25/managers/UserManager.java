@@ -1,12 +1,10 @@
 package com.example.cmput301w21t25.managers;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.cmput301w21t25.FirestoreCallback;
-import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.FirestoreStringCallback;
 import com.example.cmput301w21t25.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -15,10 +13,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -255,7 +251,7 @@ public class UserManager{
      * @param fsCallback
      */
     //this function is a test function to pull the keys synchronously, they dont but were close enough
-    public void FB_FetchOwnedExperimentKeys(String id,FirestoreCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
+    public void FB_FetchOwnedExperimentKeys(String id, FirestoreStringCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
         db.collection("UserProfile").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
@@ -273,7 +269,7 @@ public class UserManager{
      * @param id
      * @param fsCallback
      */
-    public void FB_FetchSubbedExperimentKeys(String id,FirestoreCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
+    public void FB_FetchSubbedExperimentKeys(String id, FirestoreStringCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
         db.collection("UserProfile").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
@@ -291,7 +287,7 @@ public class UserManager{
      * @param id the id of the user to retrieve
      * @param fsCallback the callback for receiving data
      */
-    public void FB_FetchUserInfo(String id, FirestoreCallback fsCallback) {
+    public void FB_FetchUserInfo(String id, FirestoreStringCallback fsCallback) {
         db.collection("UserProfile").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
