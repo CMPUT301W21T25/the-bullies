@@ -33,7 +33,7 @@ public class ForumActivity extends AppCompatActivity {
     private ArrayAdapter<Comment> commentArrayAdapter;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
