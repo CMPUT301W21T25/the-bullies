@@ -2,16 +2,26 @@ package com.example.cmput301w21t25.managers;
 
 import android.location.Location;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.example.cmput301w21t25.FirestoreCallback;
+import com.example.cmput301w21t25.custom.CustomListExperiment;
+import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
+import com.google.android.gms.measurement.api.AppMeasurementSdk;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -298,7 +308,32 @@ public class ExperimentManager {
                 });
     }
 
-    /**
+    public void FB_FetchExperiments(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
+        userManager.FB_FetchOwnedExperimentKeys(userID, new FirestoreCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                if(list.size()>0){
+                    Log.d("YA-DB: ", "calling the fetch" );
+                    db.collection("Experiments").whereIn(FieldPath.documentId(),list)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                    experiments.clear();
+                                    experimentAdapter.notifyDataSetChanged();
+                                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                                    {
+                                        experiments.add(doc.toObject(Experiment.class));
+                                        experimentAdapter.notifyDataSetChanged();
+                                        Log.d("YA-DB: ", "fetched: " + experiments);
+                                    }
+                                }
+                            });
+                }
+
+            }
+        });
+
+    }    /**
      * End of database stuff -YA
      * */
 }
