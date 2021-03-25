@@ -1,10 +1,12 @@
 package com.example.cmput301w21t25.managers;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.cmput301w21t25.FirestoreCallback;
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -13,8 +15,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -37,7 +41,15 @@ public class UserManager{
      *      -get user class()
      * */
     //ATTRIBUTES
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db;
+
+    public UserManager() {
+        db = FirebaseFirestore.getInstance();
+    }
+
+    public UserManager(FirebaseFirestore db) {
+        this.db = db;
+    }
 
     //INITIALIZE PROFILE
 
@@ -245,6 +257,25 @@ public class UserManager{
                 if(doc != null && doc.exists()){
                     ArrayList<String> key = (ArrayList<String>) doc.get("ownedExperiments");
                     Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    fsCallback.onCallback(key);
+                }
+            }
+        });
+    }
+
+    /**
+     * This method retrieves the email and name of a specified user, with a high potential to be expanded
+     * @param id the id of the user to retrieve
+     * @param fsCallback the callback for receiving data
+     */
+    public void FB_FetchUserInfo(String id, FirestoreCallback fsCallback) {
+        db.collection("UserProfile").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                if (doc != null && doc.exists()){
+                    ArrayList<String> key = new ArrayList<String>();
+                    key.add(doc.get("email").toString());
+                    key.add(doc.get("name").toString());
                     fsCallback.onCallback(key);
                 }
             }
