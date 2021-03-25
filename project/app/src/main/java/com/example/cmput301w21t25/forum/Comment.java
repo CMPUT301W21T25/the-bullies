@@ -13,8 +13,8 @@ public class Comment {
     private String commentID;
     private String commenterName;
     private String commenterID;
-    private String commentParent;
-    private String respondingTo;
+    private String commentParent = "";
+    private String respondingTo = "";
 
     private Integer commentChildren = 0;
 
