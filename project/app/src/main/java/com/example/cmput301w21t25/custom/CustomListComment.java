@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,6 +57,8 @@ public class CustomListComment extends ArrayAdapter<Comment> {
         TextView commentDate = view.findViewById(R.id.commentDate);
         TextView commentContent = view.findViewById(R.id.comment);
 
+        ImageButton replyButton = view.findViewById(R.id.replyButton);
+
         date = comment.getCommentDate();
         dateString = formatDate(date);
 
@@ -77,6 +80,13 @@ public class CustomListComment extends ArrayAdapter<Comment> {
         commenterName.setText(comment.getCommenterName());
         commentDate.setText(dateString);
         commentContent.setText(comment.getComment());
+
+        replyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Start reply to comment activity
+            }
+        });
 
         return view;
     }
