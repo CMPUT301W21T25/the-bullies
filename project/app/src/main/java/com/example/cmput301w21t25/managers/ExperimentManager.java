@@ -3,6 +3,7 @@ package com.example.cmput301w21t25.managers;
 import android.location.Location;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -290,7 +291,9 @@ public class ExperimentManager {
                                     experimentAdapter.notifyDataSetChanged();
                                     for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                                     {
-                                        experiments.add(doc.toObject(Experiment.class));
+                                        Experiment experiment = doc.toObject(Experiment.class);
+                                        experiment.setFb_id(doc.getId());
+                                        experiments.add(experiment);
                                         experimentAdapter.notifyDataSetChanged();
                                         Log.d("YA-DB: ", "fetched: " + experiments);
                                     }
@@ -303,7 +306,7 @@ public class ExperimentManager {
 
     }
     public void FB_UpdateSubbedExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
-        userManager.FB_FetchOwnedExperimentKeys(userID, new FirestoreCallback() {
+        userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
                 if(list.size()>0){
@@ -316,7 +319,9 @@ public class ExperimentManager {
                                     experimentAdapter.notifyDataSetChanged();
                                     for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                                     {
-                                        experiments.add(doc.toObject(Experiment.class));
+                                        Experiment experiment = doc.toObject(Experiment.class);
+                                        experiment.setFb_id(doc.getId());
+                                        experiments.add(experiment);
                                         experimentAdapter.notifyDataSetChanged();
                                         Log.d("YA-DB: ", "fetched: " + experiments);
                                     }
@@ -326,7 +331,52 @@ public class ExperimentManager {
 
             }
         });
+    }
+    public void FB_UpdateBrowseExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
+        userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                if(list.size()>0){
+                    Log.d("YA-DB: ", "calling the fetch" );
+                    db.collection("Experiments").whereNotIn(FieldPath.documentId(),list).whereEqualTo("published", true)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                    experiments.clear();
+                                    experimentAdapter.notifyDataSetChanged();
+                                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                                    {
+                                        Experiment experiment = doc.toObject(Experiment.class);
+                                        experiment.setFb_id(doc.getId());
+                                        experiments.add(experiment);
+                                        experimentAdapter.notifyDataSetChanged();
+                                        Log.d("YA-DB: ", "fetched: " + experiments);
+                                    }
+                                }
+                            });
+                }
 
+            }
+        });
+    }
+    public void FB_UpdateExperimentTextViews(String expID, TextView expName,TextView expDesc,TextView expType,TextView minTrials,TextView currTrials){
+        db.collection("Experiments").whereEqualTo(FieldPath.documentId(),expID)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                        {
+                            Experiment experiment = doc.toObject(Experiment.class);
+                            experiment.setFb_id(doc.getId());
+                            expName.setText(experiment.getName());
+                            expDesc.setText(experiment.getDescription());
+                            expType.setText(experiment.getType());
+                            minTrials.setText("Minimum Trials: " + String.valueOf(experiment.getMinNumTrials()));
+                            currTrials.setText("Current Trials: " + String.valueOf(experiment.getCurrentNumTrials()));
+                            Log.d("YA_DB test: ", "fetched: " + experiment);
+                        }
+                    }
+                });
     }
     /**
      * End of database stuff -YA

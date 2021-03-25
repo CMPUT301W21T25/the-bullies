@@ -69,8 +69,6 @@ public class HomeOwnedActivity extends AppCompatActivity {
         ownedExperimentsListView.setAdapter(experimentAdapter);
 
         /////////////////////////////////////////////
-        UserManager userManager = new UserManager();
-        ArrayList<String> keys = new ArrayList<String>();
         experimentManager.FB_UpdateOwnedExperimentAdapter(userID,experimentAdapter,ownedExperimentsList);
 
 

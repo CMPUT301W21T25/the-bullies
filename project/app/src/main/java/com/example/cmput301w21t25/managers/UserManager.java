@@ -249,6 +249,11 @@ public class UserManager{
     }
 
 
+    /**
+     *
+     * @param id
+     * @param fsCallback
+     */
     //this function is a test function to pull the keys synchronously, they dont but were close enough
     public void FB_FetchOwnedExperimentKeys(String id,FirestoreCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
         db.collection("UserProfile").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -256,6 +261,24 @@ public class UserManager{
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
                 if(doc != null && doc.exists()){
                     ArrayList<String> key = (ArrayList<String>) doc.get("ownedExperiments");
+                    Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    fsCallback.onCallback(key);
+                }
+            }
+        });
+    }
+
+    /**
+     *
+     * @param id
+     * @param fsCallback
+     */
+    public void FB_FetchSubbedExperimentKeys(String id,FirestoreCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
+        db.collection("UserProfile").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                if(doc != null && doc.exists()){
+                    ArrayList<String> key = (ArrayList<String>) doc.get("subscriptions");
                     Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
                     fsCallback.onCallback(key);
                 }

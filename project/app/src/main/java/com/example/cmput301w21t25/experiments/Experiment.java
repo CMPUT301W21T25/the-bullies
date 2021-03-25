@@ -37,7 +37,7 @@ import java.util.Date;
  * this class is an Abstract class for experiments
  * it sets up the most important methods for the classes that the children will inherit
  */
-public abstract class Experiment implements Serializable {
+public class Experiment implements Serializable {
 
     /****************************************
                     ATTRIBUTES
