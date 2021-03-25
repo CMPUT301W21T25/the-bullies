@@ -41,12 +41,15 @@ public class ExperimentManager {
      * @author:Yalmaz Abdullah
      * todo: update comments, add security and exceptions, complete incomplete methods,CHECK IF THIS STUFF WORKS RIGHT
      * */
-    //ATTRIBUTES
+    //
+    // ATTRIBUTES
+    //
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String fb_expID = "";
     private UserManager userManager= new UserManager();
-  
-    //CREATE EXPERIMENT
+    //
+    // CREATE EXPERIMENT
+    //
     /**
      * This method creates an Experiment Document in the database that can later be recompiled into one of the Experiment Class's children
      * @param ownerID the ID of the user who is creating the experiment
@@ -121,33 +124,16 @@ public class ExperimentManager {
                     }
                 });
     }
-
-
-    public void FB_UpdateName(String OwnerID) {
+    //
+    // UPDATE EXPERIMENT
+    //
+    /**
+     * this method updates the name of owner stored in the database by getting the user name o
+     * @param ownerID id of the user whose name is to be updated
+     */
+    public void FB_UpdateName(String ownerID,String name) {
         //needs an owner id to update their experiments
         //grabs their current name, changes them on experiments
-        DocumentReference docRef = db.collection("UserProfile").document(OwnerID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        String name = document.getString("name");
-                        FB_changeName(OwnerID, name);
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
-
-    public void FB_changeName(String ownerID, String name) {
-        //do not use this method by itself
         db.collection("Experiments")
                 .whereEqualTo("ownerID", ownerID)
                 .get()
@@ -165,9 +151,6 @@ public class ExperimentManager {
                     }
                 });
     }
-
-
-    //UPDATE EXPERIMENT
     /**
      * This method updates the description of the experiment
      * @param description new description
@@ -208,7 +191,6 @@ public class ExperimentManager {
                     }
                 });
     }
-
     /**
      * This method updates the geoEnabled boolean
      * @param geoEnabled this is the new geoEnabled boolean
@@ -276,7 +258,7 @@ public class ExperimentManager {
      * @param conductedTrials this is the new list of conducted trials
      * @param id this is the id of experiment you want to update
      */
-    public void FB_UpdateConductedTrials(ArrayList<String> conductedTrials,String id){
+    public void FB_UpdateTrialKeys(ArrayList<String> conductedTrials,String id){
         DocumentReference docRef = db.collection("Experiments").document(id);
         docRef
                 .update("trialKeys", conductedTrials)
@@ -291,24 +273,10 @@ public class ExperimentManager {
                     }
                 });
     }
-
-    public void FB_UpdatePublishedTrials(int publishedTrials, String id){
-        DocumentReference docRef = db.collection("Experiments").document(id);
-        docRef
-                .update("publishedTrials", publishedTrials)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
-    }
-
-    public void FB_FetchExperiments(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
+    //
+    // FETCH EXPERIMENTS
+    //
+    public void FB_UpdateOwnedExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
         userManager.FB_FetchOwnedExperimentKeys(userID, new FirestoreCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
@@ -333,7 +301,34 @@ public class ExperimentManager {
             }
         });
 
-    }    /**
+    }
+    public void FB_UpdateSubbedExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
+        userManager.FB_FetchOwnedExperimentKeys(userID, new FirestoreCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                if(list.size()>0){
+                    Log.d("YA-DB: ", "calling the fetch" );
+                    db.collection("Experiments").whereIn(FieldPath.documentId(),list)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                    experiments.clear();
+                                    experimentAdapter.notifyDataSetChanged();
+                                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                                    {
+                                        experiments.add(doc.toObject(Experiment.class));
+                                        experimentAdapter.notifyDataSetChanged();
+                                        Log.d("YA-DB: ", "fetched: " + experiments);
+                                    }
+                                }
+                            });
+                }
+
+            }
+        });
+
+    }
+    /**
      * End of database stuff -YA
      * */
 }

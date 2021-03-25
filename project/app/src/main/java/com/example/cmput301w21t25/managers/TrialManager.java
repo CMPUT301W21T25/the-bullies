@@ -77,7 +77,7 @@ public class TrialManager {
                                         //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                                         ArrayList<String> newKeyList = (ArrayList<String>) document.getData().get("trialKeys");
                                         newKeyList.add(documentReference.getId());
-                                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+                                        expManager.FB_UpdateTrialKeys(newKeyList,parentExperimentID);
                                     }
                                 } else {
                                     Log.d(TAG, "get failed with ", task.getException());
@@ -141,7 +141,7 @@ public class TrialManager {
                                         //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                                         ArrayList<String> newKeyList = (ArrayList<String>) document.getData().get("trialKeys");
                                         newKeyList.add(documentReference.getId());
-                                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+                                        expManager.FB_UpdateTrialKeys(newKeyList,parentExperimentID);
                                     }
                                 } else {
                                     Log.d(TAG, "get failed with ", task.getException());
@@ -203,7 +203,7 @@ public class TrialManager {
                                         //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                                         ArrayList<String> newKeyList = (ArrayList<String>) document.getData().get("trialKeys");
                                         newKeyList.add(documentReference.getId());
-                                        expManager.FB_UpdateConductedTrials(newKeyList,parentExperimentID);
+                                        expManager.FB_UpdateTrialKeys(newKeyList,parentExperimentID);
                                     }
                                 } else {
                                     Log.d(TAG, "get failed with ", task.getException());
