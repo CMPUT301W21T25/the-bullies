@@ -9,6 +9,11 @@ import com.example.cmput301w21t25.forum.Comment;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * @author Eden
+ * Sorts comments in a nested fashion such that a particular question's responses are listed
+ * directly below it by order of date
+ */
 public class ForumManager {
 
     public ForumManager() { }
