@@ -150,7 +150,7 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
                         if (location != null) {
                             // Logic to handle location object
                             Log.i("curtis", location.toString());
-                            maps.setTrialLocation(location);
+                            setLocation(location);
                             Bundle args = new Bundle();
                             args.putParcelable("TrialLocation", getLocation());
                             args.putString("MODE", "Trial");
