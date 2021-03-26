@@ -2,10 +2,18 @@ package com.example.cmput301w21t25.managers;
 
 import android.location.Location;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.example.cmput301w21t25.FirestoreStringCallback;
 import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.trials.BinomialTrial;
+import com.example.cmput301w21t25.trials.CountTrial;
+import com.example.cmput301w21t25.trials.MeasurementTrial;
+import com.example.cmput301w21t25.trials.NonNegCountTrial;
 import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -13,11 +21,19 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -302,7 +318,91 @@ public class TrialManager {
                     }
                 });
     }
+
+    /**
+     *
+     * @param exp
+     * @param trialAdapter
+     * @param trials
+     */
+    public void FB_UpdateTrialAdapter(Experiment exp, ArrayAdapter<Trial> trialAdapter, ArrayList<Trial> trials){
+        expManager.FB_FetchTrialKeys(exp.getFb_id(), new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                if(list.size()>0){
+                    Log.d("YA-DB TEST: ", "calling the fetch" );
+                    db.collection("TrialDocs").whereIn(FieldPath.documentId(),list)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                    trials.clear();
+                                    trialAdapter.notifyDataSetChanged();
+                                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                                    {
+                                        if (doc.exists()&& !((Boolean) doc.getData().get("published"))) {
+                                            switch (exp.getType()) {
+                                                case "binomial":
+                                                    //ArrayList<Experiment>test = new ArrayList<Experiment>();
+                                                    BinomialTrial binTrial = doc.toObject(BinomialTrial.class);
+                                                    binTrial.setTrialId(doc.getId());
+                                                    trials.add(binTrial);
+                                                    trialAdapter.notifyDataSetChanged();
+                                                    break;
+                                                case "count":
+                                                    CountTrial countTrial = doc.toObject(CountTrial.class);
+                                                    countTrial.setTrialId(doc.getId());
+                                                    trials.add(countTrial);
+                                                    trialAdapter.notifyDataSetChanged();
+                                                    Log.d("YA-DB: ", String.valueOf(trials));
+                                                    break;
+                                                case "nonnegative count":
+                                                    NonNegCountTrial nnCountTrial = doc.toObject(NonNegCountTrial.class);
+                                                    nnCountTrial.setTrialId(doc.getId());
+                                                    trials.add(nnCountTrial);
+                                                    trialAdapter.notifyDataSetChanged();
+                                                    break;
+                                                case "measurement":
+                                                    MeasurementTrial mesTrial = doc.toObject(MeasurementTrial.class);
+                                                    mesTrial.setTrialId(doc.getId());
+                                                    trials.add(mesTrial);
+                                                    trialAdapter.notifyDataSetChanged();
+                                                    break;
+                                                default:
+                                                    Log.d("YA-DB: ", "this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                }
+
+            }
+        });
+    }
+    public void FB_FetchPublishedTrialCount(Experiment exp, TextView currTrials){
+        expManager.FB_FetchTrialKeys(exp.getFb_id(), new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                if(list.size()>0){
+                    Log.d("YA-DB TEST: ", "calling the fetch" );
+                    db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                    List<DocumentSnapshot> temp = queryDocumentSnapshots.getDocuments();
+                                    int size = temp.size();
+                                    currTrials.setText("Current Trials: " + String.valueOf(size));
+                                }
+                            });
+                }
+
+            }
+        });
+    }
+
     /**
      * End of database stuff -YA
      * */
+
+
 }

@@ -51,6 +51,7 @@ public class AddTrialActivity extends AppCompatActivity {
     private String expID;
 
     private TrialManager trialManager;
+    private  ArrayList<Trial> trialList = new ArrayList<Trial>();
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -62,11 +63,13 @@ public class AddTrialActivity extends AppCompatActivity {
         userID = getIntent().getStringExtra("USER_ID");
         exp = (Experiment) getIntent().getSerializableExtra("TRIAL_PARENT");
         expID = exp.getFb_id();
-        FB_FetchTrialKeys(expID,userID,exp);
-
+        //FB_FetchTrialKeys(expID,userID,exp);
+        trialArrayAdapter = new CustomListTrial(this, trialList);
+        trialManager.FB_UpdateTrialAdapter(exp,trialArrayAdapter,trialList);
         addTrialButton = findViewById(R.id.trial_create_button);
         trialListView = findViewById(R.id.add_trial_list);
-        trialArrayAdapter = new CustomListTrial(this, trialList);
+
+
         trialListView.setAdapter(trialArrayAdapter);
 
         trialListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -111,118 +114,6 @@ public class AddTrialActivity extends AppCompatActivity {
         });
 
         //finish();
-    }
-
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ArrayList<String> trialKeys = new ArrayList<String>();
-    ArrayList<Trial> trialList = new ArrayList<Trial>();
-
-    /**
-     * this method is used to fetch Trials using the array of keys stored in the parent experiment's
-     * document and calling FB_FetchTrials on them
-     * @param expID id of parent experiment
-     * @param userID id of parent user
-     * @param parent parent experiment object
-     */
-    public void FB_FetchTrialKeys(String expID,String userID,Experiment parent) {
-        trialKeys.clear();
-        CollectionReference collectionReference = db.collection("Experiments");
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
-                    FirebaseFirestoreException error) {
-                trialKeys.clear();
-                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
-                {
-                    if(expID.equals(doc.getId())){
-                        trialKeys = (ArrayList<String>) doc.getData().get("trialKeys");
-                        Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
-                        FB_FetchTrials(parent);
-                    }
-//                    Log.d(TAG, String.valueOf(doc.getData().get("Province Name")));
-//                    String city = doc.getId();
-//                    String province = (String) doc.getData().get("Province Name");
-//                    cityDataList.add(new City(city, province)); // Adding the cities and provinces from FireStore
-                }
-            }
-        });
-
-//        DocumentReference docRef = db.collection("Experiments").document(expID);
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//
-//                    if (document.exists()) {//combine into one really big conditional?
-//
-//                        trialKeys = (ArrayList<String>) document.getData().get("trialKeys");
-//                        Log.d("YA-DB: ", "DocumentSnapshot data: " + trialKeys);
-//                        FB_FetchTrials(parent);
-//                    }
-//                } else {
-//                    Log.d("YA-DB: ", "get failed with ", task.getException());
-//                }
-//            }
-//        });
-    }
-
-    /**
-     * this method fetches the trials from the fetched keys and parent experiment
-     * @param parent parent experiment object
-     */
-    public void FB_FetchTrials(Experiment parent) {
-        trialList.clear();
-        String type = parent.getType();
-        if(!trialKeys.isEmpty()){
-            for (String key : trialKeys) {
-                DocumentReference docRef = db.collection("TrialDocs").document(key);
-                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()&&(Boolean)document.getData().get("published")==false) {
-                                Log.d("YA-DB: ", "testing");
-                                switch (type) {
-                                    case "binomial":
-                                        //ArrayList<Experiment>test = new ArrayList<Experiment>();
-                                        BinomialTrial binTrial = document.toObject(BinomialTrial.class);
-                                        binTrial.setTrialId(document.getId());
-                                        trialList.add(binTrial);
-                                        trialArrayAdapter.notifyDataSetChanged();
-                                        break;
-                                    case "count":
-                                        CountTrial countTrial = document.toObject(CountTrial.class);
-                                        countTrial.setTrialId(document.getId());
-                                        trialList.add(countTrial);
-                                        trialArrayAdapter.notifyDataSetChanged();
-                                        Log.d("YA-DB: ", String.valueOf(trialList));
-                                        break;
-                                    case "nonnegative count":
-                                        NonNegCountTrial nnCountTrial = document.toObject(NonNegCountTrial.class);
-                                        nnCountTrial.setTrialId(document.getId());
-                                        trialList.add(nnCountTrial);
-                                        trialArrayAdapter.notifyDataSetChanged();
-                                        break;
-                                    case "measurement":
-                                        MeasurementTrial mesTrial = document.toObject(MeasurementTrial.class);
-                                        mesTrial.setTrialId(document.getId());
-                                        trialList.add(mesTrial);
-                                        trialArrayAdapter.notifyDataSetChanged();
-                                        break;
-                                    default:
-                                        Log.d("YA-DB: ", "this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
-                                }
-                            }
-                        } else {
-                            Log.d("YA-DB: ", "search failed ");
-                        }
-                    }
-                });
-            }
-        }
     }
 
     /**

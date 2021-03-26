@@ -19,6 +19,7 @@ import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
+import com.example.cmput301w21t25.managers.TrialManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,6 +39,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
     private String userID;
     private Bundle expBundle;
     private ExperimentManager experimentManager = new ExperimentManager();
+    private TrialManager trialManager = new TrialManager();
     private Experiment exp;
 
     @Override
@@ -54,7 +56,8 @@ public class ViewExperimentActivity extends AppCompatActivity {
         TextView expType = findViewById(R.id.exp_type_text_view);
         TextView minTrials = findViewById(R.id.min_trials_text_view);
         TextView currTrials = findViewById(R.id.current_trials_text_view);
-        experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,currTrials);
+        experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials);
+        trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
     }
 
     /**

@@ -273,8 +273,14 @@ public class ExperimentManager {
                 });
     }
     //
-    // FETCH EXPERIMENTS
+    // UPDATE OBSERVERS
     //
+    /**
+     *
+     * @param userID
+     * @param experimentAdapter
+     * @param experiments
+     */
     public void FB_UpdateOwnedExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
         userManager.FB_FetchOwnedExperimentKeys(userID, new FirestoreStringCallback() {
             @Override
@@ -303,6 +309,13 @@ public class ExperimentManager {
         });
 
     }
+
+    /**
+     *
+     * @param userID
+     * @param experimentAdapter
+     * @param experiments
+     */
     public void FB_UpdateSubbedExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
         userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreStringCallback() {
             @Override
@@ -359,7 +372,7 @@ public class ExperimentManager {
         });
     }
 
-    public void FB_UpdateExperimentTextViews(String expID, TextView expName,TextView expDesc,TextView expType,TextView minTrials,TextView currTrials){
+    public void FB_UpdateExperimentTextViews(String expID, TextView expName,TextView expDesc,TextView expType,TextView minTrials){
         db.collection("Experiments").whereEqualTo(FieldPath.documentId(),expID)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -372,11 +385,28 @@ public class ExperimentManager {
                             expDesc.setText(experiment.getDescription());
                             expType.setText(experiment.getType());
                             minTrials.setText("Minimum Trials: " + String.valueOf(experiment.getMinNumTrials()));
-                            currTrials.setText("Current Trials: " + String.valueOf(experiment.getCurrentNumTrials()));
                             Log.d("YA_DB test: ", "fetched: " + experiment);
                         }
                     }
                 });
+    }
+
+    /**
+     *
+     * @param id
+     * @param fsCallback
+     */
+    public void FB_FetchTrialKeys(String id, FirestoreStringCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
+        db.collection("Experiments").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                if(doc != null && doc.exists()){
+                    ArrayList<String> key = (ArrayList<String>) doc.get("trialKeys");
+                    Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    fsCallback.onCallback(key);
+                }
+            }
+        });
     }
     /**
      * End of database stuff -YA
