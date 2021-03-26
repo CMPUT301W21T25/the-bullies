@@ -8,7 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.cmput301w21t25.FirestoreExperimentCallback;
 import com.example.cmput301w21t25.FirestoreStringCallback;
+import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.trials.BinomialTrial;
 import com.example.cmput301w21t25.trials.CountTrial;
@@ -396,6 +398,49 @@ public class TrialManager {
                             });
                 }
 
+            }
+        });
+    }
+    public void FB_FetchPublishedTrial(Experiment exp, FirestoreTrialCallback firestoreTrialCallback){
+        expManager.FB_FetchTrialKeys(exp.getFb_id(), new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                ArrayList<Trial> trialList = new ArrayList<Trial>();
+                db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                            for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                                switch(exp.getType()){
+                                    case "count":
+                                        CountTrial countParent = doc.toObject(CountTrial.class);
+                                        countParent.setTrialId(doc.getId());
+                                        //Log.d("YA_TEST:",countParent.getTrialId());
+                                        trialList.add(countParent);
+                                        break;
+                                    case "binomial":
+                                        BinomialTrial binomialParent = doc.toObject(BinomialTrial.class);
+                                        binomialParent.setTrialId(doc.getId());
+                                        //Log.d("YA_TEST:",binomialParent.getTrialId());
+                                        trialList.add(binomialParent);
+                                        break;
+                                    case "nonnegative count":
+                                        NonNegCountTrial nnCountParent = doc.toObject(NonNegCountTrial.class);
+                                        nnCountParent.setTrialId(doc.getId());
+                                        //Log.d("YA_TEST:",nnCountParent.getTrialId());
+                                        trialList.add(nnCountParent);
+                                        break;
+                                    case "measurement":
+                                        MeasurementTrial measurementParent = doc.toObject(MeasurementTrial.class);
+                                        measurementParent.setTrialId(doc.getId());
+                                        //Log.d("YA_TEST:",measurementParent.getTrialId());
+                                        trialList.add(measurementParent);
+                                        break;
+                                }
+                            }
+                            firestoreTrialCallback.onCallback(trialList);
+                        }
+                    });
             }
         });
     }

@@ -16,6 +16,7 @@ import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
+import com.example.cmput301w21t25.managers.SummaryCalulator;
 import com.example.cmput301w21t25.trials.BinomialTrial;
 import com.example.cmput301w21t25.trials.CountTrial;
 import com.example.cmput301w21t25.trials.MeasurementTrial;
@@ -58,6 +59,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
     private double Lquart;
     private double Uquart;
     private double successRate;
+    private SummaryCalulator summaryCalulator = new SummaryCalulator();
 
     private String type;
 
@@ -82,24 +84,26 @@ public class ExperimentDataActivity extends AppCompatActivity {
         deviationTextView = findViewById(R.id.stDev);
         successRateTextView = findViewById(R.id.successRate);
 
-        switch(type){
-            case "count":
-                CountExperiment countParent = (CountExperiment) exp;
-                FB_FetchSummary(countParent);
-                break;
-            case "binomial":
-                BinomialExperiment binomialParent = (BinomialExperiment) exp;
-                FB_FetchSummary(binomialParent);
-                break;
-            case "nonnegative count":
-                NonNegCountExperiment nnCountParent = (NonNegCountExperiment) exp;
-                FB_FetchSummary(nnCountParent);
-                break;
-            case "measurement":
-                MeasurementExperiment measurementParent = (MeasurementExperiment) exp;
-                FB_FetchSummary(measurementParent);
-                break;
-        }
+
+
+//        switch(type){
+//            case "count":
+//                CountExperiment countParent = (CountExperiment) exp;
+//                FB_FetchSummary(countParent);
+//                break;
+//            case "binomial":
+//                BinomialExperiment binomialParent = (BinomialExperiment) exp;
+//                FB_FetchSummary(binomialParent);
+//                break;
+//            case "nonnegative count":
+//                NonNegCountExperiment nnCountParent = (NonNegCountExperiment) exp;
+//                FB_FetchSummary(nnCountParent);
+//                break;
+//            case "measurement":
+//                MeasurementExperiment measurementParent = (MeasurementExperiment) exp;
+//                FB_FetchSummary(measurementParent);
+//                break;
+//        }
 
         experimentInfo.setTitle(exp.getName());
         experimentInfo.setSubtitle(formatDate(exp.getDate()));
@@ -121,161 +125,161 @@ public class ExperimentDataActivity extends AppCompatActivity {
         return formattedDate;
     }
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private Integer countSUM = 0;
-
-    /**
-     * this function fetches all the trials associated with the provided experiment and calculates summaries according to their type
-     * @param parent the experiment whose summaries are to be retrived the datatype of parent is used to determine which override is used
-     */
-    public void FB_FetchSummary(CountExperiment parent){
-        ArrayList<String>keys = parent.getTrialKeys();
-        ArrayList<Integer> values = new ArrayList<Integer>();
-        CollectionReference docRef = db.collection("TrialDocs");
-        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(keys.contains(document.getId())){
-                            CountTrial trial = document.toObject(CountTrial.class);
-                            values.add(trial.getResult());
-                            countSUM += trial.getResult();//total
-                        }
-                    }
-                    if (values.size() > 0) {
-                        mean = countSUM / (double) values.size();//mean
-                    }
-                    double squareDiff =0;
-                    double total = 0;
-                    for(int i =0;i<values.size();i++){
-                        squareDiff += Math.pow((values.get(i)-mean),2);
-                        total++;
-                    }
-                    if (total != 0) {
-                        sDev = sqrt((squareDiff/total));//standard deviation
-                    }
-
-                    else { sDev = 0; }
-                    medianInt = calculateMedianInt(values);
-                    if (values.size() > 0) {
-                        Lquart = values.get(values.size()/4);
-                        Uquart = values.get(3*values.size()/4);
-                    }
-                    showNonBinomialStats(values.size());
-                }
-            }
-        });
-    }
-    public void FB_FetchSummary(NonNegCountExperiment parent){
-        ArrayList<String>keys = parent.getTrialKeys();
-        ArrayList<Integer> values = new ArrayList<Integer>();
-        CollectionReference docRef = db.collection("TrialDocs");
-        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                Log.d("BEGINNING","WHERE YOU AT");
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(keys.contains(document.getId())){
-                            CountTrial trial = document.toObject(CountTrial.class);
-                            values.add(trial.getResult());
-                            countSUM += trial.getResult();//total
-                        }
-                    }
-                    if (values.size() > 0) {
-                        mean = countSUM/ (double) values.size();//mean
-                    }
-                    double squareDiff =0;
-                    double total = 0;
-                    for(int i = 0; i < values.size(); i++){
-                        squareDiff += Math.pow((values.get(i)-mean),2);
-                        total++;
-                    }
-                    if (total != 0) {
-                        sDev = sqrt((squareDiff/total));//standard deviation
-                    }
-                    else { sDev = 0; }
-                    medianInt = calculateMedianInt(values);
-                    if (values.size() > 0) {
-                        Lquart = values.get(values.size()/4);
-                        Uquart = values.get(3*values.size()/4);
-                    }
-                    showNonBinomialStats(values.size());
-
-                }
-            }
-        });
-    }
-    private Float countSUMF = 0f;
-    public void FB_FetchSummary(MeasurementExperiment parent){
-        ArrayList<String>keys = parent.getTrialKeys();
-        ArrayList<Float> values = new ArrayList<Float>();
-        CollectionReference docRef = db.collection("TrialDocs");
-        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(keys.contains(document.getId())){
-                            MeasurementTrial trial = document.toObject(MeasurementTrial.class);
-                            values.add(trial.getResult());
-                            countSUMF += trial.getResult();//total
-                        }
-                    }
-                    if (values.size() > 0) {
-                        mean = countSUMF/ (double) values.size();//mean
-                    }
-                    double squareDiff = 0;
-                    double total = 0;
-                    for(int i = 0;i<values.size();i++){
-                        squareDiff += Math.pow((values.get(i)-mean),2);
-                        total++;
-                    }
-                    if (total != 0) {
-                        sDev = sqrt((squareDiff/total));//standard deviation
-                    }
-                    else { sDev = 0; }
-                    medianDouble = calculateMedianFloat(values);
-                    Log.d("MEDIAN_MEASUREMENT", String.valueOf(medianDouble));
-                    if (values.size() > 0) {
-                        Lquart = values.get(values.size()/4);
-                        Uquart = values.get(3*values.size()/4);
-                    }
-                    showNonBinomialStats(values.size());
-                }
-            }
-        });
-    }
-    private Integer successCount = 0;
-    private Integer totalCount = 0;
-    public void FB_FetchSummary(BinomialExperiment parent){
-        ArrayList<String>keys = parent.getTrialKeys();
-        ArrayList<Boolean> values = new ArrayList<Boolean>();
-        CollectionReference docRef = db.collection("TrialDocs");
-        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(keys.contains(document.getId())){
-                            BinomialTrial trial = document.toObject(BinomialTrial.class);
-                            values.add(trial.getResult());
-                            if (trial.getResult()==true){
-                                successCount++;//true
-                            }
-                            totalCount++;//total
-                        }
-                    }
-                    if (totalCount != 0) {
-                        successRate = (float) successCount / (float) totalCount;
-                    }
-                    else successRate = 0;
-                    showBinomialStats(values.size());
-                }
-            }
-        });
-    }
+//    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+//    private Integer countSUM = 0;
+//
+//    /**
+//     * this function fetches all the trials associated with the provided experiment and calculates summaries according to their type
+//     * @param parent the experiment whose summaries are to be retrived the datatype of parent is used to determine which override is used
+//     */
+//    public void FB_FetchSummary(CountExperiment parent){
+//        ArrayList<String>keys = parent.getTrialKeys();
+//        ArrayList<Integer> values = new ArrayList<Integer>();
+//        CollectionReference docRef = db.collection("TrialDocs");
+//        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if(task.isSuccessful()){
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                        if(keys.contains(document.getId())){
+//                            CountTrial trial = document.toObject(CountTrial.class);
+//                            values.add(trial.getResult());
+//                            countSUM += trial.getResult();//total
+//                        }
+//                    }
+//                    if (values.size() > 0) {
+//                        mean = countSUM / (double) values.size();//mean
+//                    }
+//                    double squareDiff =0;
+//                    double total = 0;
+//                    for(int i =0;i<values.size();i++){
+//                        squareDiff += Math.pow((values.get(i)-mean),2);
+//                        total++;
+//                    }
+//                    if (total != 0) {
+//                        sDev = sqrt((squareDiff/total));//standard deviation
+//                    }
+//
+//                    else { sDev = 0; }
+//                    medianInt = calculateMedianInt(values);
+//                    if (values.size() > 0) {
+//                        Lquart = values.get(values.size()/4);
+//                        Uquart = values.get(3*values.size()/4);
+//                    }
+//                    showNonBinomialStats(values.size());
+//                }
+//            }
+//        });
+//    }
+//    public void FB_FetchSummary(NonNegCountExperiment parent){
+//        ArrayList<String>keys = parent.getTrialKeys();
+//        ArrayList<Integer> values = new ArrayList<Integer>();
+//        CollectionReference docRef = db.collection("TrialDocs");
+//        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                Log.d("BEGINNING","WHERE YOU AT");
+//                if(task.isSuccessful()){
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                        if(keys.contains(document.getId())){
+//                            CountTrial trial = document.toObject(CountTrial.class);
+//                            values.add(trial.getResult());
+//                            countSUM += trial.getResult();//total
+//                        }
+//                    }
+//                    if (values.size() > 0) {
+//                        mean = countSUM/ (double) values.size();//mean
+//                    }
+//                    double squareDiff =0;
+//                    double total = 0;
+//                    for(int i = 0; i < values.size(); i++){
+//                        squareDiff += Math.pow((values.get(i)-mean),2);
+//                        total++;
+//                    }
+//                    if (total != 0) {
+//                        sDev = sqrt((squareDiff/total));//standard deviation
+//                    }
+//                    else { sDev = 0; }
+//                    medianInt = calculateMedianInt(values);
+//                    if (values.size() > 0) {
+//                        Lquart = values.get(values.size()/4);
+//                        Uquart = values.get(3*values.size()/4);
+//                    }
+//                    showNonBinomialStats(values.size());
+//
+//                }
+//            }
+//        });
+//    }
+//    private Float countSUMF = 0f;
+//    public void FB_FetchSummary(MeasurementExperiment parent){
+//        ArrayList<String>keys = parent.getTrialKeys();
+//        ArrayList<Float> values = new ArrayList<Float>();
+//        CollectionReference docRef = db.collection("TrialDocs");
+//        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if(task.isSuccessful()){
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                        if(keys.contains(document.getId())){
+//                            MeasurementTrial trial = document.toObject(MeasurementTrial.class);
+//                            values.add(trial.getResult());
+//                            countSUMF += trial.getResult();//total
+//                        }
+//                    }
+//                    if (values.size() > 0) {
+//                        mean = countSUMF/ (double) values.size();//mean
+//                    }
+//                    double squareDiff = 0;
+//                    double total = 0;
+//                    for(int i = 0;i<values.size();i++){
+//                        squareDiff += Math.pow((values.get(i)-mean),2);
+//                        total++;
+//                    }
+//                    if (total != 0) {
+//                        sDev = sqrt((squareDiff/total));//standard deviation
+//                    }
+//                    else { sDev = 0; }
+//                    medianDouble = calculateMedianFloat(values);
+//                    Log.d("MEDIAN_MEASUREMENT", String.valueOf(medianDouble));
+//                    if (values.size() > 0) {
+//                        Lquart = values.get(values.size()/4);
+//                        Uquart = values.get(3*values.size()/4);
+//                    }
+//                    showNonBinomialStats(values.size());
+//                }
+//            }
+//        });
+//    }
+//    private Integer successCount = 0;
+//    private Integer totalCount = 0;
+//    public void FB_FetchSummary(BinomialExperiment parent){
+//        ArrayList<String>keys = parent.getTrialKeys();
+//        ArrayList<Boolean> values = new ArrayList<Boolean>();
+//        CollectionReference docRef = db.collection("TrialDocs");
+//        docRef.whereEqualTo("published",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if(task.isSuccessful()){
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                        if(keys.contains(document.getId())){
+//                            BinomialTrial trial = document.toObject(BinomialTrial.class);
+//                            values.add(trial.getResult());
+//                            if (trial.getResult()==true){
+//                                successCount++;//true
+//                            }
+//                            totalCount++;//total
+//                        }
+//                    }
+//                    if (totalCount != 0) {
+//                        successRate = (float) successCount / (float) totalCount;
+//                    }
+//                    else successRate = 0;
+//                    showBinomialStats(values.size());
+//                }
+//            }
+//        });
+//    }
 
     /**
      * Calculates the experiment's median. Used for the measurement experiment.
