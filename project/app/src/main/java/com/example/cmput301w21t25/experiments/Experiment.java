@@ -57,6 +57,8 @@ public abstract class Experiment implements Serializable {
     private ArrayList<String> trialKeys = new ArrayList<String>();
     private ArrayList<Trial> hiddenTrials = new ArrayList<Trial>();
 
+    private boolean geoEnabled;
+
     //private Forum forum;
 
     //private Region region;
@@ -139,7 +141,15 @@ public abstract class Experiment implements Serializable {
     }
     public int getCurrentNumTrials() { return currentNumTrials; }
 
-//    public void setTrials(ArrayList<Trial> trials) {
+    public boolean isGeoEnabled() {
+        return geoEnabled;
+    }
+
+    public void setGeoEnabled(boolean geoEnabled) {
+        this.geoEnabled = geoEnabled;
+    }
+
+    //    public void setTrials(ArrayList<Trial> trials) {
 //        this.trials = trials;
 //    }
 //
