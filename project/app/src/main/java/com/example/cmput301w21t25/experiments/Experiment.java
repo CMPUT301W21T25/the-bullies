@@ -41,6 +41,7 @@ public abstract class Experiment implements Serializable {
                     ATTRIBUTES
     ****************************************/
     private String owner;
+    private String ownerID;
     public String name;
     private String description;
     private String type;
@@ -102,6 +103,9 @@ public abstract class Experiment implements Serializable {
     public String getName() {
         return name;
     }
+
+    public String getOwnerID() { return ownerID; }
+
     public String retTest(){
         return "test";
     }
