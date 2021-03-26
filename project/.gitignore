@@ -13,3 +13,13 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+/.firebaserc
+/firebase-tools-instant-win.exe
+/firebase.json
+/firestore-debug.log
+/firestore.indexes.json
+/firestore.rules
+/functions/
+/remoteconfig.template.json
+/ui-debug.log
