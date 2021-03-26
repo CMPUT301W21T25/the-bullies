@@ -8,6 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="colorPrimary">#8ac4d0</color>
+    <color name="colorPrimaryDark">#28527a</color>
+    <color name="colorAccent">#f4d160</color>
+
     <color name="custom_Blue_dark">#28527a</color>
     <color name="custom_Blue_light">#8ac4d0</color>
     <color name="custom_Yellow_dark">#f4d160</color>

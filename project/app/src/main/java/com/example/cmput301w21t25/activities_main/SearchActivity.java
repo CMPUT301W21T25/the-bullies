@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.FilterSearchFragment;
 import com.example.cmput301w21t25.R;
@@ -54,6 +55,11 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         Log.d("onCreate PASS", "hello!");
         super.onCreate(passedData);
         setContentView(R.layout.activity_browse_not_subbed);
+
+        /*setup the custom toolbar!
+         */
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         userID = getIntent().getStringExtra("USER_ID");
 
