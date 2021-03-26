@@ -66,8 +66,6 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
         //Set up trial manager
         trialManager = new TrialManager();
 
-
-
         trialHeader = findViewById(R.id.binomialExperimentInfo);
         description = findViewById(R.id.binomialExpDescription);
         successButton = findViewById(R.id.binomialSuccessButton);
@@ -123,14 +121,14 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
 
         //Location;
         locationClient = LocationServices.getFusedLocationProviderClient(this);
-        TrialLocationCheck(); // Turns on button if location is enabled
+        TrialLocationCheck(); // Check if Experiment requires location
         Button setButton = (Button) findViewById(R.id.button3);
         setButton.setVisibility(View.GONE);
         maps = new Maps();
         setButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //go back
+                //exit map fragment
                 setButton.setVisibility(View.GONE);
                 setLocation(maps.getTrialLocation());
                 getSupportFragmentManager().beginTransaction().remove(maps).commit();
@@ -142,7 +140,7 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
     private void TrialLocationCheck() {
         Button setLocButton = (Button) findViewById(R.id.getLocButton);
         if (trialParent.isGeoEnabled()) {
-            //create button to set location
+            //create button to go to map fragment
             setLocButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -182,8 +180,7 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
                             Bundle args = new Bundle();
                             args.putParcelable("TrialLocation", getLocation());
                             args.putString("MODE", "Trial");
-                            Fragment mFragment = null;
-                            mFragment = maps;
+                            Fragment mFragment = maps;
                             mFragment.setArguments(args);
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             fragmentManager.beginTransaction()

@@ -2,19 +2,15 @@ package com.example.cmput301w21t25.location;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
 import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.cmput301w21t25.R;
 
@@ -38,7 +34,7 @@ public class Maps extends Fragment{
 
 
     /**
-     * BAM
+     * Fragment for setting the location of trials
      */
     public class SetTrialLocation implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener, OnMapReadyCallback {
 
@@ -83,7 +79,7 @@ public class Maps extends Fragment{
     }
 
     /**
-     * POW
+     * Fragment for viewing the map of trials in an experiment
      */
     public class ExperimentMap implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
@@ -106,7 +102,6 @@ public class Maps extends Fragment{
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -116,16 +111,6 @@ public class Maps extends Fragment{
         mode = getArguments().getString("MODE");
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
         activity = getActivity();
-        if (mode.equals("Trial")) {
-
-            //make a button?
-
-
-
-        }
-        else {
-            //Button myButton = (Button) view.findViewById();
-        }
         return view;
     }
 
@@ -136,7 +121,6 @@ public class Maps extends Fragment{
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             if (mode.equals("Trial")) {
-                //getActivity().findViewById(R.id.button3).setVisibility(View.VISIBLE);
                 mapFragment.getMapAsync(callbackTrial);
             }
             else {
