@@ -46,10 +46,11 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
 
     TrialManager trialManager;
 
+    //Location
     private FusedLocationProviderClient locationClient;
     private Location location;
-    private Button setButton;
     private Maps maps;
+    //End location
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -64,18 +65,7 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
         //Set up trial manager
         trialManager = new TrialManager();
 
-        //Location;
-        locationClient = LocationServices.getFusedLocationProviderClient(this);
-        TrialLocationCheck();
-        setButton = (Button) findViewById(R.id.button3);
-        setButton.setVisibility(View.GONE);
-        maps = new Maps();
-        setButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //go back
-            }
-        });
+
 
         trialHeader = findViewById(R.id.binomialExperimentInfo);
         description = findViewById(R.id.binomialExpDescription);
@@ -106,25 +96,51 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Call function that creates trial with result and switches activity
-                trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, false, trialParent);
-                Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
-                switchScreen.putExtra("USER_ID", userID);
-                switchScreen.putExtra("TRIAL_PARENT", trialParent);
-                startActivity(switchScreen);
+                if (!trialParent.isGeoEnabled() || getLocation() != null) { // if location is not required or we have a location
+                    trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, false, trialParent);
+                    Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
+                    switchScreen.putExtra("USER_ID", userID);
+                    switchScreen.putExtra("TRIAL_PARENT", trialParent);
+                    startActivity(switchScreen);
+                }
+            }
+        });
+
+
+        //                                  LOCATION
+        //---------------------------------------------------------------------------------
+
+        //Location;
+        locationClient = LocationServices.getFusedLocationProviderClient(this);
+        TrialLocationCheck(); // Turns on button if location is enabled
+        Button setButton = (Button) findViewById(R.id.button3);
+        setButton.setVisibility(View.GONE);
+        maps = new Maps();
+        setButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //go back
+                setButton.setVisibility(View.GONE);
+                setLocation(maps.getTrialLocation());
+                getSupportFragmentManager().beginTransaction().remove(maps).commit();
+                Log.i("curtis", "going back");
             }
         });
     }
 
     private void TrialLocationCheck() {
+        Button setLocButton = (Button) findViewById(R.id.getLocButton);
         if (trialParent.isGeoEnabled()) {
             //create button to set location
-            Button setLocButton = (Button) findViewById(R.id.getLocButton);
             setLocButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     getUserLocation();
                 }
             });
+        }
+        else {
+        setLocButton.setVisibility(View.GONE);
         }
     }
 
@@ -151,11 +167,11 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
                             // Logic to handle location object
                             Log.i("curtis", location.toString());
                             setLocation(location);
+                            maps.setTrialLocation(location);
                             Bundle args = new Bundle();
                             args.putParcelable("TrialLocation", getLocation());
                             args.putString("MODE", "Trial");
                             Fragment mFragment = null;
-                            //mFragment = new Maps();
                             mFragment = maps;
                             mFragment.setArguments(args);
                             FragmentManager fragmentManager = getSupportFragmentManager();

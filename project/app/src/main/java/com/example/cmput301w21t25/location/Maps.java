@@ -29,7 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 public class Maps extends Fragment{
-    private Location TrialLocation;
+    private Location TrialLocation = new Location("dummyprovider");
     private ArrayList<Location> TrialLocationList;
     private OnMapReadyCallback callbackTrial = new SetTrialLocation();
     private OnMapReadyCallback callbackExp = new ExperimentMap();
@@ -61,7 +61,6 @@ public class Maps extends Fragment{
         @Override
         public void onMarkerDragEnd(Marker marker) {
             //Get marker position
-            TrialLocation = new Location("dummyprovider");
             LatLng pos = marker.getPosition();
             TrialLocation.setLatitude(pos.latitude);
             TrialLocation.setLongitude(pos.longitude);
