@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -82,12 +83,18 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Call function that creates trial with result and switches activity
-                trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, true, trialParent);
-                Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
-                //Passes the parent Experiment back as it is needed in the add Trial list view
-                switchScreen.putExtra("USER_ID", userID);
-                switchScreen.putExtra("TRIAL_PARENT", trialParent);
-                startActivity(switchScreen);
+                if (!trialParent.isGeoEnabled() || getLocation() != null) { // if location is not required or we have a location {
+                    trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, true, trialParent, getLocation());
+                    Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
+                    //Passes the parent Experiment back as it is needed in the add Trial list view
+                    switchScreen.putExtra("USER_ID", userID);
+                    switchScreen.putExtra("TRIAL_PARENT", trialParent);
+                    startActivity(switchScreen);
+                }
+                else {
+                    //call toast that says you need a location
+                    Toast.makeText(ConductBinomialTrialActivity.this, "This experiment requires a location!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -97,11 +104,15 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Call function that creates trial with result and switches activity
                 if (!trialParent.isGeoEnabled() || getLocation() != null) { // if location is not required or we have a location
-                    trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, false, trialParent);
+                    trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, false, trialParent, getLocation());
                     Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
                     switchScreen.putExtra("USER_ID", userID);
                     switchScreen.putExtra("TRIAL_PARENT", trialParent);
                     startActivity(switchScreen);
+                }
+                else {
+                    //call toast that says you need a location
+                    Toast.makeText(ConductBinomialTrialActivity.this, "This experiment requires a location!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
