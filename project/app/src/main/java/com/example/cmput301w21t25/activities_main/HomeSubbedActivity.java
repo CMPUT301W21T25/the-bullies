@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewSubbedExperimentActivity;
@@ -54,6 +55,11 @@ public class HomeSubbedActivity extends AppCompatActivity {
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_home_subbed);
+
+        /*setup the custom toolbar!
+         */
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
