@@ -1,8 +1,13 @@
 package com.example.cmput301w21t25.activities_trials;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,10 +16,18 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.location.Maps;
 import com.example.cmput301w21t25.managers.TrialManager;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 /**
  * @author Eden
@@ -33,6 +46,11 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
 
     TrialManager trialManager;
 
+    private FusedLocationProviderClient locationClient;
+    private Location location;
+    private Button setButton;
+    private Maps maps;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle passedData) {
@@ -46,6 +64,18 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
         //Set up trial manager
         trialManager = new TrialManager();
 
+        //Location;
+        locationClient = LocationServices.getFusedLocationProviderClient(this);
+        TrialLocationCheck();
+        setButton = (Button) findViewById(R.id.button3);
+        setButton.setVisibility(View.GONE);
+        maps = new Maps();
+        setButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //go back
+            }
+        });
 
         trialHeader = findViewById(R.id.binomialExperimentInfo);
         description = findViewById(R.id.binomialExpDescription);
@@ -83,5 +113,64 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
                 startActivity(switchScreen);
             }
         });
+    }
+
+    private void TrialLocationCheck() {
+        if (trialParent.isGeoEnabled()) {
+            //create button to set location
+            Button setLocButton = (Button) findViewById(R.id.getLocButton);
+            setLocButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getUserLocation();
+                }
+            });
+        }
+    }
+
+    private void getUserLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Log.i("curtis", "missing perms");
+            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+            ActivityCompat.requestPermissions(this, permissions, 1);
+        }
+
+        locationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            Log.i("curtis", location.toString());
+                            maps.setTrialLocation(location);
+                            Bundle args = new Bundle();
+                            args.putParcelable("TrialLocation", getLocation());
+                            args.putString("MODE", "Trial");
+                            Fragment mFragment = null;
+                            //mFragment = new Maps();
+                            mFragment = maps;
+                            mFragment.setArguments(args);
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.frame, mFragment).commit();
+                        }
+                    }
+                });
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }
