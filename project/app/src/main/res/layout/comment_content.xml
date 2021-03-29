@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_marginLeft="10px"
+    android:layout_marginTop="9dp"
+    android:layout_marginRight="10px"
+    android:layout_marginBottom="9dp">
+
+
+    <TextView
+        android:id="@+id/replyToText"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:text="This Be Doth Experiment Name"
+        android:textColor="#276678"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/replyToGraphic"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/commentDate"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="4dp"
+        android:paddingLeft="1sp"
+        android:text="03/12/2021"
+        android:textColor="#8a8a8a"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commenterName" />
+
+    <ImageView
+        android:id="@+id/replyToGraphic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_send" />
+
+    <ImageView
+        android:id="@+id/newThreadGraphic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <TextView
+        android:id="@+id/commenterName"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        android:textColor="@color/custom_Yellow_dark"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/replyToText" />
+
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="368dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        android:textColor="@color/custom_Grey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentDate" />
+
+    <ImageButton
+        android:id="@+id/replyButton"
+        android:layout_width="66dp"
+        android:layout_height="33dp"
+        android:background="@color/custom_Yellow_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/sym_action_chat" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,6 +41,7 @@ public abstract class Experiment implements Serializable {
                     ATTRIBUTES
     ****************************************/
     private String owner;
+    private String ownerID;
     public String name;
     private String description;
     private String type;
@@ -56,6 +57,8 @@ public abstract class Experiment implements Serializable {
     private ArrayList<User> allUsers = new ArrayList<User>(); //for users that were subscribed, added data, and unsubscribed
     private ArrayList<String> trialKeys = new ArrayList<String>();
     private ArrayList<Trial> hiddenTrials = new ArrayList<Trial>();
+
+    private boolean geoEnabled;
 
     //private Forum forum;
 
@@ -100,6 +103,9 @@ public abstract class Experiment implements Serializable {
     public String getName() {
         return name;
     }
+
+    public String getOwnerID() { return ownerID; }
+
     public String retTest(){
         return "test";
     }
@@ -139,7 +145,15 @@ public abstract class Experiment implements Serializable {
     }
     public int getCurrentNumTrials() { return currentNumTrials; }
 
-//    public void setTrials(ArrayList<Trial> trials) {
+    public boolean isGeoEnabled() {
+        return geoEnabled;
+    }
+
+    public void setGeoEnabled(boolean geoEnabled) {
+        this.geoEnabled = geoEnabled;
+    }
+
+    //    public void setTrials(ArrayList<Trial> trials) {
 //        this.trials = trials;
 //    }
 //
