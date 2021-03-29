@@ -60,6 +60,8 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
          */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.custom_Blue_dark));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         userID = getIntent().getStringExtra("USER_ID");
 
