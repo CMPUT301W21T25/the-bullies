@@ -94,7 +94,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 int pubTrials = publishedTrials;
                 experiment.setCurrentNumTrials(pubTrials);
                 Log.d("pubTrials", String.valueOf(pubTrials));
-                Log.d("getTrials", String.valueOf(experiment.getCurrentNumTrials()));
+
 
 
 
