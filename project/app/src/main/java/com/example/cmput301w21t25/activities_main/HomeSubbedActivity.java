@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -112,20 +113,35 @@ public class HomeSubbedActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
     }
 
-    //sets the options menu!
+    //Toolbar Menu setup!
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu,menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.home_button:
+                Intent home = new Intent(HomeSubbedActivity.this, HomeOwnedActivity.class);
+                home.putExtra("userID", userID);
+                startActivity(home);
+                return true;
+            case R.id.settings_button:
+                Intent user_settings = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
+                user_settings.putExtra("userID", userID);
+                user_settings.putExtra("prevScreen", "Subbed");
+                startActivity(user_settings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
@@ -263,13 +279,13 @@ public class HomeSubbedActivity extends AppCompatActivity {
      * Curtis
      * @param view
      */
-    public void viewSubbediButton(View view) {
-        //switch to profileView, pass userId
-        Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
-        intent.putExtra("userID", userID);
-        intent.putExtra("prevScreen", "Subbed");
-        startActivity(intent);
-    }
+//    public void viewSubbediButton(View view) {
+//        //switch to profileView, pass userId
+//        Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
+//        intent.putExtra("userID", userID);
+//        intent.putExtra("prevScreen", "Subbed");
+//        startActivity(intent);
+//    }
 
 
 }

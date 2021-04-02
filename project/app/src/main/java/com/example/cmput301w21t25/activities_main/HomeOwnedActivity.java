@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.cmput301w21t25.CustomToolbar;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
 import com.example.cmput301w21t25.activities_experiments.ViewCreatedExperimentActivity;
@@ -54,12 +56,12 @@ public class HomeOwnedActivity extends AppCompatActivity {
     private int publishedTrials = 0;
 
 
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_home_owned);
+
 
         /*setup the custom toolbar!
         */
@@ -124,15 +126,30 @@ public class HomeOwnedActivity extends AppCompatActivity {
 
     }
 
-    //sets the options menu!
+    //Toolbar Menu setup!
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu,menu);
         return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.home_button:
+                return true;
+            case R.id.settings_button:
+                Intent user_settings = new Intent(HomeOwnedActivity.this, MyUserProfileActivity.class);
+                user_settings.putExtra("userID", userID);
+                user_settings.putExtra("prevScreen", "Owned");
+                startActivity(user_settings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     //Screen switching
@@ -272,13 +289,12 @@ public class HomeOwnedActivity extends AppCompatActivity {
      * Curtis
      * @param view
      */
-    public void viewOwnediButton(View view) {
-        //switch to profileView, pass userId
-        Intent intent = new Intent(HomeOwnedActivity.this, MyUserProfileActivity.class);
-        intent.putExtra("userID", userID);
-        intent.putExtra("prevScreen", "Owned");
-        startActivity(intent);
-    }
-
+//    public void viewOwnediButton(View view) {
+//        //switch to profileView, pass userId
+//        Intent intent = new Intent(HomeOwnedActivity.this, MyUserProfileActivity.class);
+//        intent.putExtra("userID", userID);
+//        intent.putExtra("prevScreen", "Owned");
+//        startActivity(intent);
+//    }
 
 }
