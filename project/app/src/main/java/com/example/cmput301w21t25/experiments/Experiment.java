@@ -24,6 +24,8 @@ import java.util.Map;
 
 import static android.content.ContentValues.TAG;
  */
+import android.location.Location;
+
 import com.example.cmput301w21t25.trials.Trial;
 import com.example.cmput301w21t25.user.User;
 
@@ -35,30 +37,36 @@ import java.util.Date;
  * this class is an Abstract class for experiments
  * it sets up the most important methods for the classes that the children will inherit
  */
-public abstract class Experiment implements Serializable {
+public class Experiment implements Serializable {
 
     /****************************************
                     ATTRIBUTES
     ****************************************/
+
+    private boolean isPublished = false;
+    private boolean published = false;
+
+    private String fb_id = "";
+    
+    private boolean geoEnabled;
+    private boolean isEnded = false;
+    private int minNumTrials;
+    
+    public String name;
+    private String type;
+    private String description;
+    
+    //Should we just be passing in a User object that has a name and ID associated with it?
     private String owner;
     private String ownerID;
-    public String name;
-    private String description;
-    private String type;
-    private ArrayList<String> tags;
-    private int minNumTrials;
-    private int currentNumTrials;
-    private boolean isPublished = false;
-    private String fb_id = "";
+  
     private Date date;
-    private boolean isEnded = false;
-
-    private ArrayList<User> subscribedUsers = new ArrayList<User>(); //all currently subscribed users
-    private ArrayList<User> allUsers = new ArrayList<User>(); //for users that were subscribed, added data, and unsubscribed
+    private Location region;
+  
+    private int currentNumTrials;
+    private ArrayList<String> tags;
     private ArrayList<String> trialKeys = new ArrayList<String>();
     private ArrayList<Trial> hiddenTrials = new ArrayList<Trial>();
-
-    private boolean geoEnabled;
 
     //private Forum forum;
 
@@ -66,46 +74,40 @@ public abstract class Experiment implements Serializable {
     //private ArrayList<Region> geoLocations;
     //attributes that have public getters automatically become part of the object when converting from DB Map
 
-
     /****************************************
                 CONSTRUCTORS
      ****************************************/
     public Experiment() {
     }
-    public Experiment(String name) {
-        this.name = name;
-    }
-    public Experiment(String owner, String description, int minNumTrials) {
-        this.owner = owner;
-        this.description = description;
-        this.minNumTrials = minNumTrials;
-    }
-
-
-
-
     /****************************************
                     METHODS
     ****************************************/
-    //private ArrayList<Comment> forum;
 
-
-    public ArrayList<String> getTrialKeys() {
-        return trialKeys;
+    ///setter and getter for the experiment ID
+    public String getFb_id(){ return this.fb_id; }
+    public void setFb_id(String id){ this.fb_id = id; }
+    ///setter and getter for Date
+    public void setDate(Date date) { this.date = date; }
+    public Date getDate() { return date; }
+    ///getters for FireBase data
+    public String getDescription() { return description; }
+    public boolean getIsEnded() {
+        return isEnded;
     }
-    public void setTrialKeys(ArrayList<String> trialKeys) {
-        this.trialKeys = trialKeys;
-    }
-    public ArrayList<Trial> getHiddenTrials() {
-        return hiddenTrials;
-    }
-
+    public int getMinNumTrials() { return minNumTrials; }
     public String getName() {
         return name;
     }
 
+    public String getOwner() { return owner; }
     public String getOwnerID() { return ownerID; }
+    public boolean getPublished(){return published;}
+    public ArrayList<String> getTrialKeys() {
+        return trialKeys;
+    }
 
+
+    // Do we need this?
     public String retTest(){
         return "test";
     }
@@ -113,33 +115,14 @@ public abstract class Experiment implements Serializable {
     public boolean getIsEnded() {
         return isEnded;
     }
-
+    public ArrayList<String> getTags() { return tags; }
     public String getType() { return type; }
 
-    public ArrayList<String> getTags() { return tags; }
-
+    ///Extra setters for testing
     public void setName(String name) { this.name = name; }
-
     public void setType(String type) { this.type = type; }
-
-    public void setDate(Date date) { this.date = date; }
-
-    public Date getDate() { return date; }
-
-    public String getOwner() { return owner; }
-
-    public void setOwner(String owner) { this.owner = owner; }
-
-    public int getMinNumTrials() { return minNumTrials; }
-
-    public void setMinNumTrials(int minNumTrials) { this.minNumTrials = minNumTrials; }
-
     public void setTags(ArrayList<String> tags) { this.tags = tags; }
-
-    public String getDescription() { return description; }
-
     public void setDescription(String description) { this.description = description; }
-
     public void setCurrentNumTrials(int currentNumTrials) {
         this.currentNumTrials = currentNumTrials;
     }

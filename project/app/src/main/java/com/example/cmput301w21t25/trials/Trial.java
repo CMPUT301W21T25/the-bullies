@@ -106,9 +106,6 @@ public abstract class Trial {
     }
 
     //these methods are not fully implement and thus have not been documented yet
-    public User getExperimenter() {
-        return experimenter;
-    }
     public String getExperimentOwnerName() {
         return experimentOwnerName;
     }

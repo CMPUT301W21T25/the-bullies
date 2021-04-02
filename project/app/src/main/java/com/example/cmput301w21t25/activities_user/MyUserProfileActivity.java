@@ -142,7 +142,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
         userManager.FB_UpdateEmail(email, userID);
 
         ExperimentManager experimentManager = new ExperimentManager();
-        experimentManager.FB_UpdateName(userID);
+        experimentManager.FB_UpdateName(userID,name);
 
         goBackButton(view);
     }
