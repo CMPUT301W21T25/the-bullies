@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -110,7 +111,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         super.onCreateOptionsMenu(menu);
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.toolbar_menu,menu);
+        menuInflater.inflate(R.menu.toolbar_menu_blue,menu);
         return true;
     }
 
