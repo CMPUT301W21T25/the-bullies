@@ -46,20 +46,16 @@ public class Experiment implements Serializable {
     private Date date;
     private String description;
     private boolean geoEnabled;
+    private boolean isEnded = false;
+    private int minNumTrials;
     public String name;
     private String owner;
     private String ownerID;
     private boolean published = false;
-    private ArrayList<String> trialKeys = new ArrayList<String>();
-    private String fb_id = "";
-    private boolean isEnded = false;
-    private int minNumTrials;
-    private String type;
-
-
-    private int currentNumTrials;
     private ArrayList<String> tags;
-
+    private ArrayList<String> trialKeys = new ArrayList<String>();
+    private String type;
+    private String fb_id = "";
 
     //private Forum forum;
     //private Region region;
@@ -83,10 +79,10 @@ public class Experiment implements Serializable {
     public Date getDate() { return date; }
     ///getters for FireBase data
     public String getDescription() { return description; }
+    public int getMinNumTrials() { return minNumTrials; }
     public boolean getIsEnded() {
         return isEnded;
     }
-    public int getMinNumTrials() { return minNumTrials; }
     public String getName() {
         return name;
     }
@@ -104,9 +100,7 @@ public class Experiment implements Serializable {
     public void setType(String type) { this.type = type; }
     public void setTags(ArrayList<String> tags) { this.tags = tags; }
     public void setDescription(String description) { this.description = description; }
-    public void setCurrentNumTrials(int currentNumTrials) {
-        this.currentNumTrials = currentNumTrials;
-    }
+
 
     public boolean isGeoEnabled() {
         return geoEnabled;
