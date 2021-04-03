@@ -112,7 +112,11 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
 
     }
 
-    //Toolbar Menu setup!
+    /**
+     * This event is menu setup!
+     * @param menu this is the menu being integrated
+     * @return true to indicate there is a menu (return false to turn off)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -121,6 +125,11 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         return true;
     }
 
+    /**
+     * This event is for menu item setup
+     * @param item these are items that will be added to the menu
+     * @return @return true to indicate there is this item (return false to turn off)
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -163,12 +172,12 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         //searchManager.searchExperiments(allKeywords, experimentList);
     }
 
-    /**
-     * Is called when a user clicks on their profile image
-     * Will switch to a profile view activity
-     * Curtis
-     * @param view
-     */
+//    /**
+//     * Is called when a user clicks on their profile image
+//     * Will switch to a profile view activity
+//     * Curtis
+//     * @param view
+//     */
 //    public void viewBrowseiButton(View view) {
 //        //switch to profileView, pass userId
 //        Intent intent = new Intent(SearchActivity.this, MyUserProfileActivity.class);
