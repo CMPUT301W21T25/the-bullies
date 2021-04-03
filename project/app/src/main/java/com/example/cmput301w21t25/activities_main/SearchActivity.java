@@ -3,6 +3,9 @@ package com.example.cmput301w21t25.activities_main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -64,6 +67,8 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
          */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.custom_Blue_dark));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         userID = getIntent().getStringExtra("USER_ID");
 
@@ -107,6 +112,35 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
 
     }
 
+    //Toolbar Menu setup!
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_menu_blue,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.home_button:
+                Intent home = new Intent(SearchActivity.this, HomeOwnedActivity.class);
+                home.putExtra("userID", userID);
+                startActivity(home);
+                return true;
+            case R.id.settings_button:
+                Intent user_settings = new Intent(SearchActivity.this, MyUserProfileActivity.class);
+                user_settings.putExtra("userID", userID);
+                user_settings.putExtra("prevScreen", "Browse");
+                startActivity(user_settings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /**
      * When the Filter button is pressed, the keywords entered are returned before being passed into
      * the database
@@ -135,11 +169,11 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
      * Curtis
      * @param view
      */
-    public void viewBrowseiButton(View view) {
-        //switch to profileView, pass userId
-        Intent intent = new Intent(SearchActivity.this, MyUserProfileActivity.class);
-        intent.putExtra("userID", userID);
-        intent.putExtra("prevScreen", "Browse");
-        startActivity(intent);
-    }
+//    public void viewBrowseiButton(View view) {
+//        //switch to profileView, pass userId
+//        Intent intent = new Intent(SearchActivity.this, MyUserProfileActivity.class);
+//        intent.putExtra("userID", userID);
+//        intent.putExtra("prevScreen", "Browse");
+//        startActivity(intent);
+//    }
 }

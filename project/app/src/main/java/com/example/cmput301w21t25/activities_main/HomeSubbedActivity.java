@@ -3,6 +3,9 @@ package com.example.cmput301w21t25.activities_main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -155,13 +158,13 @@ public class HomeSubbedActivity extends AppCompatActivity {
      * Curtis
      * @param view
      */
-    public void viewSubbediButton(View view) {
-        //switch to profileView, pass userId
-        Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
-        intent.putExtra("userID", userID);
-        intent.putExtra("prevScreen", "Subbed");
-        startActivity(intent);
-    }
+//    public void viewSubbediButton(View view) {
+//        //switch to profileView, pass userId
+//        Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
+//        intent.putExtra("userID", userID);
+//        intent.putExtra("prevScreen", "Subbed");
+//        startActivity(intent);
+//    }
 
 
 }

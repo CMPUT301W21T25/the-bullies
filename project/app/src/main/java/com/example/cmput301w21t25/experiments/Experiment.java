@@ -92,6 +92,7 @@ public class Experiment implements Serializable {
     public ArrayList<String> getTrialKeys() {
         return trialKeys;
     }
+  
     public ArrayList<String> getTags() { return tags; }
     public String getType() { return type; }
 
@@ -105,5 +106,4 @@ public class Experiment implements Serializable {
     public boolean isGeoEnabled() {
         return geoEnabled;
     }
-
 }
