@@ -3,21 +3,28 @@ package com.example.cmput301w21t25.activities_experiments;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.SummaryCalulator;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This activity is used to view the data of an experiment
@@ -44,14 +51,17 @@ public class ExperimentDataActivity extends AppCompatActivity {
     private double successRate;
     private SummaryCalulator summaryCalulator = new SummaryCalulator();
 
+    private Maps maps;
+
     private String type;
+    private Experiment exp;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_view_experiment_data);
-        Experiment exp = (Experiment) getIntent().getSerializableExtra("EXP");
+        exp = (Experiment) getIntent().getSerializableExtra("EXP");
         type = exp.getType();
         Log.d("WHAT_IS_TYPE", type);
 
@@ -94,7 +104,68 @@ public class ExperimentDataActivity extends AppCompatActivity {
 
         minimumTrialsTextView.setText("Minimum Number of Trials: " + Integer.toString(exp.getMinNumTrials()));
         //finish();
+
+        //                                  LOCATION OnCreate
+        //-----------------------------------------------------------------------------
+        Button goBack = (Button) findViewById(R.id.button3);
+        goBack.setVisibility(View.GONE);
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack.setVisibility(View.GONE);
+                getSupportFragmentManager().beginTransaction().remove(maps).commit();
+            }
+        });
+
+
+        //Check if experiment requires a location
+        Button viewMap = (Button) findViewById(R.id.viewMapsButton);
+        if (exp.isGeoEnabled()) {
+            //show 'View Map' button
+            viewMap.setVisibility(View.VISIBLE);
+        }
+        else {
+            //hide 'View Map' button
+            viewMap.setVisibility(View.GONE);
+        }
+
+        //create OnClick for button
+        maps = new Maps();
+        viewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //launch map fragment
+                Bundle args = new Bundle();
+                TrialManager trialManager = new TrialManager();
+                trialManager.FB_FetchPublishedTrial(exp, new FirestoreTrialCallback() {
+                    @Override
+                    public void onCallback(List<Trial> list) {
+                        args.putSerializable("TrialList", (Serializable) list);//<----this is the trial list
+                        args.putString("MODE", "Experiment");
+                        Fragment mFragment = maps;
+                        mFragment.setArguments(args);
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frame, mFragment).commit();
+                    }
+                });
+
+            }
+        });
+        //                                  END LOCATION OnCreate
+        //-----------------------------------------------------------------------------
     }
+
+
+
+    //                                  LOCATION Methods
+    //-----------------------------------------------------------------------------
+
+    // ok so i ended up not needing this section for now
+
+    //                                  END LOCATION Methods
+    //-----------------------------------------------------------------------------
+
 
     /**
      * returns date in the proper format

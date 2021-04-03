@@ -24,6 +24,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -62,7 +63,7 @@ public class TrialManager {
      * @param result this is the result of the trial that you want to store
      * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
      */
-    public void FB_CreateCountTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, int result, Experiment parent, Location location){
+    public void FB_CreateCountTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, int result, Experiment parent, GeoPoint geoPoint){
 
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
@@ -73,7 +74,7 @@ public class TrialManager {
         trialDoc.put("published",published);
         trialDoc.put("result",result);
         trialDoc.put("date", new Date());
-        trialDoc.put("location", location);
+        trialDoc.put("GeoPoint", geoPoint);
         //experiment.put("comment", ); ill add this later
 
         db.collection("TrialDocs")
@@ -120,7 +121,7 @@ public class TrialManager {
      * @param result this is the result of the trial that you want to store
      * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
      */
-    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent, Location location){
+    public void FB_CreateBinomialTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,boolean result,Experiment parent, GeoPoint geoPoint){
 
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
@@ -132,7 +133,7 @@ public class TrialManager {
         trialDoc.put("published",published);
         trialDoc.put("result",result);
         trialDoc.put("date", new Date());
-        trialDoc.put("location", location);
+        trialDoc.put("GeoPoint", geoPoint);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -185,7 +186,7 @@ public class TrialManager {
      * @param result this is the result of the trial that you want to store
      * @param parent this is the parent experiment object used to update the list of trial keys stored in the experiment
      */
-    public void FB_CreateMeasurementTrial(String ownerID,String parentExperimentID,String parentExperimentName,String parentExperimentOwnerName, boolean published,float result,Experiment parent, Location location){
+    public void FB_CreateMeasurementTrial(String ownerID, String parentExperimentID, String parentExperimentName, String parentExperimentOwnerName, boolean published, float result, Experiment parent, GeoPoint geoPoint){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> trialDoc  = new HashMap<>();
         trialDoc.put("user",ownerID);
@@ -195,7 +196,7 @@ public class TrialManager {
         trialDoc.put("published",published);
         trialDoc.put("result",result);
         trialDoc.put("date", new Date());
-        trialDoc.put("location", location);
+        trialDoc.put("GeoPoint", geoPoint);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
