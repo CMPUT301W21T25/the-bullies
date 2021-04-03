@@ -35,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -160,7 +161,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
                 trialManager.FB_FetchPublishedTrial(exp, new FirestoreTrialCallback() {
                     @Override
                     public void onCallback(List<Trial> list) {
-                        args.putParcelable("TrialList", list);//<----this is the trial list
+                        args.putSerializable("TrialList", (Serializable) list);//<----this is the trial list
                         args.putString("MODE", "Experiment");
                         Fragment mFragment = maps;
                         mFragment.setArguments(args);
