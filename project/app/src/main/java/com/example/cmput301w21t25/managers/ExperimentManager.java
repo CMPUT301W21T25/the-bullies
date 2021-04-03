@@ -65,7 +65,7 @@ public class ExperimentManager {
      * @param pubTrials the current number of published trials an experiment has
      */
     public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName,
-                                    String description, Location region, ArrayList<String> tags,
+                                    String description, String region, ArrayList<String> tags,
                                     Boolean geoEnabled, Boolean published, String type, Date date,
                                     int minTrials, int pubTrials){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
