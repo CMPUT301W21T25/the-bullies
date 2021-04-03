@@ -3,12 +3,16 @@ package com.example.cmput301w21t25.activities_experiments;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.BinomialExperiment;
@@ -16,6 +20,7 @@ import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.experiments.MeasurementExperiment;
 import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
+import com.example.cmput301w21t25.location.Maps;
 import com.example.cmput301w21t25.managers.SummaryCalulator;
 import com.example.cmput301w21t25.trials.BinomialTrial;
 import com.example.cmput301w21t25.trials.CountTrial;
@@ -60,6 +65,8 @@ public class ExperimentDataActivity extends AppCompatActivity {
     private double Uquart;
     private double successRate;
     private SummaryCalulator summaryCalulator = new SummaryCalulator();
+
+    private Maps maps;
 
     private String type;
 
@@ -111,7 +118,62 @@ public class ExperimentDataActivity extends AppCompatActivity {
 
         minimumTrialsTextView.setText("Minimum Number of Trials: " + Integer.toString(exp.getMinNumTrials()));
         //finish();
+
+        //                                  LOCATION OnCreate
+        //-----------------------------------------------------------------------------
+        Button goBack = (Button) findViewById(R.id.button3);
+        goBack.setVisibility(View.GONE);
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack.setVisibility(View.GONE);
+                getSupportFragmentManager().beginTransaction().remove(maps).commit();
+                Log.i("curtis", "going back");
+            }
+        });
+
+
+        //Check if experiment requires a location
+        Button viewMap = (Button) findViewById(R.id.viewMapsButton);
+        if (exp.isGeoEnabled()) {
+            //show 'View Map' button
+            viewMap.setVisibility(View.VISIBLE);
+        }
+        else {
+            //hide 'View Map' button
+            viewMap.setVisibility(View.GONE);
+        }
+
+        //create OnClick for button
+        maps = new Maps();
+        viewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //launch map fragment
+                Bundle args = new Bundle();
+                args.putParcelable("TrialList", LIST OF TRIALS GOES HERE);
+                args.putString("MODE", "Experiment");
+                Fragment mFragment = maps;
+                mFragment.setArguments(args);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame, mFragment).commit();
+            }
+        });
+        //                                  END LOCATION OnCreate
+        //-----------------------------------------------------------------------------
     }
+
+
+    
+    //                                  LOCATION Methods
+    //-----------------------------------------------------------------------------
+
+    // ok so i ended up not needing this section for now
+
+    //                                  END LOCATION Methods
+    //-----------------------------------------------------------------------------
+
 
     /**
      * returns date in the proper format

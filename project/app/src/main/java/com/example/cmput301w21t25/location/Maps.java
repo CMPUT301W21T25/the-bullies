@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.cmput301w21t25.R;
 
+import com.example.cmput301w21t25.trials.Trial;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 
 public class Maps extends Fragment{
     private Location TrialLocation = new Location("dummyprovider");
-    private ArrayList<Location> TrialLocationList;
+    private ArrayList<Trial> TrialList;
     private OnMapReadyCallback callbackTrial = new SetTrialLocation();
     private OnMapReadyCallback callbackExp = new ExperimentMap();
     private String mode;
@@ -91,12 +92,22 @@ public class Maps extends Fragment{
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng mytrial = new LatLng(-34, 151);
             MarkerOptions options = new MarkerOptions();
-            options.draggable(true);
+            options.draggable(false);
+            LatLng myTrial = null;
 
-            Marker marker = googleMap.addMarker(options.position(mytrial).title("Location of trial"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(mytrial));
+            for (Trial trial : TrialList) {
+                String title = trial.getUser() + "'s Trial";
+                Location location = trial.getLocation();
+                myTrial = new LatLng(location.getLatitude(), location.getLongitude());
+                Marker marker = googleMap.addMarker(options.position(myTrial).title(title));
+            }
+
+            //show exit button
+            activity.findViewById(R.id.button3).setVisibility(View.VISIBLE);
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(myTrial));
+            googleMap.setOnMarkerClickListener(this);
 
 
         }
@@ -107,8 +118,15 @@ public class Maps extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        TrialLocation = getArguments().getParcelable("TrialLocation");
         mode = getArguments().getString("MODE");
+        if (mode.equals("Trial")) {
+            TrialLocation = getArguments().getParcelable("TrialLocation");
+        }
+        else {
+            TrialList = (ArrayList<Trial>) getArguments().getSerializable("TrialList");
+        }
+
+
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
         activity = getActivity();
         return view;
