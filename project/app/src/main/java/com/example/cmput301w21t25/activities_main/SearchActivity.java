@@ -136,7 +136,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         switch (item.getItemId()) {
             case R.id.home_button:
                 Intent home = new Intent(SearchActivity.this, HomeOwnedActivity.class);
-                home.putExtra("userID", userID);
+                home.putExtra("USER_ID", userID);
                 startActivity(home);
                 return true;
             case R.id.settings_button:
@@ -172,17 +172,4 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         //searchManager.searchExperiments(allKeywords, experimentList);
     }
 
-//    /**
-//     * Is called when a user clicks on their profile image
-//     * Will switch to a profile view activity
-//     * Curtis
-//     * @param view
-//     */
-//    public void viewBrowseiButton(View view) {
-//        //switch to profileView, pass userId
-//        Intent intent = new Intent(SearchActivity.this, MyUserProfileActivity.class);
-//        intent.putExtra("userID", userID);
-//        intent.putExtra("prevScreen", "Browse");
-//        startActivity(intent);
-//    }
 }
