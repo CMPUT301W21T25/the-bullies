@@ -1,13 +1,39 @@
 package com.example.cmput301w21t25.managers;
 
+import android.location.Location;
 import android.os.Build;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.example.cmput301w21t25.FirestoreCommentCallback;
+import com.example.cmput301w21t25.FirestoreStringCallback;
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.forum.Comment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * @author Eden
@@ -64,5 +90,87 @@ public class ForumManager {
         }
 
         return orderedForum;
+    }
+
+    /////
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ExperimentManager expManager = new ExperimentManager();
+
+    /**
+     *
+     * @param comment
+     * @param commenterName
+     * @param commenterID
+     * @param commentParent
+     * @param respondingTo
+     * @param commentChildren
+     */
+    public void FB_CreateExperiment(String experimentID, String comment,String commenterName,String commenterID,String commentParent,String respondingTo, String commentChildren){
+        // Create a new experiment Hash Map this is the datatype stored in firebase for documents
+        Map<String,Object> experimentDoc  = new HashMap<>();
+        experimentDoc.put("comment", comment);
+        experimentDoc.put("commenterName", commenterName);
+        experimentDoc.put("commenterID", commenterID);
+        experimentDoc.put("commentParent",commentParent);
+        experimentDoc.put("respondingTo",respondingTo);
+        experimentDoc.put("commentChildren",commentChildren);
+        experimentDoc.put("commentDate", new Date());
+
+        // Add a new Experiment with a generated ID
+        db.collection("Comments")
+                .add(experimentDoc)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+
+                        db.collection("Experiments").document(experimentID).get()
+
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            DocumentSnapshot document = task.getResult();
+                                            if(document.exists()){
+                                                ArrayList<String> currentComments = (ArrayList<String>)document.getData().get("commentKeys");
+                                                currentComments.add(documentReference.getId());
+                                                expManager.FB_UpdateCommentKeys(currentComments,experimentID);
+                                            }
+                                        }
+                                    }
+                                });
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    //security stuff to make debuging easier
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding experiment", e);
+                    }
+                });
+    }
+    public void FB_FetchComments(Experiment exp,FirestoreCommentCallback fsCallback){
+        ArrayList<Comment>comments= new ArrayList<Comment>();
+        expManager.FB_FetchCommentKeys(exp.getFb_id(), new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                if(list.size()>0){
+                    Log.d("YA-DB TEST: ", "calling the fetch" );
+                    db.collection("Comments").whereIn(FieldPath.documentId(),list)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                    for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                                        Comment temp =doc.toObject(Comment.class);
+                                        temp.setCommentID(doc.getId());
+                                        comments.add(temp);
+                                    }
+                                    fsCallback.onCallback(comments);
+                                }
+                            });
+                }
+
+            }
+        });
     }
 }
