@@ -95,6 +95,10 @@ public class ConductCountTrialActivity extends AppCompatActivity {
                     trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, count, trialParent, getLocation());
                     //Intent return to list view and add to trial list
                     Intent switchScreen = new Intent(ConductCountTrialActivity.this, AddTrialActivity.class);
+
+                    //This line makes sure that this activity is not saved in the history stack
+                    switchScreen.addFlags(switchScreen.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+
                     switchScreen.putExtra("USER_ID", userID);
                     switchScreen.putExtra("TRIAL_PARENT", trialParent);
                     startActivity(switchScreen);
