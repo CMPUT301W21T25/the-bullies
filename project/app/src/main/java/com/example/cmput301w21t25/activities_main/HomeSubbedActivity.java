@@ -141,7 +141,8 @@ public class HomeSubbedActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.home_button:
                 Intent home = new Intent(HomeSubbedActivity.this, HomeOwnedActivity.class);
-                home.putExtra("userID", userID);
+
+                home.putExtra("USER_ID", userID);
                 startActivity(home);
                 return true;
             case R.id.settings_button:
