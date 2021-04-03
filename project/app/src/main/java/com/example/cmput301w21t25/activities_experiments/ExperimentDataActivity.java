@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,35 +15,19 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.experiments.BinomialExperiment;
-import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
-import com.example.cmput301w21t25.experiments.MeasurementExperiment;
-import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.example.cmput301w21t25.location.Maps;
 import com.example.cmput301w21t25.managers.SummaryCalulator;
 import com.example.cmput301w21t25.managers.TrialManager;
-import com.example.cmput301w21t25.trials.BinomialTrial;
-import com.example.cmput301w21t25.trials.CountTrial;
-import com.example.cmput301w21t25.trials.MeasurementTrial;
 import com.example.cmput301w21t25.trials.Trial;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import static java.lang.Math.sqrt;
 
 /**
  * This activity is used to view the data of an experiment
