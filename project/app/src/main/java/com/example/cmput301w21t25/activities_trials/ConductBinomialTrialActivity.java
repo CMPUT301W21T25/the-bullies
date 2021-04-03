@@ -1,13 +1,11 @@
 package com.example.cmput301w21t25.activities_trials;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,6 +27,7 @@ import com.example.cmput301w21t25.managers.TrialManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.GeoPoint;
 
 /**
  * @author Eden
@@ -82,7 +81,8 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Call function that creates trial with result and switches activity
                 if (!trialParent.isGeoEnabled() || getLocation() != null) { // if location is not required or we have a location {
-                    trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, true, trialParent, getLocation());
+                    GeoPoint geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
+                    trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, true, trialParent, geoPoint);
                     Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
                     //Passes the parent Experiment back as it is needed in the add Trial list view
                     switchScreen.putExtra("USER_ID", userID);
@@ -102,7 +102,8 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Call function that creates trial with result and switches activity
                 if (!trialParent.isGeoEnabled() || getLocation() != null) { // if location is not required or we have a location
-                    trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, false, trialParent, getLocation());
+                    GeoPoint geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
+                    trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, false, trialParent, geoPoint);
                     Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
                     switchScreen.putExtra("USER_ID", userID);
                     switchScreen.putExtra("TRIAL_PARENT", trialParent);
@@ -132,7 +133,6 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
                 setButton.setVisibility(View.GONE);
                 setLocation(maps.getTrialLocation());
                 getSupportFragmentManager().beginTransaction().remove(maps).commit();
-                Log.i("curtis", "going back");
             }
         });
     }
@@ -162,7 +162,6 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            Log.i("curtis", "missing perms");
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
             ActivityCompat.requestPermissions(this, permissions, 1);
         }
@@ -174,7 +173,6 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
-                            Log.i("curtis", location.toString());
                             setLocation(location);
                             maps.setTrialLocation(location);
                             Bundle args = new Bundle();
