@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +28,7 @@ import com.example.cmput301w21t25.managers.TrialManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.GeoPoint;
 
 /**
  * @author Eden
@@ -88,7 +87,8 @@ public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
                     //Intent return to list view and add to trial list
                     countString = countDisplay.getText().toString();
                     count = Integer.parseInt(countString);
-                    trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, count, trialParent, getLocation());
+                    GeoPoint geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
+                    trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, count, trialParent, geoPoint);
                     Intent switchScreen = new Intent(ConductNonnegativeCountTrialActivity.this, AddTrialActivity.class);
                     switchScreen.putExtra("USER_ID", userID);
                     switchScreen.putExtra("TRIAL_PARENT", trialParent);
@@ -117,7 +117,6 @@ public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
                 setButton.setVisibility(View.GONE);
                 setLocation(maps.getTrialLocation());
                 getSupportFragmentManager().beginTransaction().remove(maps).commit();
-                Log.i("curtis", "going back");
             }
         });
     }
@@ -147,7 +146,6 @@ public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            Log.i("curtis", "missing perms");
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
             ActivityCompat.requestPermissions(this, permissions, 1);
         }
@@ -159,7 +157,6 @@ public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
-                            Log.i("curtis", location.toString());
                             setLocation(location);
                             maps.setTrialLocation(location);
                             Bundle args = new Bundle();

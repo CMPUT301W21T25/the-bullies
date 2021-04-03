@@ -61,7 +61,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
         experimentManager = new ExperimentManager();
 
         //This is temp I don't know what to do for location
-        Location testLocal = new Location("edm");
+        String testRegion = "EMPTY STRING";
 
         experimentName = findViewById(R.id.editTextExpName);
         experimentDescription = findViewById(R.id.editTextEnterDescription);
@@ -107,7 +107,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 experimentOwner = (String) document.getData().get("name");
-                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, "", experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials, 0);
+                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, testRegion, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials, 0);
                                 //
                             }
                         }
