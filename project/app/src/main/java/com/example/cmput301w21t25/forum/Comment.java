@@ -20,19 +20,19 @@ public class Comment {
 
     private Date commentDate;
 
+    public Comment() {}
+
     //The constructor used when making a new comment
-    public Comment(String comment, String commentID, String commenterName, String commenterID, Date commentDate) {
+    public Comment(String comment, String commenterName, String commenterID, Date commentDate) {
         this.comment = comment;
-        this.commentID = commentID;
         this.commenterName = commenterName;
         this.commenterID = commenterID;
         this.commentDate = commentDate;
     }
 
     //The constructor used when replying to a comment
-    public Comment(String comment, String commentID, String commenterName, String commenterID, String commentParent, String respondingTo, Date commentDate) {
+    public Comment(String comment, String commenterName, String commenterID, String commentParent, String respondingTo, Date commentDate) {
         this.comment = comment;
-        this.commentID = commentID;
         this.commenterName = commenterName;
         this.commenterID = commenterID;
         this.commentParent = commentParent;

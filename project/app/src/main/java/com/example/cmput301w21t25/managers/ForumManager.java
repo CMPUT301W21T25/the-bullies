@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25.managers;
 
+import android.icu.text.UFormat;
 import android.location.Location;
 import android.os.Build;
 import android.util.Log;
@@ -105,9 +106,8 @@ public class ForumManager {
      * @param commenterID
      * @param commentParent
      * @param respondingTo
-     * @param commentChildren
      */
-    public void FB_CreateComment(String experimentID, String comment,String commenterName,String commenterID,String commentParent,String respondingTo, String commentChildren){
+    public void FB_CreateComment(String experimentID, String comment,String commenterName,String commenterID,String commentParent,String respondingTo){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("comment", comment);
@@ -115,7 +115,6 @@ public class ForumManager {
         experimentDoc.put("commenterID", commenterID);
         experimentDoc.put("commentParent",commentParent);
         experimentDoc.put("respondingTo",respondingTo);
-        experimentDoc.put("commentChildren",commentChildren);
         experimentDoc.put("commentDate", new Date());
 
         // Add a new Experiment with a generated ID
@@ -183,6 +182,7 @@ public class ForumManager {
                     Log.d("YA-DB TEST: ", "calling the fetch" );
                     db.collection("Comments").whereIn(FieldPath.documentId(),list)
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @RequiresApi(api = Build.VERSION_CODES.N)
                                 @Override
                                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                                     for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
@@ -191,6 +191,11 @@ public class ForumManager {
                                         comments.add(temp);
                                         commentAdapter.notifyDataSetChanged();
                                     }
+                                    ForumManager forumManager = new ForumManager();
+                                    ArrayList<Comment> sorted =  forumManager.nestedComments(comments);
+                                    comments.clear();
+                                    comments.addAll(sorted);
+                                    commentAdapter.notifyDataSetChanged();
                                 }
                             });
                 }
