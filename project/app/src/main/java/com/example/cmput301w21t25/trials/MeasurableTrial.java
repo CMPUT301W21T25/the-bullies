@@ -1,10 +1,6 @@
 package com.example.cmput301w21t25.trials;
 
-/**
- * @author Samadhi
- * Creates a MeasurementTrial which extends Trial. Records a float trial result
- */
-public class MeasurementTrial extends Trial {
+public class MeasurableTrial extends Trial{
     private Float result;
 
     /**

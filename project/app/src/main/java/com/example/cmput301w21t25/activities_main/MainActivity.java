@@ -1,7 +1,6 @@
 package com.example.cmput301w21t25.activities_main;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -11,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_user.GenerateUserActivity;
-import com.example.cmput301w21t25.experiments.CountExperiment;
-import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.user.User;
 import com.example.cmput301w21t25.managers.UserManager;
 import com.example.cmput301w21t25.managers.ExperimentManager;
@@ -23,8 +20,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.installations.FirebaseInstallations;
-
-import java.util.ArrayList;
 
 /**
  * This activity get launch critical information from the database and then starts the app accordingly
@@ -45,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //EmulatorDemo emu = new EmulatorDemo(); //curtis
+
         //setContentView(R.layout.activity_main);
         //testing DB ill make proper tests later i promise -YA
         //tests for UserMangaer class and UserProfile collection

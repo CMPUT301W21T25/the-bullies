@@ -1,13 +1,18 @@
 package com.example.cmput301w21t25.trials;
 
-import com.example.cmput301w21t25.user.User;
+import android.location.Location;
+import android.os.Parcelable;
 
+import com.example.cmput301w21t25.user.User;
+import com.google.firebase.firestore.GeoPoint;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * This is an abstract class which creates a trial based on which experiment type was used
  */
-public abstract class Trial {
+public abstract class Trial implements Serializable {
 
     /****************************************
                     ATTRIBUTES
@@ -15,7 +20,7 @@ public abstract class Trial {
     //private User user
     private String experimentName;
     private User experimenter;
-    //TODO: implement geolocation info for final product!
+    private GeoPoint geoPoint;
     //attributes added -YA
     private String userID;
     private String experimentOwnerName;
@@ -106,9 +111,6 @@ public abstract class Trial {
     }
 
     //these methods are not fully implement and thus have not been documented yet
-    public User getExperimenter() {
-        return experimenter;
-    }
     public String getExperimentOwnerName() {
         return experimentOwnerName;
     }
@@ -123,4 +125,11 @@ public abstract class Trial {
     }
     public boolean testOnlyGetPublished(){return published;}
 
+    public GeoPoint getGeoPoint() {
+        return geoPoint;
+    }
+
+    public void setGeoPoint(GeoPoint geoPoint) {
+        this.geoPoint = geoPoint;
+    }
 }
