@@ -9,3 +9,4 @@ Curtis Kennedy
 Eden Knechtel  
 Duncan Krammer  
 Samadhi Ranatunga  
+JiaYi Che

@@ -75,7 +75,6 @@ public class CreateExperimentActivity extends AppCompatActivity {
         createExperiment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("YA-DB","testing call");
                 /*
                 ArrayList<String> testList = new ArrayList<>();
                 testList.add("this");
