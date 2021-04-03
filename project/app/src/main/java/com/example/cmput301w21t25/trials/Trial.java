@@ -4,6 +4,7 @@ import android.location.Location;
 import android.os.Parcelable;
 
 import com.example.cmput301w21t25.user.User;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,7 +20,7 @@ public abstract class Trial implements Serializable {
     //private User user
     private String experimentName;
     private User experimenter;
-    private Location location;
+    private GeoPoint geoPoint;
     //attributes added -YA
     private String userID;
     private String experimentOwnerName;
@@ -124,12 +125,11 @@ public abstract class Trial implements Serializable {
     }
     public boolean testOnlyGetPublished(){return published;}
 
-
-    public Location getLocation() {
-        return location;
+    public GeoPoint getGeoPoint() {
+        return geoPoint;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setGeoPoint(GeoPoint geoPoint) {
+        this.geoPoint = geoPoint;
     }
 }

@@ -134,7 +134,6 @@ public class ExperimentDataActivity extends AppCompatActivity {
             public void onClick(View v) {
                 goBack.setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction().remove(maps).commit();
-                Log.i("curtis", "going back");
             }
         });
 

@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 
@@ -61,7 +61,6 @@ public class Maps extends Fragment{
             LatLng pos = marker.getPosition();
             TrialLocation.setLatitude(pos.latitude);
             TrialLocation.setLongitude(pos.longitude);
-            Log.i("curtis", TrialLocation.toString());
         }
 
         @Override
@@ -97,9 +96,10 @@ public class Maps extends Fragment{
             LatLng myTrial = null;
 
             for (Trial trial : TrialList) {
-                String title = trial.getUser() + "'s Trial";
-                Location location = trial.getLocation();
-                myTrial = new LatLng(location.getLatitude(), location.getLongitude());
+                //String title = trial.getUser() + "'s Trial";
+                String title = "Trial Location";
+                GeoPoint geoPoint = trial.getGeoPoint();
+                myTrial = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
                 Marker marker = googleMap.addMarker(options.position(myTrial).title(title));
             }
 
