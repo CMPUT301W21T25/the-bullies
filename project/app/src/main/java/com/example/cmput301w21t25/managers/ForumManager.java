@@ -3,6 +3,8 @@ package com.example.cmput301w21t25.managers;
 import android.location.Location;
 import android.os.Build;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -105,7 +107,7 @@ public class ForumManager {
      * @param respondingTo
      * @param commentChildren
      */
-    public void FB_CreateExperiment(String experimentID, String comment,String commenterName,String commenterID,String commentParent,String respondingTo, String commentChildren){
+    public void FB_CreateComment(String experimentID, String comment,String commenterName,String commenterID,String commentParent,String respondingTo, String commentChildren){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("comment", comment);
@@ -149,8 +151,31 @@ public class ForumManager {
                     }
                 });
     }
-    public void FB_FetchComments(Experiment exp,FirestoreCommentCallback fsCallback){
-        ArrayList<Comment>comments= new ArrayList<Comment>();
+//    public void FB_FetchComments(Experiment exp,FirestoreCommentCallback fsCallback){
+//        ArrayList<Comment>comments= new ArrayList<Comment>();
+//        expManager.FB_FetchCommentKeys(exp.getFb_id(), new FirestoreStringCallback() {
+//            @Override
+//            public void onCallback(ArrayList<String> list) {
+//                if(list.size()>0){
+//                    Log.d("YA-DB TEST: ", "calling the fetch" );
+//                    db.collection("Comments").whereIn(FieldPath.documentId(),list)
+//                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                                @Override
+//                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+//                                    for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+//                                        Comment temp =doc.toObject(Comment.class);
+//                                        temp.setCommentID(doc.getId());
+//                                        comments.add(temp);
+//                                    }
+//                                    fsCallback.onCallback(comments);
+//                                }
+//                            });
+//                }
+//
+//            }
+//        });
+//    }
+    public void FB_FetchComments(Experiment exp, ArrayAdapter<Comment> commentAdapter, ArrayList<Comment> comments){
         expManager.FB_FetchCommentKeys(exp.getFb_id(), new FirestoreStringCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
@@ -164,8 +189,8 @@ public class ForumManager {
                                         Comment temp =doc.toObject(Comment.class);
                                         temp.setCommentID(doc.getId());
                                         comments.add(temp);
+                                        commentAdapter.notifyDataSetChanged();
                                     }
-                                    fsCallback.onCallback(comments);
                                 }
                             });
                 }
