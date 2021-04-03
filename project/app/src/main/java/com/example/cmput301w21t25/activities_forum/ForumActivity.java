@@ -49,6 +49,7 @@ public class ForumActivity extends AppCompatActivity {
 
         commentArrayAdapter = new CustomListComment(this, nestedComments, forumExperiment);
         forumListView.setAdapter(commentArrayAdapter);
+        forumManager.FB_FetchComments(forumExperiment,commentArrayAdapter,comments);//<-------THIS TAKES IN THE EXPERIMENT,ADAPTER AND LIST THEN UPDATES THEM FOR U
 
     }
 }

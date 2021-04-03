@@ -84,6 +84,7 @@ public class ExperimentManager {
         experimentDoc.put("published",published);
         experimentDoc.put("isEnded",false);
         experimentDoc.put("trialKeys", Arrays.asList());//cause an experiment should start empty
+        experimentDoc.put("commentKeys", Arrays.asList());//cause an experiment should start empty
 
         //experiment.put("comment", ); ill add this later
 
@@ -272,6 +273,21 @@ public class ExperimentManager {
                     }
                 });
     }
+    public void FB_UpdateCommentKeys(ArrayList<String> comments,String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("commentKeys", comments)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
     //
     // UPDATE OBSERVERS
     //
@@ -402,6 +418,18 @@ public class ExperimentManager {
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
                 if(doc != null && doc.exists()){
                     ArrayList<String> key = (ArrayList<String>) doc.get("trialKeys");
+                    Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    fsCallback.onCallback(key);
+                }
+            }
+        });
+    }
+    public void FB_FetchCommentKeys(String id, FirestoreStringCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
+        db.collection("Experiments").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                if(doc != null && doc.exists()){
+                    ArrayList<String> key = (ArrayList<String>) doc.get("commentKeys");
                     Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
                     fsCallback.onCallback(key);
                 }
