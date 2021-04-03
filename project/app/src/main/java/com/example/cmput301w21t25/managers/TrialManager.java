@@ -409,6 +409,7 @@ public class TrialManager {
             @Override
             public void onCallback(ArrayList<String> list) {
                 ArrayList<Trial> trialList = new ArrayList<Trial>();
+                Log.d("TESTING_LIST:", String.valueOf(list));
                 db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
