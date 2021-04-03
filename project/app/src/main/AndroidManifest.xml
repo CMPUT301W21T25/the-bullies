@@ -48,7 +48,7 @@
             android:label="Search for Experiment"/>
         <activity android:name=".activities_main.HomeOwnedActivity"
             android:label="Created Experiments"/>
-
+        <activity android:name=".activities_forum.ForumActivity" />
         <activity android:name=".activities_user.MyUserProfileActivity" />
         <activity android:name=".activities_experiments.ViewExperimentActivity" />
         <activity android:name=".activities_experiments.ViewCreatedExperimentActivity" />
