@@ -1,9 +1,7 @@
 package com.example.cmput301w21t25;
 
-import com.example.cmput301w21t25.trials.BinomialTrial;
 import com.example.cmput301w21t25.trials.CountTrial;
 import com.example.cmput301w21t25.trials.MeasurementTrial;
-import com.example.cmput301w21t25.trials.NonNegCountTrial;
 import com.example.cmput301w21t25.trials.Trial;
 import static org.junit.jupiter.api.Assertions.*;
 
