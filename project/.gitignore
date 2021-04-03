@@ -23,7 +23,3 @@ local.properties
 /functions/
 /remoteconfig.template.json
 /ui-debug.log
-
-/app
-/build
-/src/debug/res/values/google_maps_api.xml
