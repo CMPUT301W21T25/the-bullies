@@ -52,7 +52,8 @@ public class ViewExperimentActivity extends AppCompatActivity {
         TextView expType = findViewById(R.id.exp_type_text_view);
         TextView minTrials = findViewById(R.id.min_trials_text_view);
         TextView currTrials = findViewById(R.id.current_trials_text_view);
-        experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials);
+        TextView region = findViewById(R.id.region_text_view);
+        experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
     }
 

@@ -56,6 +56,7 @@ public class Experiment implements Serializable {
     private ArrayList<String> trialKeys = new ArrayList<String>();
     private String type;
     private String fb_id = "";
+    private String region;
 
     //private Forum forum;
     //private Region region;
@@ -102,6 +103,13 @@ public class Experiment implements Serializable {
     public void setTags(ArrayList<String> tags) { this.tags = tags; }
     public void setDescription(String description) { this.description = description; }
 
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
     public boolean isGeoEnabled() {
         return geoEnabled;
