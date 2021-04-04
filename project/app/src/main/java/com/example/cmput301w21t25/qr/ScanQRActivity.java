@@ -31,20 +31,21 @@ public class ScanQRActivity extends AppCompatActivity {
         messageFormat = findViewById(R.id.textFormat);
 
         // adding listener to the button
-        scanBtn.setOnClickListener(this::onClick);
+        scanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // we need to create the object
+                // of IntentIntegrator class
+                // which is the class of QR library
+                IntentIntegrator intentIntegrator = new IntentIntegrator(ScanQRActivity.this);
+                intentIntegrator.setPrompt("Scan a barcode or QR Code");
+                intentIntegrator.setOrientationLocked(true);
+                intentIntegrator.initiateScan();
+            }
+        });
 
     }
 
-    @Override
-    public void onClick(View v) {
-        // we need to create the object
-        // of IntentIntegrator class
-        // which is the class of QR library
-        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
-        intentIntegrator.setPrompt("Scan a barcode or QR Code");
-        intentIntegrator.setOrientationLocked(true);
-        intentIntegrator.initiateScan();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
