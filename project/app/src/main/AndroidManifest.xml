@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cmput301w21t25">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -17,11 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CMPUT301W21T25">
-        
-        <!-- set this to be the icon image!
+        <activity android:name=".qr.ScanQRActivity"></activity>
+        <!--
+         set this to be the icon image!
               android:icon="@drawable/<someImage>"
-           -->
-
+        -->
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -32,23 +31,21 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-<!--        <service-->
-<!--            android:name=".location.FetchLocation"-->
-<!--            android:foregroundServiceType="location" />-->
-
+            android:value="@string/google_maps_key" /> <!-- <service -->
+        <!-- android:name=".location.FetchLocation" -->
+        <!-- android:foregroundServiceType="location" /> -->
         <activity android:name=".activities_user.OtherUserProfileActivity" />
         <activity android:name=".activities_experiments.CreateExperimentActivity" />
         <activity android:name=".activities_user.GenerateUserActivity" />
-
-        <activity android:name=".activities_main.HomeSubbedActivity"
-            android:label="Subscribed Experiments"/>
-        <activity android:name=".activities_main.SearchActivity"
-            android:label="Search for Experiment"/>
-        <activity android:name=".activities_main.HomeOwnedActivity"
-            android:label="Created Experiments"/>
-
+        <activity
+            android:name=".activities_main.HomeSubbedActivity"
+            android:label="Subscribed Experiments" />
+        <activity
+            android:name=".activities_main.SearchActivity"
+            android:label="Search for Experiment" />
+        <activity
+            android:name=".activities_main.HomeOwnedActivity"
+            android:label="Created Experiments" />
         <activity android:name=".activities_user.MyUserProfileActivity" />
         <activity android:name=".activities_experiments.ViewExperimentActivity" />
         <activity android:name=".activities_experiments.ViewCreatedExperimentActivity" />
