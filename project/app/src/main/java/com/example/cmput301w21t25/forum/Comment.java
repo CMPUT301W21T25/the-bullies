@@ -76,4 +76,8 @@ public class Comment {
     public void setCommentChildren(Integer commentChildren) {
         this.commentChildren = commentChildren;
     }
+
+    public void setCommentID(String commentID) {
+        this.commentID = commentID;
+    }
 }

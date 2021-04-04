@@ -94,10 +94,6 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 Experiment experiment = (Experiment) ownedExperimentsListView.getItemAtPosition(position);
                 //FB_FetchPublishedTrials(experiment);
 
-                int pubTrials = publishedTrials;
-                experiment.setCurrentNumTrials(pubTrials);
-                Log.d("pubTrials", String.valueOf(pubTrials));
-                Log.d("getTrials", String.valueOf(experiment.getCurrentNumTrials()));
 
 
 

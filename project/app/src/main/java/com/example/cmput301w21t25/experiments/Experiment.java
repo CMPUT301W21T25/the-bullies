@@ -43,33 +43,21 @@ public class Experiment implements Serializable {
                     ATTRIBUTES
     ****************************************/
 
-    private boolean isPublished = false;
-    private boolean published = false;
-
-    private String fb_id = "";
-    
+    private Date date;
+    private String description;
     private boolean geoEnabled;
     private boolean isEnded = false;
     private int minNumTrials;
-    
     public String name;
-    private String type;
-    private String description;
-    
-    //Should we just be passing in a User object that has a name and ID associated with it?
     private String owner;
     private String ownerID;
-  
-    private Date date;
-    private Location region;
-  
-    private int currentNumTrials;
+    private boolean published = false;
     private ArrayList<String> tags;
     private ArrayList<String> trialKeys = new ArrayList<String>();
-    private ArrayList<Trial> hiddenTrials = new ArrayList<Trial>();
+    private String type;
+    private String fb_id = "";
 
     //private Forum forum;
-
     //private Region region;
     //private ArrayList<Region> geoLocations;
     //attributes that have public getters automatically become part of the object when converting from DB Map
@@ -91,26 +79,20 @@ public class Experiment implements Serializable {
     public Date getDate() { return date; }
     ///getters for FireBase data
     public String getDescription() { return description; }
+    public int getMinNumTrials() { return minNumTrials; }
     public boolean getIsEnded() {
         return isEnded;
     }
-    public int getMinNumTrials() { return minNumTrials; }
     public String getName() {
         return name;
     }
-
     public String getOwner() { return owner; }
     public String getOwnerID() { return ownerID; }
     public boolean getPublished(){return published;}
     public ArrayList<String> getTrialKeys() {
         return trialKeys;
     }
-
-
-    // Do we need this?
-    public String retTest(){
-        return "test";
-    }
+  
     public ArrayList<String> getTags() { return tags; }
     public String getType() { return type; }
 
@@ -119,39 +101,9 @@ public class Experiment implements Serializable {
     public void setType(String type) { this.type = type; }
     public void setTags(ArrayList<String> tags) { this.tags = tags; }
     public void setDescription(String description) { this.description = description; }
-    public void setCurrentNumTrials(int currentNumTrials) {
-        this.currentNumTrials = currentNumTrials;
-    }
-    public int getCurrentNumTrials() { return currentNumTrials; }
+
 
     public boolean isGeoEnabled() {
         return geoEnabled;
     }
-
-    public void setGeoEnabled(boolean geoEnabled) {
-        this.geoEnabled = geoEnabled;
-    }
-
-
-    /**
-     * Shows stats of experiment
-     */
-    void showStats() {
-
-    }
-
-    /**
-     * Plots histogram (and maybe other plots) of experiment data
-     */
-    void plotData() {
-
-    }
-
-    /**
-     * Shows a map of trial geolocations
-     */
-    void showMap() {
-
-    }
-
 }
