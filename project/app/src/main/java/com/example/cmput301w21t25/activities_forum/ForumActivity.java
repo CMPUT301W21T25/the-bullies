@@ -52,6 +52,7 @@ public class ForumActivity extends AppCompatActivity {
 
         commentArrayAdapter = new CustomListComment(this, comments, forumExperiment, userID);
         forumListView.setAdapter(commentArrayAdapter);
+        //forumManager.FB_CreateComment(forumExperiment.getFb_id(),"this is a test","need to pass name with intent",userID,"","");
         forumManager.FB_FetchComments(forumExperiment,commentArrayAdapter,comments);//<-------THIS TAKES IN THE EXPERIMENT,ADAPTER AND LIST THEN UPDATES THEM FOR U
 
         askQuestionButton.setOnClickListener(new View.OnClickListener() {

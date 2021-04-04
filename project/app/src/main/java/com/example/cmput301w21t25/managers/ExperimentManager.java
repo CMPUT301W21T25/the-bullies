@@ -431,6 +431,9 @@ public class ExperimentManager {
                 if(doc != null && doc.exists()){
                     ArrayList<String> key = (ArrayList<String>) doc.get("commentKeys");
                     Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    if(key==null){
+                        key= new ArrayList<String>();
+                    }
                     fsCallback.onCallback(key);
                 }
             }

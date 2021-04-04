@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -178,24 +179,27 @@ public class ForumManager {
         expManager.FB_FetchCommentKeys(exp.getFb_id(), new FirestoreStringCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
-                if(list.size()>0){
+                Log.d("FORUM_TEST2:", String.valueOf(list));
+                if(!list.isEmpty()){
                     Log.d("YA-DB TEST: ", "calling the fetch" );
                     db.collection("Comments").whereIn(FieldPath.documentId(),list)
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                 @Override
                                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                    comments.clear();
                                     for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                                         Comment temp =doc.toObject(Comment.class);
                                         temp.setCommentID(doc.getId());
                                         comments.add(temp);
                                         commentAdapter.notifyDataSetChanged();
+                                        Log.d("FORUM_TEST:", temp.getCommentID());
                                     }
-                                    ForumManager forumManager = new ForumManager();
-                                    ArrayList<Comment> sorted =  forumManager.nestedComments(comments);
-                                    comments.clear();
-                                    comments.addAll(sorted);
-                                    commentAdapter.notifyDataSetChanged();
+//                                    ArrayList<Comment> sorted = nestedComments(comments);
+//                                    Log.d("FORUM_TEST2:", "String.valueOf(sorted)");
+//                                    comments.clear();
+//                                    comments.addAll(sorted);
+//                                    commentAdapter.notifyDataSetChanged();
                                 }
                             });
                 }
