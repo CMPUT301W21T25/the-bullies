@@ -75,10 +75,12 @@ public class CustomListComment extends ArrayAdapter<Comment> {
         //Set a header/graphic based on whether it's a new comment or a response
         if (comment.getCommentParent().equals("")) {
             newThreadGraphic.setVisibility(View.VISIBLE);
+            replyGraphic.setVisibility(View.INVISIBLE);
             commentHeader.setText("New Thread");
         }
         else {
             replyGraphic.setVisibility(View.VISIBLE);
+            newThreadGraphic.setVisibility(View.INVISIBLE);
             commentHeader.setText("Replying to: " + comment.getRespondingTo());
         }
 
@@ -90,7 +92,7 @@ public class CustomListComment extends ArrayAdapter<Comment> {
         commenterName.setText(comment.getCommenterName());
         commentDate.setText(dateString);
         commentContent.setText(comment.getComment());
-
+/*
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,10 +100,12 @@ public class CustomListComment extends ArrayAdapter<Comment> {
                 Intent startNewReply = new Intent(context, NewReplyActivity.class);
                 startNewReply.putExtra("USER_ID", userID);
                 startNewReply.putExtra("FORUM_EXPERIMENT", forumExperiment);
-                startNewReply.putExtra("IN_RESPONSE_TO", (Serializable) comment);
+                startNewReply.putExtra("IN_RESPONSE_TO", comment);
                 context.startActivity(startNewReply);
             }
         });
+
+ */
 
         return view;
     }

@@ -3,7 +3,9 @@ package com.example.cmput301w21t25.activities_forum;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -37,6 +39,7 @@ public class ForumActivity extends AppCompatActivity {
 
     //@RequiresApi(api = Build.VERSION_CODES.N)
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
@@ -54,6 +57,9 @@ public class ForumActivity extends AppCompatActivity {
         forumListView.setAdapter(commentArrayAdapter);
         //forumManager.FB_CreateComment(forumExperiment.getFb_id(),"this is a test","need to pass name with intent",userID,"","");
         forumManager.FB_FetchComments(forumExperiment,commentArrayAdapter,comments);//<-------THIS TAKES IN THE EXPERIMENT,ADAPTER AND LIST THEN UPDATES THEM FOR U
+        Log.d("EDEN'S_OTHER_TEST", String.valueOf(comments));
+        comments = forumManager.nestedComments(comments);
+        commentArrayAdapter.notifyDataSetChanged();
 
         askQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +68,17 @@ public class ForumActivity extends AppCompatActivity {
                 newComment.putExtra("USER_ID", userID);
                 newComment.putExtra("FORUM_EXPERIMENT", forumExperiment);
                 startActivity(newComment);
+            }
+        });
+
+        forumListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent startNewReply = new Intent(ForumActivity.this, NewReplyActivity.class);
+                startNewReply.putExtra("USER_ID", userID);
+                startNewReply.putExtra("FORUM_EXPERIMENT", forumExperiment);
+                startNewReply.putExtra("IN_RESPONSE_TO", comments.get(position));
+                startActivity(startNewReply);
             }
         });
 

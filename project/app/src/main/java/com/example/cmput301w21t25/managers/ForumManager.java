@@ -93,6 +93,7 @@ public class ForumManager {
             }
         }
 
+        Log.d("EDEN TEST:", String.valueOf(orderedForum));
         return orderedForum;
     }
 
@@ -193,13 +194,15 @@ public class ForumManager {
                                         temp.setCommentID(doc.getId());
                                         comments.add(temp);
                                         commentAdapter.notifyDataSetChanged();
-                                        Log.d("FORUM_TEST:", temp.getCommentID());
+                                        Log.d("EDENS_OTHER_OTHER_TEST:", String.valueOf(comments));
                                     }
-//                                    ArrayList<Comment> sorted = nestedComments(comments);
-//                                    Log.d("FORUM_TEST2:", "String.valueOf(sorted)");
-//                                    comments.clear();
-//                                    comments.addAll(sorted);
-//                                    commentAdapter.notifyDataSetChanged();
+                                    /*ArrayList<Comment> sorted = nestedComments(comments);
+                                    Log.d("CATS", String.valueOf(sorted));
+                                    comments.clear();
+                                    Log.d("CLEARED", "got here");
+                                    comments.addAll(sorted);
+                                    commentAdapter.notifyDataSetChanged();
+                                     */
                                 }
                             });
                 }

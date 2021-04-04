@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toolbar;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -25,7 +25,7 @@ public class NewCommentActivity extends AppCompatActivity {
 
     private String commentBody;
 
-    private ForumManager forumManager;
+    private ForumManager forumManager = new ForumManager();
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

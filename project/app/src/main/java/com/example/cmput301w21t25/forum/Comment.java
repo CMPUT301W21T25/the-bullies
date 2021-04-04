@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25.forum;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * experiment. The only value that won't be stored in the database is commentChildren, as is used
  * to organize the ListView
  */
-public class Comment {
+public class Comment implements Serializable {
 
     private String comment;
     private String commentID;

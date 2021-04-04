@@ -7,10 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -35,7 +35,7 @@ public class NewReplyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_new_comment);
+        setContentView(R.layout.activity_new_reply);
 
         userID = getIntent().getStringExtra("USER_ID");
         forumExperiment = (Experiment) getIntent().getSerializableExtra("FORUM_EXPERIMENT");
