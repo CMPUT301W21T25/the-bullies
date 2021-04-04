@@ -121,19 +121,16 @@ public class ForumManager {
     /**
      *
      * @param comment
-     * @param commenterName
      * @param commenterID
      * @param commentParent
-     * @param respondingTo
      */
-    public void FB_CreateComment(String experimentID, String comment,String commenterName,String commenterID,String commentParent,String respondingTo){
+    public void FB_CreateComment(String experimentID, String comment,String commenterID,String commentParent,String respondingTo){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("comment", comment);
-        experimentDoc.put("commenterName", commenterName);
+        experimentDoc.put("commenterName", "");
         experimentDoc.put("commenterID", commenterID);
         experimentDoc.put("commentParent",commentParent);
-        experimentDoc.put("respondingTo",respondingTo);
         experimentDoc.put("commentDate", new Date());
 
         // Add a new Experiment with a generated ID
@@ -153,6 +150,13 @@ public class ForumManager {
                                             if(document.exists()){
                                                 ArrayList<String> currentComments = (ArrayList<String>)document.getData().get("commentKeys");
                                                 currentComments.add(documentReference.getId());
+                                                UserManager mana = new UserManager();
+                                                mana.FB_FetchUserInfo(commenterID, new FirestoreStringCallback() {
+                                                    @Override
+                                                    public void onCallback(ArrayList<String> list) {
+                                                        documentReference.update("commenterName", list.get(1));
+                                                    }
+                                                });
                                                 expManager.FB_UpdateCommentKeys(currentComments,experimentID);
                                             }
                                         }
