@@ -61,6 +61,7 @@ public class ForumManager {
         //First add new thread comments that have no parents (were passed empty parentID string
         //upon construction)
         for (int i = 0; i < comments.size(); i++) {
+            Log.d("LOOKATME3:", String.valueOf(comments.get(i).getCommentID()));
             Comment comment = comments.get(i);
             if (comment.getCommentParent().equals("")) {
                 orderedForum.add(comment);
