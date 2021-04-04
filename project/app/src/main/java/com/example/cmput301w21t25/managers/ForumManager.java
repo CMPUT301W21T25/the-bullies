@@ -195,6 +195,7 @@ public class ForumManager {
                                         comments.add(temp);
                                         commentAdapter.notifyDataSetChanged();
                                     }
+                                    Log.d("LOOKATME:", String.valueOf(comments.size()));
                                     /*ArrayList<Comment> sorted = nestedComments(comments);
                                     Log.d("CATS", String.valueOf(sorted));
                                     comments.clear();
