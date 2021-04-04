@@ -50,7 +50,7 @@ public class ForumActivity extends AppCompatActivity {
         forumListView = findViewById(R.id.forum_list);
         askQuestionButton = findViewById(R.id.add_comment_button);
 
-        commentArrayAdapter = new CustomListComment(this, comments, forumExperiment);
+        commentArrayAdapter = new CustomListComment(this, comments, forumExperiment, userID);
         forumListView.setAdapter(commentArrayAdapter);
         forumManager.FB_FetchComments(forumExperiment,commentArrayAdapter,comments);//<-------THIS TAKES IN THE EXPERIMENT,ADAPTER AND LIST THEN UPDATES THEM FOR U
 

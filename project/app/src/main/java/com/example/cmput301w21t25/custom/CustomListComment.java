@@ -1,7 +1,10 @@
 package com.example.cmput301w21t25.custom;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +17,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_forum.ForumActivity;
+import com.example.cmput301w21t25.activities_forum.NewCommentActivity;
+import com.example.cmput301w21t25.activities_forum.NewReplyActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.forum.Comment;
 import com.example.cmput301w21t25.trials.Trial;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,14 +37,17 @@ public class CustomListComment extends ArrayAdapter<Comment> {
     private ArrayList<Comment> comments;
     private Context context;
     private Experiment forumExperiment;
+    private Comment comment;
+    private String userID;
     private Date date;
     private String dateString;
 
-    public CustomListComment(Context context, ArrayList<Comment> comments, Experiment forumExperiment) {
+    public CustomListComment(Context context, ArrayList<Comment> comments, Experiment forumExperiment, String userID) {
         super(context,0,comments);
         this.comments = comments;
         this.context = context;
         this.forumExperiment = forumExperiment;
+        this.userID = userID;
     }
 
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -47,7 +57,7 @@ public class CustomListComment extends ArrayAdapter<Comment> {
             view = LayoutInflater.from(context).inflate(R.layout.comment_content, parent, false);
         }
 
-        Comment comment = comments.get(position);
+        comment = comments.get(position);
 
         ImageView replyGraphic = view.findViewById(R.id.replyToGraphic);
         ImageView newThreadGraphic = view.findViewById(R.id.newThreadGraphic);
@@ -85,6 +95,11 @@ public class CustomListComment extends ArrayAdapter<Comment> {
             @Override
             public void onClick(View v) {
                 //Start reply to comment activity
+                Intent startNewReply = new Intent(context, NewReplyActivity.class);
+                startNewReply.putExtra("USER_ID", userID);
+                startNewReply.putExtra("FORUM_EXPERIMENT", forumExperiment);
+                startNewReply.putExtra("IN_RESPONSE_TO", (Serializable) comment);
+                context.startActivity(startNewReply);
             }
         });
 
