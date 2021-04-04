@@ -22,6 +22,7 @@ import com.example.cmput301w21t25.managers.ForumManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ForumActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class ForumActivity extends AppCompatActivity {
     FloatingActionButton askQuestionButton;
 
     private ArrayList<Comment> comments = new ArrayList<Comment>();
-    //private ArrayList<Comment> nestedComments;
+    private ArrayList<Comment> nestedComments;
 
     private String userID;
     private Experiment forumExperiment;
@@ -50,16 +51,36 @@ public class ForumActivity extends AppCompatActivity {
 
         //nestedComments = forumManager.nestedComments(comments);
 
+        //Testing for sorting starts here
+        Comment newThreadComment = new Comment("This is a new thread comment", "firstCommentID", "First Commenter", "firstCommenterID", new Date());
+        Comment newReplyComment = new Comment("This is a reply to the first", "secondCommentID", "Second Commenter", "secondCommenterID", "firstCommentID", "First Commenter", new Date(2021, 2, 13));
+        Comment newThreadComment2 = new Comment("This is a new thread comment", "thirdCommentID", "Third Commenter", "thirdCommenterID", new Date(2021, 2, 14));
+        Comment newReplyComment2 = new Comment("This is a reply to the second", "fourthCommentID", "Fourth Commenter", "fourthCommenterID", "thirdCommentID", "Third Commenter", new Date(2021, 2, 15));
+        Comment newReplyComment3 = new Comment("This is a reply to a reply", "fifthCommentID", "Fifth Commenter", "fifthCommenterID", "fourthCommentID", "Fourth Commenter", new Date(2021, 2, 16));
+        Comment newReplyComment4 = new Comment("This is a reply to the first reply", "sixthCommentID", "Sixth Commenter", "sixthCommenterID", "secondCommentID", "Second Commenter", new Date(2021, 2, 17));
+
+        comments.add(newReplyComment4);
+        comments.add(newReplyComment3);
+        comments.add(newReplyComment2);
+        comments.add(newThreadComment2);
+        comments.add(newReplyComment);
+        comments.add(newThreadComment);
+
+        nestedComments = forumManager.nestedComments(comments);
+        //Testing for sorting ends here
+
         forumListView = findViewById(R.id.forum_list);
         askQuestionButton = findViewById(R.id.add_comment_button);
 
-        commentArrayAdapter = new CustomListComment(this, comments, forumExperiment, userID);
+        commentArrayAdapter = new CustomListComment(this, nestedComments, forumExperiment, userID);
         forumListView.setAdapter(commentArrayAdapter);
+
+        //Database call commented out for proof of sorting
         //forumManager.FB_CreateComment(forumExperiment.getFb_id(),"this is a test","need to pass name with intent",userID,"","");
-        forumManager.FB_FetchComments(forumExperiment,commentArrayAdapter,comments);//<-------THIS TAKES IN THE EXPERIMENT,ADAPTER AND LIST THEN UPDATES THEM FOR U
+        //forumManager.FB_FetchComments(forumExperiment,commentArrayAdapter,comments);//<-------THIS TAKES IN THE EXPERIMENT,ADAPTER AND LIST THEN UPDATES THEM FOR U
         Log.d("EDEN'S_OTHER_TEST", String.valueOf(comments));
-        comments = forumManager.nestedComments(comments);
-        commentArrayAdapter.notifyDataSetChanged();
+        //comments = forumManager.nestedComments(comments);
+        //commentArrayAdapter.notifyDataSetChanged();
 
         askQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
