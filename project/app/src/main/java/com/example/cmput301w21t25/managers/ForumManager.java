@@ -50,6 +50,7 @@ public class ForumManager {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Comment> nestedComments(ArrayList<Comment> comments) {
+        Log.d("LOOKATME2:", String.valueOf(comments.size()));
         ArrayList<Comment> orderedForum = new ArrayList<Comment>();
 
         //Sort the comments by date to preserve sensical order
@@ -196,6 +197,7 @@ public class ForumManager {
                                         commentAdapter.notifyDataSetChanged();
                                     }
                                     Log.d("LOOKATME:", String.valueOf(comments.size()));
+                                    ArrayList<Comment> sorted = nestedComments(comments);
                                     /*ArrayList<Comment> sorted = nestedComments(comments);
                                     Log.d("CATS", String.valueOf(sorted));
                                     comments.clear();
