@@ -53,6 +53,15 @@ public class ViewExperimentActivity extends AppCompatActivity {
         TextView minTrials = findViewById(R.id.min_trials_text_view);
         TextView currTrials = findViewById(R.id.current_trials_text_view);
         TextView region = findViewById(R.id.region_text_view);
+        TextView geoLoc = findViewById(R.id.geoLoc_text_view);
+        if (exp.isGeoEnabled()) {
+            geoLoc.setText("WARNING: Trials require a location");
+        }
+        else {
+            geoLoc.setText("No location required!");
+        }
+
+
         experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
     }
