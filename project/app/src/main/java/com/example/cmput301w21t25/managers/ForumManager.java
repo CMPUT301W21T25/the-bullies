@@ -52,17 +52,25 @@ public class ForumManager {
     public ArrayList<Comment> nestedComments(ArrayList<Comment> comments) {
         Log.d("LOOKATME2:", String.valueOf(comments.size()));
         ArrayList<Comment> orderedForum = new ArrayList<Comment>();
+        ArrayList<Comment> toDelete = new ArrayList<Comment>();
 
         //Sort the comments by date to preserve sensical order
         comments.sort(Comparator.comparing(comment -> comment.getCommentDate()));
+        Log.d("LOOKATME3:", String.valueOf(comments.size()));
 
         //First add new thread comments that have no parents (were passed empty parentID string
         //upon construction)
         for (int i = 0; i < comments.size(); i++) {
             Comment comment = comments.get(i);
             if (comment.getCommentParent().equals("")) {
-                orderedForum.add(comments.remove(i));
+                orderedForum.add(comment);
+                toDelete.add(comment);
             }
+        }
+
+        if (toDelete.size() > 0) {
+            comments.removeAll(toDelete);
+            toDelete.clear();
         }
 
         //The outer loop runs while the size of the array of comments passed is greater than zero,
@@ -73,7 +81,6 @@ public class ForumManager {
                 Comment childComment = comments.get(i);
                 //The current child is checked against each existing comment in the orderedForum
                 //list for a parent
-                checkParent:
                 for (int j = 0; j < orderedForum.size(); j++) {
                     Comment parentComment = orderedForum.get(j);
                     //If the parent is found, it is added to the orderedForum list and removed from
@@ -87,13 +94,21 @@ public class ForumManager {
                         //index + its children count, 4 + 3, which means it is at index 7, the
                         //properly ordered index
                         parentComment.setCommentChildren(parentComment.getCommentChildren() + 1);
-                        orderedForum.add((j + parentComment.getCommentChildren()), comments.remove(i));
-                        break checkParent;
+                        orderedForum.add((j + parentComment.getCommentChildren()), childComment);
+                        toDelete.add(childComment);
+                        continue;
                     }
                 }
             }
+            //Delete
+            if (toDelete.size() > 0) {
+                comments.removeAll(toDelete);
+                toDelete.clear();
+            }
         }
 
+        Log.d("LOOKATME4:", String.valueOf(orderedForum.size()));
+        Log.d("LOOKATME5", String.valueOf(orderedForum));
         //Log.d("EDEN TEST:", String.valueOf(orderedForum));
         return orderedForum;
     }
@@ -198,6 +213,8 @@ public class ForumManager {
                                     }
                                     Log.d("LOOKATME:", String.valueOf(comments.size()));
                                     ArrayList<Comment> sorted = nestedComments(comments);
+                                    comments.addAll(sorted);
+                                    commentAdapter.notifyDataSetChanged();
                                     /*ArrayList<Comment> sorted = nestedComments(comments);
                                     Log.d("CATS", String.valueOf(sorted));
                                     comments.clear();
