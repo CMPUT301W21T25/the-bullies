@@ -48,7 +48,7 @@ public class NewCommentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 commentBody = commentEditText.getText().toString();
-                forumManager.FB_CreateComment(forumExperiment.getFb_id(), commentBody,"NEED_DB_CALL_TO_GET_USERNAME", userID, "", "");
+                forumManager.FB_CreateComment(forumExperiment.getFb_id(), commentBody, userID, "", "");
 
                 Intent returnToForum = new Intent(NewCommentActivity.this, ForumActivity.class);
                 returnToForum.putExtra("USER_ID", userID);
