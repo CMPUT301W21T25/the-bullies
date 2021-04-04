@@ -67,7 +67,7 @@ public class CustomListComment extends ArrayAdapter<Comment> {
         TextView commentDate = view.findViewById(R.id.commentDate);
         TextView commentContent = view.findViewById(R.id.comment);
 
-        ImageButton replyButton = view.findViewById(R.id.replyButton);
+        //ImageButton replyButton = view.findViewById(R.id.replyButton);
 
         date = comment.getCommentDate();
         dateString = formatDate(date);

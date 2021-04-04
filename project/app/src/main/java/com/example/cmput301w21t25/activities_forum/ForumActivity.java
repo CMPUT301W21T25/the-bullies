@@ -30,7 +30,7 @@ public class ForumActivity extends AppCompatActivity {
     FloatingActionButton askQuestionButton;
 
     private ArrayList<Comment> comments = new ArrayList<Comment>();
-    private ArrayList<Comment> nestedComments;
+    //private ArrayList<Comment> nestedComments;
 
     private String userID;
     private Experiment forumExperiment;
@@ -51,6 +51,7 @@ public class ForumActivity extends AppCompatActivity {
 
         //nestedComments = forumManager.nestedComments(comments);
 
+        /*
         //Testing for sorting starts here
         Comment newThreadComment = new Comment("This is a new thread comment", "firstCommentID", "First Commenter", "firstCommenterID", new Date());
         Comment newReplyComment = new Comment("This is a reply to the first", "secondCommentID", "Second Commenter", "secondCommenterID", "firstCommentID", "First Commenter", new Date(2021, 2, 13));
@@ -68,19 +69,17 @@ public class ForumActivity extends AppCompatActivity {
 
         nestedComments = forumManager.nestedComments(comments);
         //Testing for sorting ends here
+         */
 
         forumListView = findViewById(R.id.forum_list);
         askQuestionButton = findViewById(R.id.add_comment_button);
 
-        commentArrayAdapter = new CustomListComment(this, nestedComments, forumExperiment, userID);
+        commentArrayAdapter = new CustomListComment(this, comments, forumExperiment, userID);
         forumListView.setAdapter(commentArrayAdapter);
 
         //Database call commented out for proof of sorting
         //forumManager.FB_CreateComment(forumExperiment.getFb_id(),"this is a test","need to pass name with intent",userID,"","");
-        //forumManager.FB_FetchComments(forumExperiment,commentArrayAdapter,comments);//<-------THIS TAKES IN THE EXPERIMENT,ADAPTER AND LIST THEN UPDATES THEM FOR U
-        Log.d("EDEN'S_OTHER_TEST", String.valueOf(comments));
-        //comments = forumManager.nestedComments(comments);
-        //commentArrayAdapter.notifyDataSetChanged();
+        forumManager.FB_FetchComments(forumExperiment,commentArrayAdapter,comments);//<-------THIS TAKES IN THE EXPERIMENT,ADAPTER AND LIST THEN UPDATES THEM FOR U
 
         askQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +94,7 @@ public class ForumActivity extends AppCompatActivity {
         forumListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("ON_CLICK_FORUM", "are you feeling this");
                 Intent startNewReply = new Intent(ForumActivity.this, NewReplyActivity.class);
                 startNewReply.putExtra("USER_ID", userID);
                 startNewReply.putExtra("FORUM_EXPERIMENT", forumExperiment);
