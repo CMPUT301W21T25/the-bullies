@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25.qr;
+package com.example.cmput301w21t25.activities_qr;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
