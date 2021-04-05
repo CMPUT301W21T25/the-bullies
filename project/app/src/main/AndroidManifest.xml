@@ -19,11 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CMPUT301W21T25">
         <activity android:name=".activities_qr.GenerateQRActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities_qr.DisplayQRActivity" />
         <!--
@@ -69,7 +65,13 @@
         <activity android:name=".activities_qr.ScanQRActivity">
 
         </activity>
-        <activity android:name=".activities_main.MainActivity" />
+        <activity android:name=".activities_main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
