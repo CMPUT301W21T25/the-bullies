@@ -348,8 +348,10 @@ public class ExperimentManager {
                                     {
                                         Experiment experiment = doc.toObject(Experiment.class);
                                         experiment.setFb_id(doc.getId());
-                                        experiments.add(experiment);
-                                        experimentAdapter.notifyDataSetChanged();
+                                        if (experiment.isPublished()) {
+                                            experiments.add(experiment);
+                                            experimentAdapter.notifyDataSetChanged();
+                                        }
                                         Log.d("YA-DB: ", "fetched: " + experiments);
                                     }
                                 }
