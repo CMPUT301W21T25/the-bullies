@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,24 @@ public class GenerateUserActivity extends AppCompatActivity {
         //this can be called on click when
         //FB_CreateUser(userID);
         //finish();
+
+        Button done = findViewById(R.id.makeUserButton);
+        Button skip = findViewById(R.id.skipProfileCreationButton);
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createUserButton(v);
+            }
+        });
+
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createUserButton(v);
+            }
+        });
+
     }
 
     /**
