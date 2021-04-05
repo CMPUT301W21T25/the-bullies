@@ -89,7 +89,6 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
             }
         });
 
-        searchButton = findViewById(R.id.exp_filter_button);
 
         experimentManager.FB_UpdateBrowseExperimentAdapter(userID, experimentArrayAdapter, experimentList, new FirestoreExperimentCallback() {
             @Override
@@ -99,6 +98,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         });
         //finish();
 
+        searchButton = findViewById(R.id.exp_filter_button);
         searchButton.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View v) {
