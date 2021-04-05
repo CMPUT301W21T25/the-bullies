@@ -88,7 +88,7 @@ public class Experiment implements Serializable {
     }
     public String getOwner() { return owner; }
     public String getOwnerID() { return ownerID; }
-    public boolean getPublished(){return published;}
+    public boolean isPublished(){return published;}
     public ArrayList<String> getTrialKeys() {
         return trialKeys;
     }

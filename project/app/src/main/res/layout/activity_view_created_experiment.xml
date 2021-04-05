@@ -166,7 +166,15 @@
             android:layout_height="60dp"
             android:layout_marginStart="35dp"
             android:layout_marginLeft="35dp"
-            android:text="Publish" />
+            android:text="Publish"/>
+
+        <Button
+            android:id="@+id/unpublish_button"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:text="Unpublish" />
     </LinearLayout>
 
 </RelativeLayout>
