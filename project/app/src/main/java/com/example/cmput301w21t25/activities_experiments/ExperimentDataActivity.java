@@ -80,7 +80,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
         deviationTextView = findViewById(R.id.stDev);
         successRateTextView = findViewById(R.id.successRate);
 
-        summaryCalulator.FB_UpdateSummaryViewsForMeasurable(exp);
+        summaryCalulator.FB_UpdateSummaryViews(exp);
 
 
 

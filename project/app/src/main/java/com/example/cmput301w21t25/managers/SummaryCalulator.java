@@ -27,7 +27,7 @@ public class SummaryCalulator {
     private TrialManager trialManager = new TrialManager();
 
 
-    public void FB_UpdateSummaryViewsForMeasurable(Experiment exp){
+    public void FB_UpdateSummaryViews(Experiment exp){
         trialManager.FB_FetchPublishedTrial(exp, new FirestoreTrialCallback() {
             @Override
             public void onCallback(List<Trial> list) {
