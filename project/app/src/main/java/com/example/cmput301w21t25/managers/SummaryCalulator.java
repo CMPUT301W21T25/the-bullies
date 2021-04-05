@@ -46,6 +46,16 @@ public class SummaryCalulator {
                         }
                         //insert method calls here
                         //ex: float mean = mean(list)<--------------------------list is an arraylist of trials that u will use
+                        float mean = calculateMean(trialList);
+                        Log.d("OUTPUT_MEAN", String.valueOf(mean));
+                        double median = calculateMedian(trialList);
+                        Log.d("OUTPUT_MEDIAN", String.valueOf(median));
+                        double sDev = calculateSD(trialList);
+                        Log.d("OUTPUT_STANDARD_DEV", String.valueOf(sDev));
+                        double lowerQuart = calculateLowerQuart(trialList);
+                        Log.d("OUTPUT_LOWER_QUART", String.valueOf(lowerQuart));
+                        double upperQuart = calculateUpperQuart(trialList);
+                        Log.d("OUTPUT_UPPER_QUART", String.valueOf(upperQuart));
                         //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
                     }
                     else{
@@ -63,37 +73,77 @@ public class SummaryCalulator {
     }
 
     //cite:https://stackoverflow.com/questions/37930631/standard-deviation-of-an-arraylist
-    public float calculateMean(ArrayList<Float> list){
-        int total = 0;
+    //I totally changed it so I don't think we have to?
+    public float calculateMean(ArrayList<Float> trials){
+        float total = 0;
 
-        for ( int i= 0;i < list.size(); i++)
+        for (int i = 0; i < trials.size(); i++)
         {
-            float currentNum = list.get(i);
-            total+= currentNum;
+            total += trials.get(i);
         }
-        return total/list.size();
+
+        if (trials.size() == 0) {
+            return 0;
+        }
+
+        else return total / (float) trials.size();
     }
-    public double calculateSD (ArrayList<Float> list)
+
+    //Eden totally changed this what even was this before
+    public double calculateSD (ArrayList<Float> trials)
     {
-        double mean= calculateMean(list);
-        double temp =0;
-        for ( int i= 0; i <list.size(); i++)
-        {
-            temp= Math.pow(i-mean, 2);
+        double sDev;
+        float mean = calculateMean(trials);
+        double squareDiff = 0;
+
+        for (int i = 0; i < trials.size(); i++) {
+            squareDiff += Math.pow((trials.get(i) - mean), 2);
         }
-        return Math.sqrt(calculateMean(list));
+
+        if (trials.size() != 0) {
+            sDev = Math.sqrt((squareDiff/ (double) trials.size()));//standard deviation
+        }
+        else { sDev = 0; }
+
+        return sDev;
     }
+
     //eden's functions
-    public Double calculateMedianFloat(ArrayList<Float> arrayList)
+    public double calculateMedian(ArrayList<Float> trials)
     {
-        if (arrayList.size() == 0) return Double.NEGATIVE_INFINITY;
+        if (trials.size() == 0) return Double.NEGATIVE_INFINITY;
         //Sort the array
-        Collections.sort(arrayList);
+        Collections.sort(trials);
         //Check is there's a midpoint
-        if (arrayList.size() % 2 != 0) {
-            return (double) arrayList.get(arrayList.size() / 2);
+        if (trials.size() % 2 != 0) {
+            return (double) trials.get(trials.size() / 2);
         }
         //Else calculate the average of inner indices
-        return (double) arrayList.get((int)(Math.floor(arrayList.size() / 2) + Math.ceil(arrayList.size() / 2)) / 2);
+        return (double) trials.get((int)(Math.floor(trials.size() / 2) + Math.ceil(trials.size() / 2)) / 2);
     }
+
+    public double calculateLowerQuart(ArrayList<Float> trials) {
+        if (trials.size() == 0) {
+            return 0;
+        }
+
+        else {
+            int midpoint = (int) Math.floor(trials.size() / 2);
+            double median = calculateMedian((ArrayList<Float>) trials.subList(0, midpoint));
+            return median;
+        }
+    }
+
+    public double calculateUpperQuart(ArrayList<Float> trials) {
+        if (trials.size() == 0) {
+            return 0;
+        }
+
+        else {
+            int midpoint = (int) Math.floor(trials.size() / 2);
+            double median = calculateMedian((ArrayList<Float>) trials.subList(midpoint + 1, trials.size() - 1));
+            return median;
+        }
+    }
+
 }
