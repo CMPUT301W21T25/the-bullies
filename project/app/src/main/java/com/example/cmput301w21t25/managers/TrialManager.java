@@ -76,7 +76,7 @@ public class TrialManager {
         trialDoc.put("published",published);
         trialDoc.put("result",result);
         trialDoc.put("date", new Date());
-        trialDoc.put("GeoPoint", geoPoint);
+        trialDoc.put("geoPoint", geoPoint);
         //experiment.put("comment", ); ill add this later
 
         db.collection("TrialDocs")
@@ -135,7 +135,7 @@ public class TrialManager {
         trialDoc.put("published",published);
         trialDoc.put("result",result);
         trialDoc.put("date", new Date());
-        trialDoc.put("GeoPoint", geoPoint);
+        trialDoc.put("geoPoint", geoPoint);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -198,7 +198,7 @@ public class TrialManager {
         trialDoc.put("published",published);
         trialDoc.put("result",result);
         trialDoc.put("date", new Date());
-        trialDoc.put("GeoPoint", geoPoint);
+        trialDoc.put("geoPoint", geoPoint);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
