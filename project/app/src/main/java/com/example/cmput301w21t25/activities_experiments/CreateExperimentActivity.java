@@ -110,7 +110,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 experimentOwner = (String) document.getData().get("name");
-                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, Region, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials, 0);
+                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, Region, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials);
                                 //
                             }
                         }
