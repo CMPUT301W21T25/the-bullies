@@ -65,7 +65,12 @@ public class AddTrialActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Launches a conduct trial activity based on type of experiment
-                Intent switchScreen = null;
+                Intent switchScreen = new Intent(AddTrialActivity.this, ChooseConductActivity.class);
+                switchScreen.putExtra("USER_ID", userID);
+                switchScreen.putExtra("TRIAL_PARENT", exp);
+                startActivity(switchScreen);
+
+                /*
                 switch (exp.getType()) {
                     case "count":
                         switchScreen = new Intent(AddTrialActivity.this, ConductCountTrialActivity.class);
@@ -92,6 +97,8 @@ public class AddTrialActivity extends AppCompatActivity {
                         startActivity(switchScreen);
                         break;
                 }
+
+                 */
             }
         });
 

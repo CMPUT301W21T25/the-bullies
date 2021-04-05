@@ -18,9 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CMPUT301W21T25">
-        <activity android:name=".activities_qr.GenerateQRActivity">
-
-        </activity>
+        <activity android:name=".activities_trials.ChooseConductActivity"></activity>
+        <activity android:name=".activities_qr.GenerateQRActivity"></activity>
         <activity android:name=".activities_qr.DisplayQRActivity" />
         <!--
          set this to be the icon image!
@@ -62,9 +61,7 @@
         <activity android:name=".activities_trials.ConductMeasurementTrialActivity" />
         <activity android:name=".activities_trials.ConductBinomialTrialActivity" />
         <activity android:name=".activities_trials.ConductNonnegativeCountTrialActivity" />
-        <activity android:name=".activities_qr.ScanQRActivity">
-
-        </activity>
+        <activity android:name=".activities_qr.ScanQRActivity"></activity>
         <activity android:name=".activities_main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
