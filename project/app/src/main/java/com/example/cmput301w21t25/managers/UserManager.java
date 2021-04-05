@@ -1,10 +1,16 @@
 package com.example.cmput301w21t25.managers;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.cmput301w21t25.FirestoreStringCallback;
+import com.example.cmput301w21t25.activities_main.MainActivity;
+import com.example.cmput301w21t25.activities_user.GenerateUserActivity;
 import com.example.cmput301w21t25.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -15,6 +21,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -81,60 +89,59 @@ public class UserManager{
 
     /**
      * @author Curtis Kennedy
-     * this ensures that the user name and email are unique
-     * @param text this is the string value the function will check the uniqueness of (ie: the input username or the input email)
-     * @param type this is the a string that tells the function weather its checking for email or username
+     * this ensures that the user name is unique
+     * @param name this is the string value the function will check the uniqueness of (the username)
      * @return
      */
-    public boolean FB_isUnique(String text, String type) {//is this working?
-        final boolean[] success = {true};
-        //text is the text that you want to make sure is unique, like a username
-        //type is either "userName" or "email" to indicate what are to check for uniqueness
-        if (type.equals("userName")) {
-            //username check
-            Log.i("TYPE OF CHECK", "USERNAME");
-            db.collection("UserProfile")
-                    .whereEqualTo("name", text)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                //fail
-                                Log.i("USERNAME CHECK", "USERNAME IS NOT UNIQUE");
-                                success[0] = false;
-                            }
-                            else {
-                                //yay this name is unique
-                                Log.i("USERNAME CHECK", "USERNAME IS UNIQUE");
-                                success[0] = true;
-                            }
-                        }
-                    });
-        }
-        else {
-            //email check
-            Log.i("TYPE OF CHECK", "EMAIL");
-            db.collection("UserProfile")
-                    .whereEqualTo("email", text)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                //fail
-                                Log.i("EMAIL CHECK", "EMAIL IS NOT UNIQUE");
-                                success[0] = false;
-                            }
-                            else {
-                                //yay this name is unique
-                                Log.i("EMAIL CHECK", "EMAIL IS UNIQUE");
-                                success[0] = true;
-                            }
-                        }
-                    });
-        }
-        return success[0];
+    public void FB_isUnique(String name, String userID, String email, Context context, String mode) {
+        Query query = db.collection("UserProfile").whereEqualTo("name", name);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    String id = "No results";
+                    String nameOnDB = "No results";
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        //this either finds one or 0 docs
+                        id = document.getId();
+                        nameOnDB = document.getString("name");
+                    }
+                    //case 1: You are creating a new user
+                    if (mode.equals("create") && id.equals("No results")) {
+                        //safe to create new user!
+                        User user = new User(name, email);
+                        FB_CreateUserProfile(userID, name, email, user);
+                        Intent intent = new Intent(context, MainActivity.class);
+                        context.startActivity(intent);
+                        Toast.makeText(context, "Profile Created!", Toast.LENGTH_SHORT).show();
+                    }
+                    //case 2: You are updating your email only
+                    else if (mode.equals("update") && userID.equals(id)) {
+                        //the name is the same as your old name
+                        FB_UpdateName(name, userID);
+                        FB_UpdateEmail(email, userID);
+                        ExperimentManager experimentManager = new ExperimentManager();
+                        experimentManager.FB_UpdateName(userID,name);
+                        Toast.makeText(context, "Profile Updated!", Toast.LENGTH_SHORT).show();
+                    }
+                    //case 3: You are updating your name
+                    else if (mode.equals("update") && id.equals("No results")) {
+                        //the name is not taken
+                        FB_UpdateName(name, userID);
+                        FB_UpdateEmail(email, userID);
+                        ExperimentManager experimentManager = new ExperimentManager();
+                        experimentManager.FB_UpdateName(userID,name);
+                        Toast.makeText(context, "Profile Updated!", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(context, "This username is already taken!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Log.d("curtis", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
     }
 
     //UPDATE PROFILE

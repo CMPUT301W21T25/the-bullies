@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_main.MainActivity;
+import com.example.cmput301w21t25.activities_trials.ConductBinomialTrialActivity;
 import com.example.cmput301w21t25.user.User;
 import com.example.cmput301w21t25.managers.UserManager;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,11 +45,12 @@ public class GenerateUserActivity extends AppCompatActivity {
         String userName = name.getText().toString();
         String userEmail = email.getText().toString();
 
-        if (userName != "" && userEmail != "") {
-            FB_CreateUser(userID, userName, userEmail);
-            //launch MainActivity?
-            Intent intent = new Intent(GenerateUserActivity.this, MainActivity.class);
-            startActivity(intent);
+        if (!userName.equals("") && !userEmail.equals("")) {
+            userManager.FB_isUnique(userName, userID, userEmail, this,  "create");
+        }
+        else {
+            //something is null
+            Toast.makeText(GenerateUserActivity.this, "Don't leave fields empty!", Toast.LENGTH_SHORT).show();
         }
 
     }

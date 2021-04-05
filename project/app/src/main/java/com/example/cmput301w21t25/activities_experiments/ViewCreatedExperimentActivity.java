@@ -61,13 +61,14 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         TextView expType = findViewById(R.id.exp_type_text_view);
         TextView minTrials = findViewById(R.id.min_trials_text_view);
         TextView currTrials = findViewById(R.id.current_trials_text_view);
+        TextView region = findViewById(R.id.region_text_view);
 
 //        expName.setText(exp.getName());
 //        expDesc.setText(exp.getDescription());
 //        expType.setText(exp.getType());
 //        minTrials.setText("Minimum Trials: " + String.valueOf(exp.getMinNumTrials()));
 //        currTrials.setText("Current Trials: " + String.valueOf(exp.getCurrentNumTrials()));
-        experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials);
+        experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
 
         editButton.setOnClickListener(new View.OnClickListener() {
