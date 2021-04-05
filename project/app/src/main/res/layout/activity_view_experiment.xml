@@ -109,6 +109,15 @@
             android:text="Region:"
             android:textSize="18sp" />
 
+        <TextView
+            android:id="@+id/geoLoc_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:padding="6dp"
+            android:text="Checking if trials require location..."
+            android:textSize="18sp" />
+
     </LinearLayout>
 
     <Button

@@ -31,9 +31,31 @@ public class SummaryCalulator {
         trialManager.FB_FetchPublishedTrial(exp, new FirestoreTrialCallback() {
             @Override
             public void onCallback(List<Trial> list) {
+                //EDEN LOOK HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 if(list.size()>0){
-                    for (Trial item:list) {
-                        Log.d("YA_TEST:",item.getTrialId());
+                    List<String> types = new ArrayList<String>(){{
+                        add("count");
+                        add("measurement");
+                        add("nonnegative count");
+                    }};
+                    //conditional so binomial's get treated seperatly
+                    if(types.contains(exp.getType())){
+                        //this loop is just used for testing u can delete it later
+                        for (Trial item:list) {
+                            Log.d("YA_TEST:",item.getTrialId());//<----this prints out the trial lists
+                        }
+                        //insert method calls here
+                        //ex: float mean = mean(list)<--------------------------list is an arraylist of trials that u will use
+                        //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
+                    }
+                    else{
+                        //this loop is just used for testing u can delete it later
+                        for (Trial item:list) {
+                            Log.d("YA_TEST:",item.getTrialId());//<----this prints out the trial lists
+                        }
+                        //insert method calls here
+                        //ex: float mean = mean(list)<--------------------------list is an arraylist of trials that u will
+                        //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
                     }
                 }
             }

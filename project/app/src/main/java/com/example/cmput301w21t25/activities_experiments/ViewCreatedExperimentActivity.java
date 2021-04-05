@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_forum.ForumActivity;
 import com.example.cmput301w21t25.activities_main.SearchActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
@@ -48,6 +49,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         final Button editButton = findViewById(R.id.edit_button);
         final Button publishButton = findViewById(R.id.publish_button);
         final Button addTrialButton = findViewById(R.id.add_trial_button);
+        final Button commentsButton = findViewById(R.id.comments_button);
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = unpackExperiment();
@@ -59,13 +61,14 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         TextView expType = findViewById(R.id.exp_type_text_view);
         TextView minTrials = findViewById(R.id.min_trials_text_view);
         TextView currTrials = findViewById(R.id.current_trials_text_view);
+        TextView region = findViewById(R.id.region_text_view);
 
 //        expName.setText(exp.getName());
 //        expDesc.setText(exp.getDescription());
 //        expType.setText(exp.getType());
 //        minTrials.setText("Minimum Trials: " + String.valueOf(exp.getMinNumTrials()));
 //        currTrials.setText("Current Trials: " + String.valueOf(exp.getCurrentNumTrials()));
-        experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials);
+        experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
 
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +92,16 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
                 newTrial.putExtra("USER_ID", userID);
                 newTrial.putExtra("TRIAL_PARENT", exp);
                 startActivity(newTrial);
+            }
+        });
+
+        commentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewComments = new Intent(ViewCreatedExperimentActivity.this, ForumActivity.class);
+                viewComments.putExtra("USER_ID", userID);
+                viewComments.putExtra("FORUM_EXPERIMENT", exp);
+                startActivity(viewComments);
             }
         });
 

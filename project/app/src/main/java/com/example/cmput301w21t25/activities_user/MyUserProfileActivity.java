@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -138,12 +139,13 @@ public class MyUserProfileActivity extends AppCompatActivity {
         String name = newName.getText().toString();
         String email = newEmail.getText().toString();
         UserManager userManager = new UserManager();
-        userManager.FB_UpdateName(name, userID);
-        userManager.FB_UpdateEmail(email, userID);
 
-        ExperimentManager experimentManager = new ExperimentManager();
-        experimentManager.FB_UpdateName(userID,name);
-
-        goBackButton(view);
+        if (!name.equals("") && !email.equals("")) {
+            userManager.FB_isUnique(name, userID, email, this,  "update");
+        }
+        else {
+            //something is null
+            Toast.makeText(MyUserProfileActivity.this, "Don't leave fields empty!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -82,6 +82,8 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
         deviationTextView = findViewById(R.id.stDev);
         successRateTextView = findViewById(R.id.successRate);
 
+        summaryCalulator.FB_UpdateSummaryViews(exp);
+
 
 
 //        switch(type){

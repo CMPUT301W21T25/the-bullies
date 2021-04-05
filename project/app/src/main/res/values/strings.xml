@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CMPUT301W21T25</string>
     <string name="experiment_name_here_hint">Experiment name here...</string>
+    <string name="Region">Region</string>
 </resources>

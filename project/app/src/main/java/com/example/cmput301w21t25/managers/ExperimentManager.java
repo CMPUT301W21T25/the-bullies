@@ -388,7 +388,7 @@ public class ExperimentManager {
         });
     }
 
-    public void FB_UpdateExperimentTextViews(String expID, TextView expName,TextView expDesc,TextView expType,TextView minTrials){
+    public void FB_UpdateExperimentTextViews(String expID, TextView expName,TextView expDesc,TextView expType,TextView minTrials, TextView region){
         db.collection("Experiments").whereEqualTo(FieldPath.documentId(),expID)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -401,6 +401,7 @@ public class ExperimentManager {
                             expDesc.setText(experiment.getDescription());
                             expType.setText(experiment.getType());
                             minTrials.setText("Minimum Trials: " + String.valueOf(experiment.getMinNumTrials()));
+                            region.setText("Region: " + experiment.getRegion());
                             Log.d("YA_DB test: ", "fetched: " + experiment);
                         }
                     }
@@ -431,6 +432,9 @@ public class ExperimentManager {
                 if(doc != null && doc.exists()){
                     ArrayList<String> key = (ArrayList<String>) doc.get("commentKeys");
                     Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    if(key==null){
+                        key= new ArrayList<String>();
+                    }
                     fsCallback.onCallback(key);
                 }
             }

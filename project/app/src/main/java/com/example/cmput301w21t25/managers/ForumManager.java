@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25.managers;
 
+import android.icu.text.UFormat;
 import android.location.Location;
 import android.os.Build;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -48,18 +50,28 @@ public class ForumManager {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Comment> nestedComments(ArrayList<Comment> comments) {
+        Log.d("LOOKATME2:", String.valueOf(comments.size()));
         ArrayList<Comment> orderedForum = new ArrayList<Comment>();
+        ArrayList<Comment> toDelete = new ArrayList<Comment>();
 
         //Sort the comments by date to preserve sensical order
         comments.sort(Comparator.comparing(comment -> comment.getCommentDate()));
+        Log.d("LOOKATME3:", String.valueOf(comments.size()));
 
         //First add new thread comments that have no parents (were passed empty parentID string
         //upon construction)
         for (int i = 0; i < comments.size(); i++) {
+            Log.d("LOOKATME3:", String.valueOf(comments.get(i).getCommentID()));
             Comment comment = comments.get(i);
             if (comment.getCommentParent().equals("")) {
-                orderedForum.add(comments.remove(i));
+                orderedForum.add(comment);
+                toDelete.add(comment);
             }
+        }
+
+        if (toDelete.size() > 0) {
+            comments.removeAll(toDelete);
+            toDelete.clear();
         }
 
         //The outer loop runs while the size of the array of comments passed is greater than zero,
@@ -70,7 +82,6 @@ public class ForumManager {
                 Comment childComment = comments.get(i);
                 //The current child is checked against each existing comment in the orderedForum
                 //list for a parent
-                checkParent:
                 for (int j = 0; j < orderedForum.size(); j++) {
                     Comment parentComment = orderedForum.get(j);
                     //If the parent is found, it is added to the orderedForum list and removed from
@@ -84,13 +95,22 @@ public class ForumManager {
                         //index + its children count, 4 + 3, which means it is at index 7, the
                         //properly ordered index
                         parentComment.setCommentChildren(parentComment.getCommentChildren() + 1);
-                        orderedForum.add((j + parentComment.getCommentChildren()), comments.remove(i));
-                        break checkParent;
+                        orderedForum.add((j + parentComment.getCommentChildren()), childComment);
+                        toDelete.add(childComment);
+                        continue;
                     }
                 }
             }
+            //Delete
+            if (toDelete.size() > 0) {
+                comments.removeAll(toDelete);
+                toDelete.clear();
+            }
         }
 
+        Log.d("LOOKATME4:", String.valueOf(orderedForum.size()));
+        Log.d("LOOKATME5", String.valueOf(orderedForum));
+        //Log.d("EDEN TEST:", String.valueOf(orderedForum));
         return orderedForum;
     }
 
@@ -101,21 +121,16 @@ public class ForumManager {
     /**
      *
      * @param comment
-     * @param commenterName
      * @param commenterID
      * @param commentParent
-     * @param respondingTo
-     * @param commentChildren
      */
-    public void FB_CreateComment(String experimentID, String comment,String commenterName,String commenterID,String commentParent,String respondingTo, String commentChildren){
+    public void FB_CreateComment(String experimentID, String comment,String commenterID,String commentParent,String respondingTo){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("comment", comment);
-        experimentDoc.put("commenterName", commenterName);
+        experimentDoc.put("commenterName", "");
         experimentDoc.put("commenterID", commenterID);
         experimentDoc.put("commentParent",commentParent);
-        experimentDoc.put("respondingTo",respondingTo);
-        experimentDoc.put("commentChildren",commentChildren);
         experimentDoc.put("commentDate", new Date());
 
         // Add a new Experiment with a generated ID
@@ -135,6 +150,13 @@ public class ForumManager {
                                             if(document.exists()){
                                                 ArrayList<String> currentComments = (ArrayList<String>)document.getData().get("commentKeys");
                                                 currentComments.add(documentReference.getId());
+                                                UserManager mana = new UserManager();
+                                                mana.FB_FetchUserInfo(commenterID, new FirestoreStringCallback() {
+                                                    @Override
+                                                    public void onCallback(ArrayList<String> list) {
+                                                        documentReference.update("commenterName", list.get(1));
+                                                    }
+                                                });
                                                 expManager.FB_UpdateCommentKeys(currentComments,experimentID);
                                             }
                                         }
@@ -179,18 +201,32 @@ public class ForumManager {
         expManager.FB_FetchCommentKeys(exp.getFb_id(), new FirestoreStringCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
-                if(list.size()>0){
+                Log.d("FORUM_TEST2:", String.valueOf(list));
+                if(!list.isEmpty()){
                     Log.d("YA-DB TEST: ", "calling the fetch" );
                     db.collection("Comments").whereIn(FieldPath.documentId(),list)
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @RequiresApi(api = Build.VERSION_CODES.N)
                                 @Override
                                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                    comments.clear();
                                     for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                                         Comment temp =doc.toObject(Comment.class);
                                         temp.setCommentID(doc.getId());
                                         comments.add(temp);
                                         commentAdapter.notifyDataSetChanged();
                                     }
+                                    Log.d("LOOKATME:", String.valueOf(comments.size()));
+                                    ArrayList<Comment> sorted = nestedComments(comments);
+                                    comments.addAll(sorted);
+                                    commentAdapter.notifyDataSetChanged();
+                                    /*ArrayList<Comment> sorted = nestedComments(comments);
+                                    Log.d("CATS", String.valueOf(sorted));
+                                    comments.clear();
+                                    Log.d("CLEARED", "got here");
+                                    comments.addAll(sorted);
+                                    commentAdapter.notifyDataSetChanged();
+                                     */
                                 }
                             });
                 }
