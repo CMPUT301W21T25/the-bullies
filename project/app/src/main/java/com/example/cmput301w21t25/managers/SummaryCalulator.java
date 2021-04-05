@@ -5,6 +5,8 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.Nullable;
 
+import com.example.cmput301w21t25.FirestoreBoolCallback;
+import com.example.cmput301w21t25.FirestoreFloatCallback;
 import com.example.cmput301w21t25.FirestoreStringCallback;
 import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -28,49 +30,79 @@ public class SummaryCalulator {
 
 
     public void FB_UpdateSummaryViews(Experiment exp){
-        trialManager.FB_FetchPublishedTrial(exp, new FirestoreTrialCallback() {
-            @Override
-            public void onCallback(List<Trial> list) {
-                //EDEN LOOK HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                if(list.size()>0){
-                    List<String> types = new ArrayList<String>(){{
-                        add("count");
-                        add("measurement");
-                        add("nonnegative count");
-                    }};
-                    //conditional so binomial's get treated seperatly
-                    if(types.contains(exp.getType())){
-                        //this loop is just used for testing u can delete it later
-                        for (Trial item:list) {
-                            Log.d("YA_TEST:",item.getTrialId());//<----this prints out the trial lists
-                        }
+        List<String> types = new ArrayList<String>(){{
+            add("count");
+            add("measurement");
+            add("nonnegative count");
+        }};
+        if(types.contains(exp.getType())){
+            trialManager.FB_FetchPublishedMesValues(exp, new FirestoreFloatCallback() {
+                @Override
+                public void onCallback(ArrayList<Float> list) {
+                    if(list.size()>0){
                         //insert method calls here
                         //ex: float mean = mean(list)<--------------------------list is an arraylist of trials that u will use
-                        float mean = calculateMean(trialList);
+                        float mean = calculateMean(list);
                         Log.d("OUTPUT_MEAN", String.valueOf(mean));
-                        double median = calculateMedian(trialList);
+                        double median = calculateMedian(list);
                         Log.d("OUTPUT_MEDIAN", String.valueOf(median));
-                        double sDev = calculateSD(trialList);
+                        double sDev = calculateSD(list);
                         Log.d("OUTPUT_STANDARD_DEV", String.valueOf(sDev));
-                        double lowerQuart = calculateLowerQuart(trialList);
-                        Log.d("OUTPUT_LOWER_QUART", String.valueOf(lowerQuart));
-                        double upperQuart = calculateUpperQuart(trialList);
-                        Log.d("OUTPUT_UPPER_QUART", String.valueOf(upperQuart));
-                        //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
-                    }
-                    else{
-                        //this loop is just used for testing u can delete it later
-                        for (Trial item:list) {
-                            Log.d("YA_TEST:",item.getTrialId());//<----this prints out the trial lists
-                        }
-                        //insert method calls here
-                        //ex: float mean = mean(list)<--------------------------list is an arraylist of trials that u will
+//                        double lowerQuart = calculateLowerQuart(list);
+//                        Log.d("OUTPUT_LOWER_QUART", String.valueOf(lowerQuart));
+//                        double upperQuart = calculateUpperQuart(list);
+//                        Log.d("OUTPUT_UPPER_QUART", String.valueOf(upperQuart));
                         //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
                     }
                 }
-            }
-        });
+            });
+        }
+        else{
+            trialManager.FB_FetchPublishedBoolValues(exp, new FirestoreBoolCallback() {
+                @Override
+                public void onCallback(ArrayList<Boolean> list) {
+                    //<<<-------------THROW BOOLEAN STUFF HERE!!!!!!!!!!!!!!!!!!!!!!!!!
+                }
+            });
+        }
     }
+    //    public void FB_UpdateSummaryViews(Experiment exp){
+//        trialManager.FB_FetchPublishedTrialValues(exp, new FirestoreTrialCallback() {
+//            @Override
+//            public void onCallback(List<Float> list) {
+//                //EDEN LOOK HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//                if(list.size()>0){
+//                    List<String> types = new ArrayList<String>(){{
+//                        add("count");
+//                        add("measurement");
+//                        add("nonnegative count");
+//                    }};
+//                    if(types.contains(exp.getType())){
+//                        //insert method calls here
+//                        //ex: float mean = mean(list)<--------------------------list is an arraylist of trials that u will use
+//                        float mean = calculateMean(list);
+//                        Log.d("OUTPUT_MEAN", String.valueOf(mean));
+//                        double median = calculateMedian(list);
+//                        Log.d("OUTPUT_MEDIAN", String.valueOf(median));
+//                        double sDev = calculateSD(list);
+//                        Log.d("OUTPUT_STANDARD_DEV", String.valueOf(sDev));
+//                        double lowerQuart = calculateLowerQuart(list);
+//                        Log.d("OUTPUT_LOWER_QUART", String.valueOf(lowerQuart));
+//                        double upperQuart = calculateUpperQuart(list);
+//                        Log.d("OUTPUT_UPPER_QUART", String.valueOf(upperQuart));
+//                        //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
+//                    }
+//                    else{
+//                        //this loop is just used for testing u can delete it later
+//                        //insert method calls here
+//                        //ex: float mean = mean(list)<--------------------------list is an arraylist of trials that u will
+//                        //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
+//                    }
+//                }
+//            }
+//        });
+//    }
+
 
     //cite:https://stackoverflow.com/questions/37930631/standard-deviation-of-an-arraylist
     //I totally changed it so I don't think we have to?

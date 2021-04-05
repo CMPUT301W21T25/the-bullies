@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.cmput301w21t25.FirestoreBoolCallback;
+import com.example.cmput301w21t25.FirestoreFloatCallback;
 import com.example.cmput301w21t25.FirestoreStringCallback;
 import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -387,6 +389,9 @@ public class TrialManager {
                                 }
                             });
                 }
+                else{
+                    currTrials.setText("Current Trials: 0");
+                }
 
             }
         });
@@ -426,6 +431,49 @@ public class TrialManager {
                             firestoreTrialCallback.onCallback(trialList);
                         }
                     });
+            }
+        });
+    }
+    public void FB_FetchPublishedMesValues(Experiment exp, FirestoreFloatCallback firestoreTrialCallback){
+        expManager.FB_FetchTrialKeys(exp.getFb_id(), new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                ArrayList<Float> trialList = new ArrayList<Float>();
+                Log.d("TESTING_LIST:", String.valueOf(list));
+                db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                                    MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
+                                    //Log.d("YA_TEST:",countParent.getTrialId());
+                                    Log.d("OUTPUT_VAL", String.valueOf(measurableTrial.getResult()));
+                                    trialList.add(measurableTrial.getResult());
+                                }
+                                firestoreTrialCallback.onCallback(trialList);
+                            }
+                        });
+            }
+        });
+    }
+    public void FB_FetchPublishedBoolValues(Experiment exp, FirestoreBoolCallback firestoreTrialCallback){
+        expManager.FB_FetchTrialKeys(exp.getFb_id(), new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                ArrayList<Boolean> trialList = new ArrayList<Boolean>();
+                Log.d("TESTING_LIST:", String.valueOf(list));
+                db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                                    NonMeasurableTrial measurableTrial = doc.toObject(NonMeasurableTrial.class);
+                                    //Log.d("YA_TEST:",countParent.getTrialId());
+                                    trialList.add(measurableTrial.getResult());
+                                }
+                                firestoreTrialCallback.onCallback(trialList);
+                            }
+                        });
             }
         });
     }
