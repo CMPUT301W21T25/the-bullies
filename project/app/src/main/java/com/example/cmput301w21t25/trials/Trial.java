@@ -29,6 +29,7 @@ public abstract class Trial implements Serializable {
     private Boolean published;
     private Date date;
     private String trialId;
+    private String type;
 
     /****************************************
                 CONSTRUCTORS
@@ -131,5 +132,13 @@ public abstract class Trial implements Serializable {
 
     public void setGeoPoint(GeoPoint geoPoint) {
         this.geoPoint = geoPoint;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

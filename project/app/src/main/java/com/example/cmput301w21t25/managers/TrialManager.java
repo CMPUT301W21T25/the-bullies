@@ -350,6 +350,7 @@ public class TrialManager {
                                             if(types.contains(type)){
                                                 MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
                                                 measurableTrial.setTrialId(doc.getId());
+                                                measurableTrial.setType("measurable");
                                                 trials.add(measurableTrial);
                                                 trialAdapter.notifyDataSetChanged();
                                                 Log.d("YA-DB: ", String.valueOf(trials));
@@ -357,6 +358,7 @@ public class TrialManager {
                                             else{
                                                 NonMeasurableTrial nonmeasurableTrial = doc.toObject(NonMeasurableTrial.class);
                                                 nonmeasurableTrial.setTrialId(doc.getId());
+                                                nonmeasurableTrial.setType("non-measurable");
                                                 trials.add(nonmeasurableTrial);
                                                 trialAdapter.notifyDataSetChanged();
                                             }
@@ -407,16 +409,18 @@ public class TrialManager {
                             for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                                 String type = exp.getType();
                                 if(types.contains(type)){
-                                    MeasurableTrial countParent = doc.toObject(MeasurableTrial.class);
-                                    countParent.setTrialId(doc.getId());
+                                    MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
+                                    measurableTrial.setTrialId(doc.getId());
+                                    measurableTrial.setType("measurable");
                                     //Log.d("YA_TEST:",countParent.getTrialId());
-                                    trialList.add(countParent);
+                                    trialList.add(measurableTrial);
                                 }
                                 else{
-                                    NonMeasurableTrial binomialParent = doc.toObject(NonMeasurableTrial.class);
-                                    binomialParent.setTrialId(doc.getId());
+                                    NonMeasurableTrial nonmeasurableTrial = doc.toObject(NonMeasurableTrial.class);
+                                    nonmeasurableTrial.setTrialId(doc.getId());
+                                    nonmeasurableTrial.setType("measurable");
                                     //Log.d("YA_TEST:",binomialParent.getTrialId());
-                                    trialList.add(binomialParent);
+                                    trialList.add(nonmeasurableTrial);
                                 }
                             }
                             firestoreTrialCallback.onCallback(trialList);
