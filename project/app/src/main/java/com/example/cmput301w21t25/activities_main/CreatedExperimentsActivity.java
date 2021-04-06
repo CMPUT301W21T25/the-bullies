@@ -13,12 +13,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.cmput301w21t25.CustomToolbar;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
 import com.example.cmput301w21t25.activities_experiments.ViewCreatedExperimentActivity;
@@ -33,7 +31,7 @@ import java.util.ArrayList;
 /**
  * this activity shows a list of all the experiments this user has created
  */
-public class HomeOwnedActivity extends AppCompatActivity {
+public class CreatedExperimentsActivity extends AppCompatActivity {
 
     private ListView ownedExperimentsListView;
     private ArrayList<Experiment> ownedExperimentsList;
@@ -97,7 +95,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
 
 
 
-                Intent viewExp = new Intent(HomeOwnedActivity.this, ViewCreatedExperimentActivity.class);
+                Intent viewExp = new Intent(CreatedExperimentsActivity.this, ViewCreatedExperimentActivity.class);
 
                 Bundle expBundle = new Bundle();
                 expBundle.putSerializable("EXP_OBJ", experiment);
@@ -113,7 +111,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
         createExperimentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent newExp = new Intent(HomeOwnedActivity.this, CreateExperimentActivity.class);
+                Intent newExp = new Intent(CreatedExperimentsActivity.this, CreateExperimentActivity.class);
                 newExp.putExtra("USER_ID", userID);
                 startActivity(newExp);
             }
@@ -136,7 +134,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
             case R.id.home_button:
                 return true;
             case R.id.settings_button:
-                Intent user_settings = new Intent(HomeOwnedActivity.this, MyUserProfileActivity.class);
+                Intent user_settings = new Intent(CreatedExperimentsActivity.this, MyUserProfileActivity.class);
                 user_settings.putExtra("userID", userID);
                 user_settings.putExtra("prevScreen", "Owned");
                 startActivity(user_settings);
@@ -167,7 +165,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 }
 
                 if (x1 > (x2)) {
-                    Intent switchScreen = new Intent(HomeOwnedActivity.this, HomeSubbedActivity.class);
+                    Intent switchScreen = new Intent(CreatedExperimentsActivity.this, SubbedExperimentsActivity.class);
                     switchScreen.putExtra("USER_ID", userID);
                     startActivity(switchScreen);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

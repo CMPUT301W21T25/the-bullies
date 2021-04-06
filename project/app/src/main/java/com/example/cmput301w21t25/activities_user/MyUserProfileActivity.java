@@ -13,12 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
-import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
-import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
-import com.example.cmput301w21t25.activities_main.SearchActivity;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
+import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
+import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
-import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -96,11 +95,11 @@ public class MyUserProfileActivity extends AppCompatActivity {
         Intent intent = null;
         switch (prevScreen) {
             case "Owned":
-                intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
+                intent = new Intent(MyUserProfileActivity.this, CreatedExperimentsActivity.class);
                 Log.i("curtis", "going back to owned");
                 break;
             case "Subbed":
-                intent = new Intent(MyUserProfileActivity.this, HomeSubbedActivity.class);
+                intent = new Intent(MyUserProfileActivity.this, SubbedExperimentsActivity.class);
                 Log.i("curtis", "going back to subbed");
                 break;
             case "Experiment":
@@ -110,7 +109,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
                 Log.i("curtis", "going back to viewing an experiment");
                 break;
             case "Browse":
-                intent = new Intent(MyUserProfileActivity.this, SearchActivity.class);
+                intent = new Intent(MyUserProfileActivity.this, SearchExperimentsActivity.class);
                 Log.i("curtis", "going back to browse page");
                 break;
             case "AddTrial":
@@ -121,7 +120,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
                 break;
 
             default:
-                intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
+                intent = new Intent(MyUserProfileActivity.this, CreatedExperimentsActivity.class);
                 Log.i("curtis", "going back to default owned");
         }
 

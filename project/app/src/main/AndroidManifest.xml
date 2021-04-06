@@ -43,11 +43,11 @@
         <activity android:name=".activities_user.GenerateUserActivity" />
 
 
-        <activity android:name=".activities_main.HomeSubbedActivity"
+        <activity android:name=".activities_main.SubbedExperimentsActivity"
             android:label="Subscribed Experiments"/>
-        <activity android:name=".activities_main.SearchActivity"
+        <activity android:name=".activities_main.SearchExperimentsActivity"
             android:label="Search for Experiment"/>
-        <activity android:name=".activities_main.HomeOwnedActivity"
+        <activity android:name=".activities_main.CreatedExperimentsActivity"
             android:label="Created Experiments"/>
         <activity android:name=".activities_forum.ForumActivity" />
         <activity android:name=".activities_forum.NewReplyActivity" />

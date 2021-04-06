@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
+import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -173,7 +173,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                     }
                 });
 
-        Intent intent = new Intent(ViewExperimentActivity.this, HomeSubbedActivity.class);
+        Intent intent = new Intent(ViewExperimentActivity.this, SubbedExperimentsActivity.class);
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
 

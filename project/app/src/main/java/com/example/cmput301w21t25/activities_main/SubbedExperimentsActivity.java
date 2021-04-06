@@ -3,39 +3,28 @@ package com.example.cmput301w21t25.activities_main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewSubbedExperimentActivity;
-import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
-import com.example.cmput301w21t25.managers.UserManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 /**
  * this activity shows a list of all the experiments this user is subscribed to
  */
-public class HomeSubbedActivity extends AppCompatActivity {
+public class SubbedExperimentsActivity extends AppCompatActivity {
 
     private ListView subbedExperimentsList;
     private ArrayAdapter<Experiment> experimentAdapter;
@@ -91,7 +80,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("DK: ", "Position clicked = " + position);
                 Experiment experiment = (Experiment) subbedExperimentsList.getItemAtPosition(position);
-                Intent viewExp = new Intent(HomeSubbedActivity.this, ViewSubbedExperimentActivity.class);
+                Intent viewExp = new Intent(SubbedExperimentsActivity.this, ViewSubbedExperimentActivity.class);
 
                 Bundle expBundle = new Bundle();
                 expBundle.putSerializable("EXP_OBJ", experiment);
@@ -106,7 +95,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
         browseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent switchScreen = new Intent(HomeSubbedActivity.this, SearchActivity.class);
+                Intent switchScreen = new Intent(SubbedExperimentsActivity.this, SearchExperimentsActivity.class);
                 switchScreen.putExtra("USER_ID", userID);
                 startActivity(switchScreen);
             }
@@ -138,7 +127,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
                 }
 
                 if (x1 < (x2)) {
-                    Intent switchScreen = new Intent(HomeSubbedActivity.this, HomeOwnedActivity.class);
+                    Intent switchScreen = new Intent(SubbedExperimentsActivity.this, CreatedExperimentsActivity.class);
                     switchScreen.putExtra("USER_ID", userID);
                     startActivity(switchScreen);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
