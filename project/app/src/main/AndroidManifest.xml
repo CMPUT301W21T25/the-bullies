@@ -48,6 +48,8 @@
             android:label="Search for Experiment"/>
         <activity android:name=".activities_main.HomeOwnedActivity"
             android:label="Created Experiments"/>
+        <activity android:name=".activities_graphs.HistogramActivity"/>
+        <activity android:name=".activities_graphs.PlotActivity"/>
         <activity android:name=".activities_forum.ForumActivity" />
         <activity android:name=".activities_forum.NewReplyActivity" />
         <activity android:name=".activities_forum.NewCommentActivity" />

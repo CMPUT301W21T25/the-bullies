@@ -1,7 +1,3 @@
-/**
- * This class creates a fragment which allows the user to select which type of graph they would like
- * to view.
- */
 package com.example.cmput301w21t25.histograms;
 
 import android.app.AlertDialog;
@@ -19,7 +15,10 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.cmput301w21t25.FilterSearchFragment;
 import com.example.cmput301w21t25.R;
-
+/**
+ * This class creates a fragment which allows the user to select which type of graph they would like
+ * to view.
+ */
 public class HistogramFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
     Button graphButton;
@@ -32,7 +31,7 @@ public class HistogramFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof FilterSearchFragment.OnFragmentInteractionListener){
+        if(context instanceof HistogramFragment.OnFragmentInteractionListener){
             listener = (HistogramFragment.OnFragmentInteractionListener) context;
         }
         else{
@@ -69,6 +68,7 @@ public class HistogramFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
+                .setNegativeButton("CANCEL", null)
                 .create();
     }
 }

@@ -14,6 +14,7 @@ public class HistogramManager {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TrialManager trialManager = new TrialManager();
+
     public void FB_UpdateSummaryViews(Experiment exp){
         List<String> types = new ArrayList<String>(){{
             add("count");

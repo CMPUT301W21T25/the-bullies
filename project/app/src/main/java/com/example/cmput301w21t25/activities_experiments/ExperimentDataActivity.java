@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.activities_graphs.HistogramActivity;
 import com.example.cmput301w21t25.histograms.HistogramFragment;
 import com.example.cmput301w21t25.location.Maps;
 import com.example.cmput301w21t25.managers.SummaryCalulator;
@@ -161,8 +162,7 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
         //                                  END LOCATION OnCreate
         //-----------------------------------------------------------------------------
 
-        //                                  GRAPH onCreate
-        //------------------------------------------------------------------------------
+        //----------------------------------GRAPH onCreate-----------------------------
         Button histograms = (Button) findViewById(R.id.viewGraphsButton);
         histograms.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +170,8 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
                 new HistogramFragment().show(getSupportFragmentManager(),"HISTOGRAM");
             }
         });
+
+        //----------------------------------END GRAPH onCreate-------------------------
     }
 
 
@@ -440,12 +442,24 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
 
     @Override
     public void onButtonPressed(Button button) {
-        if(button.getText() == "Graph"){
-            Intent intent = new Intent();
+        Intent intent;
+        intent = new Intent(ExperimentDataActivity.this, HistogramActivity.class);
+//        if(button.getText() == "Graph"){
+//            intent = new Intent(ExperimentDataActivity.this, BarChart.class);
+//        }
+//        else{
+//            intent = new Intent(ExperimentDataActivity.this, Plot.class);
+//        }
 
-        }
-        else{
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("EXP", exp);
+        Log.d("ExpBundleToHistogram", exp.toString());
 
-        }
+        bundle.putString("TYPE", type);
+        Log.d("WHAT_IS_TYPE", type);
+
+        intent.putExtra("EXP_BUNDLE", bundle);
+        startActivity(intent);
+
     }
 }
