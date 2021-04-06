@@ -138,6 +138,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
         EditText newEmail = findViewById(R.id.updateEmail);
         String name = newName.getText().toString();
         String email = newEmail.getText().toString();
+        UserManager userManager = new UserManager();
 
         if (!name.equals("") && !email.equals("")) {
             userManager.FB_isUnique(name, userID, email, this,  "update");
