@@ -79,28 +79,35 @@ public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
         trialHeader.setSubtitle(trialParent.getOwner());
         description.setText(trialParent.getDescription());
 
+        Toast toast = Toast.makeText(getApplicationContext(), "The count number are required", Toast.LENGTH_LONG);
+
         //On click, confirm trial, return to trial list view
         submitTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!trialParent.isGeoEnabled() || getLocation() != null) { //check if we dont need a location or if we have one
-                    //Intent return to list view and add to trial list
-                    countString = countDisplay.getText().toString();
-                    count = Integer.parseInt(countString);
-                    //Since get returns null if we dont have a location, create a null geopoint instead
-                    GeoPoint geoPoint = null;
-                    if (trialParent.isGeoEnabled()) {
-                        geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
+
+                if(countDisplay.getText().length()>0){
+                    if (!trialParent.isGeoEnabled() || getLocation() != null) { //check if we dont need a location or if we have one
+                        //Intent return to list view and add to trial list
+                        countString = countDisplay.getText().toString();
+                        count = Integer.parseInt(countString);
+                        //Since get returns null if we dont have a location, create a null geopoint instead
+                        GeoPoint geoPoint = null;
+                        if (trialParent.isGeoEnabled()) {
+                            geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
+                        }
+                        trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, count, trialParent, geoPoint);
+                        Intent switchScreen = new Intent(ConductNonnegativeCountTrialActivity.this, AddTrialActivity.class);
+                        switchScreen.putExtra("USER_ID", userID);
+                        switchScreen.putExtra("TRIAL_PARENT", trialParent);
+                        startActivity(switchScreen);
                     }
-                    trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, count, trialParent, geoPoint);
-                    Intent switchScreen = new Intent(ConductNonnegativeCountTrialActivity.this, AddTrialActivity.class);
-                    switchScreen.putExtra("USER_ID", userID);
-                    switchScreen.putExtra("TRIAL_PARENT", trialParent);
-                    startActivity(switchScreen);
-                }
-                else {
-                    //call toast that says you need a location
-                    Toast.makeText(ConductNonnegativeCountTrialActivity.this, "This experiment requires a location!", Toast.LENGTH_SHORT).show();
+                    else {
+                        //call toast that says you need a location
+                        Toast.makeText(ConductNonnegativeCountTrialActivity.this, "This experiment requires a location!", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    toast.show();
                 }
             }
         });
