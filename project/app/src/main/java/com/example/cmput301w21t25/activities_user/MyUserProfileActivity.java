@@ -140,14 +140,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
         String email = newEmail.getText().toString();
 
         if(name.length()>0 && email.length()>0){
-            UserManager userManager = new UserManager();
-            userManager.FB_UpdateName(name, userID);
-            userManager.FB_UpdateEmail(email, userID);
-
-            ExperimentManager experimentManager = new ExperimentManager();
-            experimentManager.FB_UpdateName(userID);
-
-            goBackButton(view);
+            userManager.FB_isUnique(name, userID, email, this,  "update");
         }else{
             Toast toast = Toast.makeText(getApplicationContext(), "Please don't leave profile empty", Toast.LENGTH_LONG);
             toast.show();
