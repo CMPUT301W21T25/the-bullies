@@ -2,16 +2,25 @@ package com.example.cmput301w21t25.managers;
 
 import android.location.Location;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.example.cmput301w21t25.FirestoreExperimentCallback;
+import com.example.cmput301w21t25.FirestoreStringCallback;
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -31,12 +40,15 @@ public class ExperimentManager {
      * @author:Yalmaz Abdullah
      * todo: update comments, add security and exceptions, complete incomplete methods,CHECK IF THIS STUFF WORKS RIGHT
      * */
-    //ATTRIBUTES
+    //
+    // ATTRIBUTES
+    //
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String fb_expID = "";
     private UserManager userManager= new UserManager();
-  
-    //CREATE EXPERIMENT
+    //
+    // CREATE EXPERIMENT
+    //
     /**
      * This method creates an Experiment Document in the database that can later be recompiled into one of the Experiment Class's children
      * @param ownerID the ID of the user who is creating the experiment
@@ -50,18 +62,16 @@ public class ExperimentManager {
      * @param type the type of experiment(ie: count, nonNegCount, binomial etc)
      * @param date the date and time of creation of the experiment
      * @param minTrials the minimum number of trials required to end an experiment
-     * @param pubTrials the current number of published trials an experiment has
      */
     public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName,
-                                    String description, Location region, ArrayList<String> tags,
+                                    String description, String region, ArrayList<String> tags,
                                     Boolean geoEnabled, Boolean published, String type, Date date,
-                                    int minTrials, int pubTrials){
+                                    int minTrials){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("ownerID", ownerID);
         experimentDoc.put("name",experimentName);
         experimentDoc.put("minNumTrials", minTrials);
-        experimentDoc.put("publishedTrials", pubTrials);
         experimentDoc.put("owner",ownerName);
         experimentDoc.put("description",description);
         experimentDoc.put("region",region);
@@ -72,6 +82,7 @@ public class ExperimentManager {
         experimentDoc.put("published",published);
         experimentDoc.put("isEnded",false);
         experimentDoc.put("trialKeys", Arrays.asList());//cause an experiment should start empty
+        experimentDoc.put("commentKeys", Arrays.asList());//cause an experiment should start empty
 
         //experiment.put("comment", ); ill add this later
 
@@ -111,33 +122,16 @@ public class ExperimentManager {
                     }
                 });
     }
-
-
-    public void FB_UpdateName(String OwnerID) {
+    //
+    // UPDATE EXPERIMENT
+    //
+    /**
+     * this method updates the name of owner stored in the database by getting the user name o
+     * @param ownerID id of the user whose name is to be updated
+     */
+    public void FB_UpdateName(String ownerID,String name) {
         //needs an owner id to update their experiments
         //grabs their current name, changes them on experiments
-        DocumentReference docRef = db.collection("UserProfile").document(OwnerID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        String name = document.getString("name");
-                        FB_changeName(OwnerID, name);
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
-
-    public void FB_changeName(String ownerID, String name) {
-        //do not use this method by itself
         db.collection("Experiments")
                 .whereEqualTo("ownerID", ownerID)
                 .get()
@@ -155,9 +149,6 @@ public class ExperimentManager {
                     }
                 });
     }
-
-
-    //UPDATE EXPERIMENT
     /**
      * This method updates the description of the experiment
      * @param description new description
@@ -198,7 +189,6 @@ public class ExperimentManager {
                     }
                 });
     }
-
     /**
      * This method updates the geoEnabled boolean
      * @param geoEnabled this is the new geoEnabled boolean
@@ -266,7 +256,7 @@ public class ExperimentManager {
      * @param conductedTrials this is the new list of conducted trials
      * @param id this is the id of experiment you want to update
      */
-    public void FB_UpdateConductedTrials(ArrayList<String> conductedTrials,String id){
+    public void FB_UpdateTrialKeys(ArrayList<String> conductedTrials,String id){
         DocumentReference docRef = db.collection("Experiments").document(id);
         docRef
                 .update("trialKeys", conductedTrials)
@@ -281,11 +271,10 @@ public class ExperimentManager {
                     }
                 });
     }
-
-    public void FB_UpdatePublishedTrials(int publishedTrials, String id){
+    public void FB_UpdateCommentKeys(ArrayList<String> comments,String id){
         DocumentReference docRef = db.collection("Experiments").document(id);
         docRef
-                .update("publishedTrials", publishedTrials)
+                .update("commentKeys", comments)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -297,7 +286,165 @@ public class ExperimentManager {
                     }
                 });
     }
+    //
+    // UPDATE OBSERVERS
+    //
+    /**
+     *
+     * @param userID
+     * @param experimentAdapter
+     * @param experiments
+     */
+    public void FB_UpdateOwnedExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
+        userManager.FB_FetchOwnedExperimentKeys(userID, new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                if(list.size()>0){
+                    Log.d("YA-DB: ", "calling the fetch" );
+                    db.collection("Experiments").whereIn(FieldPath.documentId(),list)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                    experiments.clear();
+                                    experimentAdapter.notifyDataSetChanged();
+                                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                                    {
+                                        Experiment experiment = doc.toObject(Experiment.class);
+                                        experiment.setFb_id(doc.getId());
+                                        experiments.add(experiment);
+                                        experimentAdapter.notifyDataSetChanged();
+                                        Log.d("YA-DB: ", "fetched: " + experiments);
+                                    }
+                                }
+                            });
+                }
 
+            }
+        });
+
+    }
+
+    /**
+     *
+     * @param userID
+     * @param experimentAdapter
+     * @param experiments
+     */
+    public void FB_UpdateSubbedExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments){
+        userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                if(list.size()>0){
+                    Log.d("YA-DB: ", "calling the fetch" );
+                    db.collection("Experiments").whereIn(FieldPath.documentId(),list)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                    experiments.clear();
+                                    experimentAdapter.notifyDataSetChanged();
+                                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                                    {
+                                        Experiment experiment = doc.toObject(Experiment.class);
+                                        experiment.setFb_id(doc.getId());
+                                        if (experiment.isPublished()) {
+                                            experiments.add(experiment);
+                                            experimentAdapter.notifyDataSetChanged();
+                                        }
+                                        Log.d("YA-DB: ", "fetched: " + experiments);
+                                    }
+                                }
+                            });
+                }
+
+            }
+        });
+    }
+    public void FB_UpdateBrowseExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments, FirestoreExperimentCallback fsCallBack){
+        userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                if(list.size()>0){
+                    Log.d("YA-DB: ", "calling the fetch" );
+                    db.collection("Experiments").whereNotIn(FieldPath.documentId(),list).whereEqualTo("published", true)
+                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            experiments.clear();
+                            experimentAdapter.notifyDataSetChanged();
+                            for(QueryDocumentSnapshot doc: task.getResult())
+                            {
+                                Experiment experiment = doc.toObject(Experiment.class);
+                                experiment.setFb_id(doc.getId());
+                                experiments.add(experiment);
+                                experimentAdapter.notifyDataSetChanged();
+                                Log.d("YA-DBS: ", "fetched: " + experiments);
+                                fsCallBack.onCallback(experiments);
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+    }
+
+    public void FB_UpdateExperimentTextViews(String expID, TextView expName,TextView expDesc,TextView expType,TextView minTrials, TextView region){
+        db.collection("Experiments").whereEqualTo(FieldPath.documentId(),expID)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                        {
+                            Experiment experiment = doc.toObject(Experiment.class);
+                            experiment.setFb_id(doc.getId());
+                            expName.setText(experiment.getName());
+                            expDesc.setText(experiment.getDescription());
+                            expType.setText(experiment.getType());
+                            minTrials.setText("Minimum Trials: " + String.valueOf(experiment.getMinNumTrials()));
+                            region.setText("Region: " + experiment.getRegion());
+                            Log.d("YA_DB test: ", "fetched: " + experiment);
+                        }
+                    }
+                });
+    }
+
+    /**
+     *
+     * @param id
+     * @param fsCallback
+     */
+    public void FB_FetchTrialKeys(String id, FirestoreStringCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
+        db.collection("Experiments").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                if(doc != null && doc.exists()){
+                    ArrayList<String> key = (ArrayList<String>) doc.get("trialKeys");
+                    Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    if(key==null){
+                        key= new ArrayList<String>();
+                        key.add("");
+                    }
+                    fsCallback.onCallback(key);
+                }
+            }
+        });
+    }
+    public void FB_FetchCommentKeys(String id, FirestoreStringCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
+        db.collection("Experiments").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                if(doc != null && doc.exists()){
+                    ArrayList<String> key = (ArrayList<String>) doc.get("commentKeys");
+                    Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    if(key==null){
+                        key= new ArrayList<String>();
+                        key.add("");
+                    }
+                    fsCallback.onCallback(key);
+                }
+            }
+        });
+    }
     /**
      * End of database stuff -YA
      * */

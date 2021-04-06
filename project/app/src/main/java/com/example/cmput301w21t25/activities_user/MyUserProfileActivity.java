@@ -138,6 +138,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
         EditText newEmail = findViewById(R.id.updateEmail);
         String name = newName.getText().toString();
         String email = newEmail.getText().toString();
+
         if(name.length()>0 && email.length()>0){
             UserManager userManager = new UserManager();
             userManager.FB_UpdateName(name, userID);

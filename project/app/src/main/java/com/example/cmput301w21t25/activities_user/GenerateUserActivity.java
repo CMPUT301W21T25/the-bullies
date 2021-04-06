@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_main.MainActivity;
+import com.example.cmput301w21t25.activities_trials.ConductBinomialTrialActivity;
 import com.example.cmput301w21t25.user.User;
 import com.example.cmput301w21t25.managers.UserManager;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +33,24 @@ public class GenerateUserActivity extends AppCompatActivity {
         //this can be called on click when
         //FB_CreateUser(userID);
         //finish();
+
+        Button done = findViewById(R.id.makeUserButton);
+        Button skip = findViewById(R.id.skipProfileCreationButton);
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createUserButton(v);
+            }
+        });
+
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createUserButton(v);
+            }
+        });
+
     }
 
     /**
@@ -43,14 +63,14 @@ public class GenerateUserActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.userEmail);
         String userName = name.getText().toString();
         String userEmail = email.getText().toString();
-        Toast toast = Toast.makeText(getApplicationContext(), "Please don't leave any blank", Toast.LENGTH_LONG);
-        if (userName != "" && userEmail != "") {
-            FB_CreateUser(userID, userName, userEmail);
-            //launch MainActivity?
-            Intent intent = new Intent(GenerateUserActivity.this, MainActivity.class);
-            startActivity(intent);
-        }else{
-            toast.show();
+
+        if (!userName.equals("") && !userEmail.equals("")) {
+            userManager.FB_isUnique(userName, userID, userEmail, this,  "create");
+        }
+        else {
+            //something is null
+            Toast.makeText(GenerateUserActivity.this, "Don't leave fields empty!", Toast.LENGTH_SHORT).show();
+
         }
 
     }

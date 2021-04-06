@@ -3,6 +3,9 @@ package com.example.cmput301w21t25.activities_main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,11 +20,9 @@ import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewSubbedExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListExperiment;
-import com.example.cmput301w21t25.experiments.BinomialExperiment;
-import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
-import com.example.cmput301w21t25.experiments.MeasurementExperiment;
-import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
+import com.example.cmput301w21t25.managers.ExperimentManager;
+import com.example.cmput301w21t25.managers.UserManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,6 +41,7 @@ public class HomeSubbedActivity extends AppCompatActivity {
     private ArrayAdapter<Experiment> experimentAdapter;
     private ArrayList<Experiment> subbedExperiments;
     private FloatingActionButton browseButton;
+    private ExperimentManager experimentManager = new ExperimentManager();
 
 
     private float x1;
@@ -63,7 +65,6 @@ public class HomeSubbedActivity extends AppCompatActivity {
 
         userID = getIntent().getStringExtra("USER_ID");
         //this can be called on click when
-        FB_FetchSubscriptionsKeys(userID);
         //finish();
 
         browseButton = findViewById(R.id.exp_search_button);
@@ -72,6 +73,9 @@ public class HomeSubbedActivity extends AppCompatActivity {
         subbedExperiments = new ArrayList<Experiment>();
         experimentAdapter = new CustomListExperiment(this, subbedExperiments);
         subbedExperimentsList.setAdapter(experimentAdapter);
+
+        /////////////////////////////////////////////
+        experimentManager.FB_UpdateSubbedExperimentAdapter(userID,experimentAdapter,subbedExperiments);
 
 
         //Prevent listview from eating onTouchEvent
@@ -82,7 +86,6 @@ public class HomeSubbedActivity extends AppCompatActivity {
                 return false;
             }
         });
-
         subbedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,12 +111,6 @@ public class HomeSubbedActivity extends AppCompatActivity {
                 startActivity(switchScreen);
             }
         });
-
-
-
-
-
-
     }
 
     /**
@@ -151,113 +148,19 @@ public class HomeSubbedActivity extends AppCompatActivity {
         return super.onTouchEvent(event);
     }
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ArrayList<String>subscriptionKeys = new ArrayList<String>();
-    ArrayList<Experiment>subscriptionList = new ArrayList<Experiment>();
-
-    /**
-     * this fetches a list of keys of experiments the user is subscribed to and then calls FB_FetchSubscriptions() on them.
-     * @param id id of the user
-     */
-    public void FB_FetchSubscriptionsKeys(String id){
-        subscriptionKeys.clear();
-        DocumentReference docRef = db.collection("UserProfile").document(id);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        subscriptionKeys = (ArrayList<String>) document.getData().get("subscriptions");
-                        Log.d("YA-DB: ", "DocumentSnapshot data: " + subscriptionKeys);
-                        FB_FetchSubscriptions(subscriptionKeys);
-                    }
-                } else {
-                    Log.d("YA-DB: ", "get failed with ", task.getException());
-                }
-            }
-        });
-    }
-
-    /**
-     * Fetches list of subscribed experiments using the provided list of keys. It then updates experiment adapater
-     * @param subscriptionKeys a list of keys of the experiments this user is subscribed to
-     */
-    //right now this searches the search val in both tags and description ill sperate them out if u want
-    //this only searches subscribed experiments
-    public void FB_FetchSubscriptions(ArrayList<String> subscriptionKeys){
-        subscriptionList.clear();//<------------------------------------------------ARRAY OF EXPERIMENTS THAT ARE FETCHED
-        if(subscriptionKeys.isEmpty()==false){
-            for (String key : subscriptionKeys) {
-                DocumentReference docRef = db.collection("Experiments").document(key);
-                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                String type = (String)document.getData().get("type");
-                                if(type!=null) {
-                                    switch (type) {
-                                        case "binomial":
-                                            BinomialExperiment binExp = document.toObject(BinomialExperiment.class);
-                                            binExp.setFb_id(document.getId());///TO DO: PUT THIS IN FUNCTION TO CUT REPEATED CODE
-                                            subscriptionList.add(binExp);
-                                            subbedExperiments.add(binExp);
-                                            experimentAdapter.notifyDataSetChanged();
-                                            Log.d("YA-DB: ", "SearchResults " + subscriptionList.get(0).getName());
-                                            break;
-                                        case "count":
-                                            final CountExperiment countExp = document.toObject(CountExperiment.class);
-                                            countExp.setFb_id(document.getId());
-                                            subscriptionList.add(countExp);
-                                            subbedExperiments.add(countExp);
-                                            experimentAdapter.notifyDataSetChanged();
-                                            break;
-                                        case "nonnegative count":
-                                            NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
-                                            nnCountExp.setFb_id(document.getId());
-                                            subscriptionList.add(nnCountExp);
-                                            subbedExperiments.add(nnCountExp);
-                                            experimentAdapter.notifyDataSetChanged();
-                                            break;
-                                        case "measurement":
-                                            MeasurementExperiment mesExp = document.toObject(MeasurementExperiment.class);
-                                            mesExp.setFb_id(document.getId());
-                                            subscriptionList.add(mesExp);
-                                            subbedExperiments.add(mesExp);
-                                            experimentAdapter.notifyDataSetChanged();
-                                            break;
-                                        default:
-                                            Log.d("YA-DB: ", "this experiment was not assigned the correct class when it was uploaded so i dont know what class to make");
-                                    }
-                                }
-                                //Experiment test = document.toObject(Experiment.class);
-                                //Log.d("YA-DB: ", "SearchResults " + test.getName());
-                                //inside here update the feilds and stuff
-                            }
-                        } else {
-                            Log.d("YA-DB: ", "search failed ");
-                        }
-                    }
-                });
-            }
-        }
-    }
-
     /**
      * Is called when a user clicks on their profile image
      * Will switch to a profile view activity
      * Curtis
      * @param view
      */
-    public void viewSubbediButton(View view) {
-        //switch to profileView, pass userId
-        Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
-        intent.putExtra("userID", userID);
-        intent.putExtra("prevScreen", "Subbed");
-        startActivity(intent);
-    }
+//    public void viewSubbediButton(View view) {
+//        //switch to profileView, pass userId
+//        Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
+//        intent.putExtra("userID", userID);
+//        intent.putExtra("prevScreen", "Subbed");
+//        startActivity(intent);
+//    }
 
 
 }

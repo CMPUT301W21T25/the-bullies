@@ -11,16 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_forum.ForumActivity;
 import com.example.cmput301w21t25.activities_main.SearchActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
-import com.example.cmput301w21t25.experiments.BinomialExperiment;
-import com.example.cmput301w21t25.experiments.CountExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
-import com.example.cmput301w21t25.experiments.MeasurementExperiment;
-import com.example.cmput301w21t25.experiments.NonNegCountExperiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
+import com.example.cmput301w21t25.managers.TrialManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,7 +37,8 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
     private String ownerID;
     private String userID;
     private Bundle expBundle;
-    private ExperimentManager em = new ExperimentManager();
+    private ExperimentManager experimentManager = new ExperimentManager();
+    private TrialManager trialManager = new TrialManager();
     private Experiment exp;
 
     @Override
@@ -48,13 +47,23 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_created_experiment);
 
         final Button editButton = findViewById(R.id.edit_button);
-        final Button publishButton = findViewById(R.id.publish_button);
         final Button addTrialButton = findViewById(R.id.add_trial_button);
+        final Button publishButton = findViewById(R.id.publish_button);
+        final Button unpublishButton = findViewById(R.id.unpublish_button);
+        final Button commentsButton = findViewById(R.id.comments_button);
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = unpackExperiment();
         expID = exp.getFb_id(); //ck
-        FB_FetchExperiment(expID);
+
+        if (exp.isPublished()) {
+            publishButton.setVisibility(View.GONE);
+            unpublishButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            unpublishButton.setVisibility(View.GONE);
+            publishButton.setVisibility(View.VISIBLE);
+        }
 
 
         TextView expName = findViewById(R.id.exp_name_text_view);
@@ -62,12 +71,15 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         TextView expType = findViewById(R.id.exp_type_text_view);
         TextView minTrials = findViewById(R.id.min_trials_text_view);
         TextView currTrials = findViewById(R.id.current_trials_text_view);
+        TextView region = findViewById(R.id.region_text_view);
 
-        expName.setText(exp.getName());
-        expDesc.setText(exp.getDescription());
-        expType.setText(exp.getType());
-        minTrials.setText("Minimum Trials: " + String.valueOf(exp.getMinNumTrials()));
-        currTrials.setText("Current Trials: " + String.valueOf(exp.getCurrentNumTrials()));
+//        expName.setText(exp.getName());
+//        expDesc.setText(exp.getDescription());
+//        expType.setText(exp.getType());
+//        minTrials.setText("Minimum Trials: " + String.valueOf(exp.getMinNumTrials()));
+//        currTrials.setText("Current Trials: " + String.valueOf(exp.getCurrentNumTrials()));
+        experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
+        trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +91,18 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         publishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                em.FB_UpdatePublished(true, expID);
+                experimentManager.FB_UpdatePublished(true, expID);
+                publishButton.setVisibility(View.GONE);
+                unpublishButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        unpublishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                experimentManager.FB_UpdatePublished(false, expID);
+                unpublishButton.setVisibility(View.GONE);
+                publishButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -93,6 +116,16 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             }
         });
 
+        commentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewComments = new Intent(ViewCreatedExperimentActivity.this, ForumActivity.class);
+                viewComments.putExtra("USER_ID", userID);
+                viewComments.putExtra("FORUM_EXPERIMENT", exp);
+                startActivity(viewComments);
+            }
+        });
+
     }
 
     private Experiment unpackExperiment() {
@@ -103,40 +136,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
     }
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public void FB_FetchExperiment(String id){
-        DocumentReference docRef = db.collection("Experiment").document(id);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        String type = (String)document.getData().get("type");
-                        switch (type){
-                            case "binomial":
-                                BinomialExperiment binomialExperiment = document.toObject(BinomialExperiment.class);
-                                binomialExperiment.setFb_id(document.getId());
-                                break;
-                            case"count":
-                                CountExperiment countExperiment = document.toObject(CountExperiment.class);
-                                countExperiment.setFb_id(document.getId());
-                                break;
-                            case"non-neg-count":
-                                NonNegCountExperiment nnCountExp = document.toObject(NonNegCountExperiment.class);
-                                nnCountExp.setFb_id(document.getId());
-                                break;
-                            case"measurement":
-                                MeasurementExperiment measurementExperiment = document.toObject(MeasurementExperiment.class);
-                                measurementExperiment.setFb_id(document.getId());
-                                break;
-                        }
-                    }
-                } else {
-                    Log.d("YA-DB: ", "get failed with ", task.getException());
-                }
-            }
-        });
-    }
+
 
     /**
      * Allows for viewing of the owner of the experiment's profile

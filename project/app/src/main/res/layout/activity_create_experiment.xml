@@ -87,14 +87,18 @@
                 app:layout_constraintStart_toEndOf="@+id/textViewMinTrials"
                 app:layout_constraintTop_toBottomOf="@+id/editTextEnterDescription" />
 
-            <TextView
-                android:id="@+id/textViewRegion"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
+            <EditText
+                android:id="@+id/editTextRegion"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginLeft="24dp"
-                android:layout_marginTop="24dp"
-                android:text="Region:"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:hint="@string/Region"
+                app:layout_constraintBottom_toBottomOf="@+id/editTextMinTrials"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/editTextMinTrials"
                 app:layout_constraintTop_toBottomOf="@+id/editTextEnterDescription" />
 

@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25.forum;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * experiment. The only value that won't be stored in the database is commentChildren, as is used
  * to organize the ListView
  */
-public class Comment {
+public class Comment implements Serializable {
 
     private String comment;
     private String commentID;
@@ -19,6 +20,8 @@ public class Comment {
     private Integer commentChildren = 0;
 
     private Date commentDate;
+
+    public Comment() {}
 
     //The constructor used when making a new comment
     public Comment(String comment, String commentID, String commenterName, String commenterID, Date commentDate) {
@@ -75,5 +78,9 @@ public class Comment {
     //The number of children (responses) a comment has will be needed when ordering a list
     public void setCommentChildren(Integer commentChildren) {
         this.commentChildren = commentChildren;
+    }
+
+    public void setCommentID(String commentID) {
+        this.commentID = commentID;
     }
 }
