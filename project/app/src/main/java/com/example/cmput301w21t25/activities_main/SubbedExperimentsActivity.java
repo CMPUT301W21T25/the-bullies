@@ -136,7 +136,7 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
                 return true;
             case R.id.settings_button:
                 Intent user_settings = new Intent(SubbedExperimentsActivity.this, MyUserProfileActivity.class);
-                user_settings.putExtra("userID", userID);
+                user_settings.putExtra("USER_ID", userID);
                 user_settings.putExtra("prevScreen", "Owned");
                 startActivity(user_settings);
                 return true;
