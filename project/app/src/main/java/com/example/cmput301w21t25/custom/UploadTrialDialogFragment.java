@@ -48,7 +48,7 @@ public class UploadTrialDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("              Upload Trial?")
+                .setTitle("<font color=#28527a>              Upload Trial?</font>")
                 .setNegativeButton(Html.fromHtml("<font color=#28527a>CANCEL</font>"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
