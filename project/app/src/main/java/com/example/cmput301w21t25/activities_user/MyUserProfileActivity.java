@@ -141,9 +141,10 @@ public class MyUserProfileActivity extends AppCompatActivity {
 
         if (!name.equals("") && !email.equals("")) {
             userManager.FB_isUnique(name, userID, email, this,  "update");
-        }else{
-            Toast toast = Toast.makeText(getApplicationContext(), "Please don't leave profile empty", Toast.LENGTH_LONG);
-            toast.show();
+        }
+        else {
+            //something is null
+            Toast.makeText(MyUserProfileActivity.this, "Don't leave fields empty!", Toast.LENGTH_SHORT).show();
         }
     }
 }
