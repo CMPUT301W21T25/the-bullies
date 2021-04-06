@@ -66,4 +66,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-installations:16.3.5'
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
     implementation 'com.google.firebase:firebase-database:19.2.0'
+
+    // zxing dependency
+    implementation('com.journeyapps:zxing-android-embedded:4.2.0') { transitive = false }
+    implementation 'com.google.zxing:core:3.3.0'
 }
