@@ -43,6 +43,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
 
     Location experimentLocation;
 
+    CheckBox subscribe;
     CheckBox published;
     CheckBox geolocationEnabled;
 
@@ -70,6 +71,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
         minimumTrials = findViewById(R.id.editTextMinTrials);
         region = findViewById(R.id.editTextRegion);
 
+        subscribe = findViewById(R.id.checkBoxSubscribe);
         published = findViewById(R.id.checkBoxPublish);
         geolocationEnabled = findViewById(R.id.checkBoxGeolocation);
 
@@ -110,7 +112,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 experimentOwner = (String) document.getData().get("name");
-                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, Region, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials);
+                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, Region, experimentKeywords, subscribe.isChecked(), geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials);
                                 //
                             }
                         }
