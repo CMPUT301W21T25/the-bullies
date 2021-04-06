@@ -92,7 +92,11 @@ public class ConductCountTrialActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!trialParent.isGeoEnabled() || getLocation() != null) { //check if we dont need a location or if we have one
-                    GeoPoint geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
+                    //Since get returns null if we dont have a location, create a null geopoint instead
+                    GeoPoint geoPoint = null;
+                    if (trialParent.isGeoEnabled()) {
+                        geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
+                    }
                     trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, count, trialParent, geoPoint);
                     //Intent return to list view and add to trial list
                     Intent switchScreen = new Intent(ConductCountTrialActivity.this, AddTrialActivity.class);

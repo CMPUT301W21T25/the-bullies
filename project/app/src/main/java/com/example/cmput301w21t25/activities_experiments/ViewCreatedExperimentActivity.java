@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_forum.ForumActivity;
-import com.example.cmput301w21t25.activities_main.SearchActivity;
+import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
@@ -47,13 +47,24 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_created_experiment);
 
         final Button editButton = findViewById(R.id.edit_button);
-        final Button publishButton = findViewById(R.id.publish_button);
         final Button addTrialButton = findViewById(R.id.add_trial_button);
+        final Button publishButton = findViewById(R.id.publish_button);
+        final Button unpublishButton = findViewById(R.id.unpublish_button);
         final Button commentsButton = findViewById(R.id.comments_button);
+        final Button dataButton = findViewById(R.id.view_data_button);
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = unpackExperiment();
         expID = exp.getFb_id(); //ck
+
+        if (exp.isPublished()) {
+            publishButton.setVisibility(View.GONE);
+            unpublishButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            unpublishButton.setVisibility(View.GONE);
+            publishButton.setVisibility(View.VISIBLE);
+        }
 
 
         TextView expName = findViewById(R.id.exp_name_text_view);
@@ -82,6 +93,17 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 experimentManager.FB_UpdatePublished(true, expID);
+                publishButton.setVisibility(View.GONE);
+                unpublishButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        unpublishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                experimentManager.FB_UpdatePublished(false, expID);
+                unpublishButton.setVisibility(View.GONE);
+                publishButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -102,6 +124,16 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
                 viewComments.putExtra("USER_ID", userID);
                 viewComments.putExtra("FORUM_EXPERIMENT", exp);
                 startActivity(viewComments);
+            }
+        });
+
+        dataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent switchScreens = new Intent(ViewCreatedExperimentActivity.this, ExperimentDataActivity.class);
+                switchScreens.putExtra("USER_ID", userID);
+                switchScreens.putExtra("EXP", exp);
+                startActivity(switchScreens);
             }
         });
 
@@ -204,17 +236,9 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
                     }
                 });
 
-        Intent intent = new Intent(ViewCreatedExperimentActivity.this, SearchActivity.class);
+        Intent intent = new Intent(ViewCreatedExperimentActivity.this, SearchExperimentsActivity.class);
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
 
     }
-
-    public void dataButton(View view) {
-        Intent switchScreens = new Intent(ViewCreatedExperimentActivity.this, ExperimentDataActivity.class);
-        switchScreens.putExtra("USER_ID", userID);
-        switchScreens.putExtra("EXP", exp);
-        startActivity(switchScreens);
-    }
-
 }

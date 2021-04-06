@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cmput301w21t25">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.cmput301w21t25"> <!-- Needed for zxing compatibility -->
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -17,11 +18,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CMPUT301W21T25">
-        
-        <!-- set this to be the icon image!
+        <activity android:name=".activities_trials.ChooseConductActivity"></activity>
+        <activity android:name=".activities_qr.GenerateQRActivity"></activity>
+        <activity android:name=".activities_qr.DisplayQRActivity" />
+        <!--
+         set this to be the icon image!
               android:icon="@drawable/<someImage>"
-           -->
-
+        -->
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -32,21 +35,19 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-<!--        <service-->
-<!--            android:name=".location.FetchLocation"-->
-<!--            android:foregroundServiceType="location" />-->
-
+            android:value="@string/google_maps_key" /> <!-- <service -->
+        <!-- android:name=".location.FetchLocation" -->
+        <!-- android:foregroundServiceType="location" /> -->
         <activity android:name=".activities_user.OtherUserProfileActivity" />
         <activity android:name=".activities_experiments.CreateExperimentActivity" />
         <activity android:name=".activities_user.GenerateUserActivity" />
 
-        <activity android:name=".activities_main.HomeSubbedActivity"
+
+        <activity android:name=".activities_main.SubbedExperimentsActivity"
             android:label="Subscribed Experiments"/>
-        <activity android:name=".activities_main.SearchActivity"
+        <activity android:name=".activities_main.SearchExperimentsActivity"
             android:label="Search for Experiment"/>
-        <activity android:name=".activities_main.HomeOwnedActivity"
+        <activity android:name=".activities_main.CreatedExperimentsActivity"
             android:label="Created Experiments"/>
         <activity android:name=".activities_graphs.HistogramActivity"/>
         <activity android:name=".activities_graphs.PlotActivity"/>
@@ -54,7 +55,7 @@
         <activity android:name=".activities_forum.NewReplyActivity" />
         <activity android:name=".activities_forum.NewCommentActivity" />
         <activity android:name=".activities_user.MyUserProfileActivity" />
-        <activity android:name=".activities_experiments.ViewExperimentActivity" />
+        <activity android:name=".activities_experiments.ViewSearchedExperimentActivity" />
         <activity android:name=".activities_experiments.ViewCreatedExperimentActivity" />
         <activity android:name=".activities_experiments.ViewSubbedExperimentActivity" />
         <activity android:name=".activities_trials.ViewTrialActivity" />
@@ -64,6 +65,7 @@
         <activity android:name=".activities_trials.ConductMeasurementTrialActivity" />
         <activity android:name=".activities_trials.ConductBinomialTrialActivity" />
         <activity android:name=".activities_trials.ConductNonnegativeCountTrialActivity" />
+        <activity android:name=".activities_qr.ScanQRActivity"></activity>
         <activity android:name=".activities_main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

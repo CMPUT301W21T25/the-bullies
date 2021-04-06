@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
+import com.example.cmput301w21t25.activities_forum.ForumActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
@@ -58,7 +60,11 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         TextView region = findViewById(R.id.region_text_view);
         experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
+
         final Button addTrialButton = findViewById(R.id.add_trial_button);
+        final Button commentsButton = findViewById(R.id.comments_button);
+        final Button dataButton = findViewById(R.id.view_data_button);
+        final Button unsubscribe = findViewById(R.id.unsubscribe_button);
 
 
         //Make add trial button open add trials page
@@ -74,6 +80,33 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
                 newTrial.putExtra("TRIAL_PARENT", exp);
                 startActivity(newTrial);
 
+            }
+        });
+
+        unsubscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unsubscribeButton(v);
+            }
+        });
+
+        commentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewComments = new Intent(ViewSubbedExperimentActivity.this, ForumActivity.class);
+                viewComments.putExtra("USER_ID", userID);
+                viewComments.putExtra("FORUM_EXPERIMENT", exp);
+                startActivity(viewComments);
+            }
+        });
+
+        dataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent switchScreens = new Intent(ViewSubbedExperimentActivity.this, ExperimentDataActivity.class);
+                switchScreens.putExtra("USER_ID", userID);
+                switchScreens.putExtra("EXP", exp);
+                startActivity(switchScreens);
             }
         });
     }
@@ -172,11 +205,32 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
                 });
     }
 
-    public void dataButton(View view) {
-        Intent switchScreens = new Intent(ViewSubbedExperimentActivity.this, ExperimentDataActivity.class);
-        switchScreens.putExtra("USER_ID", userID);
-        switchScreens.putExtra("EXP", exp);
-        startActivity(switchScreens);
-    }
+    /**
+     * This sets the unsubscribe button on the view
+     * @param view the experiment view
+     */
+    public void unsubscribeButton(View view) {
+        //This method will unsubscribe the user to the experiment
+        DocumentReference docRef = db.collection("UserProfile").document(userID);
+        docRef
+                .update("subscriptions", FieldValue.arrayRemove(expID))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("DK", "you unsubscribed");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("DK", "failed to unsubscribe");
+                    }
+                });
 
+
+        Intent intent = new Intent(ViewSubbedExperimentActivity.this, SubbedExperimentsActivity.class);
+        intent.putExtra("USER_ID", userID);
+        startActivity(intent);
+
+    }
 }
