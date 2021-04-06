@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
+import com.example.cmput301w21t25.activities_experiments.ViewSearchedExperimentActivity;
 import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
@@ -104,7 +104,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
                 break;
             case "Experiment":
                 // go back to experiment view
-                intent = new Intent(MyUserProfileActivity.this, ViewExperimentActivity.class);
+                intent = new Intent(MyUserProfileActivity.this, ViewSearchedExperimentActivity.class);
                 intent.putExtra("EXP_BUNDLE", expBundle);
                 Log.i("curtis", "going back to viewing an experiment");
                 break;

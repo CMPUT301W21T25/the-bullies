@@ -53,7 +53,7 @@
         <activity android:name=".activities_forum.NewReplyActivity" />
         <activity android:name=".activities_forum.NewCommentActivity" />
         <activity android:name=".activities_user.MyUserProfileActivity" />
-        <activity android:name=".activities_experiments.ViewExperimentActivity" />
+        <activity android:name=".activities_experiments.ViewSearchedExperimentActivity" />
         <activity android:name=".activities_experiments.ViewCreatedExperimentActivity" />
         <activity android:name=".activities_experiments.ViewSubbedExperimentActivity" />
         <activity android:name=".activities_trials.ViewTrialActivity" />

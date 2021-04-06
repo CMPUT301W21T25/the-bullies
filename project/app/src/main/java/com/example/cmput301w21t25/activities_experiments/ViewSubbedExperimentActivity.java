@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
@@ -58,7 +59,7 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         TextView region = findViewById(R.id.region_text_view);
         experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
-        final Button addTrialButton = findViewById(R.id.add_trial_button);
+        final Button addTrialButton = findViewById(R.id.subscribe_button);
 
 
         //Make add trial button open add trials page
@@ -70,6 +71,15 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
                 newTrial.putExtra("TRIAL_PARENT", exp);
                 startActivity(newTrial);
 
+            }
+        });
+
+        //DK
+        final Button unsubscribe = findViewById(R.id.unsubscribe_button);
+        unsubscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unsubscribeButton(v);
             }
         });
     }
@@ -166,6 +176,35 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
                         Log.d("curtis", "failed to subscribe");
                     }
                 });
+    }
+
+    /**
+     * This sets the unsubscribe button on the view
+     * @param view the experiment view
+     */
+    public void unsubscribeButton(View view) {
+        //This method will unsubscribe the user to the experiment
+        DocumentReference docRef = db.collection("UserProfile").document(userID);
+        docRef
+                .update("subscriptions", FieldValue.arrayRemove(expID))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("DK", "you unsubscribed");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("DK", "failed to unsubscribe");
+                    }
+                });
+
+
+        Intent intent = new Intent(ViewSubbedExperimentActivity.this, SubbedExperimentsActivity.class);
+        intent.putExtra("USER_ID", userID);
+        startActivity(intent);
+
     }
 
     public void dataButton(View view) {

@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
@@ -28,7 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 /**
  * this activity is used to view from a list
  */
-public class ViewExperimentActivity extends AppCompatActivity {
+public class ViewSearchedExperimentActivity extends AppCompatActivity {
 
     private String expID;
     private String ownerID;
@@ -64,6 +66,19 @@ public class ViewExperimentActivity extends AppCompatActivity {
 
         experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
+
+
+        //DK
+        final Button subscribe = findViewById(R.id.subscribe_button);
+        subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                subscribeButton(v);
+            }
+        });
+
+
+
     }
 
     /**
@@ -110,7 +125,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                                         //check if current user = experiment owner
                                         if (ownerID.equals(userID)) {
                                             //switch to myprofile
-                                            Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
+                                            Intent intent = new Intent(ViewSearchedExperimentActivity.this, MyUserProfileActivity.class);
                                             intent.putExtra("userID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
@@ -118,7 +133,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                                         }
                                         else {
                                             //switch to otherprofile
-                                            Intent intent = new Intent(ViewExperimentActivity.this, OtherUserProfileActivity.class);
+                                            Intent intent = new Intent(ViewSearchedExperimentActivity.this, OtherUserProfileActivity.class);
                                             intent.putExtra("ownerID", ownerID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
@@ -173,18 +188,19 @@ public class ViewExperimentActivity extends AppCompatActivity {
                     }
                 });
 
-        Intent intent = new Intent(ViewExperimentActivity.this, SubbedExperimentsActivity.class);
+        Intent intent = new Intent(ViewSearchedExperimentActivity.this, SearchExperimentsActivity.class);
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
-
     }
+
+
 
     /**
      * Sets the button to be clicked to view the statistics/graphs of the experiment
      * @param view the experiment view
      */
     public void dataButton(View view) {
-        Intent switchScreens = new Intent(ViewExperimentActivity.this, ExperimentDataActivity.class);
+        Intent switchScreens = new Intent(ViewSearchedExperimentActivity.this, ExperimentDataActivity.class);
         switchScreens.putExtra("USER_ID", userID);
         switchScreens.putExtra("EXP", exp);
         startActivity(switchScreens);

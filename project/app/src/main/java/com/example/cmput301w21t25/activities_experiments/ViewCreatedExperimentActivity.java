@@ -47,7 +47,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_created_experiment);
 
         final Button editButton = findViewById(R.id.edit_button);
-        final Button addTrialButton = findViewById(R.id.add_trial_button);
+        final Button addTrialButton = findViewById(R.id.subscribe_button);
         final Button publishButton = findViewById(R.id.publish_button);
         final Button unpublishButton = findViewById(R.id.unpublish_button);
         final Button commentsButton = findViewById(R.id.comments_button);

@@ -111,39 +111,52 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/view_data_button"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="165dp"
-        android:onClick="dataButton"
-        android:text="view data" />
-
     <LinearLayout
-        android:id="@+id/button_linear_layout"
+        android:id="@+id/button_linear_layout_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="42dp"
+        android:layout_marginBottom="112dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/unsubscribe_button"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:text="Unsubscribe" />
+
+        <Button
+            android:id="@+id/view_data_button"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:onClick="dataButton"
+            android:text="view data" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_linear_layout_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/comments_button"
             android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="55dp"
+            android:layout_height="60dp"
             android:text="Comments" />
 
         <Button
-            android:id="@+id/add_trial_button"
+            android:id="@+id/subscribe_button"
             android:layout_width="150dp"
-            android:layout_height="45dp"
+            android:layout_height="60dp"
             android:layout_marginStart="35dp"
             android:layout_marginLeft="35dp"
-            android:layout_marginBottom="54dp"
             android:onClick="subscribeButton"
             android:text="Add Trial" />
     </LinearLayout>

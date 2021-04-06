@@ -18,7 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.cmput301w21t25.FilterSearchFragment;
 import com.example.cmput301w21t25.FirestoreExperimentCallback;
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
+import com.example.cmput301w21t25.activities_experiments.ViewSearchedExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -69,7 +69,7 @@ public class SearchExperimentsActivity extends AppCompatActivity implements Filt
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("DK: ", "Position clicked = " + position);
                 Experiment experiment = (Experiment) browseList.getItemAtPosition(position);
-                Intent viewExp = new Intent(SearchExperimentsActivity.this, ViewExperimentActivity.class);
+                Intent viewExp = new Intent(SearchExperimentsActivity.this, ViewSearchedExperimentActivity.class);
 
                 Bundle expBundle = new Bundle();
                 expBundle.putSerializable("EXP_OBJ", experiment);
