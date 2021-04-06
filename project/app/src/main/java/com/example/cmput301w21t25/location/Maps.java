@@ -106,7 +106,9 @@ public class Maps extends Fragment{
             //show exit button
             activity.findViewById(R.id.button3).setVisibility(View.VISIBLE);
 
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(myTrial));
+            if (!TrialList.isEmpty()) {
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(myTrial));
+            }
             googleMap.setOnMarkerClickListener(this);
 
 
@@ -124,6 +126,9 @@ public class Maps extends Fragment{
         }
         else {
             TrialList = (ArrayList<Trial>) getArguments().getSerializable("TrialList");
+            if (TrialList == null) {
+                TrialList = new ArrayList<Trial>();
+            }
         }
 
 
