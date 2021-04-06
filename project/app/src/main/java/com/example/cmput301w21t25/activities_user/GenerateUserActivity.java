@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -42,12 +43,14 @@ public class GenerateUserActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.userEmail);
         String userName = name.getText().toString();
         String userEmail = email.getText().toString();
-
+        Toast toast = Toast.makeText(getApplicationContext(), "Please don't leave any blank", Toast.LENGTH_LONG);
         if (userName != "" && userEmail != "") {
             FB_CreateUser(userID, userName, userEmail);
             //launch MainActivity?
             Intent intent = new Intent(GenerateUserActivity.this, MainActivity.class);
             startActivity(intent);
+        }else{
+            toast.show();
         }
 
     }

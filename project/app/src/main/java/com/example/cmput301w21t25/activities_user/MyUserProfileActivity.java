@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -137,13 +138,18 @@ public class MyUserProfileActivity extends AppCompatActivity {
         EditText newEmail = findViewById(R.id.updateEmail);
         String name = newName.getText().toString();
         String email = newEmail.getText().toString();
-        UserManager userManager = new UserManager();
-        userManager.FB_UpdateName(name, userID);
-        userManager.FB_UpdateEmail(email, userID);
+        if(name.length()>0 && email.length()>0){
+            UserManager userManager = new UserManager();
+            userManager.FB_UpdateName(name, userID);
+            userManager.FB_UpdateEmail(email, userID);
 
-        ExperimentManager experimentManager = new ExperimentManager();
-        experimentManager.FB_UpdateName(userID);
+            ExperimentManager experimentManager = new ExperimentManager();
+            experimentManager.FB_UpdateName(userID);
 
-        goBackButton(view);
+            goBackButton(view);
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(), "Please don't leave profile empty", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 }

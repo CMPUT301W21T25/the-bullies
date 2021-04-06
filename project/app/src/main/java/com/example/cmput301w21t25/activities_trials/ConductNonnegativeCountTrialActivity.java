@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -62,10 +63,13 @@ public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
         trialHeader.setSubtitle(trialParent.getOwner());
         description.setText(trialParent.getDescription());
 
+        Toast toast = Toast.makeText(getApplicationContext(), "The count number are required", Toast.LENGTH_LONG);
+
         //On click, confirm trial, return to trial list view
         submitTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(countDisplay.getText().length()>0){
                 //Intent return to list view and add to trial list
                 countString = countDisplay.getText().toString();
                 count = Integer.parseInt(countString);
@@ -74,6 +78,9 @@ public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
                 switchScreen.putExtra("USER_ID", userID);
                 switchScreen.putExtra("TRIAL_PARENT", trialParent);
                 startActivity(switchScreen);
+                }else{
+                    toast.show();
+                }
             }
         });
     }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -60,19 +61,24 @@ public class ConductMeasurementTrialActivity extends AppCompatActivity {
         trialHeader.setSubtitle(trialParent.getOwner());
         description.setText(trialParent.getDescription());
 
+        Toast toast = Toast.makeText(getApplicationContext(), "The measurement are required", Toast.LENGTH_LONG);
         //On click, confirm trial, return to trial list view
         submitTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                measurementString = measurementDisplay.getText().toString();
-                measurement = Float.parseFloat(measurementString);
-                //Create the doc form of the trial in the database to call later
-                trialManager.FB_CreateMeasurementTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, measurement, trialParent);
-                //Intent return to list view and add to trial list
-                Intent switchScreen = new Intent(ConductMeasurementTrialActivity.this, AddTrialActivity.class);
-                switchScreen.putExtra("USER_ID", userID);
-                switchScreen.putExtra("TRIAL_PARENT", trialParent);
-                startActivity(switchScreen);
+                if(measurementDisplay.getText().length()>=1){
+                    measurementString = measurementDisplay.getText().toString();
+                    measurement = Float.parseFloat(measurementString);
+                    //Create the doc form of the trial in the database to call later
+                    trialManager.FB_CreateMeasurementTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, measurement, trialParent);
+                    //Intent return to list view and add to trial list
+                    Intent switchScreen = new Intent(ConductMeasurementTrialActivity.this, AddTrialActivity.class);
+                    switchScreen.putExtra("USER_ID", userID);
+                    switchScreen.putExtra("TRIAL_PARENT", trialParent);
+                    startActivity(switchScreen);
+                }else{
+                    toast.show();
+                }
             }
         });
     }
