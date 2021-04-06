@@ -106,7 +106,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                     Log.d("name", name);
                     Log.d("keywords", experimentKeywords.toString());
                     Toast toast = Toast.makeText(getApplicationContext(), "Please don't skip enter informations", Toast.LENGTH_LONG);
-                    if(!checkEnterValid(description,name,experimentKeywords) || type==null || !checkBoxSelecte()){
+                    if(!checkEnterValid(description,name,experimentKeywords) || type==null){
                         toast.show();
                     }else {
                         //Get the user's name from their profile
@@ -210,22 +210,5 @@ public class CreateExperimentActivity extends AppCompatActivity {
         return checkIfValid;
     }
 
-    /**
-     * This method is to check whether the checkbox got selected
-     * return true if selected, false for not
-     * @return
-     */
-    public boolean checkBoxSelecte(){
-        int count =0;
-        if(published.isChecked()){
-            count+=1;
-        }
-        if(geolocationEnabled.isChecked()){
-            count+=1;
-        }
-        if(count>=1){
-            return true;
-        }else{return false;}
-    }
 
 }
