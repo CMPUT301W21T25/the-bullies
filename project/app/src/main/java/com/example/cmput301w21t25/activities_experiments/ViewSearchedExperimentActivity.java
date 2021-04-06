@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
-import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_forum.ForumActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
@@ -72,7 +71,7 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
 
         //DK
-        final Button subscribe = findViewById(R.id.subscribe_button);
+        final Button subscribe = findViewById(R.id.add_trial_button);
         subscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

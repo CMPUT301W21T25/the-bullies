@@ -11,11 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
-<<<<<<< HEAD
 import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
-=======
 import com.example.cmput301w21t25.activities_forum.ForumActivity;
->>>>>>> main
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
@@ -63,13 +60,11 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         TextView region = findViewById(R.id.region_text_view);
         experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
-<<<<<<< HEAD
-        final Button addTrialButton = findViewById(R.id.subscribe_button);
-=======
+
         final Button addTrialButton = findViewById(R.id.add_trial_button);
         final Button commentsButton = findViewById(R.id.comments_button);
         final Button dataButton = findViewById(R.id.view_data_button);
->>>>>>> main
+
 
 
         //Make add trial button open add trials page
@@ -84,14 +79,15 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
         //DK
         final Button unsubscribe = findViewById(R.id.unsubscribe_button);
         unsubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 unsubscribeButton(v);
-=======
+            }
+        });
+
         commentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +105,6 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
                 switchScreens.putExtra("USER_ID", userID);
                 switchScreens.putExtra("EXP", exp);
                 startActivity(switchScreens);
->>>>>>> main
             }
         });
     }
@@ -207,7 +202,6 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
                     }
                 });
     }
-<<<<<<< HEAD
 
     /**
      * This sets the unsubscribe button on the view
@@ -237,14 +231,4 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-
-    public void dataButton(View view) {
-        Intent switchScreens = new Intent(ViewSubbedExperimentActivity.this, ExperimentDataActivity.class);
-        switchScreens.putExtra("USER_ID", userID);
-        switchScreens.putExtra("EXP", exp);
-        startActivity(switchScreens);
-    }
-
-=======
->>>>>>> main
 }
