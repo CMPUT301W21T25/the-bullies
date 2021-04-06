@@ -66,6 +66,9 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
             @Override
             public void onClick(View v) {
                 //Launches a conduct trial activity based on type of experiment
+
+                Class className; // What is this for? -DK
+
                 Intent switchScreen = new Intent(AddTrialActivity.this, ChooseConductActivity.class);
                 switchScreen.putExtra("USER_ID", userID);
                 switchScreen.putExtra("TRIAL_PARENT", exp);
@@ -75,24 +78,32 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
                 switch (exp.getType()) {
                     case "count":
                         switchScreen = new Intent(AddTrialActivity.this, ConductCountTrialActivity.class);
+                        //This line makes sure that this activity is not saved in the history stack
+                        switchScreen.addFlags(switchScreen.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                         switchScreen.putExtra("USER_ID", userID);
                         switchScreen.putExtra("TRIAL_PARENT", exp);
                         startActivity(switchScreen);
                         break;
                     case "nonnegative count":
                         switchScreen = new Intent(AddTrialActivity.this, ConductNonnegativeCountTrialActivity.class);
+                        //This line makes sure that this activity is not saved in the history stack
+                        switchScreen.addFlags(switchScreen.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                         switchScreen.putExtra("USER_ID", userID);
                         switchScreen.putExtra("TRIAL_PARENT", exp);
                         startActivity(switchScreen);
                         break;
                     case "binomial":
                         switchScreen = new Intent(AddTrialActivity.this, ConductBinomialTrialActivity.class);
+                        //This line makes sure that this activity is not saved in the history stack
+                        switchScreen.addFlags(switchScreen.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                         switchScreen.putExtra("USER_ID", userID);
                         switchScreen.putExtra("TRIAL_PARENT", exp);
                         startActivity(switchScreen);
                         break;
                     case "measurement":
                         switchScreen = new Intent(AddTrialActivity.this, ConductMeasurementTrialActivity.class);
+                        //This line makes sure that this activity is not saved in the history stack
+                        switchScreen.addFlags(switchScreen.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                         switchScreen.putExtra("USER_ID", userID);
                         switchScreen.putExtra("TRIAL_PARENT", exp);
                         startActivity(switchScreen);

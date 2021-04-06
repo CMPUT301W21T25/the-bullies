@@ -44,7 +44,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_myprofile_view);
-        userID = getIntent().getStringExtra("userID");
+        userID = getIntent().getStringExtra("USER_ID");
         prevScreen = getIntent().getStringExtra("prevScreen");
         //try to get bundle, (only from experiment view)
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");

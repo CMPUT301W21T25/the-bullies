@@ -3,6 +3,9 @@ package com.example.cmput301w21t25.activities_main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewSubbedExperimentActivity;
+import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
@@ -103,6 +107,45 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
     }
 
     /**
+     * This event is menu setup!
+     * @param menu this is the menu being integrated
+     * @return true to indicate there is a menu (return false to turn off)
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_menu,menu);
+        return true;
+    }
+
+    /**
+     * This event is for menu item setup
+     * @param item these are items that will be added to the menu
+     * @return @return true to indicate there is this item (return false to turn off)
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.home_button:
+                Intent home = new Intent(SubbedExperimentsActivity.this, CreatedExperimentsActivity.class);
+
+                home.putExtra("USER_ID", userID);
+                startActivity(home);
+                return true;
+            case R.id.settings_button:
+                Intent user_settings = new Intent(SubbedExperimentsActivity.this, MyUserProfileActivity.class);
+                user_settings.putExtra("USER_ID", userID);
+                user_settings.putExtra("prevScreen", "Owned");
+                startActivity(user_settings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
      * This touch event is for switching between screens
      * @param event the swipe on the screen
      * @return
@@ -136,20 +179,4 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
         }
         return super.onTouchEvent(event);
     }
-
-    /**
-     * Is called when a user clicks on their profile image
-     * Will switch to a profile view activity
-     * Curtis
-     * @param view
-     */
-//    public void viewSubbediButton(View view) {
-//        //switch to profileView, pass userId
-//        Intent intent = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
-//        intent.putExtra("userID", userID);
-//        intent.putExtra("prevScreen", "Subbed");
-//        startActivity(intent);
-//    }
-
-
 }

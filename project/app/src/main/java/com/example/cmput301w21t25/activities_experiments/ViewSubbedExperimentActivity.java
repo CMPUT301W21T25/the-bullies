@@ -72,6 +72,10 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent newTrial = new Intent(ViewSubbedExperimentActivity.this, AddTrialActivity.class);
+
+                //This line makes sure that this activity is not saved in the history stack
+                newTrial.addFlags(newTrial.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+
                 newTrial.putExtra("USER_ID", userID);
                 newTrial.putExtra("TRIAL_PARENT", exp);
                 startActivity(newTrial);
