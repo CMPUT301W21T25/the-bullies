@@ -2,6 +2,7 @@ package com.example.cmput301w21t25.managers;
 
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,12 +31,14 @@ public class SummaryCalculator {
     private TrialManager trialManager = new TrialManager();
 
 
-    public void FB_UpdateSummaryViews(Experiment exp){
+    public void FB_UpdateSummaryViews(Experiment exp, TextView LquartilesTextView, TextView UquartilesTextView, TextView medianTextView,
+           TextView meanTextView,TextView deviationTextView,TextView successRateTextView, TextView currentTrialsTextView){
         List<String> types = new ArrayList<String>(){{
             add("count");
             add("measurement");
             add("nonnegative count");
         }};
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         if(types.contains(exp.getType())){
             trialManager.FB_FetchPublishedMesValues(exp, new FirestoreFloatCallback() {
                 @Override
@@ -42,18 +46,28 @@ public class SummaryCalculator {
                     if(list.size()>0){
                         //insert method calls here
                         //ex: float mean = mean(list)<--------------------------list is an arraylist of trials that u will use
+                        currentTrialsTextView.setText("Current Number of Trials: " + Integer.toString(list.size()));
                         float mean = calculateMean(list);
-                        Log.d("OUTPUT_MEAN", String.valueOf(mean));
+                        meanTextView.setText("Mean: " + decimalFormat.format(mean));
                         double median = calculateMedian(list);
-                        Log.d("OUTPUT_MEDIAN", String.valueOf(median));
+                        medianTextView.setText("Median: " + decimalFormat.format(median));
                         double sDev = calculateSD(list);
-                        Log.d("OUTPUT_STANDARD_DEV", String.valueOf(sDev));
+                        deviationTextView.setText("Standard Deviation: " + decimalFormat.format(sDev));
                         double lowerQuart = calculateLowerQuart(list);
-                        Log.d("OUTPUT_LOWER_QUART", String.valueOf(lowerQuart));
+                        LquartilesTextView.setText("LQuartiles: " + decimalFormat.format(lowerQuart));
                         double upperQuart = calculateUpperQuart(list);
-                        Log.d("OUTPUT_UPPER_QUART", String.valueOf(upperQuart));
+                        UquartilesTextView.setText("UQuartiles: " + decimalFormat.format(upperQuart));
                         //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
                     }
+                    else{
+                        currentTrialsTextView.setText("Current Number of Trials: 0");
+                        medianTextView.setText("Median: N/A");
+                        meanTextView.setText("Mean: N/A");
+                        deviationTextView.setText("Standard Deviation: N/A");
+                        LquartilesTextView.setText("LQuartiles: N/A");
+                        UquartilesTextView.setText("UQuartiles: N/A");
+                    }
+                    successRateTextView.setText("Success Rate: N/A");
                 }
             });
         }
@@ -62,54 +76,26 @@ public class SummaryCalculator {
                 @Override
                 public void onCallback(ArrayList<Boolean> list) {
                     if (list.size() > 0) {
+                        currentTrialsTextView.setText("Current Number of Trials: " + Integer.toString(list.size()));
                         double successRate = calculateSuccessRate(list);
-                        Log.d("OUTPUT_SUCCESS_RATE", String.valueOf(successRate));
+                        successRateTextView.setText("Success Rate: " + decimalFormat.format(successRate));
                     }
+                    else{
+                        currentTrialsTextView.setText("Current Number of Trials: 0");
+                        successRateTextView.setText("Success Rate: N/A");
+                    }
+                    medianTextView.setText("Median: N/A");
+                    meanTextView.setText("Mean: N/A");
+                    deviationTextView.setText("Standard Deviation: N/A");
+                    LquartilesTextView.setText("LQuartiles: N/A");
+                    UquartilesTextView.setText("UQuartiles: N/A");
                     //<<<-------------THROW BOOLEAN STUFF HERE!!!!!!!!!!!!!!!!!!!!!!!!!
                 }
             });
         }
     }
-    //    public void FB_UpdateSummaryViews(Experiment exp){
-//        trialManager.FB_FetchPublishedTrialValues(exp, new FirestoreTrialCallback() {
-//            @Override
-//            public void onCallback(List<Float> list) {
-//                //EDEN LOOK HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//                if(list.size()>0){
-//                    List<String> types = new ArrayList<String>(){{
-//                        add("count");
-//                        add("measurement");
-//                        add("nonnegative count");
-//                    }};
-//                    if(types.contains(exp.getType())){
-//                        //insert method calls here
-//                        //ex: float mean = mean(list)<--------------------------list is an arraylist of trials that u will use
-//                        float mean = calculateMean(list);
-//                        Log.d("OUTPUT_MEAN", String.valueOf(mean));
-//                        double median = calculateMedian(list);
-//                        Log.d("OUTPUT_MEDIAN", String.valueOf(median));
-//                        double sDev = calculateSD(list);
-//                        Log.d("OUTPUT_STANDARD_DEV", String.valueOf(sDev));
-//                        double lowerQuart = calculateLowerQuart(list);
-//                        Log.d("OUTPUT_LOWER_QUART", String.valueOf(lowerQuart));
-//                        double upperQuart = calculateUpperQuart(list);
-//                        Log.d("OUTPUT_UPPER_QUART", String.valueOf(upperQuart));
-//                        //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
-//                    }
-//                    else{
-//                        //this loop is just used for testing u can delete it later
-//                        //insert method calls here
-//                        //ex: float mean = mean(list)<--------------------------list is an arraylist of trials that u will
-//                        //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
-//                    }
-//                }
-//            }
-//        });
-//    }
 
 
-    //cite:https://stackoverflow.com/questions/37930631/standard-deviation-of-an-arraylist
-    //I totally changed it so I don't think we have to?
     public float calculateMean(ArrayList<Float> trials){
         float total = 0;
 
