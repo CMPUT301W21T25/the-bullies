@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListTrial;
+import com.example.cmput301w21t25.custom.UploadTrialDialogFragment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.TrialManager;
 import com.example.cmput301w21t25.trials.Trial;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 /**
  * this activity is used to add new trials and view unpublished trials
  */
-public class AddTrialActivity extends AppCompatActivity {
+public class AddTrialActivity extends AppCompatActivity implements UploadTrialDialogFragment.OnFragmentInteractionListener {
 
     ListView trialListView;
     ArrayAdapter<Trial> trialArrayAdapter;
@@ -57,7 +58,7 @@ public class AddTrialActivity extends AppCompatActivity {
         trialListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                publishTrial(position);
+                new UploadTrialDialogFragment(position).show(getSupportFragmentManager(), "UPLOAD_TRIAL");
             }
         });
 
@@ -126,11 +127,11 @@ public class AddTrialActivity extends AppCompatActivity {
      * @param position
      * The index of the trial you want to publish in the list
      */
-    public void publishTrial(int position) {
-        Trial temp = trialList.remove(position);
+    @Override
+    public void publishTrial(Integer position) {
+        Trial temp = trialList.get(position);
         temp.setPublished(true);
         trialManager.FB_UpdatePublished(true, temp.getTrialId());
         trialArrayAdapter.notifyDataSetChanged();
     }
-
 }
