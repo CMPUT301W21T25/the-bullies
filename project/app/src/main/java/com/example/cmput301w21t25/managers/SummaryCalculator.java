@@ -61,6 +61,10 @@ public class SummaryCalculator {
             trialManager.FB_FetchPublishedBoolValues(exp, new FirestoreBoolCallback() {
                 @Override
                 public void onCallback(ArrayList<Boolean> list) {
+                    if (list.size() > 0) {
+                        double successRate = calculateSuccessRate(list);
+                        Log.d("OUTPUT_SUCCESS_RATE", String.valueOf(successRate));
+                    }
                     //<<<-------------THROW BOOLEAN STUFF HERE!!!!!!!!!!!!!!!!!!!!!!!!!
                 }
             });
@@ -201,4 +205,23 @@ public class SummaryCalculator {
         }
     }
 
+    public double calculateSuccessRate (ArrayList<Boolean> trials) {
+
+        int successCount = 0;
+        int totalCount = 0;
+        double successRate = 0;
+
+       for (int i = 0; i < trials.size(); i++) {
+           if (trials.get(i) == true) {
+               successCount += 1;
+           }
+           totalCount += 1;
+       }
+
+       if (totalCount != 0) {
+           successRate = ((double) successCount / (double) totalCount);
+       }
+
+       return successRate;
+    }
 }
