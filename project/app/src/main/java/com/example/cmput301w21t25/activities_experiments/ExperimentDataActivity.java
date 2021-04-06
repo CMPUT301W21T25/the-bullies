@@ -17,7 +17,7 @@ import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.location.Maps;
-import com.example.cmput301w21t25.managers.SummaryCalulator;
+import com.example.cmput301w21t25.managers.SummaryCalculator;
 import com.example.cmput301w21t25.managers.TrialManager;
 import com.example.cmput301w21t25.trials.Trial;
 
@@ -52,7 +52,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
     private double Lquart;
     private double Uquart;
     private double successRate;
-    private SummaryCalulator summaryCalulator = new SummaryCalulator();
+    private SummaryCalculator summaryCalulator = new SummaryCalculator();
 
     private Maps maps;
 

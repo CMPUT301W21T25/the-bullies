@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class SummaryCalulator {
+public class SummaryCalculator {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TrialManager trialManager = new TrialManager();
 
@@ -48,10 +48,10 @@ public class SummaryCalulator {
                         Log.d("OUTPUT_MEDIAN", String.valueOf(median));
                         double sDev = calculateSD(list);
                         Log.d("OUTPUT_STANDARD_DEV", String.valueOf(sDev));
-//                        double lowerQuart = calculateLowerQuart(list);
-//                        Log.d("OUTPUT_LOWER_QUART", String.valueOf(lowerQuart));
-//                        double upperQuart = calculateUpperQuart(list);
-//                        Log.d("OUTPUT_UPPER_QUART", String.valueOf(upperQuart));
+                        double lowerQuart = calculateLowerQuart(list);
+                        Log.d("OUTPUT_LOWER_QUART", String.valueOf(lowerQuart));
+                        double upperQuart = calculateUpperQuart(list);
+                        Log.d("OUTPUT_UPPER_QUART", String.valueOf(upperQuart));
                         //Log.d("OUTPUTS:", String.valueOf(mean))<<-------------GOAL IS TO MAKE A LOG FOR EACH VALUE U WANNA SHOW IE: MEAN,SD,ETC
                     }
                 }
@@ -161,7 +161,13 @@ public class SummaryCalulator {
 
         else {
             int midpoint = (int) Math.floor(trials.size() / 2);
-            double median = calculateMedian((ArrayList<Float>) trials.subList(0, midpoint));
+            ArrayList<Float> lowerHalf = new ArrayList<>();
+
+            //Grab the proper portion of the lower half of the list and call calculateMedian()
+            for (int i = 0; i < midpoint; i++) {
+                lowerHalf.add(trials.get(i));
+            }
+            double median = calculateMedian(lowerHalf);
             return median;
         }
     }
@@ -173,8 +179,25 @@ public class SummaryCalulator {
 
         else {
             int midpoint = (int) Math.floor(trials.size() / 2);
-            double median = calculateMedian((ArrayList<Float>) trials.subList(midpoint + 1, trials.size() - 1));
-            return median;
+            ArrayList<Float> upperHalf = new ArrayList<>();
+
+            //Grab the proper portion of the upper half of the list and call calculateMedian()
+            //Has proper midpoint
+            if (trials.size() % 2 != 0) {
+                for (int i = (midpoint + 1); i < trials.size(); i++) {
+                    upperHalf.add(trials.get(i));
+                }
+                double median = calculateMedian(upperHalf);
+                return median;
+            }
+            //Does not have proper midpoint
+            else {
+                for (int i = midpoint; i < trials.size(); i++) {
+                    upperHalf.add(trials.get(i));
+                }
+                double median = calculateMedian(upperHalf);
+                return median;
+            }
         }
     }
 
