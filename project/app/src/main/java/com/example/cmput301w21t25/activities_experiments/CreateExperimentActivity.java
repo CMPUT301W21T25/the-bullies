@@ -126,7 +126,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                                 }
                             }
                         });
-                        Intent switchScreen = new Intent(CreateExperimentActivity.this, HomeOwnedActivity.class);
+                        Intent switchScreen = new Intent(CreateExperimentActivity.this, CreatedExperimentsActivity.class);
                         switchScreen.putExtra("USER_ID", userID);
                         startActivity(switchScreen);
                     }
