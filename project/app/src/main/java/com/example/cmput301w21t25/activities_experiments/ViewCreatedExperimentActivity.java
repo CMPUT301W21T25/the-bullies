@@ -47,13 +47,23 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_created_experiment);
 
         final Button editButton = findViewById(R.id.edit_button);
-        final Button publishButton = findViewById(R.id.publish_button);
         final Button addTrialButton = findViewById(R.id.add_trial_button);
+        final Button publishButton = findViewById(R.id.publish_button);
+        final Button unpublishButton = findViewById(R.id.unpublish_button);
         final Button commentsButton = findViewById(R.id.comments_button);
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = unpackExperiment();
         expID = exp.getFb_id(); //ck
+
+        if (exp.isPublished()) {
+            publishButton.setVisibility(View.GONE);
+            unpublishButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            unpublishButton.setVisibility(View.GONE);
+            publishButton.setVisibility(View.VISIBLE);
+        }
 
 
         TextView expName = findViewById(R.id.exp_name_text_view);
@@ -82,6 +92,17 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 experimentManager.FB_UpdatePublished(true, expID);
+                publishButton.setVisibility(View.GONE);
+                unpublishButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        unpublishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                experimentManager.FB_UpdatePublished(false, expID);
+                unpublishButton.setVisibility(View.GONE);
+                publishButton.setVisibility(View.VISIBLE);
             }
         });
 
