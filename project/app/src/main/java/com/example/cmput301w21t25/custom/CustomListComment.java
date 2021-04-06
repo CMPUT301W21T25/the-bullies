@@ -90,7 +90,7 @@ public class CustomListComment extends ArrayAdapter<Comment> {
             commenterName.setTextColor(context.getResources().getColor(R.color.custom_Blue_light));
             Log.d("ID_YO", String.valueOf(comment.getCommenterID()));
         }
-        else {
+        else if (!forumExperiment.getOwnerID().equals(comment.getCommentID())) {
             commenterName.setTextColor(context.getResources().getColor(R.color.custom_Yellow_dark));
             Log.d("ID_OF_COMMENTING_FOOLS", String.valueOf(comment.getCommenterID()));
         }
