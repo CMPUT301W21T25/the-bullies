@@ -17,33 +17,30 @@ public abstract class Trial implements Serializable {
     /****************************************
                     ATTRIBUTES
      ****************************************/
-    //private User user
-    private String experimentName;
-    private User experimenter;
     private GeoPoint geoPoint;
-    //attributes added -YA
-    private String userID;
-    private String experimentOwnerName;
-    //attributes added -EK
-    private String experimentID;
-    private Boolean published;
     private Date date;
+    private String experiment;
+    private String experimentName;
+    private String experimentOwnerName;
+    private Boolean published;
+    private String user;
     private String trialId;
+    private String type;
 
     /****************************************
                 CONSTRUCTORS
      ****************************************/
 
-    /**
-     * Constructor for Trial
-     * @param experimenter the creator of the experiment
-     * @param experimentName the name of the experiment
-     */
-    public Trial(User user, User experimenter, String experimentName) {
-        //this.user = user;
-        this.experimenter = experimenter;
-        this.experimentName = experimentName;
-    }
+//    /**
+//     * Constructor for Trial
+//     * @param experimenter the creator of the experiment
+//     * @param experimentName the name of the experiment
+//     */
+//    public Trial(User user, User experimenter, String experimentName) {
+//        //this.user = user;
+//        this.experimenter = experimenter;
+//        this.experimentName = experimentName;
+//    }
 
     //extra constructor added -YA //extra attributes added -EK
 
@@ -58,10 +55,10 @@ public abstract class Trial implements Serializable {
      */
     public Trial(String userID, String experimentName, String experimentOwnerName, String experimentID, Boolean published, Date date) {
 
-        this.userID = userID;
+        this.user = userID;
         this.experimentName=experimentName;
         this.experimentOwnerName=experimentOwnerName;
-        this.experimentID = experimentID;
+        this.experiment = experimentID;
         this.published = published;
         this.date = date;
     }
@@ -78,8 +75,8 @@ public abstract class Trial implements Serializable {
         return experimentName;
     }
 
-    public String getExperimentID() {
-        return experimentID;
+    public String getExperiment() {
+        return experiment;
     }
 
     /**
@@ -88,7 +85,7 @@ public abstract class Trial implements Serializable {
      */
 
     public String getUser() {
-        return userID;
+        return user;
     }
     /**
      * getter for the trial date
@@ -131,5 +128,13 @@ public abstract class Trial implements Serializable {
 
     public void setGeoPoint(GeoPoint geoPoint) {
         this.geoPoint = geoPoint;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

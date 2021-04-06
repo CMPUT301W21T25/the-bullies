@@ -62,18 +62,16 @@ public class ExperimentManager {
      * @param type the type of experiment(ie: count, nonNegCount, binomial etc)
      * @param date the date and time of creation of the experiment
      * @param minTrials the minimum number of trials required to end an experiment
-     * @param pubTrials the current number of published trials an experiment has
      */
     public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName,
                                     String description, String region, ArrayList<String> tags,
                                     Boolean geoEnabled, Boolean published, String type, Date date,
-                                    int minTrials, int pubTrials){
+                                    int minTrials){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("ownerID", ownerID);
         experimentDoc.put("name",experimentName);
         experimentDoc.put("minNumTrials", minTrials);
-        experimentDoc.put("publishedTrials", pubTrials);
         experimentDoc.put("owner",ownerName);
         experimentDoc.put("description",description);
         experimentDoc.put("region",region);
@@ -390,7 +388,7 @@ public class ExperimentManager {
         });
     }
 
-    public void FB_UpdateExperimentTextViews(String expID, TextView expName,TextView expDesc,TextView expType,TextView minTrials){
+    public void FB_UpdateExperimentTextViews(String expID, TextView expName,TextView expDesc,TextView expType,TextView minTrials, TextView region){
         db.collection("Experiments").whereEqualTo(FieldPath.documentId(),expID)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -403,6 +401,7 @@ public class ExperimentManager {
                             expDesc.setText(experiment.getDescription());
                             expType.setText(experiment.getType());
                             minTrials.setText("Minimum Trials: " + String.valueOf(experiment.getMinNumTrials()));
+                            region.setText("Region: " + experiment.getRegion());
                             Log.d("YA_DB test: ", "fetched: " + experiment);
                         }
                     }
@@ -421,6 +420,10 @@ public class ExperimentManager {
                 if(doc != null && doc.exists()){
                     ArrayList<String> key = (ArrayList<String>) doc.get("trialKeys");
                     Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    if(key==null){
+                        key= new ArrayList<String>();
+                        key.add("");
+                    }
                     fsCallback.onCallback(key);
                 }
             }
@@ -433,6 +436,10 @@ public class ExperimentManager {
                 if(doc != null && doc.exists()){
                     ArrayList<String> key = (ArrayList<String>) doc.get("commentKeys");
                     Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
+                    if(key==null){
+                        key= new ArrayList<String>();
+                        key.add("");
+                    }
                     fsCallback.onCallback(key);
                 }
             }

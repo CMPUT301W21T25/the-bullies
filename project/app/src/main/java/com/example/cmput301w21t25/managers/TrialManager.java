@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.cmput301w21t25.FirestoreBoolCallback;
+import com.example.cmput301w21t25.FirestoreFloatCallback;
 import com.example.cmput301w21t25.FirestoreStringCallback;
 import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -74,7 +76,7 @@ public class TrialManager {
         trialDoc.put("published",published);
         trialDoc.put("result",result);
         trialDoc.put("date", new Date());
-        trialDoc.put("GeoPoint", geoPoint);
+        trialDoc.put("geoPoint", geoPoint);
         //experiment.put("comment", ); ill add this later
 
         db.collection("TrialDocs")
@@ -133,7 +135,7 @@ public class TrialManager {
         trialDoc.put("published",published);
         trialDoc.put("result",result);
         trialDoc.put("date", new Date());
-        trialDoc.put("GeoPoint", geoPoint);
+        trialDoc.put("geoPoint", geoPoint);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -196,7 +198,7 @@ public class TrialManager {
         trialDoc.put("published",published);
         trialDoc.put("result",result);
         trialDoc.put("date", new Date());
-        trialDoc.put("GeoPoint", geoPoint);
+        trialDoc.put("geoPoint", geoPoint);
         //experiment.put("comment", ); ill add this later
 
         // Add a new Experiment with a generated ID
@@ -350,6 +352,7 @@ public class TrialManager {
                                             if(types.contains(type)){
                                                 MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
                                                 measurableTrial.setTrialId(doc.getId());
+                                                measurableTrial.setType("measurable");
                                                 trials.add(measurableTrial);
                                                 trialAdapter.notifyDataSetChanged();
                                                 Log.d("YA-DB: ", String.valueOf(trials));
@@ -357,6 +360,7 @@ public class TrialManager {
                                             else{
                                                 NonMeasurableTrial nonmeasurableTrial = doc.toObject(NonMeasurableTrial.class);
                                                 nonmeasurableTrial.setTrialId(doc.getId());
+                                                nonmeasurableTrial.setType("non-measurable");
                                                 trials.add(nonmeasurableTrial);
                                                 trialAdapter.notifyDataSetChanged();
                                             }
@@ -385,6 +389,9 @@ public class TrialManager {
                                 }
                             });
                 }
+                else{
+                    currTrials.setText("Current Trials: 0");
+                }
 
             }
         });
@@ -407,21 +414,66 @@ public class TrialManager {
                             for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                                 String type = exp.getType();
                                 if(types.contains(type)){
-                                    MeasurableTrial countParent = doc.toObject(MeasurableTrial.class);
-                                    countParent.setTrialId(doc.getId());
+                                    MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
+                                    measurableTrial.setTrialId(doc.getId());
+                                    measurableTrial.setType("measurable");
                                     //Log.d("YA_TEST:",countParent.getTrialId());
-                                    trialList.add(countParent);
+                                    trialList.add(measurableTrial);
                                 }
                                 else{
-                                    NonMeasurableTrial binomialParent = doc.toObject(NonMeasurableTrial.class);
-                                    binomialParent.setTrialId(doc.getId());
+                                    NonMeasurableTrial nonmeasurableTrial = doc.toObject(NonMeasurableTrial.class);
+                                    nonmeasurableTrial.setTrialId(doc.getId());
+                                    nonmeasurableTrial.setType("measurable");
                                     //Log.d("YA_TEST:",binomialParent.getTrialId());
-                                    trialList.add(binomialParent);
+                                    trialList.add(nonmeasurableTrial);
                                 }
                             }
                             firestoreTrialCallback.onCallback(trialList);
                         }
                     });
+            }
+        });
+    }
+    public void FB_FetchPublishedMesValues(Experiment exp, FirestoreFloatCallback firestoreTrialCallback){
+        expManager.FB_FetchTrialKeys(exp.getFb_id(), new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                ArrayList<Float> trialList = new ArrayList<Float>();
+                Log.d("TESTING_LIST:", String.valueOf(list));
+                db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                                    MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
+                                    //Log.d("YA_TEST:",countParent.getTrialId());
+                                    Log.d("OUTPUT_VAL", String.valueOf(measurableTrial.getResult()));
+                                    trialList.add(measurableTrial.getResult());
+                                }
+                                firestoreTrialCallback.onCallback(trialList);
+                            }
+                        });
+            }
+        });
+    }
+    public void FB_FetchPublishedBoolValues(Experiment exp, FirestoreBoolCallback firestoreTrialCallback){
+        expManager.FB_FetchTrialKeys(exp.getFb_id(), new FirestoreStringCallback() {
+            @Override
+            public void onCallback(ArrayList<String> list) {
+                ArrayList<Boolean> trialList = new ArrayList<Boolean>();
+                Log.d("TESTING_LIST:", String.valueOf(list));
+                db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                                    NonMeasurableTrial measurableTrial = doc.toObject(NonMeasurableTrial.class);
+                                    //Log.d("YA_TEST:",countParent.getTrialId());
+                                    trialList.add(measurableTrial.getResult());
+                                }
+                                firestoreTrialCallback.onCallback(trialList);
+                            }
+                        });
             }
         });
     }

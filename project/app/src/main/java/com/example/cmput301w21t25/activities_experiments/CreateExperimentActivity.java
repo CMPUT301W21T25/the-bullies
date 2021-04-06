@@ -35,6 +35,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
     EditText experimentDescription;
     EditText experimentTags;
     EditText minimumTrials;
+    EditText region;
 
     ArrayList<String> experimentKeywords;
     String type;
@@ -61,12 +62,13 @@ public class CreateExperimentActivity extends AppCompatActivity {
         experimentManager = new ExperimentManager();
 
         //This is temp I don't know what to do for location
-        String testRegion = "EMPTY STRING";
+        //String testRegion = "EMPTY STRING";
 
         experimentName = findViewById(R.id.editTextExpName);
         experimentDescription = findViewById(R.id.editTextEnterDescription);
         experimentTags = findViewById(R.id.editTextKeywords);
         minimumTrials = findViewById(R.id.editTextMinTrials);
+        region = findViewById(R.id.editTextRegion);
 
         published = findViewById(R.id.checkBoxPublish);
         geolocationEnabled = findViewById(R.id.checkBoxGeolocation);
@@ -87,6 +89,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                 String description = experimentDescription.getText().toString();
                 String name = experimentName.getText().toString();
                 Integer minTrials = Integer.parseInt(minimumTrials.getText().toString());
+                String Region = region.getText().toString();
 
                 //Experiment keywords parsed and cast to lower case on creation to ensure
                 //compatibility with User keyword search later on
@@ -107,7 +110,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 experimentOwner = (String) document.getData().get("name");
-                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, testRegion, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials, 0);
+                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, Region, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials);
                                 //
                             }
                         }

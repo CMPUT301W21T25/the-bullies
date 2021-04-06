@@ -41,15 +41,17 @@
         <activity android:name=".activities_user.OtherUserProfileActivity" />
         <activity android:name=".activities_experiments.CreateExperimentActivity" />
         <activity android:name=".activities_user.GenerateUserActivity" />
-        <activity
-            android:name=".activities_main.HomeSubbedActivity"
-            android:label="Subscribed Experiments" />
-        <activity
-            android:name=".activities_main.SearchActivity"
-            android:label="Search for Experiment" />
-        <activity
-            android:name=".activities_main.HomeOwnedActivity"
-            android:label="Created Experiments" />
+
+
+        <activity android:name=".activities_main.HomeSubbedActivity"
+            android:label="Subscribed Experiments"/>
+        <activity android:name=".activities_main.SearchActivity"
+            android:label="Search for Experiment"/>
+        <activity android:name=".activities_main.HomeOwnedActivity"
+            android:label="Created Experiments"/>
+        <activity android:name=".activities_forum.ForumActivity" />
+        <activity android:name=".activities_forum.NewReplyActivity" />
+        <activity android:name=".activities_forum.NewCommentActivity" />
         <activity android:name=".activities_user.MyUserProfileActivity" />
         <activity android:name=".activities_experiments.ViewExperimentActivity" />
         <activity android:name=".activities_experiments.ViewCreatedExperimentActivity" />
