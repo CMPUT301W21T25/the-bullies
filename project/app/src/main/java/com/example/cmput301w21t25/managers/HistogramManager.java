@@ -8,6 +8,8 @@ import com.example.cmput301w21t25.experiments.Experiment;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class HistogramManager {
@@ -27,6 +29,9 @@ public class HistogramManager {
                 @Override
                 public void onCallback(ArrayList<Float> list) {
                     if(list.size()>0){
+                        int minNum = list.indexOf(Collections.min(list));
+                        int maxNum = list.indexOf(Collections.max(list));
+
                         //RUN ALL FLOAT RELATED METHODS HERE
                     }
                 }
@@ -36,9 +41,14 @@ public class HistogramManager {
             trialManager.FB_FetchPublishedBoolValues(exp, new FirestoreBoolCallback() {
                 @Override
                 public void onCallback(ArrayList<Boolean> list) {
-                    //RUN ALL BOOLEAN RELATED METHODS HERE
+                    if(list.size()>0){
+
+                        //RUN ALL BOOLEAN RELATED METHODS HERE
+                    }
+
                 }
             });
         }
     }
+
 }

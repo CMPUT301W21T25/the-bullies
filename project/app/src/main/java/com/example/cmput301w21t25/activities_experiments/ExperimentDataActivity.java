@@ -181,4 +181,23 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
         return formattedDate;
     }
 
+    @Override
+    public void onButtonPressed(Button button) {
+
+        Intent intent;
+        intent = new Intent(ExperimentDataActivity.this, HistogramActivity.class);
+//        if(button.getText() == "Graph"){
+//            intent = new Intent(ExperimentDataActivity.this, BarChart.class);
+//        }
+//        else{
+//            intent = new Intent(ExperimentDataActivity.this, Plot.class);
+//        }
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("EXP", exp);
+        bundle.putString("TYPE", type);
+        intent.putExtra("EXP_BUNDLE", bundle);
+        startActivity(intent);
+
+    }
 }
