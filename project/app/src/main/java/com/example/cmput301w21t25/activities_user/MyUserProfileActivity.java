@@ -139,7 +139,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
         String name = newName.getText().toString();
         String email = newEmail.getText().toString();
 
-        if(name.length()>0 && email.length()>0){
+        if (!name.equals("") && !email.equals("")) {
             userManager.FB_isUnique(name, userID, email, this,  "update");
         }else{
             Toast toast = Toast.makeText(getApplicationContext(), "Please don't leave profile empty", Toast.LENGTH_LONG);
