@@ -89,9 +89,13 @@ public class ConductMeasurementTrialActivity extends AppCompatActivity {
                         measurementString = measurementDisplay.getText().toString();
                         measurement = Float.parseFloat(measurementString);
                         //Create the doc form of the trial in the database to call later
-                        GeoPoint geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
-                        trialManager.FB_CreateMeasurementTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, measurement, trialParent, geoPoint);
 
+                        //Since get returns null if we dont have a location, create a null geopoint instead
+                        GeoPoint geoPoint = null;
+                        if (trialParent.isGeoEnabled()) {
+                            geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
+                        }
+                        trialManager.FB_CreateMeasurementTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, measurement, trialParent, geoPoint);
                         //Intent return to list view and add to trial list
                         Intent switchScreen = new Intent(ConductMeasurementTrialActivity.this, AddTrialActivity.class);
                         switchScreen.putExtra("USER_ID", userID);
@@ -101,7 +105,7 @@ public class ConductMeasurementTrialActivity extends AppCompatActivity {
                     else {
                         //call toast that says you need a location
                         Toast.makeText(ConductMeasurementTrialActivity.this, "This experiment requires a location!", Toast.LENGTH_SHORT).show();
-                    }
+                        }
                 }else{
                     toast.show();
                 }

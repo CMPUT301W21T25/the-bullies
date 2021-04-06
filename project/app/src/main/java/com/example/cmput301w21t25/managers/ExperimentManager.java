@@ -57,16 +57,17 @@ public class ExperimentManager {
      * @param description a brief description of the experiment
      * @param region the geolocation of the region
      * @param tags the tags associated with the experiment
-     * @param geoEnabled a boolean that tells weather or not geolocation is enabled or not
-     * @param published a boolean that tells weather or not the experiment is published or not
+     * @param subscribe a boolean that tells whether the owner subscribed to the experiment or not
+     * @param geoEnabled a boolean that tells whether or not geolocation is enabled or not
+     * @param published a boolean that tells whether or not the experiment is published or not
      * @param type the type of experiment(ie: count, nonNegCount, binomial etc)
      * @param date the date and time of creation of the experiment
      * @param minTrials the minimum number of trials required to end an experiment
      */
     public void FB_CreateExperiment(String ownerID, String experimentName, String ownerName,
                                     String description, String region, ArrayList<String> tags,
-                                    Boolean geoEnabled, Boolean published, String type, Date date,
-                                    int minTrials){
+                                    Boolean subscribe, Boolean geoEnabled, Boolean published,
+                                    String type, Date date, int minTrials){
         // Create a new experiment Hash Map this is the datatype stored in firebase for documents
         Map<String,Object> experimentDoc  = new HashMap<>();
         experimentDoc.put("ownerID", ownerID);
@@ -105,7 +106,9 @@ public class ExperimentManager {
                                                 currentOwned.add(documentReference.getId());
 
                                                 userManager.FB_UpdateOwnedExperiments(currentOwned,ownerID);
-                                                userManager.FB_UpdateSubscriptions(currentOwned,ownerID);
+                                                if (subscribe) {
+                                                    userManager.FB_UpdateSubscriptions(currentOwned, ownerID);
+                                                }
 
                                             }
                                         }
@@ -375,8 +378,10 @@ public class ExperimentManager {
                             {
                                 Experiment experiment = doc.toObject(Experiment.class);
                                 experiment.setFb_id(doc.getId());
-                                experiments.add(experiment);
-                                experimentAdapter.notifyDataSetChanged();
+                                if (experiment.isPublished()) {
+                                    experiments.add(experiment);
+                                    experimentAdapter.notifyDataSetChanged();
+                                }
                                 Log.d("YA-DBS: ", "fetched: " + experiments);
                                 fsCallBack.onCallback(experiments);
                             }

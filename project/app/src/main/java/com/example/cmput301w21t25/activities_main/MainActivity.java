@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                                             //EDEN:
                                             //For list testing I'm going to send it to homeOwned instead
                                             //Can return to userProfile activity later
-                                            Intent intent = new Intent(getBaseContext(), HomeOwnedActivity.class);
+                                            Intent intent = new Intent(getBaseContext(), CreatedExperimentsActivity.class);
                                             intent.putExtra("USER_ID", userID);
                                             startActivity(intent);
                                             //start sublist activity

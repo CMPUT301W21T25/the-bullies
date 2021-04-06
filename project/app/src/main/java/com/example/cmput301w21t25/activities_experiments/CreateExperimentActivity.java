@@ -14,7 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.example.cmput301w21t25.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +44,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
 
     Location experimentLocation;
 
+    CheckBox subscribe;
     CheckBox published;
     CheckBox geolocationEnabled;
 
@@ -71,6 +72,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
         minimumTrials = findViewById(R.id.editTextMinTrials);
         region = findViewById(R.id.editTextRegion);
 
+        subscribe = findViewById(R.id.checkBoxSubscribe);
         published = findViewById(R.id.checkBoxPublish);
         geolocationEnabled = findViewById(R.id.checkBoxGeolocation);
 
@@ -118,11 +120,10 @@ public class CreateExperimentActivity extends AppCompatActivity {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
                                         experimentOwner = (String) document.getData().get("name");
-                                        experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, Region, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials);
+                                        experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, Region, experimentKeywords, subscribe.isChecked(), geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials);
                                         //
                                     }
                                 }
-
                             }
                         });
                         Intent switchScreen = new Intent(CreateExperimentActivity.this, HomeOwnedActivity.class);
@@ -130,6 +131,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                         startActivity(switchScreen);
                     }
                 } else{ noInput.show(); }
+
             }
         });
 
