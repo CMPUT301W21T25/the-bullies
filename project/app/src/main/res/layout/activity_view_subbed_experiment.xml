@@ -157,7 +157,6 @@
             android:layout_height="60dp"
             android:layout_marginStart="35dp"
             android:layout_marginLeft="35dp"
-            android:onClick="subscribeButton"
             android:text="Add Trial" />
     </LinearLayout>
 

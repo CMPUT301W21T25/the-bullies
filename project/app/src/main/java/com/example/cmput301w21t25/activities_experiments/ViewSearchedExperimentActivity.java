@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
+import com.example.cmput301w21t25.activities_forum.ForumActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -56,6 +57,9 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
         TextView currTrials = findViewById(R.id.current_trials_text_view);
         TextView region = findViewById(R.id.region_text_view);
         TextView geoLoc = findViewById(R.id.geoLoc_text_view);
+        final Button commentsButton = findViewById(R.id.comments_button);
+        final Button dataButton = findViewById(R.id.view_data_button);
+
         if (exp.isGeoEnabled()) {
             geoLoc.setText("WARNING: Trials require a location");
         }
@@ -67,7 +71,6 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
         experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
 
-
         //DK
         final Button subscribe = findViewById(R.id.subscribe_button);
         subscribe.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +80,25 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
             }
         });
 
+        commentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewComments = new Intent(ViewSearchedExperimentActivity.this, ForumActivity.class);
+                viewComments.putExtra("USER_ID", userID);
+                viewComments.putExtra("FORUM_EXPERIMENT", exp);
+                startActivity(viewComments);
+            }
+        });
 
-
+        dataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent switchScreens = new Intent(ViewSearchedExperimentActivity.this, ExperimentDataActivity.class);
+                switchScreens.putExtra("USER_ID", userID);
+                switchScreens.putExtra("EXP", exp);
+                startActivity(switchScreens);
+            }
+        });
     }
 
     /**
@@ -191,19 +211,6 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
         Intent intent = new Intent(ViewSearchedExperimentActivity.this, SearchExperimentsActivity.class);
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
-    }
-
-
-
-    /**
-     * Sets the button to be clicked to view the statistics/graphs of the experiment
-     * @param view the experiment view
-     */
-    public void dataButton(View view) {
-        Intent switchScreens = new Intent(ViewSearchedExperimentActivity.this, ExperimentDataActivity.class);
-        switchScreens.putExtra("USER_ID", userID);
-        switchScreens.putExtra("EXP", exp);
-        startActivity(switchScreens);
     }
 
 }
