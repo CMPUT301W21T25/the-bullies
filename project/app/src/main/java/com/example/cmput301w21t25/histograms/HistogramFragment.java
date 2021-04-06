@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.net.sip.SipSession;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -68,7 +69,7 @@ public class HistogramFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setNegativeButton("CANCEL", null)
+                .setNegativeButton(Html.fromHtml("<font color=#28527a>FILTER</font>"), null)
                 .create();
     }
 }
