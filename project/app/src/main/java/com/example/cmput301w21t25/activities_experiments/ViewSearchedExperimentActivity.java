@@ -43,7 +43,7 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_view_experiment);
+        setContentView(R.layout.activity_view_searched_experiment);
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = unpackExperiment();
@@ -58,6 +58,7 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
         TextView geoLoc = findViewById(R.id.geoLoc_text_view);
         final Button commentsButton = findViewById(R.id.comments_button);
         final Button dataButton = findViewById(R.id.view_data_button);
+        final Button subscribe = findViewById(R.id.subscribe_button);
 
         if (exp.isGeoEnabled()) {
             geoLoc.setText("WARNING: Trials require a location");
@@ -71,7 +72,7 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
 
         //DK
-        final Button subscribe = findViewById(R.id.add_trial_button);
+
         subscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

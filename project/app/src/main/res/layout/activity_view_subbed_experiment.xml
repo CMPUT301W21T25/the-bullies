@@ -132,7 +132,6 @@
             android:layout_height="60dp"
             android:layout_marginStart="35dp"
             android:layout_marginLeft="35dp"
-            android:onClick="dataButton"
             android:text="view data" />
     </LinearLayout>
 

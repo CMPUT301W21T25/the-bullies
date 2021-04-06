@@ -64,7 +64,7 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         final Button addTrialButton = findViewById(R.id.add_trial_button);
         final Button commentsButton = findViewById(R.id.comments_button);
         final Button dataButton = findViewById(R.id.view_data_button);
-
+        final Button unsubscribe = findViewById(R.id.unsubscribe_button);
 
 
         //Make add trial button open add trials page
@@ -79,8 +79,6 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
             }
         });
 
-        //DK
-        final Button unsubscribe = findViewById(R.id.unsubscribe_button);
         unsubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
