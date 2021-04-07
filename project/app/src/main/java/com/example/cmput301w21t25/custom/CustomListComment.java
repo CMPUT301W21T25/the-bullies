@@ -82,20 +82,20 @@ public class CustomListComment extends ArrayAdapter<Comment> {
         else {
             replyGraphic.setVisibility(View.VISIBLE);
             newThreadGraphic.setVisibility(View.INVISIBLE);
-            commentHeader.setText("Replying to: " + comment.getRespondingTo());
+            commentHeader.setText("Replying to: " + comment.getRespondingTo() + "...");
         }
 
-        //If the commenter is the experiment owner, change the colour of their name
+        //If the commenter is the experiment owner, change the colour of their name and specify
         if (forumExperiment.getOwnerID().equals(comment.getCommenterID())) {
-            commenterName.setTextColor(context.getResources().getColor(R.color.custom_Blue_light));
-            Log.d("ID_YO", String.valueOf(comment.getCommenterID()));
+            commenterName.setText("Owner: " + comment.getCommenterName());
+            commenterName.setTextColor(context.getResources().getColor(R.color.custom_Yellow_dark));
         }
         else if (!forumExperiment.getOwnerID().equals(comment.getCommentID())) {
-            commenterName.setTextColor(context.getResources().getColor(R.color.custom_Yellow_dark));
-            Log.d("ID_OF_COMMENTING_FOOLS", String.valueOf(comment.getCommenterID()));
+            commenterName.setText(comment.getCommenterName());
+            commenterName.setTextColor(context.getResources().getColor(R.color.custom_Blue_light));
         }
 
-        commenterName.setText(comment.getCommenterName());
+        //Convert Date object to simple format
         commentDate.setText(dateString);
         commentContent.setText(comment.getComment());
 /*
