@@ -7,16 +7,20 @@
 
     <TextView
         android:id="@+id/measureExpDescription"
-        android:layout_width="414dp"
+        android:layout_width="match_parent"
         android:layout_height="144dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/list_info_background"
+        android:padding="10dp"
         android:text="TextView"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/measurementExperimentInfo" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/measurementExperimentInfo"
         android:layout_width="0dp"
-        android:layout_height="180dp"
+        android:layout_height="100dp"
         android:background="@color/custom_Yellow_dark"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -35,12 +39,17 @@
         android:layout_marginTop="16dp"
         android:text="Confirm Trial"
         android:textColor="@color/custom_Yellow_light"
-        app:backgroundTint="@color/custom_Blue_light"
+        app:backgroundTint="@color/custom_Blue_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/measurementEntry" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@id/measureExpDescription"/>
     <EditText
         android:id="@+id/measurementEntry"
         android:layout_width="186dp"
@@ -71,8 +80,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="20dp"
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="379dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/button3"
