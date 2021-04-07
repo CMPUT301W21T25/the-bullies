@@ -55,7 +55,7 @@ public class NewReplyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 replyBody = replyEditText.getText().toString();
-                forumManager.FB_CreateComment(forumExperiment.getFb_id(), replyBody, userID, replyingToComment.getCommentID(), replyingToComment.getCommenterName());
+                forumManager.FB_CreateComment(forumExperiment.getFb_id(), replyBody, userID, replyingToComment.getCommentID(), replyingToComment.getComment().substring(0, 15));
 
                 Intent returnToForum = new Intent(NewReplyActivity.this, ForumActivity.class);
                 returnToForum.putExtra("USER_ID", userID);
