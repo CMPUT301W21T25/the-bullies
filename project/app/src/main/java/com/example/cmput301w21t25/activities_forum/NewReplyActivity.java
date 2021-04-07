@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,18 +55,23 @@ public class NewReplyActivity extends AppCompatActivity {
         confirmReplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replyBody = replyEditText.getText().toString();
-                if (replyingToComment.getComment().length() < 15) {
-                    forumManager.FB_CreateComment(forumExperiment.getFb_id(), replyBody, userID, replyingToComment.getCommentID(), replyingToComment.getComment());
+                if (replyEditText.getText().length()>0){
+                    replyBody = replyEditText.getText().toString();
+                    if (replyingToComment.getComment().length() < 15) {
+                        forumManager.FB_CreateComment(forumExperiment.getFb_id(), replyBody, userID, replyingToComment.getCommentID(), replyingToComment.getComment());
+                    }
+                    else {
+                        forumManager.FB_CreateComment(forumExperiment.getFb_id(), replyBody, userID, replyingToComment.getCommentID(), replyingToComment.getComment().substring(0, 15));
+                    }
+
+                    Intent returnToForum = new Intent(NewReplyActivity.this, ForumActivity.class);
+                    returnToForum.putExtra("USER_ID", userID);
+                    returnToForum.putExtra("FORUM_EXPERIMENT", forumExperiment);
+                    startActivity(returnToForum);
                 }
                 else {
-                    forumManager.FB_CreateComment(forumExperiment.getFb_id(), replyBody, userID, replyingToComment.getCommentID(), replyingToComment.getComment().substring(0, 15));
+                    Toast.makeText(getApplicationContext(), "Please don't give empty reply", Toast.LENGTH_LONG).show();
                 }
-
-                Intent returnToForum = new Intent(NewReplyActivity.this, ForumActivity.class);
-                returnToForum.putExtra("USER_ID", userID);
-                returnToForum.putExtra("FORUM_EXPERIMENT", forumExperiment);
-                startActivity(returnToForum);
             }
         });
     }
