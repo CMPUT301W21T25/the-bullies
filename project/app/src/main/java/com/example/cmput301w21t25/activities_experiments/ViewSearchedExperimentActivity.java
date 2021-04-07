@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_forum.ForumActivity;
+import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -208,7 +209,8 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
                     }
                 });
 
-        Intent intent = new Intent(ViewSearchedExperimentActivity.this, SearchExperimentsActivity.class);
+        // change this so that it takes you back to search activity without saving viewed experiment in history
+        Intent intent = new Intent(ViewSearchedExperimentActivity.this, SubbedExperimentsActivity.class);
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
     }

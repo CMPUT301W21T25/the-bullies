@@ -115,7 +115,7 @@
         android:id="@+id/view_data_button"
         android:layout_width="150dp"
         android:layout_height="60dp"
-        android:layout_below="@id/info_linear_layout"
+        android:layout_above="@id/button_linear_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
         android:text="view data" />
@@ -124,7 +124,7 @@
         android:id="@+id/button_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view_data_button"
+        android:layout_above="@id/button_linear_layout2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
         android:orientation="horizontal">
@@ -148,7 +148,7 @@
         android:id="@+id/button_linear_layout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_linear_layout"
+        android:layout_above="@id/bottom_space"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
         android:orientation="horizontal">
@@ -165,7 +165,7 @@
             android:layout_height="60dp"
             android:layout_marginStart="35dp"
             android:layout_marginLeft="35dp"
-            android:text="Publish"/>
+            android:text="Publish" />
 
         <Button
             android:id="@+id/unpublish_button"
@@ -175,5 +175,11 @@
             android:layout_marginLeft="35dp"
             android:text="Unpublish" />
     </LinearLayout>
+
+    <Space
+        android:id="@+id/bottom_space"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
