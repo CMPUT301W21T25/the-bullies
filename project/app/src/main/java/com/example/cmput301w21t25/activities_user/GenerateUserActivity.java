@@ -70,6 +70,7 @@ public class GenerateUserActivity extends AppCompatActivity {
         else {
             //something is null
             Toast.makeText(GenerateUserActivity.this, "Don't leave fields empty!", Toast.LENGTH_SHORT).show();
+
         }
 
     }

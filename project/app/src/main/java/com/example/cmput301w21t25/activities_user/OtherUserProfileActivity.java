@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
+import com.example.cmput301w21t25.activities_experiments.ViewSearchedExperimentActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -85,7 +85,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         Intent intent = null;
         switch (prevScreen) {
             case "Experiment":
-                intent = new Intent(OtherUserProfileActivity.this, ViewExperimentActivity.class);
+                intent = new Intent(OtherUserProfileActivity.this, ViewSearchedExperimentActivity.class);
                 intent.putExtra("EXP_BUNDLE", expBundle);
                 break;
 

@@ -1,5 +1,6 @@
 package com.example.cmput301w21t25.activities_experiments;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,8 @@ import androidx.fragment.app.FragmentManager;
 import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.activities_graphs.HistogramActivity;
+import com.example.cmput301w21t25.histograms.HistogramFragment;
 import com.example.cmput301w21t25.location.Maps;
 import com.example.cmput301w21t25.managers.SummaryCalculator;
 import com.example.cmput301w21t25.managers.TrialManager;
@@ -32,7 +35,7 @@ import java.util.List;
 /**
  * This activity is used to view the data of an experiment
  */
-public class ExperimentDataActivity extends AppCompatActivity {
+public class ExperimentDataActivity extends AppCompatActivity implements HistogramFragment.OnFragmentInteractionListener {
     Toolbar experimentInfo;
 
     TextView descriptionTextView;
@@ -103,7 +106,6 @@ public class ExperimentDataActivity extends AppCompatActivity {
             }
         });
 
-
         //Check if experiment requires a location
         Button viewMap = (Button) findViewById(R.id.viewMapsButton);
         if (exp.isGeoEnabled()) {
@@ -140,6 +142,17 @@ public class ExperimentDataActivity extends AppCompatActivity {
         });
         //                                  END LOCATION OnCreate
         //-----------------------------------------------------------------------------
+
+        //----------------------------------GRAPH onCreate-----------------------------
+        Button histograms = (Button) findViewById(R.id.viewGraphsButton);
+        histograms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new HistogramFragment().show(getSupportFragmentManager(),"HISTOGRAM");
+            }
+        });
+
+        //----------------------------------END GRAPH onCreate-------------------------
     }
 
 
@@ -151,6 +164,7 @@ public class ExperimentDataActivity extends AppCompatActivity {
 
     //                                  END LOCATION Methods
     //-----------------------------------------------------------------------------
+
 
 
     /**
@@ -165,4 +179,25 @@ public class ExperimentDataActivity extends AppCompatActivity {
         return formattedDate;
     }
 
+    @Override
+    public void onButtonPressed(Button button) {
+        Intent intent;
+        intent = new Intent(ExperimentDataActivity.this, HistogramActivity.class);
+//        if(button.getText() == "Graph"){
+//            intent = new Intent(ExperimentDataActivity.this, BarChart.class);
+//        }
+//        else{
+//            intent = new Intent(ExperimentDataActivity.this, Plot.class);
+//        }
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("EXP", exp);
+        Log.d("ExpBundleToHistogram", exp.toString());
+
+        bundle.putString("TYPE", type);
+        Log.d("WHAT_IS_TYPE", type);
+
+        intent.putExtra("EXP_BUNDLE", bundle);
+        startActivity(intent);
+    }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,13 +48,18 @@ public class NewCommentActivity extends AppCompatActivity {
         confirmCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commentBody = commentEditText.getText().toString();
-                forumManager.FB_CreateComment(forumExperiment.getFb_id(), commentBody, userID, "", "");
+                if(commentEditText.getText().length()>0){
+                    commentBody = commentEditText.getText().toString();
+                    forumManager.FB_CreateComment(forumExperiment.getFb_id(), commentBody, userID, "", "");
 
-                Intent returnToForum = new Intent(NewCommentActivity.this, ForumActivity.class);
-                returnToForum.putExtra("USER_ID", userID);
-                returnToForum.putExtra("FORUM_EXPERIMENT", forumExperiment);
-                startActivity(returnToForum);
+                    Intent returnToForum = new Intent(NewCommentActivity.this, ForumActivity.class);
+                    returnToForum.putExtra("USER_ID", userID);
+                    returnToForum.putExtra("FORUM_EXPERIMENT", forumExperiment);
+                    startActivity(returnToForum);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Please don't create empty commant", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

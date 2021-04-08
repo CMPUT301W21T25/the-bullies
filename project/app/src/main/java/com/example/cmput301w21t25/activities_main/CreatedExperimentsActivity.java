@@ -13,12 +13,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.cmput301w21t25.CustomToolbar;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.CreateExperimentActivity;
 import com.example.cmput301w21t25.activities_experiments.ViewCreatedExperimentActivity;
@@ -33,7 +31,7 @@ import java.util.ArrayList;
 /**
  * this activity shows a list of all the experiments this user has created
  */
-public class HomeOwnedActivity extends AppCompatActivity {
+public class CreatedExperimentsActivity extends AppCompatActivity {
 
     private ListView ownedExperimentsListView;
     private ArrayList<Experiment> ownedExperimentsList;
@@ -97,7 +95,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
 
 
 
-                Intent viewExp = new Intent(HomeOwnedActivity.this, ViewCreatedExperimentActivity.class);
+                Intent viewExp = new Intent(CreatedExperimentsActivity.this, ViewCreatedExperimentActivity.class);
 
                 Bundle expBundle = new Bundle();
                 expBundle.putSerializable("EXP_OBJ", experiment);
@@ -113,14 +111,18 @@ public class HomeOwnedActivity extends AppCompatActivity {
         createExperimentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent newExp = new Intent(HomeOwnedActivity.this, CreateExperimentActivity.class);
+                Intent newExp = new Intent(CreatedExperimentsActivity.this, CreateExperimentActivity.class);
                 newExp.putExtra("USER_ID", userID);
                 startActivity(newExp);
             }
         });
     }
 
-    //Toolbar Menu setup!
+    /**
+     * This event is menu setup!
+     * @param menu this is the menu being integrated
+     * @return true to indicate there is a menu (return false to turn off)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -129,6 +131,11 @@ public class HomeOwnedActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * This event is for menu item setup
+     * @param item these are items that will be added to the menu
+     * @return @return true to indicate there is this item (return false to turn off)
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -136,8 +143,8 @@ public class HomeOwnedActivity extends AppCompatActivity {
             case R.id.home_button:
                 return true;
             case R.id.settings_button:
-                Intent user_settings = new Intent(HomeOwnedActivity.this, MyUserProfileActivity.class);
-                user_settings.putExtra("userID", userID);
+                Intent user_settings = new Intent(CreatedExperimentsActivity.this, MyUserProfileActivity.class);
+                user_settings.putExtra("USER_ID", userID);
                 user_settings.putExtra("prevScreen", "Owned");
                 startActivity(user_settings);
                 return true;
@@ -167,7 +174,7 @@ public class HomeOwnedActivity extends AppCompatActivity {
                 }
 
                 if (x1 > (x2)) {
-                    Intent switchScreen = new Intent(HomeOwnedActivity.this, HomeSubbedActivity.class);
+                    Intent switchScreen = new Intent(CreatedExperimentsActivity.this, SubbedExperimentsActivity.class);
                     switchScreen.putExtra("USER_ID", userID);
                     startActivity(switchScreen);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -176,18 +183,5 @@ public class HomeOwnedActivity extends AppCompatActivity {
         }
         return super.onTouchEvent(event);
     }
-    /**
-     * Is called when a user clicks on their profile image
-     * Will switch to a profile view activity
-     * Curtis
-     * @param view
-     */
-//    public void viewOwnediButton(View view) {
-//        //switch to profileView, pass userId
-//        Intent intent = new Intent(HomeOwnedActivity.this, MyUserProfileActivity.class);
-//        intent.putExtra("userID", userID);
-//        intent.putExtra("prevScreen", "Owned");
-//        startActivity(intent);
-//    }
 
 }

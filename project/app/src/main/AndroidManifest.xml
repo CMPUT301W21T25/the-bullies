@@ -43,11 +43,11 @@
         <activity android:name=".activities_user.GenerateUserActivity" />
 
 
-        <activity android:name=".activities_main.HomeSubbedActivity"
+        <activity android:name=".activities_main.SubbedExperimentsActivity"
             android:label="Subscribed Experiments"/>
-        <activity android:name=".activities_main.SearchActivity"
+        <activity android:name=".activities_main.SearchExperimentsActivity"
             android:label="Search for Experiment"/>
-        <activity android:name=".activities_main.HomeOwnedActivity"
+        <activity android:name=".activities_main.CreatedExperimentsActivity"
             android:label="Created Experiments"/>
         <activity android:name=".activities_forum.ForumActivity"
             android:label="Forum"/>
@@ -56,7 +56,7 @@
         <activity android:name=".activities_forum.NewCommentActivity"
             android:label="Forum"/>
         <activity android:name=".activities_user.MyUserProfileActivity" />
-        <activity android:name=".activities_experiments.ViewExperimentActivity"
+        <activity android:name=".activities_experiments.ViewSearchedExperimentActivity"
             android:label="View Experiment"/>
         <activity android:name=".activities_experiments.ViewCreatedExperimentActivity"
             android:label="View Experiment"/>
@@ -64,6 +64,8 @@
             android:label="View Experiment"/>
         <activity android:name=".activities_trials.ViewTrialActivity"
             android:label="Add New Trials"/>
+        <activity android:name=".activities_graphs.HistogramActivity"/>
+        <activity android:name=".activities_graphs.PlotActivity"/>
         <activity android:name=".activities_experiments.ExperimentDataActivity" />
         <activity android:name=".activities_trials.AddTrialActivity"
             android:label="Add New Trials"/>

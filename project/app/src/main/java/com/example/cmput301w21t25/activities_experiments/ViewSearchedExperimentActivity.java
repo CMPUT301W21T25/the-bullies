@@ -16,8 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_forum.ForumActivity;
-import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
-import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
+import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -35,7 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 /**
  * this activity is used to view from a list
  */
-public class ViewExperimentActivity extends AppCompatActivity {
+public class ViewSearchedExperimentActivity extends AppCompatActivity {
 
     private String expID;
     private String ownerID;
@@ -48,7 +48,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_view_experiment);
+        setContentView(R.layout.activity_view_searched_experiment);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,6 +66,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
         TextView geoLoc = findViewById(R.id.geoLoc_text_view);
         final Button commentsButton = findViewById(R.id.comments_button);
         final Button dataButton = findViewById(R.id.view_data_button);
+        final Button subscribe = findViewById(R.id.subscribe_button);
 
         if (exp.isGeoEnabled()) {
             geoLoc.setText("WARNING: Trials require a location");
@@ -78,10 +79,19 @@ public class ViewExperimentActivity extends AppCompatActivity {
         experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
 
+        //DK
+
+        subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                subscribeButton(v);
+            }
+        });
+
         commentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewComments = new Intent(ViewExperimentActivity.this, ForumActivity.class);
+                Intent viewComments = new Intent(ViewSearchedExperimentActivity.this, ForumActivity.class);
                 viewComments.putExtra("USER_ID", userID);
                 viewComments.putExtra("FORUM_EXPERIMENT", exp);
                 startActivity(viewComments);
@@ -91,7 +101,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
         dataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent switchScreens = new Intent(ViewExperimentActivity.this, ExperimentDataActivity.class);
+                Intent switchScreens = new Intent(ViewSearchedExperimentActivity.this, ExperimentDataActivity.class);
                 switchScreens.putExtra("USER_ID", userID);
                 switchScreens.putExtra("EXP", exp);
                 startActivity(switchScreens);
@@ -122,13 +132,13 @@ public class ViewExperimentActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.home_button:
-                Intent home = new Intent(ViewExperimentActivity.this, HomeOwnedActivity.class);
+                Intent home = new Intent(ViewSearchedExperimentActivity.this, CreatedExperimentsActivity.class);
 
                 home.putExtra("USER_ID", userID);
                 startActivity(home);
                 return true;
             case R.id.settings_button:
-                Intent user_settings = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
+                Intent user_settings = new Intent(ViewSearchedExperimentActivity.this, MyUserProfileActivity.class);
                 user_settings.putExtra("userID", userID);
                 user_settings.putExtra("prevScreen", "Owned");
                 startActivity(user_settings);
@@ -182,7 +192,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                                         //check if current user = experiment owner
                                         if (ownerID.equals(userID)) {
                                             //switch to myprofile
-                                            Intent intent = new Intent(ViewExperimentActivity.this, MyUserProfileActivity.class);
+                                            Intent intent = new Intent(ViewSearchedExperimentActivity.this, MyUserProfileActivity.class);
                                             intent.putExtra("userID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
@@ -190,7 +200,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                                         }
                                         else {
                                             //switch to otherprofile
-                                            Intent intent = new Intent(ViewExperimentActivity.this, OtherUserProfileActivity.class);
+                                            Intent intent = new Intent(ViewSearchedExperimentActivity.this, OtherUserProfileActivity.class);
                                             intent.putExtra("ownerID", ownerID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
@@ -245,9 +255,10 @@ public class ViewExperimentActivity extends AppCompatActivity {
                     }
                 });
 
-        Intent intent = new Intent(ViewExperimentActivity.this, HomeSubbedActivity.class);
+        // change this so that it takes you back to search activity without saving viewed experiment in history
+        Intent intent = new Intent(ViewSearchedExperimentActivity.this, SubbedExperimentsActivity.class);
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
-
     }
+
 }

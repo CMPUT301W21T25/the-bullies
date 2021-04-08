@@ -16,9 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_forum.ForumActivity;
-import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
-import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
-import com.example.cmput301w21t25.activities_main.SearchActivity;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
+import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
@@ -171,7 +170,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.home_button:
-                Intent home = new Intent(ViewCreatedExperimentActivity.this, HomeOwnedActivity.class);
+                Intent home = new Intent(ViewCreatedExperimentActivity.this, CreatedExperimentsActivity.class);
 
                 home.putExtra("USER_ID", userID);
                 startActivity(home);
@@ -226,7 +225,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
                                         if (ownerID.equals(userID)) {
                                             //switch to myprofile
                                             Intent intent = new Intent(ViewCreatedExperimentActivity.this, MyUserProfileActivity.class);
-                                            intent.putExtra("userID", userID);
+                                            intent.putExtra("USER_ID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
                                             startActivity(intent);
@@ -284,7 +283,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
                     }
                 });
 
-        Intent intent = new Intent(ViewCreatedExperimentActivity.this, SearchActivity.class);
+        Intent intent = new Intent(ViewCreatedExperimentActivity.this, SearchExperimentsActivity.class);
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
 
