@@ -54,7 +54,9 @@ public class TrialManager {
     //INITIALIZE EXPERIMENT
     private ExperimentManager expManager = new ExperimentManager();//this is used to update the list of trial keys associated of the parent experiment
 
+    //////////////////////////////////
     //CREATE TRIALS
+    //////////////////////////////////
     /**
      * This is a method that creates a Count Trial document in the database (this is used to store NonNegCount Trials) it also updates the associated Experiment's list of trial keys
      * @param ownerID this is the ID of the user who created the experiment
@@ -240,7 +242,9 @@ public class TrialManager {
                 });
     }
 
+    //////////////////////////////////
     //UPDATE THE TRIALS
+    //////////////////////////////////
     /**
      * Updates the published field in the database for the trial associated with the provided ID
      * @param published this is the boolean that you want to change the published field to
@@ -321,7 +325,9 @@ public class TrialManager {
                     }
                 });
     }
-
+    //////////////////////////////////
+    //UPDATE THE OBSERVERS
+    //////////////////////////////////
     /**
      *
      * @param exp
@@ -369,7 +375,6 @@ public class TrialManager {
                                 }
                             });
                 }
-
             }
         });
     }
@@ -379,11 +384,16 @@ public class TrialManager {
             public void onCallback(ArrayList<String> list) {
                 if(list.size()>0){
                     Log.d("YA-DB TEST: ", "calling the fetch" );
-                    db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
+                    db.collection("TrialDocs").whereEqualTo("published",true)
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
                                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                                    List<DocumentSnapshot> temp = queryDocumentSnapshots.getDocuments();
+                                    ArrayList<DocumentSnapshot> temp = new ArrayList<DocumentSnapshot>();
+                                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots){
+                                        if(doc.exists()&&list.contains(doc.getId())){
+                                            temp.add(doc);
+                                        }
+                                    }
                                     int size = temp.size();
                                     currTrials.setText("Current Trials: " + String.valueOf(size));
                                 }
@@ -402,7 +412,7 @@ public class TrialManager {
             public void onCallback(ArrayList<String> list) {
                 ArrayList<Trial> trialList = new ArrayList<Trial>();
                 Log.d("TESTING_LIST:", String.valueOf(list));
-                db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
+                db.collection("TrialDocs").whereEqualTo("published",true)
                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
                         public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -412,20 +422,20 @@ public class TrialManager {
                                 add("nonnegative count");
                             }};
                             for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                                String type = exp.getType();
-                                if(types.contains(type)){
-                                    MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
-                                    measurableTrial.setTrialId(doc.getId());
-                                    measurableTrial.setType("measurable");
-                                    //Log.d("YA_TEST:",countParent.getTrialId());
-                                    trialList.add(measurableTrial);
-                                }
-                                else{
-                                    NonMeasurableTrial nonmeasurableTrial = doc.toObject(NonMeasurableTrial.class);
-                                    nonmeasurableTrial.setTrialId(doc.getId());
-                                    nonmeasurableTrial.setType("measurable");
-                                    //Log.d("YA_TEST:",binomialParent.getTrialId());
-                                    trialList.add(nonmeasurableTrial);
+                                if(doc.exists()&&list.contains(doc.getId())){
+                                    String type = exp.getType();
+                                    if(types.contains(type)){
+                                        MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
+                                        measurableTrial.setTrialId(doc.getId());
+                                        measurableTrial.setType("measurable");
+                                        trialList.add(measurableTrial);
+                                    }
+                                    else{
+                                        NonMeasurableTrial nonmeasurableTrial = doc.toObject(NonMeasurableTrial.class);
+                                        nonmeasurableTrial.setTrialId(doc.getId());
+                                        nonmeasurableTrial.setType("measurable");
+                                        trialList.add(nonmeasurableTrial);
+                                    }
                                 }
                             }
                             firestoreTrialCallback.onCallback(trialList);
@@ -440,15 +450,16 @@ public class TrialManager {
             public void onCallback(ArrayList<String> list) {
                 ArrayList<Float> trialList = new ArrayList<Float>();
                 Log.d("TESTING_LIST:", String.valueOf(list));
-                db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
+                db.collection("TrialDocs").whereEqualTo("published",true)
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
                             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                                 for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                                    MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
-                                    //Log.d("YA_TEST:",countParent.getTrialId());
-                                    Log.d("OUTPUT_VAL", String.valueOf(measurableTrial.getResult()));
-                                    trialList.add(measurableTrial.getResult());
+                                    if(doc.exists()&&list.contains(doc.getId())){
+                                        MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
+                                        Log.d("OUTPUT_VAL", String.valueOf(measurableTrial.getResult()));
+                                        trialList.add(measurableTrial.getResult());
+                                    }
                                 }
                                 firestoreTrialCallback.onCallback(trialList);
                             }
@@ -462,14 +473,15 @@ public class TrialManager {
             public void onCallback(ArrayList<String> list) {
                 ArrayList<Boolean> trialList = new ArrayList<Boolean>();
                 Log.d("TESTING_LIST:", String.valueOf(list));
-                db.collection("TrialDocs").whereIn(FieldPath.documentId(),list).whereEqualTo("published",true)
+                db.collection("TrialDocs").whereEqualTo("published",true)
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
                             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                                 for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                                    NonMeasurableTrial measurableTrial = doc.toObject(NonMeasurableTrial.class);
-                                    //Log.d("YA_TEST:",countParent.getTrialId());
-                                    trialList.add(measurableTrial.getResult());
+                                    if(doc.exists()&&list.contains(doc.getId())){
+                                        NonMeasurableTrial measurableTrial = doc.toObject(NonMeasurableTrial.class);
+                                        trialList.add(measurableTrial.getResult());
+                                    }
                                 }
                                 firestoreTrialCallback.onCallback(trialList);
                             }
