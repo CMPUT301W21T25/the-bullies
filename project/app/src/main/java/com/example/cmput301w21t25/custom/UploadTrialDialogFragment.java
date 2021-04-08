@@ -53,7 +53,7 @@ public class UploadTrialDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int i) {
                     }
                 })
-                .setPositiveButton("<font color=#28527a>UPLOAD</font>", new DialogInterface.OnClickListener() {
+                .setPositiveButton(Html.fromHtml("<font color=#28527a>UPLOAD</font>"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         listener.publishTrial(position);

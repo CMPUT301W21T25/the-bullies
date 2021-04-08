@@ -141,7 +141,6 @@
 
             <Button
                 android:id="@+id/viewGraphsButton"
-                android:textColor="@color/custom_Yellow_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -149,10 +148,11 @@
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="10dp"
                 android:text="View Graphs"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/successRate"
-                tools:backgroundTint="@color/custom_Blue_dark" />
+                tools:backgroundTint="@color/custom_Yellow_light" />
 
             <Button
                 android:id="@+id/viewMapsButton"
@@ -164,14 +164,14 @@
                 android:layout_marginEnd="40dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginBottom="10dp"
-                android:textColor="@color/custom_Yellow_light"
                 android:text="View Map"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/viewGraphsButton"
                 app:layout_constraintTop_toBottomOf="@+id/successRate"
-                tools:backgroundTint="@color/custom_Blue_dark" />
+                tools:backgroundTint="@color/custom_Yellow_light" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
