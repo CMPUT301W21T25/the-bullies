@@ -30,22 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/viewExperimentDataInfo"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:background="@color/custom_Yellow_dark"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:title="Testing Title"
-                app:titleMargin="5dp"
-                tools:subtitle="Testing Date" />
-
             <TextView
                 android:id="@+id/Uquartiles"
                 android:layout_width="207dp"
@@ -114,30 +98,40 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/minimumTrials" />
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/viewExperimentDataInfo"
+                android:layout_width="0dp"
+                android:layout_height="180dp"
+                android:background="@color/custom_Yellow_dark"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="Testing Title"
+                app:titleMargin="5dp"
+                tools:subtitle="Testing Date" />
+
+            <TextView
+                android:id="@+id/viewExperimentDataDescription"
+                android:layout_width="414dp"
+                android:layout_height="144dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="TextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewExperimentDataInfo" />
 
             <TextView
                 android:id="@+id/minimumTrials"
                 android:layout_width="414dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewExperimentDataDescription" />
-
-            <TextView
-                android:background="@drawable/list_info_background"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textSize="17sp"
-                android:id="@+id/viewExperimentDataDescription"
-                android:layout_width="match_parent"
-                android:layout_height="144dp"
-                android:text="TextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewExperimentDataInfo" />
-
 
             <Button
                 android:id="@+id/viewGraphsButton"

@@ -3,20 +3,16 @@ package com.example.cmput301w21t25.activities_experiments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_forum.ForumActivity;
-import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
@@ -49,9 +45,6 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_view_searched_experiment);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = unpackExperiment();
@@ -107,45 +100,6 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
                 startActivity(switchScreens);
             }
         });
-    }
-
-    /**
-     * This event is menu setup!
-     * @param menu this is the menu being integrated
-     * @return true to indicate there is a menu (return false to turn off)
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.toolbar_menu,menu);
-        return true;
-    }
-
-    /**
-     * This event is for menu item setup
-     * @param item these are items that will be added to the menu
-     * @return @return true to indicate there is this item (return false to turn off)
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.home_button:
-                Intent home = new Intent(ViewSearchedExperimentActivity.this, CreatedExperimentsActivity.class);
-
-                home.putExtra("USER_ID", userID);
-                startActivity(home);
-                return true;
-            case R.id.settings_button:
-                Intent user_settings = new Intent(ViewSearchedExperimentActivity.this, MyUserProfileActivity.class);
-                user_settings.putExtra("userID", userID);
-                user_settings.putExtra("prevScreen", "Owned");
-                startActivity(user_settings);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     /**

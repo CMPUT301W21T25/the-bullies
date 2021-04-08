@@ -2,16 +2,12 @@ package com.example.cmput301w21t25.activities_trials;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
@@ -45,11 +41,6 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_trial_list);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.custom_Blue_dark));
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         trialManager = new TrialManager();
 
@@ -154,7 +145,7 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
                 return super.onOptionsItemSelected(item);
         }
     }
-
+  
     /**
      * this method defines the behaviour of the addTrialButton
      * @param view
