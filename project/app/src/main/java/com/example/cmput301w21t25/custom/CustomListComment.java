@@ -39,16 +39,14 @@ public class CustomListComment extends ArrayAdapter<Comment> {
     private Context context;
     private Experiment forumExperiment;
     private Comment comment;
-    private String userID;
     private Date date;
     private String dateString;
 
-    public CustomListComment(Context context, ArrayList<Comment> comments, Experiment forumExperiment, String userID) {
+    public CustomListComment(Context context, ArrayList<Comment> comments, Experiment forumExperiment) {
         super(context,0,comments);
         this.comments = comments;
         this.context = context;
         this.forumExperiment = forumExperiment;
-        this.userID = userID;
     }
 
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

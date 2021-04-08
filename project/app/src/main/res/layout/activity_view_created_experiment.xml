@@ -111,17 +111,35 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/view_data_button"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_above="@id/button_linear_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:text="view data" />
-
     <LinearLayout
         android:id="@+id/button_linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_linear_layout2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="71dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/view_data_button"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:text="view data" />
+
+        <Button
+            android:id="@+id/hideTrialsButton"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_weight="1"
+            android:text="Hide Trials" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_linear_layout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/button_linear_layout2"

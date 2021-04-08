@@ -61,6 +61,8 @@
         <activity android:name=".activities_trials.ViewTrialActivity" />
         <activity android:name=".activities_experiments.ExperimentDataActivity" />
         <activity android:name=".activities_trials.AddTrialActivity" />
+        <activity android:name=".activities_trials.HideTrialActivity"
+            android:label="Manage Visible Trials"/>
         <activity android:name=".activities_trials.ConductCountTrialActivity" />
         <activity android:name=".activities_trials.ConductMeasurementTrialActivity" />
         <activity android:name=".activities_trials.ConductBinomialTrialActivity" />
