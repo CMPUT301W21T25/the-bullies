@@ -77,6 +77,9 @@ public class CustomListExperiment extends ArrayAdapter<Experiment> {
         if (experiment.getType().equals("nonnegative count")) {
             contentBackground.setTint(context.getResources().getColor(R.color.design_default_color_background));
         }
+        if (experiment.getIsEnded()) {
+            contentBackground.setTint(context.getResources().getColor(R.color.custom_Grey_translucent));
+        }
 
         return view;
     }

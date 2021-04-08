@@ -68,6 +68,12 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             unpublishButton.setVisibility(View.GONE);
             publishButton.setVisibility(View.VISIBLE);
         }
+        if (exp.getIsEnded()) {
+            addTrialButton.setBackgroundColor(getResources().getColor(R.color.custom_Grey_translucent));
+        }
+        else {
+            addTrialButton.setBackgroundColor(getResources().getColor(R.color.custom_Yellow_light));
+        }
 
 
         TextView expName = findViewById(R.id.exp_name_text_view);
