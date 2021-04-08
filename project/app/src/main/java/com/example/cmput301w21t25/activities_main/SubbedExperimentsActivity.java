@@ -49,7 +49,7 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_subbed);
+        setContentView(R.layout.activity_subbed_experiments);
 
         /*setup the custom toolbar!
          */
