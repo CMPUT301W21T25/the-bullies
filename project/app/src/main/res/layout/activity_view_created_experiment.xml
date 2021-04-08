@@ -134,7 +134,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginLeft="35dp"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Hide Trials" />
 
     </LinearLayout>
 

@@ -2,6 +2,8 @@ package com.example.cmput301w21t25.activities_trials;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -65,6 +67,19 @@ public class HideTrialActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * This event is menu setup!
+     * @param menu this is the menu being integrated
+     * @return true to indicate there is a menu (return false to turn off)
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_menu,menu);
+        return true;
     }
 
     /**

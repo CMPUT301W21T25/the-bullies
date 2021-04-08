@@ -122,6 +122,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
             case "HideTrial":
                 intent = new Intent(MyUserProfileActivity.this, HideTrialActivity.class);
                 intent.putExtra("EXPERIMENT", exp);
+                break;
 
             default:
                 intent = new Intent(MyUserProfileActivity.this, CreatedExperimentsActivity.class);
