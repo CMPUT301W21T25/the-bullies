@@ -114,6 +114,45 @@ public class HomeSubbedActivity extends AppCompatActivity {
     }
 
     /**
+     * This event is menu setup!
+     * @param menu this is the menu being integrated
+     * @return true to indicate there is a menu (return false to turn off)
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_menu,menu);
+        return true;
+    }
+
+    /**
+     * This event is for menu item setup
+     * @param item these are items that will be added to the menu
+     * @return @return true to indicate there is this item (return false to turn off)
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.home_button:
+                Intent home = new Intent(HomeSubbedActivity.this, HomeOwnedActivity.class);
+
+                home.putExtra("USER_ID", userID);
+                startActivity(home);
+                return true;
+            case R.id.settings_button:
+                Intent user_settings = new Intent(HomeSubbedActivity.this, MyUserProfileActivity.class);
+                user_settings.putExtra("userID", userID);
+                user_settings.putExtra("prevScreen", "Owned");
+                startActivity(user_settings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
      * This touch event is for switching between screens
      * @param event the swipe on the screen
      * @return
