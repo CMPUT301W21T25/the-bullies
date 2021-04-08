@@ -65,6 +65,9 @@
         tools:visibility="gone" />
 
     <LinearLayout
+        android:layout_marginTop="10dp"
+        android:background="@drawable/list_info_background"
+        android:padding="10dp"
         android:id="@+id/info_linear_layout"
         android:layout_width="363dp"
         android:layout_height="353dp"
@@ -160,6 +163,8 @@
             android:text="Edit" />
 
         <Button
+            android:backgroundTint="@color/custom_Blue_dark"
+            android:textColor="@color/custom_Yellow_light"
             android:id="@+id/publish_button"
             android:layout_width="150dp"
             android:layout_height="60dp"
@@ -168,6 +173,8 @@
             android:text="Publish"/>
 
         <Button
+            android:backgroundTint="@color/custom_Blue_light"
+            android:textColor="@color/custom_Blue_dark"
             android:id="@+id/unpublish_button"
             android:layout_width="150dp"
             android:layout_height="60dp"

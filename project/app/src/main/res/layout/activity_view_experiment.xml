@@ -75,6 +75,7 @@
 
         <TextView
             android:id="@+id/exp_description_text_view"
+            android:background="@drawable/list_info_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLength="300"
@@ -146,6 +147,8 @@
             android:text="Comments" />
 
         <Button
+            android:backgroundTint="@color/custom_Blue_dark"
+            android:textColor="@color/custom_Yellow_light"
             android:id="@+id/add_trial_button"
             android:layout_width="150dp"
             android:layout_height="45dp"
