@@ -334,7 +334,7 @@ public class TrialManager {
             public void onCallback(ArrayList<String> list) {
                 if(list.size()>0){
                     Log.d("YA-DB TEST: ", "calling the fetch" );
-                    db.collection("TrialDocs").whereIn(FieldPath.documentId(),list)
+                    db.collection("TrialDocs").whereEqualTo("published",false)
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
                                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -347,7 +347,7 @@ public class TrialManager {
                                     }};
                                     for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                                     {
-                                        if (doc.exists()&& !((Boolean) doc.getData().get("published"))) {
+                                        if (doc.exists()&&list.contains(doc.getId())) {
                                             String type = exp.getType();
                                             if(types.contains(type)){
                                                 MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
