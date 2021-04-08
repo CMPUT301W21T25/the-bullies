@@ -130,6 +130,7 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.home_button:
                 Intent home = new Intent(SubbedExperimentsActivity.this, CreatedExperimentsActivity.class);
+
                 home.putExtra("USER_ID", userID);
                 startActivity(home);
                 return true;
