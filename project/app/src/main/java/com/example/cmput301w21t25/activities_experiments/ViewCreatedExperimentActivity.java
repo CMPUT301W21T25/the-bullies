@@ -94,7 +94,15 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String temp = currTrials.getText().toString();
+                if (exp.getMinNumTrials() <= Integer.parseInt(temp.substring(temp.length() - 1))) {
+                    experimentManager.FB_UpdateEnded(true, expID);
+                    addTrialButton.setBackgroundColor(getResources().getColor(R.color.custom_Grey_translucent));
+                    exp.setIsEnded(true);
+                }
+                else {
+                    Toast.makeText(ViewCreatedExperimentActivity.this, "Must have minimum number of trials.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

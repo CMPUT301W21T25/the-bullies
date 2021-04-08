@@ -102,6 +102,7 @@ public class Experiment implements Serializable {
     public void setType(String type) { this.type = type; }
     public void setTags(ArrayList<String> tags) { this.tags = tags; }
     public void setDescription(String description) { this.description = description; }
+    public void setIsEnded(Boolean isEnded) { this.isEnded = isEnded; }
 
     public String getRegion() {
         return region;
