@@ -17,6 +17,7 @@ import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
+import com.example.cmput301w21t25.activities_trials.HideTrialActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -118,6 +119,9 @@ public class MyUserProfileActivity extends AppCompatActivity {
                 intent.putExtra("TRIAL_PARENT", exp);
                 Log.i("curtis", "going back to add trial page");
                 break;
+            case "HideTrial":
+                intent = new Intent(MyUserProfileActivity.this, HideTrialActivity.class);
+                intent.putExtra("EXPERIMENT", exp);
 
             default:
                 intent = new Intent(MyUserProfileActivity.this, CreatedExperimentsActivity.class);
