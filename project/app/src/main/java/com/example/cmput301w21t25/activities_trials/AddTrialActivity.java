@@ -141,12 +141,12 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
         switch (item.getItemId()) {
             case R.id.home_button:
                 Intent home = new Intent(AddTrialActivity.this, CreatedExperimentsActivity.class);
-                home.putExtra("userID", userID);
+                home.putExtra("USER_ID", userID);
                 startActivity(home);
                 return true;
             case R.id.settings_button:
                 Intent user_settings = new Intent(AddTrialActivity.this, MyUserProfileActivity.class);
-                user_settings.putExtra("userID", userID);
+                user_settings.putExtra("USER_ID", userID);
                 user_settings.putExtra("prevScreen", "Browse");
                 startActivity(user_settings);
                 return true;
@@ -162,7 +162,7 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
     public void addTrialiButton(View view) {
         //switch to profileView, pass userId
         Intent intent = new Intent(AddTrialActivity.this, MyUserProfileActivity.class);
-        intent.putExtra("userID", userID);
+        intent.putExtra("USER_ID", userID);
         intent.putExtra("prevScreen", "AddTrial");
         //bundle experiment to return to
 

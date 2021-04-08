@@ -139,7 +139,7 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
                 return true;
             case R.id.settings_button:
                 Intent user_settings = new Intent(ViewSearchedExperimentActivity.this, MyUserProfileActivity.class);
-                user_settings.putExtra("userID", userID);
+                user_settings.putExtra("USER_ID", userID);
                 user_settings.putExtra("prevScreen", "Owned");
                 startActivity(user_settings);
                 return true;
@@ -193,7 +193,7 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
                                         if (ownerID.equals(userID)) {
                                             //switch to myprofile
                                             Intent intent = new Intent(ViewSearchedExperimentActivity.this, MyUserProfileActivity.class);
-                                            intent.putExtra("userID", userID);
+                                            intent.putExtra("USER_ID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
                                             startActivity(intent);
