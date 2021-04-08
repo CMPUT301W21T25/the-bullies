@@ -56,9 +56,12 @@
         <activity android:name=".activities_forum.NewCommentActivity"
             android:label="Forum"/>
         <activity android:name=".activities_user.MyUserProfileActivity" />
-        <activity android:name=".activities_experiments.ViewExperimentActivity" />
-        <activity android:name=".activities_experiments.ViewCreatedExperimentActivity" />
-        <activity android:name=".activities_experiments.ViewSubbedExperimentActivity" />
+        <activity android:name=".activities_experiments.ViewExperimentActivity"
+            android:label="View Experiment"/>
+        <activity android:name=".activities_experiments.ViewCreatedExperimentActivity"
+            android:label="View Experiment"/>
+        <activity android:name=".activities_experiments.ViewSubbedExperimentActivity"
+            android:label="View Experiment"/>
         <activity android:name=".activities_trials.ViewTrialActivity"
             android:label="Add New Trials"/>
         <activity android:name=".activities_experiments.ExperimentDataActivity" />
