@@ -16,6 +16,8 @@ import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListUser;
+import com.example.cmput301w21t25.custom.HideTrialDialogFragment;
+import com.example.cmput301w21t25.custom.ShowTrialDialogFragment;
 import com.example.cmput301w21t25.custom.UploadTrialDialogFragment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.user.User;
@@ -55,7 +57,12 @@ public class HideTrialActivity extends AppCompatActivity {
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                new UploadTrialDialogFragment(position).show(getSupportFragmentManager(), "UPLOAD_TRIAL");
+                if (hiddenUsers.contains(allUsers.get(position))) {
+                    new ShowTrialDialogFragment(position).show(getSupportFragmentManager(), "SHOW_USER_TRIALS");
+                }
+                else {
+                    new HideTrialDialogFragment(position).show(getSupportFragmentManager(), "HIDE_USER_TRIALS");
+                }
             }
         });
     }

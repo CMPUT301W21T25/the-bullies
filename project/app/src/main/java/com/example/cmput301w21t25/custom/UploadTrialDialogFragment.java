@@ -16,11 +16,11 @@ import com.example.cmput301w21t25.R;
 
 public class UploadTrialDialogFragment extends DialogFragment {
 
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListenerUpload {
         void publishTrial(Integer position);
     }
 
-    private OnFragmentInteractionListener listener;
+    private OnFragmentInteractionListenerUpload listener;
     private Integer position;
 
     public UploadTrialDialogFragment(Integer position) {
@@ -31,8 +31,8 @@ public class UploadTrialDialogFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener){
-            listener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListenerUpload){
+            listener = (OnFragmentInteractionListenerUpload) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
