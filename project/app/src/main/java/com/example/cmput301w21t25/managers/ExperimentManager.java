@@ -321,7 +321,10 @@ public class ExperimentManager {
                                 }
                             });
                 }
-
+                else{
+                    experiments.clear();
+                    experimentAdapter.notifyDataSetChanged();
+                }
             }
         });
 
@@ -356,7 +359,10 @@ public class ExperimentManager {
                                 }
                             });
                 }
-
+                else{
+                    experiments.clear();
+                    experimentAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
@@ -372,28 +378,29 @@ public class ExperimentManager {
         userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreStringCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
-                if(list.size()>0){
-                    db.collection("Experiments").whereEqualTo("published", true)
-                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            experiments.clear();
-                            experimentAdapter.notifyDataSetChanged();
-                            for(QueryDocumentSnapshot doc: task.getResult())
-                            {
-
-                                if (!list.contains(doc.getId())) {
-                                    Experiment experiment = doc.toObject(Experiment.class);
-                                    experiment.setFb_id(doc.getId());
-                                    experiments.add(experiment);
-                                    experimentAdapter.notifyDataSetChanged();
-                                }
-                                fsCallBack.onCallback(experiments);
-                            }
-                        }
-                    });
+                if(list.size()<=0){
+                    //setting dummy value so list isnt empty when using contains
+                    list.add("dummy");
                 }
+                db.collection("Experiments").whereEqualTo("published", true)
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        experiments.clear();
+                        experimentAdapter.notifyDataSetChanged();
+                        for(QueryDocumentSnapshot doc: task.getResult())
+                        {
 
+                            if (!list.contains(doc.getId())) {
+                                Experiment experiment = doc.toObject(Experiment.class);
+                                experiment.setFb_id(doc.getId());
+                                experiments.add(experiment);
+                                experimentAdapter.notifyDataSetChanged();
+                            }
+                            fsCallBack.onCallback(experiments);
+                        }
+                    }
+                });
             }
         });
     }
