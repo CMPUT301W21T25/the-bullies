@@ -52,7 +52,7 @@ public class CreatedExperimentsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
-        setContentView(R.layout.activity_home_owned);
+        setContentView(R.layout.activity_created_experiments);
 
 
         /*setup the custom toolbar!

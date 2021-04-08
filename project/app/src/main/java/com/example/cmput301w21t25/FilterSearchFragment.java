@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 /**
  * This method sets the buttons to be clicked. If the user enters the correct keywords/filters,
- * this will be returned to the SearchActivity to be processed
+ * this will be returned to the SearchExperimentsActivity to be processed
  */
 
 public class FilterSearchFragment extends DialogFragment{
