@@ -7,6 +7,7 @@ import com.example.cmput301w21t25.managers.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,8 +64,8 @@ public class FilterSearchFragment extends DialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setNegativeButton("CANCEL",null)
-                .setPositiveButton("FILTER", new DialogInterface.OnClickListener() {
+                .setNegativeButton(Html.fromHtml("<font color=#28527a>CANCEL</font>"),null)
+                .setPositiveButton(Html.fromHtml("<font color=#28527a>FILTER</font>"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 

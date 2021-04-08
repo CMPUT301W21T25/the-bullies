@@ -2,14 +2,20 @@ package com.example.cmput301w21t25.activities_trials;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
+import com.example.cmput301w21t25.activities_main.SearchActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListTrial;
 import com.example.cmput301w21t25.custom.UploadTrialDialogFragment;
@@ -40,6 +46,11 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_trial_list);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.custom_Blue_dark));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         trialManager = new TrialManager();
 
@@ -115,6 +126,34 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
         });
 
         //finish();
+    }
+
+    //Toolbar Menu setup!
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_menu_blue,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.home_button:
+                Intent home = new Intent(AddTrialActivity.this, HomeOwnedActivity.class);
+                home.putExtra("userID", userID);
+                startActivity(home);
+                return true;
+            case R.id.settings_button:
+                Intent user_settings = new Intent(AddTrialActivity.this, MyUserProfileActivity.class);
+                user_settings.putExtra("userID", userID);
+                user_settings.putExtra("prevScreen", "Browse");
+                startActivity(user_settings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
