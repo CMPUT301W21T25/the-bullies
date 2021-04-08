@@ -14,8 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
-import com.example.cmput301w21t25.activities_main.SearchActivity;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.custom.CustomListTrial;
 import com.example.cmput301w21t25.custom.UploadTrialDialogFragment;
@@ -141,7 +140,7 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.home_button:
-                Intent home = new Intent(AddTrialActivity.this, HomeOwnedActivity.class);
+                Intent home = new Intent(AddTrialActivity.this, CreatedExperimentsActivity.class);
                 home.putExtra("userID", userID);
                 startActivity(home);
                 return true;
