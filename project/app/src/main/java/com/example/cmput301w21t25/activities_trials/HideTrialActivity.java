@@ -26,7 +26,12 @@ import com.example.cmput301w21t25.user.User;
 
 import java.util.ArrayList;
 
-public class HideTrialActivity extends AppCompatActivity {
+/**
+ * @author Eden
+ * The hide trial activity displays a list of users who have added trials to your experiment. You
+ * can select users to hide their trials, then select them once again to show their trials
+ */
+public class HideTrialActivity extends AppCompatActivity implements HideTrialDialogFragment.OnFragmentInteractionListenerHide, ShowTrialDialogFragment.OnFragmentInteractionListenerShow {
 
     ListView userListView;
     ArrayAdapter<User> userArrayAdapter;
@@ -47,11 +52,21 @@ public class HideTrialActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Test objects
+        //User user1 = new User("User1", "user1@example.com");
+        //User user2 = new User("User2", "user2@example.com");
+        //User user3 = new User("User3", "user3@example.com");
+
+        //allUsers.add(user1);
+        //allUsers.add(user2);
+        //allUsers.add(user3);
+        //hiddenUsers.add(user2);
+
         userID = getIntent().getStringExtra("USER_ID");
         exp = (Experiment) getIntent().getSerializableExtra("EXPERIMENT");
 
         userArrayAdapter = new CustomListUser(this, allUsers, hiddenUsers);
-        //Pass adapter to function that gets user list/hidden user list
+        //@Yalmaz pass adapter to function that gets user list/hidden user list
 
         userListView = findViewById(R.id.hide_trials_list);
         userListView.setAdapter(userArrayAdapter);
@@ -109,4 +124,19 @@ public class HideTrialActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void hideUser(Integer position) {
+        //@Yalmaz db call to add user to hidden list
+        //User temp = allUsers.get(position);
+        //hiddenUsers.add(temp);
+        //userArrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showUser(Integer position) {
+        //@Yalmaz db call to remove user from hidden list
+        //User temp = allUsers.get(position);
+        //hiddenUsers.remove(temp);
+        //userArrayAdapter.notifyDataSetChanged();
+    }
 }

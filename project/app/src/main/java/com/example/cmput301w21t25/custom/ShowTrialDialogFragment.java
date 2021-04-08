@@ -14,6 +14,12 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.cmput301w21t25.R;
 
+/**
+ * @author Eden
+ * A dialog fragment that appears when an experiment owner clicks on an item in the HideTrialActivity
+ * list view. It prompts the owner as to whether they want to show the selected user's trials that
+ * have been uploaded to the owner's experiment.
+ */
 public class ShowTrialDialogFragment extends DialogFragment {
 
     public interface OnFragmentInteractionListenerShow {

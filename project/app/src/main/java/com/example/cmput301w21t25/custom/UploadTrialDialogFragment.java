@@ -14,6 +14,12 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.cmput301w21t25.R;
 
+/**
+ * @author Eden
+ * A dialog fragment that prompts the user when they click on a trial they've created, asking
+ * whether or not they want to upload the trial, as this action can't be undone.
+ * Is called in AddTrialActivity
+ */
 public class UploadTrialDialogFragment extends DialogFragment {
 
     public interface OnFragmentInteractionListenerUpload {

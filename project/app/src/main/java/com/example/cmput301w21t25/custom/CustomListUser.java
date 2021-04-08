@@ -26,7 +26,7 @@ import java.util.Date;
 
 /**
  * @author Eden
- * A custom array adapter used to display comments in list views
+ * A custom array adapter used to display users in list views
  */
 public class CustomListUser extends ArrayAdapter<User> {
     private ArrayList<User> allUsers;
