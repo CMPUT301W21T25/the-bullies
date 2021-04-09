@@ -89,6 +89,7 @@
                 android:id="@+id/editTextKeywords"
                 android:layout_width="359dp"
                 android:layout_height="wrap_content"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ, "
                 android:hint="*Enter keywords separated by commas"
                 android:inputType="textMultiLine"
                 app:layout_constraintBottom_toTopOf="@id/editTextMinTrials"
