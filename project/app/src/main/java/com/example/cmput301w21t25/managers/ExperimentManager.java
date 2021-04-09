@@ -125,9 +125,10 @@ public class ExperimentManager {
                     }
                 });
     }
-    //
+    //////////////////////////////////
     // UPDATE EXPERIMENT
     //
+    //////////////////////////////////
     /**
      * this method updates the name of owner stored in the database by getting the user name o
      * @param ownerID id of the user whose name is to be updated
@@ -274,6 +275,11 @@ public class ExperimentManager {
                     }
                 });
     }
+    /**
+     * This method updates the list of Comment keys
+     * @param comments this is the new list of comments
+     * @param id this is the id of experiment you want to update
+     */
     public void FB_UpdateCommentKeys(ArrayList<String> comments,String id){
         DocumentReference docRef = db.collection("Experiments").document(id);
         docRef
@@ -289,11 +295,12 @@ public class ExperimentManager {
                     }
                 });
     }
-    //
+    //////////////////////////////////
     // UPDATE OBSERVERS
     //
+    //////////////////////////////////
     /**
-     *
+     *This method is used to fetch all published experiments that this user owns
      * @param userID
      * @param experimentAdapter
      * @param experiments
@@ -304,7 +311,7 @@ public class ExperimentManager {
             public void onCallback(ArrayList<String> list) {
                 if(list.size()>0){
                     Log.d("YA-DB: ", "calling the fetch" );
-                    db.collection("Experiments").whereIn(FieldPath.documentId(),list)
+                    db.collection("Experiments")
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
                                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -312,23 +319,27 @@ public class ExperimentManager {
                                     experimentAdapter.notifyDataSetChanged();
                                     for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                                     {
-                                        Experiment experiment = doc.toObject(Experiment.class);
-                                        experiment.setFb_id(doc.getId());
-                                        experiments.add(experiment);
-                                        experimentAdapter.notifyDataSetChanged();
-                                        Log.d("YA-DB: ", "fetched: " + experiments);
+                                        if(list.contains(doc.getId())){
+                                            Experiment experiment = doc.toObject(Experiment.class);
+                                            experiment.setFb_id(doc.getId());
+                                            experiments.add(experiment);
+                                            experimentAdapter.notifyDataSetChanged();
+                                        }
                                     }
                                 }
                             });
                 }
-
+                else{
+                    experiments.clear();
+                    experimentAdapter.notifyDataSetChanged();
+                }
             }
         });
 
     }
 
     /**
-     *
+     *This method is used to fetch the list of experiments this user is subscribed to
      * @param userID
      * @param experimentAdapter
      * @param experiments
@@ -339,7 +350,7 @@ public class ExperimentManager {
             public void onCallback(ArrayList<String> list) {
                 if(list.size()>0){
                     Log.d("YA-DB: ", "calling the fetch" );
-                    db.collection("Experiments").whereIn(FieldPath.documentId(),list)
+                    db.collection("Experiments").whereEqualTo("published", true)
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
                                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -347,52 +358,68 @@ public class ExperimentManager {
                                     experimentAdapter.notifyDataSetChanged();
                                     for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                                     {
-                                        Experiment experiment = doc.toObject(Experiment.class);
-                                        experiment.setFb_id(doc.getId());
-                                        if (experiment.isPublished()) {
+                                        if (list.contains(doc.getId())) {
+                                            Experiment experiment = doc.toObject(Experiment.class);
+                                            experiment.setFb_id(doc.getId());
                                             experiments.add(experiment);
                                             experimentAdapter.notifyDataSetChanged();
                                         }
-                                        Log.d("YA-DB: ", "fetched: " + experiments);
                                     }
                                 }
                             });
                 }
-
+                else{
+                    experiments.clear();
+                    experimentAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
+    /**
+     * This method is used to fetch list of unsubscribed experiments that are published
+     * @param userID
+     * @param experimentAdapter
+     * @param experiments
+     * @param fsCallBack
+     */
     public void FB_UpdateBrowseExperimentAdapter(String userID, ArrayAdapter<Experiment> experimentAdapter, ArrayList<Experiment> experiments, FirestoreExperimentCallback fsCallBack){
         userManager.FB_FetchSubbedExperimentKeys(userID, new FirestoreStringCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
-                if(list.size()>0){
-                    Log.d("YA-DB: ", "calling the fetch" );
-                    db.collection("Experiments").whereNotIn(FieldPath.documentId(),list).whereEqualTo("published", true)
-                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            experiments.clear();
-                            experimentAdapter.notifyDataSetChanged();
-                            for(QueryDocumentSnapshot doc: task.getResult())
-                            {
+                if(list.size()<=0){
+                    //setting dummy value so list isnt empty when using contains
+                    list.add("dummy");
+                }
+                db.collection("Experiments").whereEqualTo("published", true)
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        experiments.clear();
+                        experimentAdapter.notifyDataSetChanged();
+                        for(QueryDocumentSnapshot doc: task.getResult())
+                        {
+                            if (!list.contains(doc.getId())) {
                                 Experiment experiment = doc.toObject(Experiment.class);
                                 experiment.setFb_id(doc.getId());
-                                if (experiment.isPublished()) {
-                                    experiments.add(experiment);
-                                    experimentAdapter.notifyDataSetChanged();
-                                }
-                                Log.d("YA-DBS: ", "fetched: " + experiments);
-                                fsCallBack.onCallback(experiments);
+                                experiments.add(experiment);
+                                experimentAdapter.notifyDataSetChanged();
+                            }
+                            fsCallBack.onCallback(experiments);
                             }
                         }
                     });
                 }
-
-            }
         });
     }
-
+    /**
+     * This method is used to fetch basic information about experiments and update the textviews
+     * @param expID
+     * @param expName
+     * @param expDesc
+     * @param expType
+     * @param minTrials
+     * @param region
+     */
     public void FB_UpdateExperimentTextViews(String expID, TextView expName,TextView expDesc,TextView expType,TextView minTrials, TextView region){
         db.collection("Experiments").whereEqualTo(FieldPath.documentId(),expID)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -407,14 +434,16 @@ public class ExperimentManager {
                             expType.setText(experiment.getType());
                             minTrials.setText("Minimum Trials: " + String.valueOf(experiment.getMinNumTrials()));
                             region.setText("Region: " + experiment.getRegion());
-                            Log.d("YA_DB test: ", "fetched: " + experiment);
                         }
                     }
                 });
     }
 
+    //////////////////////////////////
+    //FETCH KEYS FOR OTHERS
+    //////////////////////////////////
     /**
-     *
+     * This method is used to fetch the list of keys of Trials this user has made
      * @param id
      * @param fsCallback
      */
@@ -424,7 +453,6 @@ public class ExperimentManager {
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
                 if(doc != null && doc.exists()){
                     ArrayList<String> key = (ArrayList<String>) doc.get("trialKeys");
-                    Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
                     if(key==null){
                         key= new ArrayList<String>();
                         key.add("");
@@ -434,13 +462,17 @@ public class ExperimentManager {
             }
         });
     }
+    /**
+     * This method is used to fetch the list of keys of the Comments this user has made
+     * @param id
+     * @param fsCallback
+     */
     public void FB_FetchCommentKeys(String id, FirestoreStringCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
         db.collection("Experiments").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
                 if(doc != null && doc.exists()){
                     ArrayList<String> key = (ArrayList<String>) doc.get("commentKeys");
-                    Log.d("YA-DB-Rev2 inner:", String.valueOf(key)+" "+ System.currentTimeMillis());
                     if(key==null){
                         key= new ArrayList<String>();
                         key.add("");
