@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -303,22 +304,45 @@ public class UserManager{
      * @param users
      */
     public void FB_FetchContributors(Experiment experiment, ArrayAdapter<User> userAdapter, ArrayList<User> users) {
-        db.collection("UserProfile").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                users.clear();
-                userAdapter.notifyDataSetChanged();
-                for(QueryDocumentSnapshot doc: task.getResult())
-                {
-                    if (experiment.getContributorUsersKeys().contains(doc.getId())) {
-                        User temp = doc.toObject(User.class);
-                        temp.setUserID(doc.getId());
-                        users.add(temp);
-                        userAdapter.notifyDataSetChanged();
+        ExperimentManager experimentManager = new ExperimentManager();
+        db.collection("UserProfile")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                        experimentManager.FB_FetchContribKeys(experiment.getFb_id(), new FirestoreStringCallback() {
+                            @Override
+                            public void onCallback(ArrayList<String> list) {
+                                users.clear();
+                                userAdapter.notifyDataSetChanged();
+                                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                                {
+                                    if (list.contains(doc.getId())) {
+                                        User temp = doc.toObject(User.class);
+                                        temp.setUserID(doc.getId());
+                                        users.add(temp);
+                                        userAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }
+                        });
                     }
-                }
-            }
-        });
+                });
+//        db.collection("UserProfile").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                users.clear();
+//                userAdapter.notifyDataSetChanged();
+//                for(QueryDocumentSnapshot doc: task.getResult())
+//                {
+//                    if (experiment.getContributorUsersKeys().contains(doc.getId())) {
+//                        User temp = doc.toObject(User.class);
+//                        temp.setUserID(doc.getId());
+//                        users.add(temp);
+//                        userAdapter.notifyDataSetChanged();
+//                    }
+//                }
+//            }
+//        });
     }
     public void FB_FetchHidden(Experiment experiment, ArrayAdapter<User> userAdapter, ArrayList<User> users) {
         db.collection("UserProfile").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

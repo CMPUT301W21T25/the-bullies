@@ -542,6 +542,21 @@ public class ExperimentManager {
             }
         });
     }
+    public void FB_FetchContribKeys(String id, FirestoreStringCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
+        db.collection("Experiments").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                if(doc != null && doc.exists()){
+                    ArrayList<String> key = (ArrayList<String>) doc.get("contributorUsersKeys");
+                    if(key==null){
+                        key= new ArrayList<String>();
+                        key.add("");
+                    }
+                    fsCallback.onCallback(key);
+                }
+            }
+        });
+    }
     /**
      * End of database stuff -YA
      * */

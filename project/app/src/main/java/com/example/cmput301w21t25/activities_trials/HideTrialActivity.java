@@ -73,7 +73,7 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
         userListView = findViewById(R.id.hide_trials_list);
         userListView.setAdapter(userArrayAdapter);
         userManager.FB_FetchContributors(exp,userArrayAdapter,allUsers);
-        userManager.FB_FetchHidden(exp,userArrayAdapter,hiddenUsers);
+        //userManager.FB_FetchHidden(exp,userArrayAdapter,hiddenUsers);
 
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -134,12 +134,18 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
 //        User temp = allUsers.get(position);
 //        hiddenUsers.add(temp);
 //        userArrayAdapter.notifyDataSetChanged();
-        User hide = allUsers.get(position);
-        hiddenUsers.add(hide);
-        userArrayAdapter.notifyDataSetChanged();
+        //User hide = allUsers.get(position);
+        //hiddenUsers.add(hide);
+        //userArrayAdapter.notifyDataSetChanged();
         ArrayList<String> temp = exp.getHiddenUsersKeys();
         temp.add(allUsers.get(position).getUserID());
         experimentManager.FB_UpdateHiddenUserKeys(temp,exp.getFb_id());
+        temp = exp.getContributorUsersKeys();
+        temp.remove(allUsers.get(position).getUserID());
+        experimentManager.FB_UpdateContributorUserKeys(temp,exp.getFb_id());
+        User hide = allUsers.get(position);
+        allUsers.remove(hide);
+        userArrayAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -148,8 +154,8 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
 //        User temp = allUsers.get(position);
 //        hiddenUsers.remove(temp);
 //        userArrayAdapter.notifyDataSetChanged();
-        ArrayList<String> temp = exp.getHiddenUsersKeys();
-        temp.remove(allUsers.get(position).getUserID());
-        experimentManager.FB_UpdateHiddenUserKeys(temp,exp.getFb_id());
+//        ArrayList<String> temp = exp.getHiddenUsersKeys();
+//        temp.remove(allUsers.get(position).getUserID());
+//        experimentManager.FB_UpdateHiddenUserKeys(temp,exp.getFb_id());
     }
 }
