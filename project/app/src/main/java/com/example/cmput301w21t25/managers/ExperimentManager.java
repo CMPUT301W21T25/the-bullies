@@ -84,8 +84,11 @@ public class ExperimentManager {
         experimentDoc.put("isEnded",false);
         experimentDoc.put("trialKeys", Arrays.asList());//cause an experiment should start empty
         experimentDoc.put("commentKeys", Arrays.asList());//cause an experiment should start empty
+        ArrayList<String> contributors = new ArrayList<String>();
+        contributors.add(ownerID);
+        experimentDoc.put("contributorUsersKeys",contributors);//cause an experiment should start empty
 
-        //experiment.put("comment", ); ill add this later
+
 
         // Add a new Experiment with a generated ID
         db.collection("Experiments")
@@ -295,6 +298,48 @@ public class ExperimentManager {
                     }
                 });
     }
+
+    /**
+     *
+     * @param contributors
+     * @param id
+     */
+    public void FB_UpdateContributorUserKeys(ArrayList<String> contributors,String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("contributorUsersKeys", contributors)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+
+    /**
+     *
+     * @param hidden
+     * @param id
+     */
+    public void FB_UpdateHiddenUserKeys(ArrayList<String> hidden,String id){
+        DocumentReference docRef = db.collection("Experiments").document(id);
+        docRef
+                .update("hiddenUsersKeys", hidden)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
     //////////////////////////////////
     // UPDATE OBSERVERS
     //
@@ -473,6 +518,21 @@ public class ExperimentManager {
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
                 if(doc != null && doc.exists()){
                     ArrayList<String> key = (ArrayList<String>) doc.get("commentKeys");
+                    if(key==null){
+                        key= new ArrayList<String>();
+                        key.add("");
+                    }
+                    fsCallback.onCallback(key);
+                }
+            }
+        });
+    }
+    public void FB_FetchHiddenKeys(String id, FirestoreStringCallback fsCallback){//the fsCallback is an object that functions similarly to a wait function
+        db.collection("Experiments").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                if(doc != null && doc.exists()){
+                    ArrayList<String> key = (ArrayList<String>) doc.get("hiddenUsersKeys");
                     if(key==null){
                         key= new ArrayList<String>();
                         key.add("");

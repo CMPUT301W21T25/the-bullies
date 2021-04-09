@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.example.cmput301w21t25.FirestoreStringCallback;
 import com.example.cmput301w21t25.activities_main.MainActivity;
 import com.example.cmput301w21t25.activities_user.GenerateUserActivity;
+import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -239,28 +241,6 @@ public class UserManager{
     }
 
     /**
-     * This method updates the list of keys of trials the user has conducted
-     * @param trialKeys new list of experiment keys
-     * @param id the ID of the user you want to update
-     */
-    public void FB_UpdateConductedTrials(ArrayList trialKeys,String id){
-        DocumentReference docRef = db.collection("UserProfile").document(id);
-        docRef
-                .update("conductedTrials", trialKeys)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
-    }
-
-
-    /**
      *
      * @param id
      * @param fsCallback
@@ -316,8 +296,49 @@ public class UserManager{
         });
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
-    //since we can update trials and stuff i dont see the need of making delete functions, if u want them ill put them in
+    /**
+     *
+     * @param experiment
+     * @param userAdapter
+     * @param users
+     */
+    public void FB_FetchContributors(Experiment experiment, ArrayAdapter<User> userAdapter, ArrayList<User> users) {
+        db.collection("UserProfile").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                users.clear();
+                userAdapter.notifyDataSetChanged();
+                for(QueryDocumentSnapshot doc: task.getResult())
+                {
+                    if (experiment.getContributorUsersKeys().contains(doc.getId())) {
+                        User temp = doc.toObject(User.class);
+                        temp.setUserID(doc.getId());
+                        users.add(temp);
+                        userAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+    }
+    public void FB_FetchHidden(Experiment experiment, ArrayAdapter<User> userAdapter, ArrayList<User> users) {
+        db.collection("UserProfile").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                users.clear();
+                userAdapter.notifyDataSetChanged();
+                for(QueryDocumentSnapshot doc: task.getResult())
+                {
+                    if (experiment.getHiddenUsersKeys().contains(doc.getId())) {
+                        User temp = doc.toObject(User.class);
+                        temp.setUserID(doc.getId());
+                        //Log.d("TST:",temp.getName());
+                        users.add(temp);
+                        userAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+    }
     /**
      * End of database stuff -YA
      * */

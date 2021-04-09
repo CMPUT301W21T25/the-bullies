@@ -202,6 +202,7 @@ public class TrialManager {
         trialDoc.put("date", new Date());
         trialDoc.put("geoPoint", geoPoint);
         //experiment.put("comment", ); ill add this later
+        Log.d("YATEST: ", "CALLING CREATE");
 
         // Add a new Experiment with a generated ID
         db.collection("TrialDocs")
@@ -391,12 +392,18 @@ public class TrialManager {
                                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                                     ArrayList<DocumentSnapshot> temp = new ArrayList<DocumentSnapshot>();
                                     for(QueryDocumentSnapshot doc: queryDocumentSnapshots){
-                                        if(doc.exists()&&list.contains(doc.getId())){
-                                            temp.add(doc);
-                                        }
+                                        expManager.FB_FetchHiddenKeys(exp.getFb_id(), new FirestoreStringCallback() {
+                                            @Override
+                                            public void onCallback(ArrayList<String> hiddenKeys) {
+                                                if(doc.exists()&&list.contains(doc.getId())&&!hiddenKeys.contains(doc.getData().get("user"))){
+                                                    Log.d("HIDDEN:", String.valueOf(list));
+                                                    temp.add(doc);
+                                                }
+                                                int size = temp.size();
+                                                currTrials.setText("Current Trials: " + String.valueOf(size));
+                                            }
+                                        });
                                     }
-                                    int size = temp.size();
-                                    currTrials.setText("Current Trials: " + String.valueOf(size));
                                 }
                             });
                 }
@@ -423,22 +430,27 @@ public class TrialManager {
                                 add("nonnegative count");
                             }};
                             for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                                if(doc.exists()&&list.contains(doc.getId())) {
-                                    String type = exp.getType();
-                                    if (types.contains(type)) {
-                                        MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
-                                        measurableTrial.setTrialId(doc.getId());
-                                        measurableTrial.setType("measurable");
-                                        trialList.add(measurableTrial);
-                                    } else {
-                                        NonMeasurableTrial nonmeasurableTrial = doc.toObject(NonMeasurableTrial.class);
-                                        nonmeasurableTrial.setTrialId(doc.getId());
-                                        nonmeasurableTrial.setType("measurable");
-                                        trialList.add(nonmeasurableTrial);
+                                expManager.FB_FetchHiddenKeys(exp.getFb_id(), new FirestoreStringCallback() {
+                                    @Override
+                                    public void onCallback(ArrayList<String> hiddenKeys) {
+                                        if(doc.exists()&&list.contains(doc.getId())&&!hiddenKeys.contains(doc.getData().get("user"))) {
+                                            String type = exp.getType();
+                                            if (types.contains(type)) {
+                                                MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
+                                                measurableTrial.setTrialId(doc.getId());
+                                                measurableTrial.setType("measurable");
+                                                trialList.add(measurableTrial);
+                                            } else {
+                                                NonMeasurableTrial nonmeasurableTrial = doc.toObject(NonMeasurableTrial.class);
+                                                nonmeasurableTrial.setTrialId(doc.getId());
+                                                nonmeasurableTrial.setType("measurable");
+                                                trialList.add(nonmeasurableTrial);
+                                            }
+                                        }
+                                        firestoreTrialCallback.onCallback(trialList);
                                     }
-                                }
+                                });
                             }
-                            firestoreTrialCallback.onCallback(trialList);
                         }
                     });
             }
@@ -455,13 +467,18 @@ public class TrialManager {
                             @Override
                             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                                 for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                                    if(doc.exists()&&list.contains(doc.getId())){
-                                        MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
-                                        Log.d("OUTPUT_VAL", String.valueOf(measurableTrial.getResult()));
-                                        trialList.add(measurableTrial.getResult());
-                                    }
+                                    expManager.FB_FetchHiddenKeys(exp.getFb_id(), new FirestoreStringCallback() {
+                                        @Override
+                                        public void onCallback(ArrayList<String> hiddeKeys) {
+                                            if(doc.exists()&&list.contains(doc.getId())&&!hiddeKeys.contains(doc.getData().get("user"))){
+                                                MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
+                                                Log.d("OUTPUT_VAL", String.valueOf(measurableTrial.getResult()));
+                                                trialList.add(measurableTrial.getResult());
+                                            }
+                                            firestoreTrialCallback.onCallback(trialList);
+                                        }
+                                    });
                                 }
-                                firestoreTrialCallback.onCallback(trialList);
                             }
                         });
             }
@@ -472,18 +489,22 @@ public class TrialManager {
             @Override
             public void onCallback(ArrayList<String> list) {
                 ArrayList<Boolean> trialList = new ArrayList<Boolean>();
-                Log.d("TESTING_LIST:", String.valueOf(list));
                 db.collection("TrialDocs").whereEqualTo("published",true)
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
                             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                                 for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                                    if(doc.exists()&&list.contains(doc.getId())){
-                                        NonMeasurableTrial measurableTrial = doc.toObject(NonMeasurableTrial.class);
-                                        trialList.add(measurableTrial.getResult());
-                                    }
+                                    expManager.FB_FetchHiddenKeys(exp.getFb_id(), new FirestoreStringCallback() {
+                                        @Override
+                                        public void onCallback(ArrayList<String> hiddenKeys) {
+                                            if(doc.exists()&&list.contains(doc.getId())&&!hiddenKeys.contains(doc.getData().get("user"))){
+                                                NonMeasurableTrial measurableTrial = doc.toObject(NonMeasurableTrial.class);
+                                                trialList.add(measurableTrial.getResult());
+                                            }
+                                            firestoreTrialCallback.onCallback(trialList);
+                                        }
+                                    });
                                 }
-                                firestoreTrialCallback.onCallback(trialList);
                             }
                         });
             }

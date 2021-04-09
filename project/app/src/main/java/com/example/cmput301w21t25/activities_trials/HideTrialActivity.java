@@ -20,6 +20,8 @@ import com.example.cmput301w21t25.customAdapters.CustomListUser;
 import com.example.cmput301w21t25.customDialogs.HideTrialDialogFragment;
 import com.example.cmput301w21t25.customDialogs.ShowTrialDialogFragment;
 import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.managers.ExperimentManager;
+import com.example.cmput301w21t25.managers.UserManager;
 import com.example.cmput301w21t25.user.User;
 
 import java.util.ArrayList;
@@ -39,6 +41,8 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
 
     private ArrayList<User> allUsers = new ArrayList<>();
     private ArrayList<User> hiddenUsers = new ArrayList<>();
+    private UserManager userManager = new UserManager();
+    private ExperimentManager experimentManager = new ExperimentManager();
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -51,14 +55,14 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
         setSupportActionBar(toolbar);
 
         //Test objects
-        //User user1 = new User("User1", "user1@example.com");
-        //User user2 = new User("User2", "user2@example.com");
-        //User user3 = new User("User3", "user3@example.com");
-
-        //allUsers.add(user1);
-        //allUsers.add(user2);
-        //allUsers.add(user3);
-        //hiddenUsers.add(user2);
+//        User user1 = new User("User1", "user1@example.com");
+//        User user2 = new User("User2", "user2@example.com");
+//        User user3 = new User("User3", "user3@example.com");
+//
+//        allUsers.add(user1);
+//        allUsers.add(user2);
+//        allUsers.add(user3);
+//        hiddenUsers.add(user2);
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = (Experiment) getIntent().getSerializableExtra("EXPERIMENT");
@@ -68,6 +72,8 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
 
         userListView = findViewById(R.id.hide_trials_list);
         userListView.setAdapter(userArrayAdapter);
+        userManager.FB_FetchContributors(exp,userArrayAdapter,allUsers);
+        userManager.FB_FetchHidden(exp,userArrayAdapter,hiddenUsers);
 
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -125,16 +131,25 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
     @Override
     public void hideUser(Integer position) {
         //@Yalmaz db call to add user to hidden list
-        //User temp = allUsers.get(position);
-        //hiddenUsers.add(temp);
-        //userArrayAdapter.notifyDataSetChanged();
+//        User temp = allUsers.get(position);
+//        hiddenUsers.add(temp);
+//        userArrayAdapter.notifyDataSetChanged();
+        User hide = allUsers.get(position);
+        hiddenUsers.add(hide);
+        userArrayAdapter.notifyDataSetChanged();
+        ArrayList<String> temp = exp.getHiddenUsersKeys();
+        temp.add(allUsers.get(position).getUserID());
+        experimentManager.FB_UpdateHiddenUserKeys(temp,exp.getFb_id());
     }
 
     @Override
     public void showUser(Integer position) {
         //@Yalmaz db call to remove user from hidden list
-        //User temp = allUsers.get(position);
-        //hiddenUsers.remove(temp);
-        //userArrayAdapter.notifyDataSetChanged();
+//        User temp = allUsers.get(position);
+//        hiddenUsers.remove(temp);
+//        userArrayAdapter.notifyDataSetChanged();
+        ArrayList<String> temp = exp.getHiddenUsersKeys();
+        temp.remove(allUsers.get(position).getUserID());
+        experimentManager.FB_UpdateHiddenUserKeys(temp,exp.getFb_id());
     }
 }

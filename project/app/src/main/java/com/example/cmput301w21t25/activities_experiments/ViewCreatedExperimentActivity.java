@@ -313,6 +313,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity implements 
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("curtis", "you subscribed");
+                        experimentManager.FB_UpdateContributorUserKeys(exp.getContributorUsersKeys(),expID);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
