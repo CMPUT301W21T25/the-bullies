@@ -28,7 +28,7 @@
                 android:id="@+id/textViewNameQueryId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="What is the name of your experiment?"
+                android:text="*What is the name of your experiment?"
                 android:textSize="18sp" />
 
             <EditText
@@ -60,7 +60,7 @@
                 android:id="@+id/textViewDescriptionId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Give a brief description of your experiment!"
+                android:text="*Give a brief description of your experiment!"
                 android:textSize="18sp" />
 
             <EditText
@@ -89,7 +89,7 @@
                 android:id="@+id/editTextKeywords"
                 android:layout_width="359dp"
                 android:layout_height="wrap_content"
-                android:hint="Enter keywords separated by commas"
+                android:hint="*Enter keywords separated by commas"
                 android:inputType="textMultiLine"
                 app:layout_constraintBottom_toTopOf="@id/editTextMinTrials"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Minimum Trials: "
+                android:text="*Minimum Trials: "
                 app:layout_constraintBottom_toTopOf="@id/checkBoxSubscribe"
                 app:layout_constraintRight_toLeftOf="@+id/editTextMinTrials"
                 app:layout_constraintStart_toStartOf="parent"

@@ -1,9 +1,8 @@
-package com.example.cmput301w21t25.histograms;
+package com.example.cmput301w21t25;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -14,13 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.cmput301w21t25.FilterSearchFragment;
-import com.example.cmput301w21t25.R;
 /**
  * This class creates a fragment which allows the user to select which type of graph they would like
  * to view.
  */
-public class HistogramFragment extends DialogFragment {
+public class VisualDataFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
     Button graphButton;
     Button plotButton;
@@ -32,8 +29,8 @@ public class HistogramFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof HistogramFragment.OnFragmentInteractionListener){
-            listener = (HistogramFragment.OnFragmentInteractionListener) context;
+        if(context instanceof VisualDataFragment.OnFragmentInteractionListener){
+            listener = (VisualDataFragment.OnFragmentInteractionListener) context;
         }
         else{
             throw new RuntimeException(context.toString()
@@ -45,7 +42,7 @@ public class HistogramFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_histogram,null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_visual_data,null);
 
         graphButton = view.findViewById(R.id.graph_button);
         plotButton = view.findViewById(R.id.plot_button);

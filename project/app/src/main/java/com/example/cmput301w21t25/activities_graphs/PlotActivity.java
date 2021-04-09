@@ -1,15 +1,37 @@
 package com.example.cmput301w21t25.activities_graphs;
 
+import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
+import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
+import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
+import com.example.cmput301w21t25.experiments.Experiment;
+import com.example.cmput301w21t25.managers.PlotManager;
 import com.example.cmput301w21t25.managers.SummaryCalculator;
 import com.example.cmput301w21t25.trials.MeasurableTrial;
 import com.example.cmput301w21t25.trials.NonMeasurableTrial;
 import com.example.cmput301w21t25.trials.Trial;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,111 +47,35 @@ public class PlotActivity extends AppCompatActivity {
     //For count trials, countByDay()
     //For binomial trials, successRateByDay
 
-    SummaryCalculator calculator = new SummaryCalculator();
+    LineChart lineChart;
+    String userID;
+    TextView title;
 
-    /**
-     * Generates an ArrayList of Entry objects to plot on a line graph
-     * The first field in new Entry(a, b) is a number that is incremented to represent a change
-     * in date, an the second field is the mean of the trials up to and including that day
-     * @param trials an array list of all trials that are published and non-hidden for a particular
-     *               experiment
-     * @return ArrayList<Entry> plotValues: the points to be plotted on the line graph
-     */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<Entry> meanByDay(ArrayList<Trial> trials) {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_plot);
+        userID = getIntent().getStringExtra("USER_ID");
 
-        ArrayList<Float> upToDate = new ArrayList<>();
-        ArrayList<Entry> plotValues = new ArrayList<>();
-        trials.sort(Comparator.comparing(Trial::getDate));
+        Bundle expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
+        Experiment exp = (Experiment) expBundle.getSerializable("EXP");
+        PlotManager plotManager = new PlotManager();
 
-        Date currentDate = trials.get(0).getDate();
-        int currentPosition = 0;
-        int dataPoint = 0;
-
-        MeasurableTrial trial = (MeasurableTrial) trials.get(currentPosition);
-
-        while (currentPosition < trials.size()) {
-            while (trial.getDate().getDate() == currentDate.getDate() && trial.getDate().getMonth() == currentDate.getMonth() && trial.getDate().getYear() == currentDate.getYear()) {
-                upToDate.add(trial.getResult());
-                currentPosition += 1;
-                trial = (MeasurableTrial) trials.get(currentPosition);
-            }
-            plotValues.add(new Entry(dataPoint, calculator.calculateMean(upToDate)));
-            dataPoint += 1;
-            currentDate = trials.get(currentPosition + 1).getDate();
-        }
-
-    return plotValues;
+        setTitle(exp.getName());
+        lineChart = (LineChart) findViewById(R.id.line_chart);
+        title = findViewById(R.id.Plottitle_text_view);
+        String tempTitle = exp.getName() + " LineChart";
+        title.setText(tempTitle);
+        plotManager.FB_UpdateSummaryViews(exp, lineChart);
     }
 
     /**
-     * Generates an ArrayList of Entry objects to plot on a line graph
-     * The first field in new Entry(a, b) is a number that is incremented to represent a change
-     * in date, an the second field is the sum of each trial's count up to and including that day
-     * @param trials an array list of all trials that are published and non-hidden for a particular
-     *          experiment
-     * @return ArrayList<Entry> plotValues: the points to be plotted on the line graph
+     * This class will set all information of the graph view. This includes:
+     * - title
+     * - x and y axis names
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<Entry> countByDay(ArrayList<Trial> trials) {
-
-        int upToDate = 0;
-        ArrayList<Entry> plotValues = new ArrayList<>();
-        trials.sort(Comparator.comparing(Trial::getDate));
-
-        Date currentDate = trials.get(0).getDate();
-        int currentPosition = 0;
-        int dataPoint = 0;
-
-        MeasurableTrial trial = (MeasurableTrial) trials.get(currentPosition);
-
-        while (currentPosition < trials.size()) {
-            while (trial.getDate().getDate() == currentDate.getDate() && trial.getDate().getMonth() == currentDate.getMonth() && trial.getDate().getYear() == currentDate.getYear()) {
-                upToDate += trial.getResult();
-                currentPosition += 1;
-                trial = (MeasurableTrial) trials.get(currentPosition);
-            }
-            plotValues.add(new Entry(dataPoint, upToDate));
-            dataPoint += 1;
-            currentDate = trials.get(currentPosition + 1).getDate();
-        }
-
-        return plotValues;
-    }
-
-    /**
-     * Generates an ArrayList of Entry objects to plot on a line graph
-     * The first field in new Entry(a, b) is a number that is incremented to represent a change
-     * in date, an the second field is the success rate of the trials up to and including that day
-     * @param trials an array list of all trials that are published and non-hidden for a particular
-     *               experiment
-     * @return ArrayList<Entry> plotValues: the points to be plotted on the line graph
-     */
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<Entry> successRateByDay(ArrayList<Trial> trials) {
-
-        ArrayList<Boolean> upToDate = new ArrayList<>();
-        ArrayList<Entry> plotValues = new ArrayList<>();
-        trials.sort(Comparator.comparing(Trial::getDate));
-
-        Date currentDate = trials.get(0).getDate();
-        int currentPosition = 0;
-        int dataPoint = 0;
-
-        NonMeasurableTrial trial = (NonMeasurableTrial) trials.get(currentPosition);
-
-        while (currentPosition < trials.size()) {
-            while (trial.getDate().getDate() == currentDate.getDate() && trial.getDate().getMonth() == currentDate.getMonth() && trial.getDate().getYear() == currentDate.getYear()) {
-                upToDate.add(trial.getResult());
-                currentPosition += 1;
-                trial = (NonMeasurableTrial) trials.get(currentPosition);
-            }
-            plotValues.add(new Entry(dataPoint, (float) calculator.calculateSuccessRate(upToDate)));
-            dataPoint += 1;
-            currentDate = trials.get(currentPosition + 1).getDate();
-        }
-
-        return plotValues;
-    }
+    /*public void setInformation(){
+    }*/
 }
 

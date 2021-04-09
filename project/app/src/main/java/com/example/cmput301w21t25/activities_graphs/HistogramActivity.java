@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
+import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -34,13 +36,13 @@ import java.util.ArrayList;
  */
 public class HistogramActivity extends AppCompatActivity {
     private BarChart barChart;
-    private ArrayList<String> dates;
-    private ArrayList<BarEntry> barEnteries;
     private ArrayList<Integer> xAxis = new ArrayList<>();
     private ArrayList<Integer> yAxis = new ArrayList<>();
     private HistogramManager histogramManager = new HistogramManager();
+    TextView title;
     private EditText binCount_editText;
     private Button binCount_button;
+    String userID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,14 +50,17 @@ public class HistogramActivity extends AppCompatActivity {
         setContentView(R.layout.activity_barchart);
         Bundle expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
         Experiment exp = (Experiment) expBundle.getSerializable("EXP");
-        String type = exp.getType();
+        userID = getIntent().getStringExtra("USER_ID");
 
         setTitle(exp.getName());
         barChart = findViewById(R.id.barchart);
-        binCount_editText = findViewById(R.id.bin_number_edit_text);
-        binCount_button = findViewById(R.id.bin_number_button);
+        title = findViewById(R.id.Bartitle_text_view);
+        String tempTitle = exp.getName() + " BarChart";
+        title.setText(tempTitle);
 
-
+        //User edited bin counts:
+        //binCount_editText = findViewById(R.id.bin_number_edit_text);
+        //binCount_button = findViewById(R.id.bin_number_button);
 //        binCount_button.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -64,7 +69,7 @@ public class HistogramActivity extends AppCompatActivity {
 //        });
 
         //TODO: pass in user specified bin number
-        histogramManager.FB_UpdateSummaryViews(exp, barChart);
+        histogramManager.FB_UpdateSummaryViews(HistogramActivity.this ,exp, barChart);
 
     }
 
@@ -76,6 +81,4 @@ public class HistogramActivity extends AppCompatActivity {
     /*public void setInformation(){
 
     }*/
-
-
 }
