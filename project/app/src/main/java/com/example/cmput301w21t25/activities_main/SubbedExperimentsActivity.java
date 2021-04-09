@@ -36,15 +36,12 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
     private FloatingActionButton browseButton;
     private ExperimentManager experimentManager = new ExperimentManager();
 
-
     private float x1;
     private float x2;
     private float y1;
     private float y2;
 
     String userID;
-
-
 
     @Override
     protected void onCreate(Bundle passedData) {
@@ -57,8 +54,6 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         userID = getIntent().getStringExtra("USER_ID");
-        //this can be called on click when
-        //finish();
 
         browseButton = findViewById(R.id.exp_search_button);
 
@@ -70,7 +65,6 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
         /////////////////////////////////////////////
         experimentManager.FB_UpdateSubbedExperimentAdapter(userID,experimentAdapter,subbedExperiments);
 
-
         //Prevent listview from eating onTouchEvent
         subbedExperimentsList.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -79,6 +73,7 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
                 return false;
             }
         });
+        
         subbedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -145,8 +140,13 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
     }
 
     /**
-     * This touch event is for switching between screens
-     * @param event the swipe on the screen
+     * Screen switching
+     * Base Code from: Sorting in Flow, "Slide Animation Between Activites - Android Studio Tutorial"
+     * Accessed through Youtube; Published Dec. 22, 2017; Length 5:41
+     * URL: https://www.youtube.com/watch?v=0s6x3Sn4eYo
+     * Includes animation files slide_in_left, slide_in_right, slide_out_left, slide_out_right
+     * Alterations made by Eden
+     * @param event
      * @return
      */
     @Override
