@@ -61,7 +61,7 @@ public class PlotActivity extends AppCompatActivity {
             lineDataSet =
                     new LineDataSet(countByDay(trials), "Count of all Trials");
         }
-        else if(type.equals("binomial")){
+        if(type.equals("binomial")){
             lineDataSet =
                     new LineDataSet(successRateByDay(trials), "Success rate of all Trials");
         }
