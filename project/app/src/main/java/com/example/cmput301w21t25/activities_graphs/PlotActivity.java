@@ -1,4 +1,6 @@
 package com.example.cmput301w21t25.activities_graphs;
 
-public class PlotActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class PlotActivity extends AppCompatActivity {
 }

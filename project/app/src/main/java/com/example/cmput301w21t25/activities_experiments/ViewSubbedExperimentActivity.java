@@ -142,7 +142,7 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
                                         if (ownerID.equals(userID)) {
                                             //switch to myprofile
                                             Intent intent = new Intent(ViewSubbedExperimentActivity.this, MyUserProfileActivity.class);
-                                            intent.putExtra("userID", userID);
+                                            intent.putExtra("USER_ID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
                                             startActivity(intent);
