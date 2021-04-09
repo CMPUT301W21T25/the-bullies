@@ -104,14 +104,19 @@ public class PlotManager {
             while (formattedCurrentDate.equals(formattedPlotDate)) {
                 upToDate.add(trial.getResult());
                 currentPosition += 1;
-                trial = (MeasurableTrial) trials.get(currentPosition);
-                currentDate = trials.get(currentPosition).getDate();
-                formattedCurrentDate = formatDate(currentDate);
+                if (currentPosition < trials.size()) {
+                    trial = (MeasurableTrial) trials.get(currentPosition);
+                    currentDate = trials.get(currentPosition).getDate();
+                    formattedCurrentDate = formatDate(currentDate);
+                }
+                else break;
             }
             plotValues.add(new Entry(dataPoint, calculator.calculateMean(upToDate)));
             dataPoint += 1;
-            plotPointDate = trials.get(currentPosition).getDate();
-            formattedPlotDate = formatDate(plotPointDate);
+            if (currentPosition < trials.size()) {
+                plotPointDate = trials.get(currentPosition).getDate();
+                formattedPlotDate = formatDate(plotPointDate);
+            }
         }
 
         return plotValues;
@@ -144,14 +149,19 @@ public class PlotManager {
             while (formattedCurrentDate.equals(formattedPlotDate)) {
                 upToDate += trial.getResult();
                 currentPosition += 1;
-                trial = (MeasurableTrial) trials.get(currentPosition);
-                currentDate = trials.get(currentPosition).getDate();
-                formattedCurrentDate = formatDate(currentDate);
+                if (currentPosition < trials.size()) {
+                    trial = (MeasurableTrial) trials.get(currentPosition);
+                    currentDate = trials.get(currentPosition).getDate();
+                    formattedCurrentDate = formatDate(currentDate);
+                }
+                else break;
             }
             plotValues.add(new Entry(dataPoint, upToDate));
             dataPoint += 1;
-            plotPointDate = trials.get(currentPosition).getDate();
-            formattedPlotDate = formatDate(plotPointDate);
+            if (currentPosition < trials.size()) {
+                plotPointDate = trials.get(currentPosition).getDate();
+                formattedPlotDate = formatDate(plotPointDate);
+            }
         }
 
         return plotValues;
