@@ -54,6 +54,8 @@ public class Experiment implements Serializable {
     private boolean published = false;
     private ArrayList<String> tags;
     private ArrayList<String> trialKeys = new ArrayList<String>();
+    private ArrayList<String> contributorUsersKeys = new ArrayList<String>();
+    private ArrayList<String> hiddenUsersKeys = new ArrayList<String>();
     private String type;
     private String fb_id = "";
     private String region;
@@ -93,7 +95,13 @@ public class Experiment implements Serializable {
     public ArrayList<String> getTrialKeys() {
         return trialKeys;
     }
-  
+    public ArrayList<String> getContributorUsersKeys() {
+        return contributorUsersKeys;
+    }
+    public ArrayList<String> getHiddenUsersKeys() {
+        return hiddenUsersKeys;
+    }
+
     public ArrayList<String> getTags() { return tags; }
     public String getType() { return type; }
 

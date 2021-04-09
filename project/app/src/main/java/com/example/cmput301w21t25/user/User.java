@@ -68,9 +68,10 @@ public class User {
         return userID;
     }
 
-
-
-//    private void subscribeTo(Experiment experiment) {
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+    //    private void subscribeTo(Experiment experiment) {
 //        this.subscribedExperiments.add(experiment);
 //    }
 //
