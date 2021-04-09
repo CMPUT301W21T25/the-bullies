@@ -171,10 +171,10 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/edit_button"
+            android:id="@+id/end_button"
             android:layout_width="150dp"
             android:layout_height="60dp"
-            android:text="Edit" />
+            android:text="End" />
 
         <Button
             android:id="@+id/publish_button"
