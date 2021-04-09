@@ -30,6 +30,7 @@ public class SummaryCalculator {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TrialManager trialManager = new TrialManager();
 
+    public SummaryCalculator() {}
 
     public void FB_UpdateSummaryViews(Experiment exp, TextView LquartilesTextView, TextView UquartilesTextView, TextView medianTextView,
            TextView meanTextView,TextView deviationTextView,TextView successRateTextView, TextView currentTrialsTextView){
@@ -198,7 +199,7 @@ public class SummaryCalculator {
         double successRate = 0;
 
        for (int i = 0; i < trials.size(); i++) {
-           if (trials.get(i) == true) {
+           if (trials.get(i)) {
                successCount += 1;
            }
            totalCount += 1;
