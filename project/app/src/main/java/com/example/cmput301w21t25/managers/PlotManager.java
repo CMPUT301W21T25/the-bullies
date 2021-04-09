@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -84,28 +85,33 @@ public class PlotManager {
      * @return ArrayList<Entry>
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Entry> meanByDay(List<Trial> trials) {
+    public ArrayList<Entry> meanByDay(List<Trial> trials) {
 
         ArrayList<Float> upToDate = new ArrayList<>();
         ArrayList<Entry> plotValues = new ArrayList<>();
         trials.sort(Comparator.comparing(Trial::getDate));
 
-        Date currentDate = trials.get(0).getDate();
+        Date plotPointDate = trials.get(0).getDate();
+        String formattedPlotDate = formatDate(plotPointDate);
         int currentPosition = 0;
         int dataPoint = 0;
 
         MeasurableTrial trial = (MeasurableTrial) trials.get(currentPosition);
 
         while (currentPosition < trials.size()) {
-            currentDate = trials.get(currentPosition).getDate();
-            //while (trial.getDate().getDate() == currentDate.getDate() && trial.getDate().getMonth() == currentDate.getMonth() && trial.getDate().getYear() == currentDate.getYear()) {
+            Date currentDate = trials.get(currentPosition).getDate();
+            String formattedCurrentDate = formatDate(currentDate);
+            while (formattedCurrentDate.equals(formattedPlotDate)) {
                 upToDate.add(trial.getResult());
-                Log.e("current position", String.valueOf(currentPosition));
+                currentPosition += 1;
                 trial = (MeasurableTrial) trials.get(currentPosition);
-            //}
-            currentPosition = currentPosition + 1;
+                currentDate = trials.get(currentPosition).getDate();
+                formattedCurrentDate = formatDate(currentDate);
+            }
             plotValues.add(new Entry(dataPoint, calculator.calculateMean(upToDate)));
             dataPoint += 1;
+            plotPointDate = trials.get(currentPosition).getDate();
+            formattedPlotDate = formatDate(plotPointDate);
         }
 
         return plotValues;
@@ -182,6 +188,21 @@ public class PlotManager {
 
         return plotValues;
     }
+
+    /**
+     *
+     * @param date
+     * The date the comment was created
+     * @return
+     * A formatted version of the date (String)
+     */
+    private String formatDate(Date date) {
+
+        SimpleDateFormat condensedDate = new SimpleDateFormat("MM-dd-yyyy");
+        String formattedDate = condensedDate.format(date);
+        return formattedDate;
+    }
+
 }
 
 
