@@ -169,30 +169,6 @@ public class ForumManager {
                     }
                 });
     }
-//    public void FB_FetchComments(Experiment exp,FirestoreCommentCallback fsCallback){
-//        ArrayList<Comment>comments= new ArrayList<Comment>();
-//        expManager.FB_FetchCommentKeys(exp.getFb_id(), new FirestoreStringCallback() {
-//            @Override
-//            public void onCallback(ArrayList<String> list) {
-//                if(list.size()>0){
-//                    Log.d("YA-DB TEST: ", "calling the fetch" );
-//                    db.collection("Comments").whereIn(FieldPath.documentId(),list)
-//                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                                @Override
-//                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-//                                    for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-//                                        Comment temp =doc.toObject(Comment.class);
-//                                        temp.setCommentID(doc.getId());
-//                                        comments.add(temp);
-//                                    }
-//                                    fsCallback.onCallback(comments);
-//                                }
-//                            });
-//                }
-//
-//            }
-//        });
-//    }
     public void FB_FetchComments(Experiment exp, ArrayAdapter<Comment> commentAdapter, ArrayList<Comment> comments){
         expManager.FB_FetchCommentKeys(exp.getFb_id(), new FirestoreStringCallback() {
             @Override
@@ -200,29 +176,23 @@ public class ForumManager {
                 Log.d("FORUM_TEST2:", String.valueOf(list));
                 if(!list.isEmpty()){
                     Log.d("YA-DB TEST: ", "calling the fetch" );
-                    db.collection("Comments").whereIn(FieldPath.documentId(),list)
+                    db.collection("Comments")
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                 @Override
                                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                                     comments.clear();
+                                    commentAdapter.notifyDataSetChanged();
                                     for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                                        Comment temp =doc.toObject(Comment.class);
-                                        temp.setCommentID(doc.getId());
-                                        comments.add(temp);
-                                        commentAdapter.notifyDataSetChanged();
+                                        if(list.contains(doc.getId())){
+                                            Comment temp =doc.toObject(Comment.class);
+                                            temp.setCommentID(doc.getId());
+                                            comments.add(temp);
+                                        }
                                     }
-                                    Log.d("LOOKATME:", String.valueOf(comments.size()));
                                     ArrayList<Comment> sorted = nestedComments(comments);
                                     comments.addAll(sorted);
                                     commentAdapter.notifyDataSetChanged();
-                                    /*ArrayList<Comment> sorted = nestedComments(comments);
-                                    Log.d("CATS", String.valueOf(sorted));
-                                    comments.clear();
-                                    Log.d("CLEARED", "got here");
-                                    comments.addAll(sorted);
-                                    commentAdapter.notifyDataSetChanged();
-                                     */
                                 }
                             });
                 }
