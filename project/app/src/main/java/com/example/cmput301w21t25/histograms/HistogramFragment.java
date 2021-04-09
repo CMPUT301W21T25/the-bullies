@@ -69,7 +69,7 @@ public class HistogramFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setNegativeButton(Html.fromHtml("<font color=#28527a>FILTER</font>"), null)
+                .setNegativeButton(Html.fromHtml("<font color=#28527a>CANCEL</font>"), null)
                 .create();
     }
 }
