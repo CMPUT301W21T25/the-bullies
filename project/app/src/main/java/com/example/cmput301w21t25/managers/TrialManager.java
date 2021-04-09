@@ -334,13 +334,13 @@ public class TrialManager {
      * @param trialAdapter
      * @param trials
      */
-    public void FB_UpdateTrialAdapter(Experiment exp, ArrayAdapter<Trial> trialAdapter, ArrayList<Trial> trials){
+    public void FB_UpdateTrialAdapter(Experiment exp, ArrayAdapter<Trial> trialAdapter, ArrayList<Trial> trials,String userID){
         expManager.FB_FetchTrialKeys(exp.getFb_id(), new FirestoreStringCallback() {
             @Override
             public void onCallback(ArrayList<String> list) {
                 if(list.size()>0){
                     Log.d("YA-DB TEST: ", "calling the fetch" );
-                    db.collection("TrialDocs").whereEqualTo("published",false)
+                    db.collection("TrialDocs").whereEqualTo("published",false).whereEqualTo("user",userID)
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
                                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
