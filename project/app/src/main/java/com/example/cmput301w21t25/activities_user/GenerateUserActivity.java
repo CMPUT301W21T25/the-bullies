@@ -47,9 +47,19 @@ public class GenerateUserActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createUserButton(v);
+                skipButton(v);
             }
         });
+
+    }
+
+    public void skipButton(View view) {
+        EditText name = findViewById(R.id.userName);
+        EditText email = findViewById(R.id.userEmail);
+        String userName = name.getText().toString();
+        String userEmail = email.getText().toString();
+
+        userManager.FB_isUnique(userName, userID, userEmail, this,  "skip");
 
     }
 
