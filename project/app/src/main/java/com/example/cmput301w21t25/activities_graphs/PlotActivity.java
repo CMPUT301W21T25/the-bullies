@@ -10,12 +10,14 @@ import com.example.cmput301w21t25.trials.MeasurableTrial;
 import com.example.cmput301w21t25.trials.NonMeasurableTrial;
 import com.example.cmput301w21t25.trials.Trial;
 import com.github.mikephil.charting.data.Entry;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 
+/**
+ * @author Eden
+ */
 public class PlotActivity extends AppCompatActivity {
 
     //If you are generating a line graph for a non-negative or measurement experiment, generate the
@@ -29,8 +31,9 @@ public class PlotActivity extends AppCompatActivity {
      * Generates an ArrayList of Entry objects to plot on a line graph
      * The first field in new Entry(a, b) is a number that is incremented to represent a change
      * in date, an the second field is the mean of the trials up to and including that day
-     * @param trials
-     * @return ArrayList<Entry>
+     * @param trials an array list of all trials that are published and non-hidden for a particular
+     *               experiment
+     * @return ArrayList<Entry> plotValues: the points to be plotted on the line graph
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Entry> medianByDay(ArrayList<Trial> trials) {
@@ -63,8 +66,9 @@ public class PlotActivity extends AppCompatActivity {
      * Generates an ArrayList of Entry objects to plot on a line graph
      * The first field in new Entry(a, b) is a number that is incremented to represent a change
      * in date, an the second field is the sum of each trial's count up to and including that day
-     * @param trials
-     * @return ArrayList<Entry>
+     * @param trials an array list of all trials that are published and non-hidden for a particular
+     *          experiment
+     * @return ArrayList<Entry> plotValues: the points to be plotted on the line graph
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Entry> countByDay(ArrayList<Trial> trials) {
@@ -97,8 +101,9 @@ public class PlotActivity extends AppCompatActivity {
      * Generates an ArrayList of Entry objects to plot on a line graph
      * The first field in new Entry(a, b) is a number that is incremented to represent a change
      * in date, an the second field is the success rate of the trials up to and including that day
-     * @param trials
-     * @return ArrayList<Entry>
+     * @param trials an array list of all trials that are published and non-hidden for a particular
+     *               experiment
+     * @return ArrayList<Entry> plotValues: the points to be plotted on the line graph
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Entry> successRateByDay(ArrayList<Trial> trials) {
