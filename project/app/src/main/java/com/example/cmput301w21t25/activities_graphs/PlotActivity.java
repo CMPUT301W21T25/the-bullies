@@ -18,8 +18,20 @@ import java.util.Date;
 
 public class PlotActivity extends AppCompatActivity {
 
+    //If you are generating a line graph for a non-negative or measurement experiment, generate the
+    //list of plot points using medianByDay()
+    //For count trials, countByDay()
+    //For binomial trials, successRateByDay
+
     SummaryCalculator calculator = new SummaryCalculator();
 
+    /**
+     * Generates an ArrayList of Entry objects to plot on a line graph
+     * The first field in new Entry(a, b) is a number that is incremented to represent a change
+     * in date, an the second field is the mean of the trials up to and including that day
+     * @param trials
+     * @return ArrayList<Entry>
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Entry> medianByDay(ArrayList<Trial> trials) {
 
@@ -47,6 +59,13 @@ public class PlotActivity extends AppCompatActivity {
     return plotValues;
     }
 
+    /**
+     * Generates an ArrayList of Entry objects to plot on a line graph
+     * The first field in new Entry(a, b) is a number that is incremented to represent a change
+     * in date, an the second field is the sum of each trial's count up to and including that day
+     * @param trials
+     * @return ArrayList<Entry>
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Entry> countByDay(ArrayList<Trial> trials) {
 
@@ -74,6 +93,13 @@ public class PlotActivity extends AppCompatActivity {
         return plotValues;
     }
 
+    /**
+     * Generates an ArrayList of Entry objects to plot on a line graph
+     * The first field in new Entry(a, b) is a number that is incremented to represent a change
+     * in date, an the second field is the success rate of the trials up to and including that day
+     * @param trials
+     * @return ArrayList<Entry>
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Entry> successRateByDay(ArrayList<Trial> trials) {
 
