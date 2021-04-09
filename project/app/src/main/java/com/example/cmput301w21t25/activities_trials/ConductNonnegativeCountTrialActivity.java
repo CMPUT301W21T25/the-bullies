@@ -118,7 +118,7 @@ public class ConductNonnegativeCountTrialActivity extends AppCompatActivity {
         //Location;
         locationClient = LocationServices.getFusedLocationProviderClient(this);
         TrialLocationCheck(); // Check if Experiment requires location
-        Button setButton = (Button) findViewById(R.id.getLocButton);
+        Button setButton = (Button) findViewById(R.id.button3);
         setButton.setVisibility(View.GONE);
         maps = new Maps();
         setButton.setOnClickListener(new View.OnClickListener() {
