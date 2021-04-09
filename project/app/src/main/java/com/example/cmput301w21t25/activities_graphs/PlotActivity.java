@@ -21,7 +21,7 @@ import java.util.Date;
 public class PlotActivity extends AppCompatActivity {
 
     //If you are generating a line graph for a non-negative or measurement experiment, generate the
-    //list of plot points using medianByDay()
+    //list of plot points using meanByDay()
     //For count trials, countByDay()
     //For binomial trials, successRateByDay
 
@@ -36,7 +36,7 @@ public class PlotActivity extends AppCompatActivity {
      * @return ArrayList<Entry> plotValues: the points to be plotted on the line graph
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<Entry> medianByDay(ArrayList<Trial> trials) {
+    public ArrayList<Entry> meanByDay(ArrayList<Trial> trials) {
 
         ArrayList<Float> upToDate = new ArrayList<>();
         ArrayList<Entry> plotValues = new ArrayList<>();
