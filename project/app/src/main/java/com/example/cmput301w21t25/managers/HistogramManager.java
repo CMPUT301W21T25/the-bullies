@@ -1,5 +1,7 @@
 package com.example.cmput301w21t25.managers;
 
+import android.content.Context;
+import android.graphics.Paint;
 import android.os.Build;
 import android.util.Log;
 import android.widget.EditText;
@@ -11,8 +13,11 @@ import androidx.annotation.RequiresApi;
 
 import com.example.cmput301w21t25.FirestoreBoolCallback;
 import com.example.cmput301w21t25.FirestoreFloatCallback;
+import com.example.cmput301w21t25.activities_experiments.ExperimentDataActivity;
+import com.example.cmput301w21t25.activities_graphs.HistogramActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -27,11 +32,11 @@ public class HistogramManager {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TrialManager trialManager = new TrialManager();
-    private int binCount = 2;
+    private int binCount = 8;
     private ArrayList<BarEntry> entries = new ArrayList<>();;
     private ArrayList<String> xAxisValues = new ArrayList<>();
 
-    public void FB_UpdateSummaryViews(Experiment exp, BarChart barChart){
+    public void FB_UpdateSummaryViews(Context context, Experiment exp, BarChart barChart){
         //this.binCount = binCount.getText().
         List<String> types = new ArrayList<String>(){{
             add("count");
@@ -47,11 +52,29 @@ public class HistogramManager {
                 public void onCallback(ArrayList<Float> list) {
                     if(list.size()>0){
                         //RUN ALL FLOAT RELATED METHODS HERE
-                        //TODO: input bincount for custom bins
-                        sortBinsMes(list, binCount);
+                        if(list.size()%binCount != 0){
+                            barChart.setNoDataText("Number of Trials not / by 8");
+                            Paint paint =  barChart.getPaint(BarChart.PAINT_INFO);
+                            paint.setTextSize(40f);
+                            barChart.invalidate();
+                        }
+                        else{
+                            //TODO: input bincount for custom bins
+                            sortBinsMes(context, list, binCount);
 //                        int minNum = list.indexOf(Collections.min(list));
 //                        int maxNum = list.indexOf(Collections.max(list));
+                            BarDataSet barDataSet = new BarDataSet(entries, "Values");
+                            BarData barData = new BarData(barDataSet);
+                            barChart.setData(barData);
+
+                        }
                     }
+                    else{
+                        barChart.setNoDataText("No trails to graph");
+                        Paint paint =  barChart.getPaint(BarChart.PAINT_INFO);
+                        paint.setTextSize(40f);
+                    }
+                    barChart.invalidate();
                 }
             });
         }
@@ -63,14 +86,18 @@ public class HistogramManager {
                     if(list.size()>0){
                         //RUN ALL BOOLEAN RELATED METHODS HERE
                         sortBinsBinom(list);
+                        BarDataSet barDataSet = new BarDataSet(entries, "Values");
+                        BarData barData = new BarData(barDataSet);
+                        barChart.setData(barData);
                     }
+                    else{
+                        Paint paint =  barChart.getPaint(BarChart.PAINT_INFO);
+                        paint.setTextSize(40f);
+                    }
+                    barChart.invalidate();
                 }
             });
         }
-
-        BarDataSet barDataSet = new BarDataSet(entries, "Values");
-        BarData barData = new BarData(barDataSet);
-        barChart.setData(barData);
     }
 
     /*
@@ -86,7 +113,7 @@ public class HistogramManager {
     }     */
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void sortBinsMes(ArrayList<Float> list, int binCount){
+    private void sortBinsMes(Context context, ArrayList<Float> list, int binCount){
         //bin count hard coded for now, will be changed
         int bin_width = Math.floorDiv(list.size(),binCount);
 
@@ -97,10 +124,10 @@ public class HistogramManager {
         Collections.sort(list);
         Log.e("binCount", String.valueOf(binCount));
         Log.e("This is the sorted list", String.valueOf(list));
+        Log.e("bin width", String.valueOf(bin_width));
 
         if(bin_width == 0){
-            //Toast toast =  new Toast();
-            //Toast.makeText(, "Please add more trials before making a graph", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Number of Trials not / by 8", Toast.LENGTH_SHORT).show();
         }
         else{
             int j = 0;
@@ -130,14 +157,19 @@ public class HistogramManager {
         int falseBin = 0;
 
         for(int i = 0; i < list.size();i++){
+            Log.e("list.size()", String.valueOf(list.size()));
+            Log.e("i", String.valueOf(i));
             if( list.get(i).equals(true)){
                 Log.e("valueOflistItem (True)", String.valueOf(list.get(i)));
                 trueBin = trueBin + 1;
+                xAxisValues.add(String.valueOf(trueBin));
             }
             else{
                 Log.e("valueOflistItem (False)", String.valueOf(list.get(i)));
                 falseBin = falseBin + 1;
+                xAxisValues.add(String.valueOf(falseBin));
             }
+
         }
 
         Log.e("TrueBin", String.valueOf(trueBin));

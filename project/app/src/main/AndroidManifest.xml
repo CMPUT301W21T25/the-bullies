@@ -64,8 +64,10 @@
             android:label="View Experiment"/>
         <activity android:name=".activities_trials.ViewTrialActivity"
             android:label="Add New Trials"/>
-        <activity android:name=".activities_graphs.HistogramActivity"/>
-        <activity android:name=".activities_graphs.PlotActivity"/>
+        <activity android:name=".activities_graphs.HistogramActivity"
+            android:label="View Histogram"/>
+        <activity android:name=".activities_graphs.PlotActivity"
+            android:label="View Plot"/>
         <activity android:name=".activities_experiments.ExperimentDataActivity" />
         <activity android:name=".activities_trials.AddTrialActivity"
             android:label="Add New Trials"/>
