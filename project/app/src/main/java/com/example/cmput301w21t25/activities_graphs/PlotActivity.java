@@ -28,15 +28,18 @@ import com.example.cmput301w21t25.trials.NonMeasurableTrial;
 import com.example.cmput301w21t25.trials.Trial;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 
+/**
+ * @author Eden
+ */
 public class PlotActivity extends AppCompatActivity {
 
     //If you are generating a line graph for a non-negative or measurement experiment, generate the
@@ -73,7 +76,6 @@ public class PlotActivity extends AppCompatActivity {
      * - x and y axis names
      */
     /*public void setInformation(){
-
     }*/
 }
 
