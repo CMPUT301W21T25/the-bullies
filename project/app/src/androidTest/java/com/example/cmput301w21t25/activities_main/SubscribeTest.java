@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.AmbiguousViewMatcherException;
 import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -27,7 +28,6 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
-import static androidx.test.espresso.action.ViewActions.swipeRight;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -41,6 +41,10 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
+/**
+ * This test will create a blank user profile if launched for the first time,
+ * and then subscribe to an experiment.
+ */
 public class SubscribeTest {
 
     public static ViewAction waitFor(long delay) {
@@ -65,15 +69,21 @@ public class SubscribeTest {
     @Test
     public void subscribeTest() {
         onView(isRoot()).perform(waitFor(5000));
-        ViewInteraction materialButton = onView(
-                allOf(withId(R.id.skipProfileCreationButton), withText("Skip"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
-                        isDisplayed()));
-        materialButton.perform(click());
+
+        try {
+            ViewInteraction materialButton = onView(
+                    allOf(withId(R.id.skipProfileCreationButton), withText("Skip"),
+                            childAtPosition(
+                                    childAtPosition(
+                                            withId(android.R.id.content),
+                                            0),
+                                    3),
+                            isDisplayed()));
+            materialButton.perform(click());
+        }
+        catch (Exception e) {
+            //ignoring this, it means that test was launched with a user already created (not first launch)
+        }
 
         //swipe right
         onView(isRoot()).perform(waitFor(5000));
@@ -111,12 +121,18 @@ public class SubscribeTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
-        ViewInteraction imageView = onView(
-                allOf(withId(R.id.imageView2),
-                        withParent(allOf(withId(R.id.background),
-                                withParent(withId(R.id.subbed_experiment_list_view)))),
-                        isDisplayed()));
-        imageView.check(matches(isDisplayed()));
+        try {
+            ViewInteraction imageView = onView(
+                    allOf(withId(R.id.imageView2),
+                            withParent(allOf(withId(R.id.background),
+                                    withParent(withId(R.id.subbed_experiment_list_view)))),
+                            isDisplayed()));
+            imageView.check(matches(isDisplayed()));
+        }
+        catch (AmbiguousViewMatcherException e) {
+            //This is ok because it means we've subscribed to multiple experiment (test was run multiple times, existing subscriptions are present)
+        }
+
     }
 
     private static Matcher<View> childAtPosition(
