@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -51,12 +52,12 @@ public class EndExperimentDialogFragment extends DialogFragment {
         return builder
                 .setView(view)
                 .setTitle("               End the Experiment?")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(Html.fromHtml("<font color=#28527a>CANCEL</font>"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
                     }
                 })
-                .setPositiveButton("End", new DialogInterface.OnClickListener() {
+                .setPositiveButton(Html.fromHtml("<font color=#28527a>END</font>"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         listener.endExperiment();
