@@ -181,6 +181,7 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
 
     @Override
     public void onButtonPressed(Button button) {
+
         Intent intent;
         intent = new Intent(ExperimentDataActivity.this, HistogramActivity.class);
 //        if(button.getText() == "Graph"){
@@ -192,11 +193,7 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("EXP", exp);
-        Log.d("ExpBundleToHistogram", exp.toString());
-
         bundle.putString("TYPE", type);
-        Log.d("WHAT_IS_TYPE", type);
-
         intent.putExtra("EXP_BUNDLE", bundle);
         startActivity(intent);
     }
