@@ -115,10 +115,10 @@ public class UserManager{
                         Toast.makeText(context, "Profile Created!", Toast.LENGTH_SHORT).show();
                     }
                     //case 1.5: You are skipping the user creation
-                    else if (mode.equals("skip") && (id.equals("No results") || name.equals(""))) { //creating and name is unique or ""
+                    else if (mode.equals("skip")) { //make blank user
                         //safe to create new user!
                         User user = new User(name, email);
-                        FB_CreateUserProfile(userID, name, email, user);
+                        FB_CreateUserProfile(userID, "", "", user);
                         Intent intent = new Intent(context, MainActivity.class);
                         context.startActivity(intent);
                         Toast.makeText(context, "Skipping User Creation", Toast.LENGTH_SHORT).show();

@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SimpleTest {
+public class NewUserTest {
 
     public static ViewAction waitFor(long delay) {
         return new ViewAction() {
@@ -51,7 +51,7 @@ public class SimpleTest {
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void simpleTest() {
+    public void NewUserTest() {
         onView(isRoot()).perform(waitFor(5000));
         ViewInteraction button = onView(
                 allOf(withId(R.id.makeUserButton), withText("DONE"),
