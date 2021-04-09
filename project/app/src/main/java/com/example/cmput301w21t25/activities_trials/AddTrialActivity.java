@@ -58,7 +58,7 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
         expID = exp.getFb_id();
         //FB_FetchTrialKeys(expID,userID,exp);
         trialArrayAdapter = new CustomListTrial(this, trialList);
-        trialManager.FB_UpdateTrialAdapter(exp,trialArrayAdapter,trialList);
+        trialManager.FB_UpdateTrialAdapter(exp,trialArrayAdapter,trialList,userID);
         addTrialButton = findViewById(R.id.trial_create_button);
         trialListView = findViewById(R.id.add_trial_list);
 
