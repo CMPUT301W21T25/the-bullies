@@ -38,7 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/qr_integer_edit_text"
@@ -46,7 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:inputType="number" />
+            android:inputType="number"
+            android:visibility="gone" />
 
         <View
             android:id="@+id/right_view"
@@ -62,7 +64,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/back_to_menu_button"
+            android:id="@+id/back_to_qr_menu_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -87,6 +89,33 @@
             android:layout_marginRight="12dp"
             android:layout_marginBottom="12dp"
             android:layout_weight="1"
-            android:text="Generate" />
+            android:text="Generate"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/binomial_buttons_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/generate_true_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_weight="1"
+                android:text="Generate True" />
+
+            <Button
+                android:id="@+id/generate_false_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_weight="1"
+                android:text="Generate False" />
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

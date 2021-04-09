@@ -25,7 +25,7 @@ public class DisplayQRActivity extends AppCompatActivity {
         ImageView qrCode = findViewById(R.id.generated_qr_code);
         qrCode.setImageBitmap(bitmap);
 
-        final Button back = findViewById(R.id.back_to_menu_button);
+        final Button back = findViewById(R.id.back_to_qr_menu_button);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

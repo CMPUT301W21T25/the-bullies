@@ -25,7 +25,7 @@ public class PagerActivity extends FragmentActivity {
         setContentView(R.layout.pager_slide);
 
         pager = findViewById(R.id.pager);
-        pagerAdapter = new
+        //pagerAdapter = new
 
     }
 }

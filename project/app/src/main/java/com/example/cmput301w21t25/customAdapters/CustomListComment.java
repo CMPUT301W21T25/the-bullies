@@ -63,12 +63,12 @@ public class CustomListComment extends ArrayAdapter<Comment> {
         //Set a header/graphic based on whether it's a new comment or a response
         if (comment.getCommentParent().equals("")) {
             newThreadGraphic.setVisibility(View.VISIBLE);
-            replyGraphic.setVisibility(View.INVISIBLE);
+            replyGraphic.setVisibility(View.GONE);
             commentHeader.setText("New Thread");
         }
         else {
             replyGraphic.setVisibility(View.VISIBLE);
-            newThreadGraphic.setVisibility(View.INVISIBLE);
+            newThreadGraphic.setVisibility(View.GONE);
             commentHeader.setText("Replying to: " + comment.getRespondingTo() + "...");
         }
 
