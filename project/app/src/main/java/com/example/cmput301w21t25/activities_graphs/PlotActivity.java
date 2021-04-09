@@ -1,15 +1,26 @@
 package com.example.cmput301w21t25.activities_graphs;
 
 import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.RadioButton;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.managers.PlotManager;
 import com.example.cmput301w21t25.managers.SummaryCalculator;
 import com.example.cmput301w21t25.trials.MeasurableTrial;
 import com.example.cmput301w21t25.trials.NonMeasurableTrial;
 import com.example.cmput301w21t25.trials.Trial;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -19,11 +30,50 @@ import java.util.Date;
 public class PlotActivity extends AppCompatActivity {
 
     //If you are generating a line graph for a non-negative or measurement experiment, generate the
-    //list of plot points using medianByDay()
+    //list of plot points using meanByDay()
     //For count trials, countByDay()
     //For binomial trials, successRateByDay
 
+    String type;
+    ArrayList<Trial> trials;
+    String userRequest;
+
+    LineChart lineChart;
+    LineDataSet lineDataSet;
     SummaryCalculator calculator = new SummaryCalculator();
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_plot);
+        type = exp.type();
+
+        //trials = PlotManager.FB_
+
+        //choosing which method to use for the line graph
+        lineChart = (LineChart) findViewById(R.id.line_chart);
+        if(type.equals("measurement") || type.equals("nonnegative count")){
+            lineDataSet =
+                    new LineDataSet(meanByDay(trials), "Mean of all Trials");
+        }
+        else if(type.equals("count")){
+            lineDataSet =
+                    new LineDataSet(countByDay(trials), "Count of all Trials");
+        }
+        else if(type.equals("binomial")){
+            lineDataSet =
+                    new LineDataSet(successRateByDay(trials), "Success rate of all Trials");
+        }
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(lineDataSet);
+
+        LineData data = new LineData(dataSets);
+        lineChart.setData(data);
+        lineChart.invalidate();
+    }
+
 
     /**
      * Generates an ArrayList of Entry objects to plot on a line graph
@@ -33,7 +83,7 @@ public class PlotActivity extends AppCompatActivity {
      * @return ArrayList<Entry>
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<Entry> medianByDay(ArrayList<Trial> trials) {
+    public ArrayList<Entry> meanByDay(ArrayList<Trial> trials) {
 
         ArrayList<Float> upToDate = new ArrayList<>();
         ArrayList<Entry> plotValues = new ArrayList<>();

@@ -49,31 +49,30 @@ public class HistogramManager {
                         //RUN ALL FLOAT RELATED METHODS HERE
                         //TODO: input bincount for custom bins
                         sortBinsMes(list, binCount);
-                        int minNum = list.indexOf(Collections.min(list));
-                        int maxNum = list.indexOf(Collections.max(list));
-
-                        BarDataSet barDataSet = new BarDataSet(entries, "Values");
-                        BarData barData = new BarData(barDataSet);
-                        barChart.setData(barData);
+//                        int minNum = list.indexOf(Collections.min(list));
+//                        int maxNum = list.indexOf(Collections.max(list));
                     }
                 }
             });
         }
         else{
             trialManager.FB_FetchPublishedBoolValues(exp, new FirestoreBoolCallback() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onCallback(ArrayList<Boolean> list) {
                     if(list.size()>0){
-                        //sortBinsBinom();
-
                         //RUN ALL BOOLEAN RELATED METHODS HERE
+                        sortBinsBinom(list);
                     }
-
                 }
             });
         }
+
+        BarDataSet barDataSet = new BarDataSet(entries, "Values");
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
     }
-    ///
+
     /*
     binCOunt = number of bins input by user
     list.sort()
@@ -87,7 +86,7 @@ public class HistogramManager {
     }     */
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void sortBinsMes(ArrayList list, int binCount){
+    private void sortBinsMes(ArrayList<Float> list, int binCount){
         //bin count hard coded for now, will be changed
         int bin_width = Math.floorDiv(list.size(),binCount);
 
@@ -123,5 +122,27 @@ public class HistogramManager {
             }
         }
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void sortBinsBinom(ArrayList<Boolean> list) {
+        int trueBin = 0;
+        int falseBin = 0;
+
+        for(int i = 0; i < list.size();i++){
+            if( list.get(i).equals(true)){
+                Log.e("valueOflistItem (True)", String.valueOf(list.get(i)));
+                trueBin = trueBin + 1;
+            }
+            else{
+                Log.e("valueOflistItem (False)", String.valueOf(list.get(i)));
+                falseBin = falseBin + 1;
+            }
+        }
+
+        Log.e("TrueBin", String.valueOf(trueBin));
+        Log.e("FalseBin", String.valueOf(falseBin));
+        entries.add(new BarEntry(0, trueBin));
+        entries.add(new BarEntry(1, falseBin));
     }
 }
