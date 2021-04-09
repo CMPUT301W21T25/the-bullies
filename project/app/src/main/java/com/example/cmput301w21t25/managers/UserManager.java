@@ -114,6 +114,15 @@ public class UserManager{
                         context.startActivity(intent);
                         Toast.makeText(context, "Profile Created!", Toast.LENGTH_SHORT).show();
                     }
+                    //case 1.5: You are skipping the user creation
+                    else if (mode.equals("skip") && (id.equals("No results") || name.equals(""))) { //creating and name is unique or ""
+                        //safe to create new user!
+                        User user = new User(name, email);
+                        FB_CreateUserProfile(userID, name, email, user);
+                        Intent intent = new Intent(context, MainActivity.class);
+                        context.startActivity(intent);
+                        Toast.makeText(context, "Skipping User Creation", Toast.LENGTH_SHORT).show();
+                    }
                     //case 2: You are updating your email only
                     else if (mode.equals("update") && (userID.equals(id) || name.equals(""))) { //updating and name is the same as your old one, or ""
                         //the name is the same as your old name

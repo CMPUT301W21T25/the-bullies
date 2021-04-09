@@ -47,9 +47,19 @@ public class GenerateUserActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createUserButton(v);
+                skipButton(v);
             }
         });
+
+    }
+
+    public void skipButton(View view) {
+        EditText name = findViewById(R.id.userName);
+        EditText email = findViewById(R.id.userEmail);
+        String userName = name.getText().toString();
+        String userEmail = email.getText().toString();
+
+        userManager.FB_isUnique(userName, userID, userEmail, this,  "skip");
 
     }
 
@@ -64,7 +74,14 @@ public class GenerateUserActivity extends AppCompatActivity {
         String userName = name.getText().toString();
         String userEmail = email.getText().toString();
 
-        userManager.FB_isUnique(userName, userID, userEmail, this,  "create");
+        if (!userName.equals("") && !userEmail.equals("")) {
+            userManager.FB_isUnique(userName, userID, userEmail, this,  "create");
+        }
+        else {
+            //something is null
+            Toast.makeText(GenerateUserActivity.this, "Don't leave fields empty!", Toast.LENGTH_SHORT).show();
+
+        }
 
     }
 
