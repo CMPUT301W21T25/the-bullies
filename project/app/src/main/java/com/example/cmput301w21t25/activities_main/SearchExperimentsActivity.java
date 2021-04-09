@@ -49,7 +49,7 @@ public class SearchExperimentsActivity extends AppCompatActivity implements Filt
     protected void onCreate(Bundle passedData) {
         Log.d("onCreate PASS", "hello!");
         super.onCreate(passedData);
-        setContentView(R.layout.activity_browse_not_subbed);
+        setContentView(R.layout.activity_search_experiments);
 
         /*setup the custom toolbar!
          */

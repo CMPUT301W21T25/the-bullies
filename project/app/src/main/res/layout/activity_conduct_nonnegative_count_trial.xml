@@ -7,16 +7,20 @@
 
     <TextView
         android:id="@+id/nonnegativeExpDescription"
-        android:layout_width="414dp"
+        android:layout_width="match_parent"
         android:layout_height="144dp"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:background="@drawable/list_info_background"
         android:text="TextView"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nonnegativeCountExperimentInfo" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/nonnegativeCountExperimentInfo"
         android:layout_width="0dp"
-        android:layout_height="180dp"
+        android:layout_height="100dp"
         android:background="@color/custom_Yellow_dark"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -28,6 +32,17 @@
         app:titleMargin="5dp"
         tools:subtitle="Testing Date" />
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Enter count amount:"
+        android:textSize="17sp"
+        android:layout_marginTop="120dp"
+        app:layout_constraintBottom_toTopOf="@+id/nonnegativeCountEntry"
+        app:layout_constraintTop_toBottomOf="@+id/nonnegativeExpDescription" />
+
     <Button
         android:id="@+id/submit_trial_nonnegative_count_button"
         android:layout_width="wrap_content"
@@ -35,13 +50,10 @@
         android:layout_marginTop="16dp"
         android:text="Confirm Trial"
         android:textColor="@color/custom_Yellow_light"
-        app:backgroundTint="@color/custom_Blue_light"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:backgroundTint="@color/custom_Blue_dark"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nonnegativeCountEntry"
-        app:layout_constraintVertical_bias="0.437" />
+        app:layout_constraintTop_toBottomOf="@+id/nonnegativeCountEntry" />
 
     <EditText
         android:id="@+id/nonnegativeCountEntry"
@@ -53,6 +65,7 @@
         android:gravity="center"
         android:hint="enter count"
         android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,13 +75,13 @@
         android:id="@+id/getLocButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:text="Set Trial Location"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nonnegativeExpDescription" />
 
-    <FrameLayout
+    <!--<FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -80,8 +93,8 @@
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
+            android:layout_gravity="center_horizontal|bottom"
             android:text="Set Trial Location" />
-    </FrameLayout>
+    </FrameLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -144,12 +144,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
         String email = newEmail.getText().toString();
         UserManager userManager = new UserManager();
 
-        if (!name.equals("") && !email.equals("")) {
-            userManager.FB_isUnique(name, userID, email, this,  "update");
-        }
-        else {
-            //something is null
-            Toast.makeText(MyUserProfileActivity.this, "Don't leave fields empty!", Toast.LENGTH_SHORT).show();
-        }
+        userManager.FB_isUnique(name, userID, email, this,  "update");
+
     }
 }
