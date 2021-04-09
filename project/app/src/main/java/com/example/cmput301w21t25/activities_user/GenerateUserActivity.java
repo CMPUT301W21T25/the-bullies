@@ -64,14 +64,7 @@ public class GenerateUserActivity extends AppCompatActivity {
         String userName = name.getText().toString();
         String userEmail = email.getText().toString();
 
-        if (!userName.equals("") && !userEmail.equals("")) {
-            userManager.FB_isUnique(userName, userID, userEmail, this,  "create");
-        }
-        else {
-            //something is null
-            Toast.makeText(GenerateUserActivity.this, "Don't leave fields empty!", Toast.LENGTH_SHORT).show();
-
-        }
+        userManager.FB_isUnique(userName, userID, userEmail, this,  "create");
 
     }
 

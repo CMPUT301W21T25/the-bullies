@@ -102,12 +102,11 @@ public class UserManager{
                     String id = "No results";
                     String nameOnDB = "No results";
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        //this either finds one or 0 docs
-                        id = document.getId();
-                        nameOnDB = document.getString("name");
+                        //this either finds one or 0 docs --UPDATE, if name is "" then it will find a bunch of docs
+                        id = document.getId(); //represents the id of a user with the same name as you
                     }
                     //case 1: You are creating a new user
-                    if (mode.equals("create") && id.equals("No results")) {
+                    if (mode.equals("create") && (id.equals("No results") || name.equals(""))) { //creating and name is unique or ""
                         //safe to create new user!
                         User user = new User(name, email);
                         FB_CreateUserProfile(userID, name, email, user);
@@ -116,7 +115,7 @@ public class UserManager{
                         Toast.makeText(context, "Profile Created!", Toast.LENGTH_SHORT).show();
                     }
                     //case 2: You are updating your email only
-                    else if (mode.equals("update") && userID.equals(id)) {
+                    else if (mode.equals("update") && (userID.equals(id) || name.equals(""))) { //updating and name is the same as your old one, or ""
                         //the name is the same as your old name
                         FB_UpdateName(name, userID);
                         FB_UpdateEmail(email, userID);
@@ -125,7 +124,7 @@ public class UserManager{
                         Toast.makeText(context, "Profile Updated!", Toast.LENGTH_SHORT).show();
                     }
                     //case 3: You are updating your name
-                    else if (mode.equals("update") && id.equals("No results")) {
+                    else if (mode.equals("update") && (id.equals("No results") || name.equals(""))) { //nobody has the same name as you
                         //the name is not taken
                         FB_UpdateName(name, userID);
                         FB_UpdateEmail(email, userID);
