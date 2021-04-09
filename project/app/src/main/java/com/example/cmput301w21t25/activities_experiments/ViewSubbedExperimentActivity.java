@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,20 +67,30 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         final Button dataButton = findViewById(R.id.view_data_button);
         final Button unsubscribe = findViewById(R.id.unsubscribe_button);
 
+        if (exp.getIsEnded()) {
+            addTrialButton.setBackgroundColor(getResources().getColor(R.color.custom_Grey_translucent));
+        }
+        else {
+            addTrialButton.setBackgroundColor(getResources().getColor(R.color.custom_Yellow_light));
+        }
 
         //Make add trial button open add trials page
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent newTrial = new Intent(ViewSubbedExperimentActivity.this, AddTrialActivity.class);
+                if (!exp.getIsEnded()) {
+                    Intent newTrial = new Intent(ViewSubbedExperimentActivity.this, AddTrialActivity.class);
 
-                //This line makes sure that this activity is not saved in the history stack
-                newTrial.addFlags(newTrial.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    //This line makes sure that this activity is not saved in the history stack
+                    newTrial.addFlags(newTrial.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-                newTrial.putExtra("USER_ID", userID);
-                newTrial.putExtra("TRIAL_PARENT", exp);
-                startActivity(newTrial);
-
+                    newTrial.putExtra("USER_ID", userID);
+                    newTrial.putExtra("TRIAL_PARENT", exp);
+                    startActivity(newTrial);
+                }
+                else {
+                    Toast.makeText(ViewSubbedExperimentActivity.this, "This experiment has been ended.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

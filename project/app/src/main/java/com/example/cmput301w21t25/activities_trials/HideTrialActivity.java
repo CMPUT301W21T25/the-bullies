@@ -15,12 +15,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
-import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
-import com.example.cmput301w21t25.custom.CustomListUser;
-import com.example.cmput301w21t25.custom.HideTrialDialogFragment;
-import com.example.cmput301w21t25.custom.ShowTrialDialogFragment;
-import com.example.cmput301w21t25.custom.UploadTrialDialogFragment;
+import com.example.cmput301w21t25.customAdapters.CustomListUser;
+import com.example.cmput301w21t25.customDialogs.HideTrialDialogFragment;
+import com.example.cmput301w21t25.customDialogs.ShowTrialDialogFragment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.user.User;
 

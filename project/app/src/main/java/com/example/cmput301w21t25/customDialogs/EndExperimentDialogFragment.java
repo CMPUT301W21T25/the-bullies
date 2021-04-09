@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25.custom;
+package com.example.cmput301w21t25.customDialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,28 +17,25 @@ import com.example.cmput301w21t25.R;
 /**
  * @author Eden
  * A dialog fragment that appears when an experiment owner clicks on an item in the HideTrialActivity
- * list view. It prompts the owner as to whether they want to show the selected user's trials that
+ * list view. It prompts the owner as to whether they want to hide the selected user's trials that
  * have been uploaded to the owner's experiment.
  */
-public class ShowTrialDialogFragment extends DialogFragment {
+public class EndExperimentDialogFragment extends DialogFragment {
 
-    public interface OnFragmentInteractionListenerShow {
-        void showUser(Integer position);
+    public interface OnFragmentInteractionListenerEnd {
+        void endExperiment();
     }
 
-    private OnFragmentInteractionListenerShow listener;
-    private Integer position;
+    private OnFragmentInteractionListenerEnd listener;
 
-    public ShowTrialDialogFragment(Integer position) {
-        this.position = position;
-    }
+    public EndExperimentDialogFragment() { }
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListenerShow){
-            listener = (OnFragmentInteractionListenerShow) context;
+        if (context instanceof OnFragmentInteractionListenerEnd){
+            listener = (OnFragmentInteractionListenerEnd) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -48,20 +45,21 @@ public class ShowTrialDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.show_user_fragment, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.end_experiment_fragment, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
+                .setTitle("               End the Experiment?")
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
                     }
                 })
-                .setPositiveButton("Show", new DialogInterface.OnClickListener() {
+                .setPositiveButton("End", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.showUser(position);
+                        listener.endExperiment();
                     }}).create();
     }
 }

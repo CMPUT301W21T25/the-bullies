@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25.custom;
+package com.example.cmput301w21t25.customDialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,19 +17,19 @@ import com.example.cmput301w21t25.R;
 /**
  * @author Eden
  * A dialog fragment that appears when an experiment owner clicks on an item in the HideTrialActivity
- * list view. It prompts the owner as to whether they want to hide the selected user's trials that
+ * list view. It prompts the owner as to whether they want to show the selected user's trials that
  * have been uploaded to the owner's experiment.
  */
-public class HideTrialDialogFragment extends DialogFragment {
+public class ShowTrialDialogFragment extends DialogFragment {
 
-    public interface OnFragmentInteractionListenerHide {
-        void hideUser(Integer position);
+    public interface OnFragmentInteractionListenerShow {
+        void showUser(Integer position);
     }
 
-    private OnFragmentInteractionListenerHide listener;
+    private OnFragmentInteractionListenerShow listener;
     private Integer position;
 
-    public HideTrialDialogFragment(Integer position) {
+    public ShowTrialDialogFragment(Integer position) {
         this.position = position;
     }
 
@@ -37,8 +37,8 @@ public class HideTrialDialogFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListenerHide){
-            listener = (OnFragmentInteractionListenerHide) context;
+        if (context instanceof OnFragmentInteractionListenerShow){
+            listener = (OnFragmentInteractionListenerShow) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -48,7 +48,7 @@ public class HideTrialDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.hide_user_fragment, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.show_user_fragment, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -58,10 +58,10 @@ public class HideTrialDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int i) {
                     }
                 })
-                .setPositiveButton("Hide", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Show", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.hideUser(position);
+                        listener.showUser(position);
                     }}).create();
     }
 }

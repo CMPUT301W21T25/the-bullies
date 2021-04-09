@@ -1,14 +1,12 @@
-package com.example.cmput301w21t25.custom;
+package com.example.cmput301w21t25.customAdapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -76,6 +74,9 @@ public class CustomListExperiment extends ArrayAdapter<Experiment> {
         }
         if (experiment.getType().equals("nonnegative count")) {
             contentBackground.setTint(context.getResources().getColor(R.color.design_default_color_background));
+        }
+        if (experiment.getIsEnded()) {
+            contentBackground.setTint(context.getResources().getColor(R.color.custom_Grey_translucent));
         }
 
         return view;

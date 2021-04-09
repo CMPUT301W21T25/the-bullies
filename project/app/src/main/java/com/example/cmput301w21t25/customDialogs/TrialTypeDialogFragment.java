@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25.custom;
+package com.example.cmput301w21t25.customDialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
