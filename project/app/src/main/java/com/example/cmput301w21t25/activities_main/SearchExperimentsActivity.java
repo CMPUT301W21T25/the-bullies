@@ -12,26 +12,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.FilterSearchFragment;
 import com.example.cmput301w21t25.FirestoreExperimentCallback;
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
+import com.example.cmput301w21t25.activities_experiments.ViewSearchedExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
-import com.example.cmput301w21t25.custom.CustomListExperiment;
+import com.example.cmput301w21t25.customAdapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.example.cmput301w21t25.managers.SearchManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -40,7 +32,7 @@ import java.util.ArrayList;
  * experiments based on a filter that the user inputs
  */
 
-public class SearchActivity extends AppCompatActivity implements FilterSearchFragment.OnFragmentInteractionListener{
+public class SearchExperimentsActivity extends AppCompatActivity implements FilterSearchFragment.OnFragmentInteractionListener{
     //
     public SearchManager searchManager = new SearchManager();
     ListView browseList;
@@ -57,7 +49,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
     protected void onCreate(Bundle passedData) {
         Log.d("onCreate PASS", "hello!");
         super.onCreate(passedData);
-        setContentView(R.layout.activity_browse_not_subbed);
+        setContentView(R.layout.activity_search_experiments);
 
         /*setup the custom toolbar!
          */
@@ -77,7 +69,7 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("DK: ", "Position clicked = " + position);
                 Experiment experiment = (Experiment) browseList.getItemAtPosition(position);
-                Intent viewExp = new Intent(SearchActivity.this, ViewExperimentActivity.class);
+                Intent viewExp = new Intent(SearchExperimentsActivity.this, ViewSearchedExperimentActivity.class);
 
                 Bundle expBundle = new Bundle();
                 expBundle.putSerializable("EXP_OBJ", experiment);
@@ -131,13 +123,13 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.home_button:
-                Intent home = new Intent(SearchActivity.this, HomeOwnedActivity.class);
+                Intent home = new Intent(SearchExperimentsActivity.this, CreatedExperimentsActivity.class);
                 home.putExtra("USER_ID", userID);
                 startActivity(home);
                 return true;
             case R.id.settings_button:
-                Intent user_settings = new Intent(SearchActivity.this, MyUserProfileActivity.class);
-                user_settings.putExtra("userID", userID);
+                Intent user_settings = new Intent(SearchExperimentsActivity.this, MyUserProfileActivity.class);
+                user_settings.putExtra("USER_ID", userID);
                 user_settings.putExtra("prevScreen", "Browse");
                 startActivity(user_settings);
                 return true;
@@ -153,7 +145,6 @@ public class SearchActivity extends AppCompatActivity implements FilterSearchFra
      */
     @Override
     public void onOkPressed(String allKeywords) {
-        //Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
         this.allKeywords = allKeywords;
         Log.d("returning",allKeywords);
         experimentManager.FB_UpdateBrowseExperimentAdapter(userID, experimentArrayAdapter, experimentList, new FirestoreExperimentCallback() {

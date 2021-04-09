@@ -50,18 +50,15 @@ public class ForumManager {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Comment> nestedComments(ArrayList<Comment> comments) {
-        Log.d("LOOKATME2:", String.valueOf(comments.size()));
         ArrayList<Comment> orderedForum = new ArrayList<Comment>();
         ArrayList<Comment> toDelete = new ArrayList<Comment>();
 
         //Sort the comments by date to preserve sensical order
         comments.sort(Comparator.comparing(comment -> comment.getCommentDate()));
-        Log.d("LOOKATME3:", String.valueOf(comments.size()));
 
         //First add new thread comments that have no parents (were passed empty parentID string
         //upon construction)
         for (int i = 0; i < comments.size(); i++) {
-            Log.d("LOOKATME3:", String.valueOf(comments.get(i).getCommentID()));
             Comment comment = comments.get(i);
             if (comment.getCommentParent().equals("")) {
                 orderedForum.add(comment);
@@ -72,6 +69,7 @@ public class ForumManager {
         if (toDelete.size() > 0) {
             comments.removeAll(toDelete);
             toDelete.clear();
+
         }
 
         //The outer loop runs while the size of the array of comments passed is greater than zero,
@@ -108,9 +106,6 @@ public class ForumManager {
             }
         }
 
-        Log.d("LOOKATME4:", String.valueOf(orderedForum.size()));
-        Log.d("LOOKATME5", String.valueOf(orderedForum));
-        //Log.d("EDEN TEST:", String.valueOf(orderedForum));
         return orderedForum;
     }
 
@@ -132,6 +127,7 @@ public class ForumManager {
         experimentDoc.put("commenterID", commenterID);
         experimentDoc.put("commentParent",commentParent);
         experimentDoc.put("commentDate", new Date());
+        experimentDoc.put("respondingTo", respondingTo);
 
         // Add a new Experiment with a generated ID
         db.collection("Comments")

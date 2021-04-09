@@ -2,16 +2,22 @@ package com.example.cmput301w21t25.activities_trials;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
-import com.example.cmput301w21t25.custom.CustomListTrial;
+import com.example.cmput301w21t25.customAdapters.CustomListTrial;
+import com.example.cmput301w21t25.customDialogs.UploadTrialDialogFragment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.TrialManager;
 import com.example.cmput301w21t25.trials.Trial;
@@ -22,7 +28,7 @@ import java.util.ArrayList;
 /**
  * this activity is used to add new trials and view unpublished trials
  */
-public class AddTrialActivity extends AppCompatActivity {
+public class AddTrialActivity extends AppCompatActivity implements UploadTrialDialogFragment.OnFragmentInteractionListenerUpload {
 
     ListView trialListView;
     ArrayAdapter<Trial> trialArrayAdapter;
@@ -39,6 +45,11 @@ public class AddTrialActivity extends AppCompatActivity {
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_trial_list);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.custom_Blue_dark));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         trialManager = new TrialManager();
 
@@ -57,7 +68,7 @@ public class AddTrialActivity extends AppCompatActivity {
         trialListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                publishTrial(position);
+                new UploadTrialDialogFragment(position).show(getSupportFragmentManager(), "UPLOAD_TRIAL");
             }
         });
 
@@ -65,6 +76,10 @@ public class AddTrialActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Launches a conduct trial activity based on type of experiment
+
+                //@everyone needs clarification
+                //Class className; // What is this for? -DK
+
                 Intent switchScreen = new Intent(AddTrialActivity.this, ChooseConductActivity.class);
                 switchScreen.putExtra("USER_ID", userID);
                 switchScreen.putExtra("TRIAL_PARENT", exp);
@@ -113,6 +128,34 @@ public class AddTrialActivity extends AppCompatActivity {
         //finish();
     }
 
+    //Toolbar Menu setup!
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_menu_blue,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.home_button:
+                Intent home = new Intent(AddTrialActivity.this, CreatedExperimentsActivity.class);
+                home.putExtra("USER_ID", userID);
+                startActivity(home);
+                return true;
+            case R.id.settings_button:
+                Intent user_settings = new Intent(AddTrialActivity.this, MyUserProfileActivity.class);
+                user_settings.putExtra("USER_ID", userID);
+                user_settings.putExtra("prevScreen", "Browse");
+                startActivity(user_settings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /**
      * this method defines the behaviour of the addTrialButton
      * @param view
@@ -120,7 +163,7 @@ public class AddTrialActivity extends AppCompatActivity {
     public void addTrialiButton(View view) {
         //switch to profileView, pass userId
         Intent intent = new Intent(AddTrialActivity.this, MyUserProfileActivity.class);
-        intent.putExtra("userID", userID);
+        intent.putExtra("USER_ID", userID);
         intent.putExtra("prevScreen", "AddTrial");
         //bundle experiment to return to
 
@@ -134,11 +177,11 @@ public class AddTrialActivity extends AppCompatActivity {
      * @param position
      * The index of the trial you want to publish in the list
      */
-    public void publishTrial(int position) {
-        Trial temp = trialList.remove(position);
+    @Override
+    public void publishTrial(Integer position) {
+        Trial temp = trialList.get(position);
         temp.setPublished(true);
         trialManager.FB_UpdatePublished(true, temp.getTrialId());
         trialArrayAdapter.notifyDataSetChanged();
     }
-
 }

@@ -17,5 +17,6 @@
     <color name="custom_Yellow_dark">#f4d160</color>
     <color name="custom_Yellow_light">#fbeeac</color>
     <color name="custom_Grey">#8a8a8a</color>
+    <color name="custom_Grey_translucent">#808a8a8a</color>
 
 </resources>

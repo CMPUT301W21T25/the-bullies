@@ -12,13 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_experiments.ViewExperimentActivity;
-import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
-import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
-import com.example.cmput301w21t25.activities_main.SearchActivity;
+import com.example.cmput301w21t25.activities_experiments.ViewSearchedExperimentActivity;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
+import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
+import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
+import com.example.cmput301w21t25.activities_trials.HideTrialActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
-import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -45,7 +45,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_myprofile_view);
-        userID = getIntent().getStringExtra("userID");
+        userID = getIntent().getStringExtra("USER_ID");
         prevScreen = getIntent().getStringExtra("prevScreen");
         //try to get bundle, (only from experiment view)
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
@@ -96,21 +96,21 @@ public class MyUserProfileActivity extends AppCompatActivity {
         Intent intent = null;
         switch (prevScreen) {
             case "Owned":
-                intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
+                intent = new Intent(MyUserProfileActivity.this, CreatedExperimentsActivity.class);
                 Log.i("curtis", "going back to owned");
                 break;
             case "Subbed":
-                intent = new Intent(MyUserProfileActivity.this, HomeSubbedActivity.class);
+                intent = new Intent(MyUserProfileActivity.this, SubbedExperimentsActivity.class);
                 Log.i("curtis", "going back to subbed");
                 break;
             case "Experiment":
                 // go back to experiment view
-                intent = new Intent(MyUserProfileActivity.this, ViewExperimentActivity.class);
+                intent = new Intent(MyUserProfileActivity.this, ViewSearchedExperimentActivity.class);
                 intent.putExtra("EXP_BUNDLE", expBundle);
                 Log.i("curtis", "going back to viewing an experiment");
                 break;
             case "Browse":
-                intent = new Intent(MyUserProfileActivity.this, SearchActivity.class);
+                intent = new Intent(MyUserProfileActivity.this, SearchExperimentsActivity.class);
                 Log.i("curtis", "going back to browse page");
                 break;
             case "AddTrial":
@@ -119,9 +119,13 @@ public class MyUserProfileActivity extends AppCompatActivity {
                 intent.putExtra("TRIAL_PARENT", exp);
                 Log.i("curtis", "going back to add trial page");
                 break;
+            case "HideTrial":
+                intent = new Intent(MyUserProfileActivity.this, HideTrialActivity.class);
+                intent.putExtra("EXPERIMENT", exp);
+                break;
 
             default:
-                intent = new Intent(MyUserProfileActivity.this, HomeOwnedActivity.class);
+                intent = new Intent(MyUserProfileActivity.this, CreatedExperimentsActivity.class);
                 Log.i("curtis", "going back to default owned");
         }
 
@@ -140,12 +144,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
         String email = newEmail.getText().toString();
         UserManager userManager = new UserManager();
 
-        if (!name.equals("") && !email.equals("")) {
-            userManager.FB_isUnique(name, userID, email, this,  "update");
-        }
-        else {
-            //something is null
-            Toast.makeText(MyUserProfileActivity.this, "Don't leave fields empty!", Toast.LENGTH_SHORT).show();
-        }
+        userManager.FB_isUnique(name, userID, email, this,  "update");
+
     }
 }

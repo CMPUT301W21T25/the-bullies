@@ -167,8 +167,6 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
 
 
 
-
-
     /**
      * returns date in the proper format
      * @param date the date that needs to be formated
@@ -198,6 +196,5 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
         bundle.putString("TYPE", type);
         intent.putExtra("EXP_BUNDLE", bundle);
         startActivity(intent);
-
     }
 }

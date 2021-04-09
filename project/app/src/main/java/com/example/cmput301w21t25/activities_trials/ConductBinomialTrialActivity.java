@@ -81,7 +81,11 @@ public class ConductBinomialTrialActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Call function that creates trial with result and switches activity
                 if (!trialParent.isGeoEnabled() || getLocation() != null) { // if location is not required or we have a location {
-                    GeoPoint geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
+                    //Since get returns null if we dont have a location, create a null geopoint instead
+                    GeoPoint geoPoint = null;
+                    if (trialParent.isGeoEnabled()) {
+                        geoPoint = new GeoPoint(getLocation().getLatitude(), getLocation().getLongitude());
+                    }
                     trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, true, trialParent, geoPoint);
                     Intent switchScreen = new Intent(ConductBinomialTrialActivity.this, AddTrialActivity.class);
                     //Passes the parent Experiment back as it is needed in the add Trial list view

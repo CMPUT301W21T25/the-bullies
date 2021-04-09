@@ -15,8 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
-import com.example.cmput301w21t25.activities_main.HomeSubbedActivity;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
+import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.HistogramManager;

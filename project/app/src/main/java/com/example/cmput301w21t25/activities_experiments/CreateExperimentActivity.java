@@ -9,11 +9,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cmput301w21t25.activities_main.HomeOwnedActivity;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.example.cmput301w21t25.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +44,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
 
     Location experimentLocation;
 
+    CheckBox subscribe;
     CheckBox published;
     CheckBox geolocationEnabled;
 
@@ -61,15 +63,13 @@ public class CreateExperimentActivity extends AppCompatActivity {
         //Initialize experiment manager
         experimentManager = new ExperimentManager();
 
-        //This is temp I don't know what to do for location
-        //String testRegion = "EMPTY STRING";
-
         experimentName = findViewById(R.id.editTextExpName);
         experimentDescription = findViewById(R.id.editTextEnterDescription);
         experimentTags = findViewById(R.id.editTextKeywords);
         minimumTrials = findViewById(R.id.editTextMinTrials);
         region = findViewById(R.id.editTextRegion);
 
+        subscribe = findViewById(R.id.checkBoxSubscribe);
         published = findViewById(R.id.checkBoxPublish);
         geolocationEnabled = findViewById(R.id.checkBoxGeolocation);
 
@@ -88,37 +88,47 @@ public class CreateExperimentActivity extends AppCompatActivity {
 
                 String description = experimentDescription.getText().toString();
                 String name = experimentName.getText().toString();
-                Integer minTrials = Integer.parseInt(minimumTrials.getText().toString());
-                String Region = region.getText().toString();
 
-                //Experiment keywords parsed and cast to lower case on creation to ensure
-                //compatibility with User keyword search later on
-                experimentKeywords = new ArrayList<String>();
-                String keywords = experimentTags.getText().toString();
-                experimentKeywords = parseKeywords(keywords);
+                Toast noInput = Toast.makeText(getApplicationContext(), "Trial number are required", Toast.LENGTH_LONG);
+                if(minimumTrials.getText().length()>0){
+                    Integer minTrials = Integer.parseInt(minimumTrials.getText().toString());
+                    String Region = region.getText().toString();
+
+                    //Experiment keywords parsed and cast to lower case on creation to ensure
+                    //compatibility with User keyword search later on
+                    experimentKeywords = new ArrayList<String>();
+                    String keywords = experimentTags.getText().toString();
+                    experimentKeywords = parseKeywords(keywords);
 
 
-                Log.d("description", description);
-                Log.d("name", name);
-                Log.d("keywords", experimentKeywords.toString());
-                //Get the user's name from their profile
-                DocumentReference docRef = db.collection("UserProfile").document(userID);
-                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                experimentOwner = (String) document.getData().get("name");
-                                experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, Region, experimentKeywords, geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials);
-                                //
+                    Log.d("description", description);
+                    Log.d("name", name);
+                    Log.d("keywords", experimentKeywords.toString());
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please don't skip enter informations", Toast.LENGTH_LONG);
+                    if(!checkEnterValid(description,name,experimentKeywords) || type==null){
+                        toast.show();
+                    }else {
+                        //Get the user's name from their profile
+                        DocumentReference docRef = db.collection("UserProfile").document(userID);
+                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        experimentOwner = (String) document.getData().get("name");
+                                        experimentManager.FB_CreateExperiment(userID, name, experimentOwner, description, Region, experimentKeywords, subscribe.isChecked(), geolocationEnabled.isChecked(), published.isChecked(), type, new Date(), minTrials);
+                                        //
+                                    }
+                                }
                             }
-                        }
+                        });
+                        Intent switchScreen = new Intent(CreateExperimentActivity.this, CreatedExperimentsActivity.class);
+                        switchScreen.putExtra("USER_ID", userID);
+                        startActivity(switchScreen);
                     }
-                });
-                Intent switchScreen = new Intent(CreateExperimentActivity.this, HomeOwnedActivity.class);
-                switchScreen.putExtra("USER_ID", userID);
-                startActivity(switchScreen);
+                } else{ noInput.show(); }
+
             }
         });
 
@@ -176,5 +186,28 @@ public class CreateExperimentActivity extends AppCompatActivity {
 
         return keywordList;
     }
+
+    /**
+     * This method check if user entered valid input
+     * The result will return to decide if the experiment can be create
+     * @param description
+     * @param name
+     * @param keywords
+     * @return
+     */
+    public boolean checkEnterValid(String description, String name, ArrayList<String> keywords){
+        boolean checkIfValid=true;
+        if(description==null||description.length()==0){
+            checkIfValid = false;
+        }
+        if(name==null||name.length()==0){
+            checkIfValid = false;
+        }
+        if(keywords.isEmpty()){
+            checkIfValid = false;
+        }
+        return checkIfValid;
+    }
+
 
 }
