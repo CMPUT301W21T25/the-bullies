@@ -89,7 +89,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                 String description = experimentDescription.getText().toString();
                 String name = experimentName.getText().toString();
 
-                Toast noInput = Toast.makeText(getApplicationContext(), "Trial number are required", Toast.LENGTH_LONG);
+                Toast noInput = Toast.makeText(getApplicationContext(), "Enter required fields", Toast.LENGTH_LONG);
                 if(minimumTrials.getText().length()>0){
                     Integer minTrials = Integer.parseInt(minimumTrials.getText().toString());
                     String Region = region.getText().toString();
@@ -104,7 +104,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
                     Log.d("description", description);
                     Log.d("name", name);
                     Log.d("keywords", experimentKeywords.toString());
-                    Toast toast = Toast.makeText(getApplicationContext(), "Please don't skip enter informations", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Enter required fields", Toast.LENGTH_LONG);
                     if(!checkEnterValid(description,name,experimentKeywords) || type==null){
                         toast.show();
                     }else {
