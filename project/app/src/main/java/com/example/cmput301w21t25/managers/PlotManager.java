@@ -184,14 +184,19 @@ public class PlotManager {
             while (formattedCurrentDate.equals(formattedPlotDate)) {
                 upToDate.add(trial.getResult());
                 currentPosition += 1;
-                trial = (NonMeasurableTrial) trials.get(currentPosition);
-                currentDate = trials.get(currentPosition).getDate();
-                formattedCurrentDate = formatDate(currentDate);
+                if (currentPosition < trials.size()) {
+                    trial = (NonMeasurableTrial) trials.get(currentPosition);
+                    currentDate = trials.get(currentPosition).getDate();
+                    formattedCurrentDate = formatDate(currentDate);
+                }
+                else break;
             }
             plotValues.add(new Entry(dataPoint, (float) calculator.calculateSuccessRate(upToDate)));
             dataPoint += 1;
-            plotPointDate = trials.get(currentPosition).getDate();
-            formattedPlotDate = formatDate(plotPointDate);
+            if (currentPosition < trials.size()) {
+                plotPointDate = trials.get(currentPosition).getDate();
+                formattedPlotDate = formatDate(plotPointDate);
+            }
         }
 
         return plotValues;
