@@ -14,7 +14,7 @@ import com.example.cmput301w21t25.R;
 public class DisplayQRActivity extends AppCompatActivity {
 
     Bitmap bitmap;
-    ImageView qrCode;
+    //ImageView qrCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class DisplayQRActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_q_r);
 
         bitmap = (Bitmap) getIntent().getParcelableExtra("QR_CODE");
-        qrCode = findViewById(R.id.generated_qr_code);
+        ImageView qrCode = findViewById(R.id.generated_qr_code);
         qrCode.setImageBitmap(bitmap);
 
         final Button back = findViewById(R.id.back_to_menu_button);

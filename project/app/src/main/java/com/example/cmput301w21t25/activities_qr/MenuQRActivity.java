@@ -56,6 +56,12 @@ public class MenuQRActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(MenuQRActivity.this, "No QR code generated", Toast.LENGTH_SHORT).show();
                 }
+
+                Intent generate = new Intent(MenuQRActivity.this, GenerateQRActivity.class);
+                generate.putExtra("USER_ID", userID);
+                generate.putExtra("TRIAL_PARENT", trialParent);
+                startActivity(generate);
+
             }
         });
 
