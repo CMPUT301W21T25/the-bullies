@@ -74,7 +74,7 @@ public class ForumActivity extends AppCompatActivity {
         forumListView = findViewById(R.id.forum_list);
         askQuestionButton = findViewById(R.id.add_comment_button);
 
-        commentArrayAdapter = new CustomListComment(this, comments, forumExperiment, userID);
+        commentArrayAdapter = new CustomListComment(this, comments, forumExperiment);
         forumListView.setAdapter(commentArrayAdapter);
 
         //Database call commented out for proof of sorting

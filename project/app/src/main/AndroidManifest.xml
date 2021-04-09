@@ -78,6 +78,10 @@
         <activity android:name=".activities_trials.ConductNonnegativeCountTrialActivity"
             android:label="Conduct New Trial"/>
         <activity android:name=".activities_qr.ScanQRActivity"/>
+
+        <activity android:name=".activities_trials.HideTrialActivity"
+            android:label="Manage Visible Trials"/>
+
         <activity android:name=".activities_main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

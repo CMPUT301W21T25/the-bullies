@@ -63,9 +63,6 @@ public class CreateExperimentActivity extends AppCompatActivity {
         //Initialize experiment manager
         experimentManager = new ExperimentManager();
 
-        //This is temp I don't know what to do for location
-        //String testRegion = "EMPTY STRING";
-
         experimentName = findViewById(R.id.editTextExpName);
         experimentDescription = findViewById(R.id.editTextEnterDescription);
         experimentTags = findViewById(R.id.editTextKeywords);

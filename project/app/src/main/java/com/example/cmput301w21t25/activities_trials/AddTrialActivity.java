@@ -28,7 +28,7 @@ import java.util.ArrayList;
 /**
  * this activity is used to add new trials and view unpublished trials
  */
-public class AddTrialActivity extends AppCompatActivity implements UploadTrialDialogFragment.OnFragmentInteractionListener {
+public class AddTrialActivity extends AppCompatActivity implements UploadTrialDialogFragment.OnFragmentInteractionListenerUpload {
 
     ListView trialListView;
     ArrayAdapter<Trial> trialArrayAdapter;

@@ -19,6 +19,7 @@ import com.example.cmput301w21t25.activities_forum.ForumActivity;
 import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
+import com.example.cmput301w21t25.activities_trials.HideTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -60,6 +61,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         final Button unpublishButton = findViewById(R.id.unpublish_button);
         final Button commentsButton = findViewById(R.id.comments_button);
         final Button dataButton = findViewById(R.id.view_data_button);
+        final Button hideTrialButton = findViewById(R.id.hideTrialsButton);
 
         userID = getIntent().getStringExtra("USER_ID");
         exp = unpackExperiment();
@@ -145,6 +147,16 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             }
         });
 
+        hideTrialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent hideTrials = new Intent(ViewCreatedExperimentActivity.this, HideTrialActivity.class);
+                hideTrials.putExtra("USER_ID", userID);
+                hideTrials.putExtra("EXPERIMENT", exp);
+                startActivity(hideTrials);
+            }
+        });
+
     }
 
     /**
@@ -225,7 +237,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
                                         if (ownerID.equals(userID)) {
                                             //switch to myprofile
                                             Intent intent = new Intent(ViewCreatedExperimentActivity.this, MyUserProfileActivity.class);
-                                            intent.putExtra("USER_ID", userID);
+                                            intent.putExtra("userID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
                                             startActivity(intent);

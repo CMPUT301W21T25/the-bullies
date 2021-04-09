@@ -145,7 +145,6 @@ public class SearchExperimentsActivity extends AppCompatActivity implements Filt
      */
     @Override
     public void onOkPressed(String allKeywords) {
-        //Toast.makeText(SearchActivity.this,allKeywords,Toast.LENGTH_SHORT).show();
         this.allKeywords = allKeywords;
         Log.d("returning",allKeywords);
         experimentManager.FB_UpdateBrowseExperimentAdapter(userID, experimentArrayAdapter, experimentList, new FirestoreExperimentCallback() {

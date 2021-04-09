@@ -68,7 +68,7 @@ public class Maps extends Fragment{
             LatLng mytrial = new LatLng(TrialLocation.getLatitude(), TrialLocation.getLongitude());
             MarkerOptions options = new MarkerOptions();
             options.draggable(true);
-            Marker marker = googleMap.addMarker(options.position(mytrial).title("Location of trial"));
+            Marker marker = googleMap.addMarker(options.position(mytrial).title("Click and hold to drag me"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(mytrial));
             activity.findViewById(R.id.button3).setVisibility(View.VISIBLE);
 
