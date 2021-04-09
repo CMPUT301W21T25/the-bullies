@@ -27,8 +27,8 @@
         android:id="@+id/plot_button"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_weight="1"
-        android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:text="Plot" />
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:text="Line" />
 </LinearLayout>
