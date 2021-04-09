@@ -40,14 +40,21 @@ import java.util.Map;
 import static android.content.ContentValues.TAG;
 
 /**
- * @author Eden
- * Sorts comments in a nested fashion such that a particular question's responses are listed
- * directly below it by order of date
+ * The forum manager is responsible for fetching comments, as well as sorting them in a particular
+ * order such that they're nested by "in response to" and ordered by date (oldest to newest)
  */
 public class ForumManager {
 
     public ForumManager() { }
 
+    /**
+     * Base Code from: Matthew Mombrea, "How to create nested comments in Java / Android"
+     * Accessed through COMPUTERWORLD; Published July 16, 2014
+     * URL: https://www.computerworld.com/article/2696636/how-to-create-nested-comments-in-java---android.html
+     * Alterations made by Eden
+     * Sorts comments in a nested fashion such that a particular question's responses are listed
+     * directly below it by order of date
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Comment> nestedComments(ArrayList<Comment> comments) {
         ArrayList<Comment> orderedForum = new ArrayList<Comment>();

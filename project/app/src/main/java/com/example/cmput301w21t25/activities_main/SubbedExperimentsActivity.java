@@ -73,7 +73,7 @@ public class SubbedExperimentsActivity extends AppCompatActivity {
                 return false;
             }
         });
-        
+
         subbedExperimentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
