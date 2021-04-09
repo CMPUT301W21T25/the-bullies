@@ -18,17 +18,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CMPUT301W21T25">
-
+        <activity android:name=".activities_qr.GenerateQRActivity"></activity>
         <!-- from https://github.com/journeyapps/zxing-android-embedded/issues/368 -->
-        <activity android:name=".activities_qr.PortraitCaptureActivity"
-                  android:screenOrientation="fullSensor"
-                  android:stateNotNeeded="true"
-                  android:windowSoftInputMode="stateAlwaysHidden">
-        </activity>
-
+        <activity
+            android:name=".activities_qr.PortraitCaptureActivity"
+            android:screenOrientation="fullSensor"
+            android:stateNotNeeded="true"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity android:name=".activities_trials.ChooseConductActivity" />
         <activity android:name=".activities_qr.CountQRActivity" />
-        <activity android:name=".activities_qr.GenerateQRActivity" />
+        <activity android:name=".activities_qr.MenuQRActivity" />
         <activity android:name=".activities_qr.DisplayQRActivity" />
         <activity
             android:name=".activities_qr.ScanQRActivity"

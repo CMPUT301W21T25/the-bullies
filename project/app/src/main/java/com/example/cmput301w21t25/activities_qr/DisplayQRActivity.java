@@ -25,12 +25,12 @@ public class DisplayQRActivity extends AppCompatActivity {
         qrCode = findViewById(R.id.generated_qr_code);
         qrCode.setImageBitmap(bitmap);
 
-        final Button back = findViewById(R.id.back_to_generate_button);
+        final Button back = findViewById(R.id.back_to_menu_button);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(DisplayQRActivity.this, GenerateQRActivity.class);
+                Intent back = new Intent(DisplayQRActivity.this, MenuQRActivity.class);
                 startActivity(back);
             }
         });

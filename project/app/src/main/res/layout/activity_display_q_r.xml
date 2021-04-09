@@ -17,13 +17,13 @@
         android:layout_marginRight="12dp"
         android:layout_marginBottom="12dp"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
-        app:layout_constraintBottom_toTopOf="@+id/back_to_generate_button"
+        app:layout_constraintBottom_toTopOf="@+id/back_to_menu_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/back_to_generate_button"
+        android:id="@+id/back_to_menu_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
