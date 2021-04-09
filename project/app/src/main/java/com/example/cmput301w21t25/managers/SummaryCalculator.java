@@ -199,7 +199,7 @@ public class SummaryCalculator {
         double successRate = 0;
 
        for (int i = 0; i < trials.size(); i++) {
-           if (trials.get(i) == true) {
+           if (trials.get(i)) {
                successCount += 1;
            }
            totalCount += 1;
