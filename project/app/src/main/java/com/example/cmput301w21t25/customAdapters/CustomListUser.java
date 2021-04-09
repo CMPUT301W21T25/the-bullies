@@ -1,4 +1,4 @@
-package com.example.cmput301w21t25.custom;
+package com.example.cmput301w21t25.customAdapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,13 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.experiments.Experiment;
-import com.example.cmput301w21t25.forum.Comment;
 import com.example.cmput301w21t25.user.User;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author Eden

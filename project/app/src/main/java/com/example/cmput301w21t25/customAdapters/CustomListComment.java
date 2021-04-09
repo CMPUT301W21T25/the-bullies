@@ -1,16 +1,10 @@
-package com.example.cmput301w21t25.custom;
+package com.example.cmput301w21t25.customAdapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentSender;
-import android.graphics.Color;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,14 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_forum.ForumActivity;
-import com.example.cmput301w21t25.activities_forum.NewCommentActivity;
-import com.example.cmput301w21t25.activities_forum.NewReplyActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.forum.Comment;
-import com.example.cmput301w21t25.trials.Trial;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;

@@ -20,7 +20,7 @@ import com.example.cmput301w21t25.FirestoreExperimentCallback;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewSearchedExperimentActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
-import com.example.cmput301w21t25.custom.CustomListExperiment;
+import com.example.cmput301w21t25.customAdapters.CustomListExperiment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.example.cmput301w21t25.managers.SearchManager;

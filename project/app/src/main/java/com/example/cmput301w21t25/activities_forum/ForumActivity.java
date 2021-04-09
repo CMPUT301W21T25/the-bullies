@@ -9,20 +9,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_experiments.ViewCreatedExperimentActivity;
-import com.example.cmput301w21t25.custom.CustomListComment;
+import com.example.cmput301w21t25.customAdapters.CustomListComment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.forum.Comment;
 import com.example.cmput301w21t25.managers.ForumManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ForumActivity extends AppCompatActivity {
 

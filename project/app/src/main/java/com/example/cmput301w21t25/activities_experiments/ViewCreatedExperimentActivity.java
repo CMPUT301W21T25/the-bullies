@@ -18,6 +18,8 @@ import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_trials.HideTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
+import com.example.cmput301w21t25.customDialogs.EndExperimentDialogFragment;
+import com.example.cmput301w21t25.customDialogs.UploadTrialDialogFragment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.example.cmput301w21t25.managers.TrialManager;
@@ -33,7 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 /**
  * Allows for extracting the created experiments from the database
  */
-public class ViewCreatedExperimentActivity extends AppCompatActivity {
+public class ViewCreatedExperimentActivity extends AppCompatActivity implements EndExperimentDialogFragment.OnFragmentInteractionListenerEnd {
 
     private String expID;
     private String ownerID;
@@ -43,22 +45,24 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
     private TrialManager trialManager = new TrialManager();
     private Experiment exp;
 
+    Button addTrialButton;
+
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_view_created_experiment);
 
+        userID = getIntent().getStringExtra("USER_ID");
+        exp = unpackExperiment();
+        expID = exp.getFb_id(); //ck
+
+        addTrialButton = findViewById(R.id.add_trial_button);
         final Button editButton = findViewById(R.id.edit_button);
-        final Button addTrialButton = findViewById(R.id.add_trial_button);
         final Button publishButton = findViewById(R.id.publish_button);
         final Button unpublishButton = findViewById(R.id.unpublish_button);
         final Button commentsButton = findViewById(R.id.comments_button);
         final Button dataButton = findViewById(R.id.view_data_button);
         final Button hideTrialButton = findViewById(R.id.hideTrialsButton);
-
-        userID = getIntent().getStringExtra("USER_ID");
-        exp = unpackExperiment();
-        expID = exp.getFb_id(); //ck
 
         if (exp.isPublished()) {
             publishButton.setVisibility(View.GONE);
@@ -95,12 +99,10 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String temp = currTrials.getText().toString();
-                if (exp.getMinNumTrials() <= Integer.parseInt(temp.substring(temp.length() - 1))) {
-                    experimentManager.FB_UpdateEnded(true, expID);
-                    addTrialButton.setBackgroundColor(getResources().getColor(R.color.custom_Grey_translucent));
-                    exp.setIsEnded(true);
+                if (exp.getMinNumTrials() <= Integer.parseInt(temp.substring(temp.length() - 1)) && !exp.getIsEnded()) {
+                    new EndExperimentDialogFragment().show(getSupportFragmentManager(), "END_EXPERIMENT");
                 }
-                else {
+                else if (!exp.getIsEnded()){
                     Toast.makeText(ViewCreatedExperimentActivity.this, "Must have minimum number of trials.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -276,5 +278,12 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity {
         intent.putExtra("USER_ID", userID);
         startActivity(intent);
 
+    }
+
+    @Override
+    public void endExperiment() {
+        experimentManager.FB_UpdateEnded(true, expID);
+        addTrialButton.setBackgroundColor(getResources().getColor(R.color.custom_Grey_translucent));
+        exp.setIsEnded(true);
     }
 }
