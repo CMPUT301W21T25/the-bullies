@@ -68,6 +68,7 @@ public class ChooseConductActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent qr = new Intent(ChooseConductActivity.this, GenerateQRActivity.class);
                 qr.putExtra("USER_ID", userID);
+                qr.putExtra("TRIAL_PARENT", exp);
                 startActivity(qr);
             }
         });

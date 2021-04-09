@@ -18,9 +18,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CMPUT301W21T25">
-        <activity android:name=".activities_trials.ChooseConductActivity"></activity>
-        <activity android:name=".activities_qr.GenerateQRActivity"></activity>
+
+        <!-- from https://github.com/journeyapps/zxing-android-embedded/issues/368 -->
+        <activity android:name=".activities_qr.PortraitCaptureActivity"
+                  android:screenOrientation="fullSensor"
+                  android:stateNotNeeded="true"
+                  android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+
+        <activity android:name=".activities_trials.ChooseConductActivity" />
+        <activity android:name=".activities_qr.CountQRActivity" />
+        <activity android:name=".activities_qr.GenerateQRActivity" />
         <activity android:name=".activities_qr.DisplayQRActivity" />
+        <activity
+            android:name=".activities_qr.ScanQRActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
         <!--
          set this to be the icon image!
               android:icon="@drawable/<someImage>"
@@ -41,47 +54,58 @@
         <activity android:name=".activities_user.OtherUserProfileActivity" />
         <activity android:name=".activities_experiments.CreateExperimentActivity" />
         <activity android:name=".activities_user.GenerateUserActivity" />
-
-
-        <activity android:name=".activities_main.SubbedExperimentsActivity"
-            android:label="Subscribed Experiments"/>
-        <activity android:name=".activities_main.SearchExperimentsActivity"
-            android:label="Search for Experiment"/>
-        <activity android:name=".activities_main.CreatedExperimentsActivity"
-            android:label="Created Experiments"/>
-        <activity android:name=".activities_forum.ForumActivity"
-            android:label="Forum"/>
-        <activity android:name=".activities_forum.NewReplyActivity"
-            android:label="Forum"/>
-        <activity android:name=".activities_forum.NewCommentActivity"
-            android:label="Forum"/>
+        <activity
+            android:name=".activities_main.SubbedExperimentsActivity"
+            android:label="Subscribed Experiments" />
+        <activity
+            android:name=".activities_main.SearchExperimentsActivity"
+            android:label="Search for Experiment" />
+        <activity
+            android:name=".activities_main.CreatedExperimentsActivity"
+            android:label="Created Experiments" />
+        <activity
+            android:name=".activities_forum.ForumActivity"
+            android:label="Forum" />
+        <activity
+            android:name=".activities_forum.NewReplyActivity"
+            android:label="Forum" />
+        <activity
+            android:name=".activities_forum.NewCommentActivity"
+            android:label="Forum" />
         <activity android:name=".activities_user.MyUserProfileActivity" />
-        <activity android:name=".activities_experiments.ViewSearchedExperimentActivity"
-            android:label="View Experiment"/>
-        <activity android:name=".activities_experiments.ViewCreatedExperimentActivity"
-            android:label="View Experiment"/>
-        <activity android:name=".activities_experiments.ViewSubbedExperimentActivity"
-            android:label="View Experiment"/>
-        <activity android:name=".activities_trials.ViewTrialActivity"
-            android:label="Add New Trials"/>
-        <activity android:name=".activities_graphs.HistogramActivity"/>
-        <activity android:name=".activities_graphs.PlotActivity"/>
+        <activity
+            android:name=".activities_experiments.ViewSearchedExperimentActivity"
+            android:label="View Experiment" />
+        <activity
+            android:name=".activities_experiments.ViewCreatedExperimentActivity"
+            android:label="View Experiment" />
+        <activity
+            android:name=".activities_experiments.ViewSubbedExperimentActivity"
+            android:label="View Experiment" />
+        <activity
+            android:name=".activities_trials.ViewTrialActivity"
+            android:label="Add New Trials" />
+        <activity android:name=".activities_graphs.HistogramActivity" />
+        <activity android:name=".activities_graphs.PlotActivity" />
         <activity android:name=".activities_experiments.ExperimentDataActivity" />
-        <activity android:name=".activities_trials.AddTrialActivity"
-            android:label="Add New Trials"/>
-        <activity android:name=".activities_trials.ConductCountTrialActivity"
-            android:label="Conduct New Trial"/>
-        <activity android:name=".activities_trials.ConductMeasurementTrialActivity"
-            android:label="Conduct New Trial"/>
-        <activity android:name=".activities_trials.ConductBinomialTrialActivity"
-            android:label="Conduct New Trial"/>
-        <activity android:name=".activities_trials.ConductNonnegativeCountTrialActivity"
-            android:label="Conduct New Trial"/>
-        <activity android:name=".activities_qr.ScanQRActivity"/>
-
-        <activity android:name=".activities_trials.HideTrialActivity"
-            android:label="Manage Visible Trials"/>
-
+        <activity
+            android:name=".activities_trials.AddTrialActivity"
+            android:label="Add New Trials" />
+        <activity
+            android:name=".activities_trials.ConductCountTrialActivity"
+            android:label="Conduct New Trial" />
+        <activity
+            android:name=".activities_trials.ConductMeasurementTrialActivity"
+            android:label="Conduct New Trial" />
+        <activity
+            android:name=".activities_trials.ConductBinomialTrialActivity"
+            android:label="Conduct New Trial" />
+        <activity
+            android:name=".activities_trials.ConductNonnegativeCountTrialActivity"
+            android:label="Conduct New Trial" />
+        <activity
+            android:name=".activities_trials.HideTrialActivity"
+            android:label="Manage Visible Trials" />
         <activity android:name=".activities_main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
