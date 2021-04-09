@@ -77,7 +77,8 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
             public void onClick(View v) {
                 //Launches a conduct trial activity based on type of experiment
 
-                Class className; // What is this for? -DK
+                //@everyone needs clarification
+                //Class className; // What is this for? -DK
 
                 Intent switchScreen = new Intent(AddTrialActivity.this, ChooseConductActivity.class);
                 switchScreen.putExtra("USER_ID", userID);
