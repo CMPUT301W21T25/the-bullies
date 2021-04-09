@@ -1,9 +1,8 @@
-package com.example.cmput301w21t25.histograms;
+package com.example.cmput301w21t25.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.cmput301w21t25.FilterSearchFragment;
 import com.example.cmput301w21t25.R;
 /**
  * This class creates a fragment which allows the user to select which type of graph they would like
