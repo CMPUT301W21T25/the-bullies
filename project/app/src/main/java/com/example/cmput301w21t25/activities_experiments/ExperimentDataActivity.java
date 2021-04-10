@@ -20,7 +20,6 @@ import com.example.cmput301w21t25.VisualDataFragment;
 import com.example.cmput301w21t25.activities_graphs.PlotActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.activities_graphs.HistogramActivity;
-import com.example.cmput301w21t25.fragments.HistogramFragment;
 import com.example.cmput301w21t25.location.Maps;
 import com.example.cmput301w21t25.managers.SummaryCalculator;
 import com.example.cmput301w21t25.managers.TrialManager;
@@ -175,7 +174,7 @@ public class ExperimentDataActivity extends AppCompatActivity implements VisualD
         if(button.getText().toString().equals("Histogram")){
             intent = new Intent(ExperimentDataActivity.this, HistogramActivity.class);
         }
-        else if (button.getText().toString().equals("Plot")){
+        else if (button.getText().toString().equals("Line")){
             intent = new Intent(ExperimentDataActivity.this, PlotActivity.class);
         }
 
