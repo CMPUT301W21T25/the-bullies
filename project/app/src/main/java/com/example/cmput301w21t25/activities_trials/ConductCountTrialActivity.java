@@ -119,7 +119,7 @@ public class ConductCountTrialActivity extends AppCompatActivity {
 
         });
 
-        //                                  LOCATION (curtis)
+        //                                  LOCATION (Curtis)
         //---------------------------------------------------------------------------------
 
         //Location;
