@@ -40,26 +40,18 @@ import java.util.Map;
 import static android.content.ContentValues.TAG;
 
 /**
- * The forum manager is responsible for fetching comments, as well as sorting them in a particular
- * order such that they're nested by "in response to" and ordered by date (oldest to newest)
+ * @author Eden
+ * Sorts comments in a nested fashion such that a particular question's responses are listed
+ * directly below it by order of date
  */
 public class ForumManager {
 
     public ForumManager() { }
 
-    /**
-     * Base Code from: Matthew Mombrea, "How to create nested comments in Java / Android"
-     * Accessed through COMPUTERWORLD; Published July 16, 2014
-     * URL: https://www.computerworld.com/article/2696636/how-to-create-nested-comments-in-java---android.html
-     * Alterations made by Eden
-     * Sorts comments in a nested fashion such that a particular question's responses are listed
-     * directly below it by order of date
-     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Comment> nestedComments(ArrayList<Comment> comments) {
         ArrayList<Comment> orderedForum = new ArrayList<Comment>();
         ArrayList<Comment> toDelete = new ArrayList<Comment>();
-        int depth = 0;
 
         //Sort the comments by date to preserve sensical order
         comments.sort(Comparator.comparing(comment -> comment.getCommentDate()));
@@ -84,7 +76,6 @@ public class ForumManager {
         //as in some instances the parents of children comments will also be children, so they would
         //not be present to check against in the orderedForum list on a first pass
         while (comments.size() > 0) {
-            depth += 1;
             for (int i = 0; i < comments.size(); i++) {
                 Comment childComment = comments.get(i);
                 //The current child is checked against each existing comment in the orderedForum
@@ -102,7 +93,6 @@ public class ForumManager {
                         //index + its children count, 4 + 3, which means it is at index 7, the
                         //properly ordered index
                         parentComment.setCommentChildren(parentComment.getCommentChildren() + 1);
-                        childComment.setCommentDepth(depth + parentComment.getCommentDepth());
                         orderedForum.add((j + parentComment.getCommentChildren()), childComment);
                         toDelete.add(childComment);
                         continue;

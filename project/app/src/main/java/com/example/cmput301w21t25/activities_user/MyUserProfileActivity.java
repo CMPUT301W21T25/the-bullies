@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewSearchedExperimentActivity;
-import com.example.cmput301w21t25.activities_forum.ForumActivity;
 import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
@@ -124,10 +123,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
                 intent = new Intent(MyUserProfileActivity.this, HideTrialActivity.class);
                 intent.putExtra("EXPERIMENT", exp);
                 break;
-            case "Forum":
-                intent = new Intent(MyUserProfileActivity.this, ForumActivity.class);
-                intent.putExtra("FORUM_EXPERIMENT", exp);
-                break;
+
             default:
                 intent = new Intent(MyUserProfileActivity.this, CreatedExperimentsActivity.class);
                 Log.i("curtis", "going back to default owned");

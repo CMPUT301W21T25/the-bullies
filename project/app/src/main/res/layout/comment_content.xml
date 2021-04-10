@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/commentLinearLayout"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:layout_marginLeft="10px"
@@ -18,8 +18,8 @@
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:text="This Be Doth Experiment Name"
         android:textColor="#276678"
         android:textSize="15sp"
@@ -35,15 +35,15 @@
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:paddingLeft="1sp"
         android:text="03/12/2021"
         android:textColor="#8a8a8a"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/blankSpace"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/commenterName" />
 
     <ImageView
@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/blankSpace"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_send" />
 
@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/blankSpace"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
@@ -71,14 +71,14 @@
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:text="TextView"
         android:textColor="@color/custom_Yellow_dark"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/blankSpace"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/replyToText" />
 
     <TextView
@@ -88,54 +88,14 @@
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:text="TextView"
         android:textColor="@color/custom_Grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/blankSpace"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/commentDate" />
-
-    <TextView
-        android:id="@+id/blankSpace"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:height="200dp"
-        android:text=""
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/line1.1"
-        app:tint="@color/custom_Yellow_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbarSize="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/replyToGraphic"
-        app:srcCompat="@android:drawable/status_bar_item_background" />
-
-    <ImageView
-        android:id="@+id/line2"
-        app:tint="@color/custom_Yellow_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbarSize="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line1.1"
-        app:srcCompat="@android:drawable/status_bar_item_background" />
-
-    <ImageView
-        android:id="@+id/line3.1"
-        app:tint="@color/custom_Yellow_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbarSize="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line2"
-        app:srcCompat="@android:drawable/status_bar_item_background" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

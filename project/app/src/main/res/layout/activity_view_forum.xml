@@ -8,9 +8,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include
-        layout = "@layout/custom_toolbar"/>
-
     <LinearLayout
         android:id="@+id/header_liner_layout"
         android:layout_width="match_parent"

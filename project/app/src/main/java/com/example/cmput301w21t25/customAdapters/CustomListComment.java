@@ -1,21 +1,15 @@
 package com.example.cmput301w21t25.customAdapters;
 
-import android.app.ActionBar;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.Constraints;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -53,21 +47,13 @@ public class CustomListComment extends ArrayAdapter<Comment> {
 
         comment = comments.get(position);
 
-        ConstraintLayout background = view.findViewById(R.id.commentLinearLayout);
-        Drawable contentBackground = background.getBackground();
-
         ImageView replyGraphic = view.findViewById(R.id.replyToGraphic);
         ImageView newThreadGraphic = view.findViewById(R.id.newThreadGraphic);
-
-        ImageView line1 = view.findViewById(R.id.line1_1);
-        ImageView line2 = view.findViewById(R.id.line2);
-        ImageView line3 = view.findViewById(R.id.line3_1);
 
         TextView commentHeader = view.findViewById(R.id.replyToText);
         TextView commenterName = view.findViewById(R.id.commenterName);
         TextView commentDate = view.findViewById(R.id.commentDate);
         TextView commentContent = view.findViewById(R.id.comment);
-        TextView indent = view.findViewById(R.id.blankSpace);
 
         //ImageButton replyButton = view.findViewById(R.id.replyButton);
 
@@ -96,36 +82,23 @@ public class CustomListComment extends ArrayAdapter<Comment> {
             commenterName.setTextColor(context.getResources().getColor(R.color.custom_Blue_light));
         }
 
-        if (comment.getCommentDepth() > 0) {
-            replyGraphic.setPadding((50 * comment.getCommentDepth()) + 36, 0, 0, 0);
-            newThreadGraphic.setPadding((50 * comment.getCommentDepth()) + 36, 0, 0, 0);
-            line1.setPadding((50 * comment.getCommentDepth()), 0, 0, 0);
-            line2.setPadding((50 * comment.getCommentDepth()), 0, 0, 0);
-            line3.setPadding((50 * comment.getCommentDepth()), 0, 0, 0);
-            commentHeader.setPadding(4, 0, 0, 0);
-            commenterName.setPadding((50 * comment.getCommentDepth()) +36, 0, 0, 0);
-            commentDate.setPadding((50 * comment.getCommentDepth()) +36, 0, 0, 0);
-            commentContent.setPadding((50 * comment.getCommentDepth()) +36, 0, 0, 0);
-
-        }
-        else {
-            replyGraphic.setPadding(0, 0, 0, 0);
-            newThreadGraphic.setPadding(0, 0, 0, 0);
-            commentHeader.setPadding(0, 0, 0, 0);
-            commenterName.setPadding(0, 0, 0, 0);
-            commentDate.setPadding(0, 0, 0, 0);
-            commentContent.setPadding(0, 0, 0, 0);
-        }
-        /*indent.setWidth(10 * comment.getCommentDepth());
-        Log.d("COMMENT_DEPTH", String.valueOf(comment.getCommentDepth()));
-        //indent.setPadding(10 * comment.getCommentDepth(), 0, 0, 0);
-        ViewGroup.LayoutParams params = indent.getLayoutParams();
-        params.width = (10 * comment.getCommentDepth());
-        indent.setLayoutParams(params);*/
-
         //Convert Date object to simple format
         commentDate.setText(dateString);
         commentContent.setText(comment.getComment());
+/*
+        replyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Start reply to comment activity
+                Intent startNewReply = new Intent(context, NewReplyActivity.class);
+                startNewReply.putExtra("USER_ID", userID);
+                startNewReply.putExtra("FORUM_EXPERIMENT", forumExperiment);
+                startNewReply.putExtra("IN_RESPONSE_TO", comment);
+                context.startActivity(startNewReply);
+            }
+        });
+
+ */
 
         return view;
     }
