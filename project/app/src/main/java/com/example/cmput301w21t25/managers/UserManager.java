@@ -344,25 +344,6 @@ public class UserManager{
 //            }
 //        });
     }
-    public void FB_FetchHidden(Experiment experiment, ArrayAdapter<User> userAdapter, ArrayList<User> users) {
-        db.collection("UserProfile").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                users.clear();
-                userAdapter.notifyDataSetChanged();
-                for(QueryDocumentSnapshot doc: task.getResult())
-                {
-                    if (experiment.getHiddenUsersKeys().contains(doc.getId())) {
-                        User temp = doc.toObject(User.class);
-                        temp.setUserID(doc.getId());
-                        //Log.d("TST:",temp.getName());
-                        users.add(temp);
-                        userAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        });
-    }
     /**
      * End of database stuff -YA
      * */
