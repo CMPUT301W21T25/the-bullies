@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -141,7 +142,7 @@ public class MenuQRActivity extends AppCompatActivity {
 
 
         switch (trialType) {
-            case "count":
+            case "count" :
                 trialResultInt = Integer.valueOf(value);
                 trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultInt, trialParent, geoPoint);
                 break;
@@ -152,6 +153,7 @@ public class MenuQRActivity extends AppCompatActivity {
             case "binomial":
                 trialResultBool = Boolean.valueOf(value);
                 trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultBool, trialParent, geoPoint);
+                break;
             case "measurement":
                 trialResultFloat = Float.valueOf(value);
                 trialManager.FB_CreateMeasurementTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultFloat, trialParent, geoPoint);

@@ -66,13 +66,6 @@ public class GenerateQRActivity extends AppCompatActivity {
         generateTrue = findViewById(R.id.generate_true_button);
         generateFalse = findViewById(R.id.generate_false_button);
 
-        /* might be unneeded
-        nonNegIntValue.setVisibility(View.GONE);
-        measurementValue.setVisibility(View.GONE);
-        generateNum.setVisibility(View.GONE);
-        binomialButtons.setVisibility(View.GONE);
-        */
-
         // ImageView to display generated QR code
         ImageView qrCode = findViewById(R.id.generated_qr_code);
 
