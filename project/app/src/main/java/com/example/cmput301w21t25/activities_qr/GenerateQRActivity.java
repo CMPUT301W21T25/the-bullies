@@ -48,6 +48,7 @@ public class GenerateQRActivity extends AppCompatActivity {
         String userID = getIntent().getStringExtra("USER_ID");
         Experiment trialExperiment = (Experiment) getIntent().getSerializableExtra("TRIAL_PARENT");
         String trialType = trialExperiment.getType();
+        String codeType = getIntent().getStringExtra("CODE_TYPE");
 
         // EditText fields to input value QR code should hold.
         // Input field takes integers for NonNegInt trials,
@@ -85,6 +86,7 @@ public class GenerateQRActivity extends AppCompatActivity {
                 Intent back = new Intent(GenerateQRActivity.this, MenuQRActivity.class);
                 back.putExtra("USER_ID", userID);
                 back.putExtra("TRIAL_PARENT", trialExperiment);
+                back.putExtra("CODE_TYPE", "qr");
                 startActivity(back);
             }
         });

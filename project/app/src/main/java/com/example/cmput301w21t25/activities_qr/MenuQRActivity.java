@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.TrialManager;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,7 +39,7 @@ public class MenuQRActivity extends AppCompatActivity {
     Experiment trialParent;
     TrialManager trialManager;
     FirebaseFirestore db;
-    HashMap<String, Float> measurableBarcode = new HashMap<>();
+    HashMap<String, Double> measurableBarcode = new HashMap<>();
     HashMap<String, Boolean> nonMeasurableBarcode = new HashMap<>();
 
     @Override
@@ -49,12 +47,9 @@ public class MenuQRActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_q_r);
 
-        //         Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
 
-        // Get a top-level reference to the collection.
         final CollectionReference collectionReference = db.collection("ScanCodes");
-
 
         // Now listening to all the changes in the database and get notified, note that offline support is enabled by default.
         // Note: The data stored in Firestore is sorted alphabetically and per their ASCII values. Therefore, adding a new city will not be appended to the list.
@@ -63,11 +58,17 @@ public class MenuQRActivity extends AppCompatActivity {
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 // clear the old list
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                    //Log.d(TAG, String.valueOf(doc.getData().get("province_name")));
                     String barcode = doc.getId();
-                    Float value = (Float) doc.getData().get("value");
-                    measurableBarcode.put(barcode, value); // Adding the cities and provinces from FireStore.
-                    Log.d("DATA_BASE", barcode);
+                    String type = (String) doc.getData().get("type");
+                    if (type.equals("binomial")) {
+                        Boolean value = (Boolean) doc.getData().get("value");
+                        nonMeasurableBarcode.put(barcode, value);
+                    }
+                    else {
+                        Double value = Double.valueOf(doc.getData().get("value").toString());
+                        measurableBarcode.put(barcode, value);
+                    }
+
                 }
             }
         });
@@ -93,12 +94,14 @@ public class MenuQRActivity extends AppCompatActivity {
                     Intent generate = new Intent(MenuQRActivity.this, GenerateQRActivity.class);
                     generate.putExtra("USER_ID", userID);
                     generate.putExtra("TRIAL_PARENT", trialParent);
+                    generate.putExtra("CODE_TYPE", "qr");
                     startActivity(generate);
                 }
                 else {
                     Intent generate = new Intent(MenuQRActivity.this, RegisterBarcodeActivity.class);
                     generate.putExtra("USER_ID", userID);
                     generate.putExtra("TRIAL_PARENT", trialParent);
+                    generate.putExtra("CODE_TYPE", "barcode");
                     startActivity(generate);
                 }
 
@@ -108,7 +111,12 @@ public class MenuQRActivity extends AppCompatActivity {
         scan_qr_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initiateScan();
+                if (codeType.equals("qr")) {
+                    initiateQRScan();
+                }
+                else {
+                    initiateBarcodeScan();
+                }
             }
         });
 
@@ -140,13 +148,23 @@ public class MenuQRActivity extends AppCompatActivity {
     /**
      * Sets up and activates QR scanner
      */
-    public void initiateScan() {
+    public void initiateQRScan() {
         IntentIntegrator intentIntegrator = new IntentIntegrator(MenuQRActivity.this);
         intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
         intentIntegrator.setCaptureActivity(PortraitCaptureActivity.class);
         intentIntegrator.setBeepEnabled(true);
         intentIntegrator.setOrientationLocked(false);
         intentIntegrator.setPrompt("Scan QR Code");
+        intentIntegrator.initiateScan();
+    }
+
+    public void initiateBarcodeScan() {
+        IntentIntegrator intentIntegrator = new IntentIntegrator(MenuQRActivity.this);
+        intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        intentIntegrator.setCaptureActivity(PortraitCaptureActivity.class);
+        intentIntegrator.setBeepEnabled(true);
+        intentIntegrator.setOrientationLocked(false);
+        intentIntegrator.setPrompt("Scan Barcode");
         intentIntegrator.initiateScan();
     }
 
@@ -171,8 +189,25 @@ public class MenuQRActivity extends AppCompatActivity {
                 //messageText.setText(intentResult.getContents());
                 //messageFormat.setText(intentResult.getFormatName());
 
-
-                addTrial(trialParent.getType(), intentResult.getContents());
+                if (codeType.equals("qr")) {
+                    addTrial(trialParent.getType(), intentResult.getContents());
+                }
+                else {
+                    if (trialParent.getType().equals("binomial")) {
+                        if (nonMeasurableBarcode.containsKey(intentResult.getContents())) {
+                            Boolean temp = (Boolean) nonMeasurableBarcode.get(intentResult.getContents());
+                            addTrial(trialParent.getType(), temp.toString());
+                        }
+                        else Toast.makeText(getBaseContext(), "Barcode Not Registered", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        if (measurableBarcode.containsKey(intentResult.getContents())) {
+                            Double temp = (Double) measurableBarcode.get(intentResult.getContents());
+                            addTrial(trialParent.getType(), temp.toString());
+                        }
+                        else Toast.makeText(getBaseContext(), "Barcode Not Registered", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
                 Toast.makeText(getBaseContext(), "New Trial Added", Toast.LENGTH_SHORT).show();
             }

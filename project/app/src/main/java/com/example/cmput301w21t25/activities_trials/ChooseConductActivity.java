@@ -78,7 +78,7 @@ public class ChooseConductActivity extends AppCompatActivity {
         barcodes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent qr = new Intent(ChooseConductActivity.this, RegisterBarcodeActivity.class);
+                Intent qr = new Intent(ChooseConductActivity.this, MenuQRActivity.class);
                 qr.putExtra("USER_ID", userID);
                 qr.putExtra("TRIAL_PARENT", exp);
                 qr.putExtra("CODE_TYPE", "barcode");
