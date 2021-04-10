@@ -17,6 +17,9 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.AbstractMap;
 
+/**
+ * This activity is used to generate a QR code
+ */
 public class GenerateQRActivity extends AppCompatActivity {
 
     MultiFormatWriter mfw = new MultiFormatWriter();

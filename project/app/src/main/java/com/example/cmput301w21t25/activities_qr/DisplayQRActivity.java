@@ -11,6 +11,9 @@ import android.widget.ImageView;
 
 import com.example.cmput301w21t25.R;
 
+/**
+ * This activity is used to display a QR code
+ */
 public class DisplayQRActivity extends AppCompatActivity {
 
     Bitmap bitmap;

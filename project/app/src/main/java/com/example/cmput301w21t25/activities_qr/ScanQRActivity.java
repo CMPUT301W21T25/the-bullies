@@ -14,6 +14,9 @@ import com.example.cmput301w21t25.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+/**
+ * This activity is used to scan a QR code
+ */
 public class ScanQRActivity extends AppCompatActivity {
 
     Button scanBtn;
