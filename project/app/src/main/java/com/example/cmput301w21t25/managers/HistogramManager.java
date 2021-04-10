@@ -28,6 +28,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class manages all the calculations for the bargraphs
+ */
 public class HistogramManager {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -35,9 +38,16 @@ public class HistogramManager {
     private int binCount = 8;
     private ArrayList<BarEntry> entries = new ArrayList<>();;
     private ArrayList<String> xAxisValues = new ArrayList<>();
+    private SummaryCalculator calculator = new SummaryCalculator();
 
+    /**
+     * This method updates the bar graph view as new data is being added/as the graph is being
+     * generated
+     * @param context the activity where the
+     * @param exp the experiment which is being graphed
+     * @param barChart the barChart to be drawn ok
+     */
     public void FB_UpdateSummaryViews(Context context, Experiment exp, BarChart barChart){
-        //this.binCount = binCount.getText().
         List<String> types = new ArrayList<String>(){{
             add("count");
             add("measurement");
@@ -51,7 +61,17 @@ public class HistogramManager {
                 @Override
                 public void onCallback(ArrayList<Float> list) {
                     if(list.size()>0){
+//                        float maxNum = Collections.max(list);
+//                        int listSize = list.size();
+//                        float minNum = Collections.min(list);
+//                        double IQR =  calculator.calculateLowerQuart(list)-calculator.calculateUpperQuart(list);
+//                        double bin_width = 2 * 42 * Math.pow(listSize, 1/3);
+//                        binCount = (int) Math.ceil((78 - 12) / bin_width);
                         //RUN ALL FLOAT RELATED METHODS HERE
+//                        Log.d("Checking2:", String.valueOf(list));
+//                        Log.d("Checking3 Width:", String.valueOf(bin_width));
+//                        Log.d("Checking3 Count:", String.valueOf(binCount));
+//                        Log.d("Checking3 List:", String.valueOf(list));
                         if(list.size()%binCount != 0){
                             barChart.setNoDataText("Number of Trials not / by 8");
                             Paint paint =  barChart.getPaint(BarChart.PAINT_INFO);
@@ -61,8 +81,6 @@ public class HistogramManager {
                         else{
                             //TODO: input bincount for custom bins
                             sortBinsMes(context, list, binCount);
-//                        int minNum = list.indexOf(Collections.min(list));
-//                        int maxNum = list.indexOf(Collections.max(list));
                             BarDataSet barDataSet = new BarDataSet(entries, "Values");
                             BarData barData = new BarData(barDataSet);
                             barChart.setData(barData);
@@ -100,22 +118,17 @@ public class HistogramManager {
         }
     }
 
-    /*
-    binCOunt = number of bins input by user
-    list.sort()
-    List<BarEntry> entries = new ArrayList<>();
-    bin_width = (list.size/bincount)
-    for(i = 1; binCount){<-outside loop runs for the count bins so if theres 3 bins itll run three times
-        for(j= (bin_width*(i-1))); to the (bin_width*i)){<-will based the index,
-            bin1.add(list[i]);
-        }
-        entries.add(new BarEntry(3f, 50f));
-    }     */
-
+    /**
+     * This method sorts the measurement, count and non-negative trials into bins to be displayed on
+     * the graph
+     * @param list list of trials (float)
+     * @param binCount number of bins to be divided by. This is hard coded
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void sortBinsMes(Context context, ArrayList<Float> list, int binCount){
         //bin count hard coded for now, will be changed
-        int bin_width = Math.floorDiv(list.size(),binCount);
+        float range = (Collections.max(list)-Collections.min(list));
+        float bin_width = (float) Math.ceil(range /binCount);
 
         Log.e("bin_width", String.valueOf(bin_width));
         float bin_amount = 0;
@@ -130,50 +143,60 @@ public class HistogramManager {
             Toast.makeText(context, "Number of Trials not / by 8", Toast.LENGTH_SHORT).show();
         }
         else{
-            int j = 0;
-            for (int i = 1; i <= binCount; i++) {
+            for (int i = 1; i <= binCount+1; i++) {
                 Log.e("Loop number i", String.valueOf(i));
-                for(; j < bin_width * i; j++) { //to the (bin_width*i)){<-will based the index,
-                    Log.e("Loop number j", String.valueOf(j));
+                for(int j = 0; j < list.size(); j++) {
+                    if(((float) list.get(j) >=(bin_width*(i-1)) && ((float)list.get(j)<bin_width*(i)))){
+                        Log.e("LoopNumberj", String.valueOf(j));
+                        bin_amount++;
+                    }
 
-                    bin_amount = bin_amount + (float) list.get(j);
-
-                    //add the string names for each bin
-                    xAxisValues.add(String.valueOf(bin_amount - (float) list.get(j)) + String.valueOf(bin_amount));
-
-                    Log.e("Bin amount", String.valueOf(bin_amount));
                 }
                 Log.e("entry amount", String.valueOf(bin_amount));
-                entries.add(new BarEntry(i-1, bin_amount));
+                entries.add(new BarEntry((float) (bin_width*(i)), bin_amount));
                 bin_amount = 0;
             }
         }
+//        int j = 0;
+//        for (int i = 1; i <= binCount; i++) {
+//            for(; j < list.size(); j++) {
+//
+//                if(((float) list.get(j) >=(bin_width*(i-1)) && ((float)list.get(j)<bin_width*(i)))){
+//                    bin_amount++;
+//                    //should only input count
+//                }
+//
+//            }
+//            Log.d("Checking4:", String.valueOf(bin_amount));
+//            entries.add(new BarEntry((float) (bin_width*(i)), bin_amount));
+//            bin_amount = 0;
+//        }
 
     }
 
+    /**
+     * This method sorts the binomial trials into 2 bins (success and fail) to be shown on a graph
+     * @param list list of binomial (boolean) trials
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void sortBinsBinom(ArrayList<Boolean> list) {
         int trueBin = 0;
         int falseBin = 0;
 
+        //count number of success and failure bins
         for(int i = 0; i < list.size();i++){
-            Log.e("list.size()", String.valueOf(list.size()));
-            Log.e("i", String.valueOf(i));
             if( list.get(i).equals(true)){
-                Log.e("valueOflistItem (True)", String.valueOf(list.get(i)));
                 trueBin = trueBin + 1;
                 xAxisValues.add(String.valueOf(trueBin));
             }
             else{
-                Log.e("valueOflistItem (False)", String.valueOf(list.get(i)));
                 falseBin = falseBin + 1;
                 xAxisValues.add(String.valueOf(falseBin));
             }
 
         }
 
-        Log.e("TrueBin", String.valueOf(trueBin));
-        Log.e("FalseBin", String.valueOf(falseBin));
+        //add the entries into the graph
         entries.add(new BarEntry(0, trueBin));
         entries.add(new BarEntry(1, falseBin));
     }

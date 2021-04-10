@@ -30,8 +30,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Yalmaz : Database Method
- * @author Eden : 3 Calculation Methods
+ * This class manages all the calculations for the Plots
+ * @author Yalmaz Samadhi Eden 
  * A manager that fetches an experiment's trials and calls the appropriate method to calculate
  * data points for a line graph to return to the PlotActivity
  */
@@ -45,6 +45,11 @@ public class PlotManager {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TrialManager trialManager = new TrialManager();
 
+    /**
+     * This method updates the line graph views
+     * @param exp experiment being graphed
+     * @param lineChart line chart being graphed onto
+     */
     public void FB_UpdateSummaryViews(Experiment exp, LineChart lineChart){
         this.type = exp.getType();
         //CONDITIONAL SEPERATES MESURABLE AND NON MESURABLE TRIALS

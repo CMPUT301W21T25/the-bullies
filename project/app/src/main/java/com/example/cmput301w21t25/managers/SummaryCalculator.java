@@ -149,7 +149,7 @@ public class SummaryCalculator {
     }
 
     public double calculateLowerQuart(ArrayList<Float> trials) {
-        if (trials.size() == 0) {
+        if (trials.size() <= 1) {
             return 0;
         }
 
@@ -167,7 +167,7 @@ public class SummaryCalculator {
     }
 
     public double calculateUpperQuart(ArrayList<Float> trials) {
-        if (trials.size() == 0) {
+        if (trials.size() <= 1) {
             return 0;
         }
 

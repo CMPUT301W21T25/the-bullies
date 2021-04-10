@@ -39,7 +39,7 @@ import java.util.Date;
 
 /**
  * This activity is used to view data plots
- * @author Samadhi
+ * @author Samadhi Eden
  */
 public class PlotActivity extends AppCompatActivity {
 
@@ -71,12 +71,5 @@ public class PlotActivity extends AppCompatActivity {
         plotManager.FB_UpdateSummaryViews(exp, lineChart);
     }
 
-    /**
-     * This class will set all information of the graph view. This includes:
-     * - title
-     * - x and y axis names
-     */
-    /*public void setInformation(){
-    }*/
 }
 
