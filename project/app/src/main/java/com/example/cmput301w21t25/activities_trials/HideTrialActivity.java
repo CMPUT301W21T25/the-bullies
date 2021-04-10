@@ -2,6 +2,7 @@ package com.example.cmput301w21t25.activities_trials;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -73,7 +74,7 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
         userListView = findViewById(R.id.hide_trials_list);
         userListView.setAdapter(userArrayAdapter);
         userManager.FB_FetchContributors(exp,userArrayAdapter,allUsers);
-        //userManager.FB_FetchHidden(exp,userArrayAdapter,hiddenUsers);
+        userManager.FB_FetchHidden(exp,userArrayAdapter,hiddenUsers);
 
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -137,15 +138,29 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
         //User hide = allUsers.get(position);
         //hiddenUsers.add(hide);
         //userArrayAdapter.notifyDataSetChanged();
-        ArrayList<String> temp = exp.getHiddenUsersKeys();
-        temp.add(allUsers.get(position).getUserID());
-        experimentManager.FB_UpdateHiddenUserKeys(temp,exp.getFb_id());
-        temp = exp.getContributorUsersKeys();
-        temp.remove(allUsers.get(position).getUserID());
-        experimentManager.FB_UpdateContributorUserKeys(temp,exp.getFb_id());
-        User hide = allUsers.get(position);
-        allUsers.remove(hide);
+
+        //updates list of users in allUsers adaptar
+        User temp = allUsers.get(position);
+        allUsers.remove(temp);
         userArrayAdapter.notifyDataSetChanged();
+        //fetches new list of users from allUsers
+        ArrayList<String> keys = new ArrayList<String>();
+        for (User item:allUsers) {
+            keys.add(item.getUserID());
+        }
+        //Updates DB using that List
+        experimentManager.FB_UpdateContributorUserKeys(keys,exp.getFb_id());
+
+
+        //update the list of hidden Items
+        hiddenUsers.add(temp);
+        //fetches new list of users from allUsers
+        keys.clear();
+        for (User item:hiddenUsers) {
+            keys.add(item.getUserID());
+        }
+        //Updates DB using that List
+        experimentManager.FB_UpdateHiddenUserKeys(keys,exp.getFb_id());
     }
 
     @Override
