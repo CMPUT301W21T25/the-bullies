@@ -153,18 +153,6 @@ public class ExperimentDataActivity extends AppCompatActivity implements VisualD
         //----------------------------------END GRAPH onCreate-------------------------
     }
 
-
-
-    //                                  LOCATION Methods
-    //-----------------------------------------------------------------------------
-
-    // ok so i ended up not needing this section for now
-
-    //                                  END LOCATION Methods
-    //-----------------------------------------------------------------------------
-
-
-
     /**
      * returns date in the proper format
      * @param date the date that needs to be formated
