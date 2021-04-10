@@ -41,3 +41,16 @@ Base Code from: Sorting in Flow, "Slide Animation Between Activites - Android St
      * Alterations made by Eden
      
      * Is responsible for swiping between two main screens
+
+
+Implemented in all acitivities that have a toolbar
+
+Base Code from: Niranj Patel, "Handling a Menu Item Click Event - Android"
+    
+     * Accessed through StackOverflow; Published Sept. 20, 2011
+     
+     * URL: https://stackoverflow.com/questions/7479992/handling-a-menu-item-click-event-android
+     
+     * Alterations made by Samadhi
+     
+     * Is responsible for helping set up the menu items in the toolbar
