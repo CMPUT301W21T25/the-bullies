@@ -43,7 +43,7 @@ public class HistogramFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_histogram,null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_visual_data,null);
 
         graphButton = view.findViewById(R.id.graph_button);
         plotButton = view.findViewById(R.id.plot_button);

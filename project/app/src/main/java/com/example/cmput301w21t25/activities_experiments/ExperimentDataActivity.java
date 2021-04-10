@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.VisualDataFragment;
 import com.example.cmput301w21t25.activities_graphs.PlotActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.activities_graphs.HistogramActivity;
