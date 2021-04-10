@@ -18,6 +18,9 @@ import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.forum.Comment;
 import com.example.cmput301w21t25.managers.ForumManager;
 
+/**
+ * Activity used to create a new reply
+ */
 public class NewReplyActivity extends AppCompatActivity {
     private Toolbar replyViewHeader;
     private TextView originalMessageView;
