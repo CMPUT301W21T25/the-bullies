@@ -462,25 +462,28 @@ public class TrialManager {
             public void onCallback(ArrayList<String> list) {
                 ArrayList<Float> trialList = new ArrayList<Float>();
                 Log.d("TESTING_LIST:", String.valueOf(list));
-                db.collection("TrialDocs").whereEqualTo("published",true)
-                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                                for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                                    expManager.FB_FetchHiddenKeys(exp.getFb_id(), new FirestoreStringCallback() {
-                                        @Override
-                                        public void onCallback(ArrayList<String> hiddeKeys) {
+                expManager.FB_FetchHiddenKeys(exp.getFb_id(), new FirestoreStringCallback() {
+                    @Override
+                    public void onCallback(ArrayList<String> hiddeKeys) {
+                        db.collection("TrialDocs").whereEqualTo("published",true)
+                                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                                        for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                                             if(doc.exists()&&list.contains(doc.getId())&&!hiddeKeys.contains(doc.getData().get("user"))){
                                                 MeasurableTrial measurableTrial = doc.toObject(MeasurableTrial.class);
                                                 Log.d("OUTPUT_VAL", String.valueOf(measurableTrial.getResult()));
                                                 trialList.add(measurableTrial.getResult());
                                             }
-                                            firestoreTrialCallback.onCallback(trialList);
                                         }
-                                    });
-                                }
-                            }
-                        });
+                                        firestoreTrialCallback.onCallback(trialList);
+                                    }
+                                });
+                    }
+                });
+
+
+
             }
         });
     }

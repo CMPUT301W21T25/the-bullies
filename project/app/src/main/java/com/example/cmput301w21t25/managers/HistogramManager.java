@@ -61,7 +61,17 @@ public class HistogramManager {
                 @Override
                 public void onCallback(ArrayList<Float> list) {
                     if(list.size()>0){
+//                        float maxNum = Collections.max(list);
+//                        int listSize = list.size();
+//                        float minNum = Collections.min(list);
+//                        double IQR =  calculator.calculateLowerQuart(list)-calculator.calculateUpperQuart(list);
+//                        double bin_width = 2 * 42 * Math.pow(listSize, 1/3);
+//                        binCount = (int) Math.ceil((78 - 12) / bin_width);
                         //RUN ALL FLOAT RELATED METHODS HERE
+//                        Log.d("Checking2:", String.valueOf(list));
+//                        Log.d("Checking3 Width:", String.valueOf(bin_width));
+//                        Log.d("Checking3 Count:", String.valueOf(binCount));
+//                        Log.d("Checking3 List:", String.valueOf(list));
                         if(list.size()%binCount != 0){
                             barChart.setNoDataText("Number of Trials not / by 8");
                             Paint paint =  barChart.getPaint(BarChart.PAINT_INFO);
@@ -69,7 +79,8 @@ public class HistogramManager {
                             barChart.invalidate();
                         }
                         else{
-                            sortBinsMes(list, binCount);
+                            //TODO: input bincount for custom bins
+                            sortBinsMes(context, list, binCount);
                             BarDataSet barDataSet = new BarDataSet(entries, "Values");
                             BarData barData = new BarData(barDataSet);
                             barChart.setData(barData);
@@ -114,44 +125,52 @@ public class HistogramManager {
      * @param binCount number of bins to be divided by. This is hard coded
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void sortBinsMes( ArrayList<Float> list, int binCount){
+    private void sortBinsMes(Context context, ArrayList<Float> list, int binCount){
         //bin count hard coded for now, will be changed
-        int bin_width = Math.floorDiv(list.size(),binCount);
+        float range = (Collections.max(list)-Collections.min(list));
+        float bin_width = (float) Math.ceil(range /binCount);
+
+        Log.e("bin_width", String.valueOf(bin_width));
         float bin_amount = 0;
 
-        int listSize = list.size();
-
-        //--------------------Histogram  stuff-------------------------------------
-        /*int minNum = list.indexOf(Collections.min(list));
-        int maxNum = list.indexOf(Collections.max(list));
-        double IQR = calculator.calculateUpperQuart(list) - calculator.calculateLowerQuart(list);
-        double bin_width = 2 * IQR * Math.pow(listSize, -1/3);
-
-        if (bin_width > maxNum){
-            //bin count hard coded for smaller values
-            if
-            }
-
-        else if(bin_width < maxNum) {
-            binCount = (int) ((maxNum - minNum) / bin_width);
-        }
-
-        float bin_amount = 0;*/
-        //--------------------Histogram stuff END-------------------------------------
-
-        //sort the list in ascending order for easy dividing
+        //sort the list
         Collections.sort(list);
+        Log.e("binCount", String.valueOf(binCount));
+        Log.e("This is the sorted list", String.valueOf(list));
+        Log.e("bin width", String.valueOf(bin_width));
 
-        //add the values as BarEntries into the designated bins
-        int j = 0;
-        for (int i = 1; i <= binCount; i++) {
-            for(; j < bin_width * i; j++) {
-                bin_amount = bin_amount + (float) list.get(j);
-            }
-            entries.add(new BarEntry(i-1, bin_amount));
-            bin_amount = 0;
+        if(bin_width == 0){
+            Toast.makeText(context, "Number of Trials not / by 8", Toast.LENGTH_SHORT).show();
         }
+        else{
+            for (int i = 1; i <= binCount+1; i++) {
+                Log.e("Loop number i", String.valueOf(i));
+                for(int j = 0; j < list.size(); j++) {
+                    if(((float) list.get(j) >=(bin_width*(i-1)) && ((float)list.get(j)<bin_width*(i)))){
+                        Log.e("LoopNumberj", String.valueOf(j));
+                        bin_amount++;
+                    }
 
+                }
+                Log.e("entry amount", String.valueOf(bin_amount));
+                entries.add(new BarEntry((float) (bin_width*(i)), bin_amount));
+                bin_amount = 0;
+            }
+        }
+//        int j = 0;
+//        for (int i = 1; i <= binCount; i++) {
+//            for(; j < list.size(); j++) {
+//
+//                if(((float) list.get(j) >=(bin_width*(i-1)) && ((float)list.get(j)<bin_width*(i)))){
+//                    bin_amount++;
+//                    //should only input count
+//                }
+//
+//            }
+//            Log.d("Checking4:", String.valueOf(bin_amount));
+//            entries.add(new BarEntry((float) (bin_width*(i)), bin_amount));
+//            bin_amount = 0;
+//        }
 
     }
 
