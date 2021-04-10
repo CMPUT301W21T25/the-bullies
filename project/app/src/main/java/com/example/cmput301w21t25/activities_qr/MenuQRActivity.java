@@ -122,16 +122,42 @@ public class MenuQRActivity extends AppCompatActivity {
                 //messageText.setText(intentResult.getContents());
                 //messageFormat.setText(intentResult.getFormatName());
 
-                GeoPoint geoPoint = null;
 
-                int trialResult = Integer.valueOf(intentResult.getContents());
+                addTrial(trialParent.getType(), intentResult.getContents());
 
-                trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResult, trialParent, geoPoint);
                 Toast.makeText(getBaseContext(), "New Trial Added", Toast.LENGTH_SHORT).show();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void addTrial(String trialType, String value) {
+
+        GeoPoint geoPoint = null;
+        int trialResultInt;
+        float trialResultFloat;
+        boolean trialResultBool;
+
+
+        switch (trialType) {
+            case "count":
+                trialResultInt = Integer.valueOf(value);
+                trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultInt, trialParent, geoPoint);
+                break;
+            case "nonnegative count":
+                trialResultInt = Integer.valueOf(value);
+                trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultInt, trialParent, geoPoint);
+                break;
+            case "binomial":
+                trialResultBool = Boolean.valueOf(value);
+                trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultBool, trialParent, geoPoint);
+            case "measurement":
+                trialResultFloat = Float.valueOf(value);
+                trialManager.FB_CreateMeasurementTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultFloat, trialParent, geoPoint);
+                break;
+        }
+
     }
 
 }
