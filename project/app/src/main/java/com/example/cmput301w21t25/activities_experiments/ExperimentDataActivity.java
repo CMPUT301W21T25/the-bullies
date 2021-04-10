@@ -186,7 +186,7 @@ public class ExperimentDataActivity extends AppCompatActivity implements VisualD
         if(button.getText().toString().equals("Histogram")){
             intent = new Intent(ExperimentDataActivity.this, HistogramActivity.class);
         }
-        else if (button.getText().toString().equals("Plot")){
+        else if (button.getText().toString().equals("Line")){
             intent = new Intent(ExperimentDataActivity.this, PlotActivity.class);
         }
 
