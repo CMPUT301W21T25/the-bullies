@@ -79,7 +79,7 @@
             android:layout_marginRight="12dp"
             android:layout_marginBottom="12dp"
             android:layout_weight="1"
-            android:text="Generate"
+            android:text="Register"
             android:visibility="gone"
             tools:visibility="visible" />
 
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
                 android:layout_weight="1"
-                android:text="Generate True" />
+                android:text="Register True" />
 
             <Button
                 android:id="@+id/barcode_generate_false_button"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
                 android:layout_weight="1"
-                android:text="Generate False" />
+                android:text="Register False" />
 
         </LinearLayout>
     </LinearLayout>

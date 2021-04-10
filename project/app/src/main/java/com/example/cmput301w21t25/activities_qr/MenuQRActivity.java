@@ -83,8 +83,8 @@ public class MenuQRActivity extends AppCompatActivity {
 
         trialManager = new TrialManager();
 
-        String encode = "1";
-        Bitmap bitmap = createBitmap(encode);
+        //String encode = "1";
+        //Bitmap bitmap = createBitmap(encode);
 
         generate_qr_code.setOnClickListener(new View.OnClickListener() {
             @Override
