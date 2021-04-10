@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class SearchTest {
 
     private Experiment mockExperiment() {
-        Experiment mockExperiment = new BinomialExperiment();
+        Experiment mockExperiment = new Experiment();
 
         return mockExperiment;
     }
