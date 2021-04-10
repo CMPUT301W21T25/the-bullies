@@ -47,7 +47,8 @@ import static org.hamcrest.Matchers.is;
  * The most comprehensive test. It will:
  * - create blank user if first launch
  * - create an experiment
- * - create a trial for the experiment
+ * - create a trial for the experiment (top experiment in created list must not require location)
+ * (run on an initial launch if possible)
  * - publish the trial
  */
 public class AddTrialTest {
