@@ -35,7 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 /**
- * this activity is used to view from a list
+ * This activity is used to browse other experiments from a list
  */
 public class ViewSearchedExperimentActivity extends AppCompatActivity {
 
@@ -68,7 +68,8 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
         TextView geoLoc = findViewById(R.id.geoLoc_text_view);
         final Button commentsButton = findViewById(R.id.comments_button);
         final Button dataButton = findViewById(R.id.view_data_button);
-        final Button subscribe = findViewById(R.id.subscribe_button);
+        final Button subscribeButton = findViewById(R.id.subscribe_button);
+        final Button ownerViewButton = findViewById(R.id.exp_owner_button);
 
         if (exp.isGeoEnabled()) {
             geoLoc.setText("WARNING: Trials require a location");
@@ -83,10 +84,17 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
 
         //DK
 
-        subscribe.setOnClickListener(new View.OnClickListener() {
+        subscribeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subscribeButton(v);
+                subscribe();
+            }
+        });
+
+        ownerViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FB_FetchOwnerProfile(expID);
             }
         });
 
@@ -204,6 +212,7 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
                                             //switch to otherprofile
                                             Intent intent = new Intent(ViewSearchedExperimentActivity.this, OtherUserProfileActivity.class);
                                             intent.putExtra("ownerID", ownerID);
+                                            intent.putExtra("USER_ID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
                                             startActivity(intent);
@@ -224,23 +233,11 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Is called when a user clicks on the owners profile image while viewing an experiment
-     * Will switch to a profile view activity (either myuser or otheruser)
-     * Curtis
-     * @param view the experiment view
-     */
-    public void viewExpOwnerButton(View view) {
-        FB_FetchOwnerProfile(expID);
-    }
 
     /**
-     * This sets the subscribe button on the view
-     * @param view the experiment view
+     * This method will subscribe the user to the experiment
      */
-    public void subscribeButton(View view) {
-        //This method will subscribe the user to the experiment
-        //do i need to check if we're already subscribed? (firestore wont add duplicates)
+    public void subscribe() {
         DocumentReference docRef = db.collection("UserProfile").document(userID);
         docRef
                 .update("subscriptions", FieldValue.arrayUnion(expID))

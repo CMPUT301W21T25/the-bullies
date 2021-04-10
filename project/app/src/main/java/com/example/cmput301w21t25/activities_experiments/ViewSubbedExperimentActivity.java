@@ -68,7 +68,8 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
         final Button addTrialButton = findViewById(R.id.add_trial_button);
         final Button commentsButton = findViewById(R.id.comments_button);
         final Button dataButton = findViewById(R.id.view_data_button);
-        final Button unsubscribe = findViewById(R.id.unsubscribe_button);
+        final Button unsubscribeButton = findViewById(R.id.unsubscribe_button);
+        final Button viewOwnerButton = findViewById(R.id.exp_owner_button);
 
         if (exp.getIsEnded()) {
             addTrialButton.setBackgroundColor(getResources().getColor(R.color.custom_Grey_translucent));
@@ -97,10 +98,17 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
             }
         });
 
-        unsubscribe.setOnClickListener(new View.OnClickListener() {
+        viewOwnerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unsubscribeButton(v);
+                FB_FetchOwnerProfile(expID);
+            }
+        });
+
+        unsubscribeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unsubscribe();
             }
         });
 
@@ -186,47 +194,9 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
     }
 
     /**
-     * Is called when a user clicks on the owners profile image while viewing an experiment
-     * Will switch to a profile view activity (either myuser or otheruser)
-     * Curtis
-     * @param view
+     * This method will unsubscribe the user from the experiment
      */
-    public void viewExpOwnerButton(View view) {
-        FB_FetchOwnerProfile(expID);
-    }
-
-    /**
-     * When button is clicked, the experiment is added to the users Subscribed experiments list
-     * @param view
-     */
-    public void subscribeButton(View view) {
-        //This method will subscribe the user to the experiment
-        //do i need to check if we're already subscribed? (firestore wont add duplicates)
-        DocumentReference docRef = db.collection("UserProfile").document(userID);
-        docRef
-                .update("subscriptions", FieldValue.arrayUnion(expID))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("curtis", "you subscribed");
-                        ArrayList<String> tempKeys = exp.getContributorUsersKeys();
-                        tempKeys.add(userID);
-                        experimentManager.FB_UpdateContributorUserKeys(tempKeys,expID);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("curtis", "failed to subscribe");
-                    }
-                });
-    }
-
-    /**
-     * This sets the unsubscribe button on the view
-     * @param view the experiment view
-     */
-    public void unsubscribeButton(View view) {
+    public void unsubscribe() {
         //This method will unsubscribe the user to the experiment
         DocumentReference docRef = db.collection("UserProfile").document(userID);
         docRef

@@ -44,11 +44,10 @@
         </LinearLayout>
 
         <Button
-            android:layout_marginRight="10dp"
             android:id="@+id/exp_owner_button"
             android:layout_width="93dp"
             android:layout_height="54dp"
-            android:onClick="viewExpOwnerButton"
+            android:layout_marginRight="10dp"
             android:text="User"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

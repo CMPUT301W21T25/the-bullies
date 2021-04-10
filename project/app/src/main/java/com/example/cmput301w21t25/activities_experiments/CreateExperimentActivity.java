@@ -28,7 +28,8 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 /**
- * this activity is used to create a new experiment and add it to
+ * This activity is used to create a new experiment.
+ * It contains all the necessary fields, buttons, and input validation.
  */
 public class CreateExperimentActivity extends AppCompatActivity {
     //(String name, String ownerID, String description, Location region, ArrayList<String> tags, Boolean geoEnabled, Boolean published, String type, Date date)
@@ -41,8 +42,6 @@ public class CreateExperimentActivity extends AppCompatActivity {
     ArrayList<String> experimentKeywords;
     String type;
     String experimentOwner;
-
-    Location experimentLocation;
 
     CheckBox subscribe;
     CheckBox published;
@@ -135,7 +134,7 @@ public class CreateExperimentActivity extends AppCompatActivity {
     }
 
     //Called on click from the layout
-
+    //leaving this out of onCreate, otherwise it would require 4 buttons
     /**
      * Assigns the experiment a type based on which radio button is selected
      * @param view

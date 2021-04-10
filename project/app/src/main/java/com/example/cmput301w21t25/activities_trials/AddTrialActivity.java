@@ -26,7 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 /**
- * this activity is used to add new trials and view unpublished trials
+ * This activity is used to add new trials and view unpublished trials
  */
 public class AddTrialActivity extends AppCompatActivity implements UploadTrialDialogFragment.OnFragmentInteractionListenerUpload {
 
@@ -77,55 +77,12 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
             public void onClick(View v) {
                 //Launches a conduct trial activity based on type of experiment
 
-                //@everyone needs clarification
-                //Class className; // What is this for? -DK
-
                 Intent switchScreen = new Intent(AddTrialActivity.this, ChooseConductActivity.class);
                 switchScreen.putExtra("USER_ID", userID);
                 switchScreen.putExtra("TRIAL_PARENT", exp);
                 startActivity(switchScreen);
-
-                /*
-                switch (exp.getType()) {
-                    case "count":
-                        switchScreen = new Intent(AddTrialActivity.this, ConductCountTrialActivity.class);
-                        //This line makes sure that this activity is not saved in the history stack
-                        switchScreen.addFlags(switchScreen.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        switchScreen.putExtra("USER_ID", userID);
-                        switchScreen.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen);
-                        break;
-                    case "nonnegative count":
-                        switchScreen = new Intent(AddTrialActivity.this, ConductNonnegativeCountTrialActivity.class);
-                        //This line makes sure that this activity is not saved in the history stack
-                        switchScreen.addFlags(switchScreen.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        switchScreen.putExtra("USER_ID", userID);
-                        switchScreen.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen);
-                        break;
-                    case "binomial":
-                        switchScreen = new Intent(AddTrialActivity.this, ConductBinomialTrialActivity.class);
-                        //This line makes sure that this activity is not saved in the history stack
-                        switchScreen.addFlags(switchScreen.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        switchScreen.putExtra("USER_ID", userID);
-                        switchScreen.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen);
-                        break;
-                    case "measurement":
-                        switchScreen = new Intent(AddTrialActivity.this, ConductMeasurementTrialActivity.class);
-                        //This line makes sure that this activity is not saved in the history stack
-                        switchScreen.addFlags(switchScreen.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        switchScreen.putExtra("USER_ID", userID);
-                        switchScreen.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen);
-                        break;
-                }
-
-                 */
             }
         });
-
-        //finish();
     }
 
     //Toolbar Menu setup!
@@ -154,22 +111,6 @@ public class AddTrialActivity extends AppCompatActivity implements UploadTrialDi
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    /**
-     * this method defines the behaviour of the addTrialButton
-     * @param view
-     */
-    public void addTrialiButton(View view) {
-        //switch to profileView, pass userId
-        Intent intent = new Intent(AddTrialActivity.this, MyUserProfileActivity.class);
-        intent.putExtra("USER_ID", userID);
-        intent.putExtra("prevScreen", "AddTrial");
-        //bundle experiment to return to
-
-        intent.putExtra("TRIAL_PARENT", exp);
-        startActivity(intent);
-
     }
 
     /**
