@@ -1,4 +1,6 @@
-package com.example.cmput301w21t25;
+
+package com.example.cmput301w21t25.fragments;
+
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+
+import com.example.cmput301w21t25.R;
 /**
  * This class creates a fragment which allows the user to select which type of graph they would like
  * to view.

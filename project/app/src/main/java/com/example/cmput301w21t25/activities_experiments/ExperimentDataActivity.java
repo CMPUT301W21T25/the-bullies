@@ -19,7 +19,11 @@ import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_graphs.PlotActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.activities_graphs.HistogramActivity;
+<<<<<<< HEAD
 import com.example.cmput301w21t25.VisualDataFragment;
+=======
+import com.example.cmput301w21t25.fragments.HistogramFragment;
+>>>>>>> qr
 import com.example.cmput301w21t25.location.Maps;
 import com.example.cmput301w21t25.managers.SummaryCalculator;
 import com.example.cmput301w21t25.managers.TrialManager;
