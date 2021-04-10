@@ -1,71 +1,85 @@
 package com.example.cmput301w21t25;
 
-import com.example.cmput301w21t25.trials.CountTrial;
-import com.example.cmput301w21t25.trials.MeasurementTrial;
+import com.example.cmput301w21t25.trials.MeasurableTrial;
+import com.example.cmput301w21t25.trials.NonMeasurableTrial;
 import com.example.cmput301w21t25.trials.Trial;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
+
 public class TrialTest {
-    private BinomialTrial mockBinomialTrial() {
-        BinomialTrial binomialTrial = new BinomialTrial();
-        return binomialTrial;
+    //Set up the mock trial for test
+    private Trial mockTrial(){
+        Trial trial = new Trial("new","trial test","tester","experiment",false,new Date());
+        return trial;
     }
-
-    private CountTrial mockCountTrial() {
-        CountTrial countTrial = new CountTrial();
-        return countTrial;
-    }
-
-    private NonNegCountTrial mockNonNegTrial() {
-        NonNegCountTrial nonNegCountTrial = new NonNegCountTrial();
-        return nonNegCountTrial;
-    }
-
-    private MeasurementTrial mockMeasurementTrial() {
-        MeasurementTrial measurementTrial = new MeasurementTrial();
-        return measurementTrial;
-    }
-
+    //Test if nothing entered the trial is empty
     @Test
-    void testGeneralTrial() {
-        BinomialTrial mockTrial = mockBinomialTrial();
-        mockTrial.testOnlySetExperimentName("mockName");
-        mockTrial.testOnlySetPublished(false);
-
-        assertTrue(mockTrial.getExperimentName() == "mockName");
-        assertTrue(mockTrial.testOnlyGetPublished() == false);
+    void testEmptyTrial(){
+        Trial emptyTiral = new Trial();
+        assertEquals(null, emptyTiral.getUser());
+        assertEquals(null,emptyTiral.getExperimentName());
+        assertEquals(null,emptyTiral.getExperimentOwnerName());
+        assertEquals(null,emptyTiral.getExperiment());
+        assertEquals(null,emptyTiral.getPublished());
+        assertEquals(null,emptyTiral.getDate());
     }
+    //Test if user id set up properly
     @Test
-    void testBinomialTrial() {
-        BinomialTrial mockTrial = mockBinomialTrial();
-        mockTrial.setResult(true);
-        assertTrue(mockTrial.getResult() == true);
+    void testUserId(){
+        Trial trial = mockTrial();
+        assertEquals("new",trial.getUser());
     }
-
+    //Test if the experiment name set up properly
     @Test
-    void testCountTrial() {
-        CountTrial mockTrial = mockCountTrial();
-        mockTrial.setResult(3);
-
-        assertTrue(mockTrial.getResult()==3);
+    void testExperimentName(){
+        Trial trial = mockTrial();
+        assertEquals("trial test",trial.getExperimentName());
+        trial.testOnlySetExperimentName("tiral test 2");
+        assertEquals("tiral test 2",trial.getExperimentName());
     }
-
+    //Test if experiment owner name set up properly
     @Test
-    void testNonNegTrial() {
-        NonNegCountTrial mockTrial = mockNonNegTrial();
-        mockTrial.setResult(5);
-
-        assertTrue(mockTrial.getResult()==5);
+    void testExperimentOwnerName(){
+        Trial trial = mockTrial();
+        assertEquals("tester",trial.getExperimentOwnerName());
     }
-
+    //Test if experiment id set up properly
     @Test
-    void testMeasurementTrial() {
-        MeasurementTrial mockTrial = mockMeasurementTrial();
-        mockTrial.setResult(3.6f);
-
-        assertTrue(mockTrial.getResult()==3.6f);
+    void testExperimentId(){
+        Trial trial = mockTrial();
+        assertEquals("experiment",trial.getExperiment());
     }
-}
+    //Test if published status set up properly
+    @Test
+    void testPublished(){
+        Trial trial = mockTrial();
+        assertEquals(false,trial.getPublished());
+        trial.setPublished(true);
+        assertNotEquals(false,trial.getPublished());
+    }
+    //Test the date set up properly
+    @Test
+    void testDate(){
+        Trial trial = mockTrial();
+        assertNotEquals(0,trial.getDate());
+    }
+    //Test if measurable trial set up properly
+    @Test
+    void testMeasurableTrial(){
+        MeasurableTrial mTrial = new MeasurableTrial();
+        Float measure = 1.123f;
+        mTrial.setResult(measure);
+        assertEquals(measure,mTrial.getResult());
+    }
+    //Test if the non measurable trial set up properly
+    @Test
+    void testNonMeasurableTrial(){
+        NonMeasurableTrial nonMTrial = new NonMeasurableTrial();
+        nonMTrial.setResult(true);
+        assertNotEquals(false,nonMTrial.getResult());
+    }
+ }
