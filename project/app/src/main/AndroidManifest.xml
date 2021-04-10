@@ -27,7 +27,6 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activities_trials.ChooseConductActivity" />
         <activity android:name=".activities_qr.CountQRActivity" />
-        <activity android:name=".activities_qr.MenuQRActivity" />
         <activity android:name=".activities_qr.DisplayQRActivity" />
         <activity android:name=".activities_qr.RegisterBarcodeActivity" />
         <!--
@@ -49,6 +48,8 @@
         <!-- android:foregroundServiceType="location" /> -->
         <activity android:name=".activities_user.OtherUserProfileActivity" />
         <activity android:name=".activities_experiments.CreateExperimentActivity" />
+        <activity android:name=".activities_qr.MenuQRActivity"
+            android:label="Scan Codes"/>
         <activity android:name=".activities_user.GenerateUserActivity" />
         <activity
             android:name=".activities_main.SubbedExperimentsActivity"

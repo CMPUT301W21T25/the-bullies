@@ -2,16 +2,23 @@ package com.example.cmput301w21t25.activities_qr;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
+import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
+import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.TrialManager;
 import com.google.firebase.firestore.CollectionReference;
@@ -47,6 +54,11 @@ public class MenuQRActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_q_r);
+
+        /*setup the custom toolbar!
+         */
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         db = FirebaseFirestore.getInstance();
 
@@ -246,6 +258,40 @@ public class MenuQRActivity extends AppCompatActivity {
                 break;
         }
 
+    }
+
+    /**
+     * This event is menu setup!
+     * @param menu this is the menu being integrated
+     * @return true to indicate there is a menu (return false to turn off)
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.home_button:
+                Intent home = new Intent(MenuQRActivity.this, CreatedExperimentsActivity.class);
+                home.putExtra("USER_ID", userID);
+                startActivity(home);
+                return true;
+            case R.id.settings_button:
+                Intent user_settings = new Intent(MenuQRActivity.this, MyUserProfileActivity.class);
+                user_settings.putExtra("USER_ID", userID);
+                user_settings.putExtra("prevScreen", "QR");
+                user_settings.putExtra("CODE_TYPE", codeType);
+                startActivity(user_settings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

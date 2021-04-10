@@ -18,6 +18,7 @@ import com.example.cmput301w21t25.activities_forum.ForumActivity;
 import com.example.cmput301w21t25.activities_main.CreatedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_main.SearchExperimentsActivity;
+import com.example.cmput301w21t25.activities_qr.MenuQRActivity;
 import com.example.cmput301w21t25.activities_trials.AddTrialActivity;
 import com.example.cmput301w21t25.activities_trials.HideTrialActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
@@ -40,6 +41,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
     private String ContactInfo;
     private String userID;
     private String prevScreen;
+    private String codeType;
     private Bundle expBundle;
     private Experiment exp;
 
@@ -52,6 +54,7 @@ public class MyUserProfileActivity extends AppCompatActivity {
         //try to get bundle, (only from experiment view)
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
         exp = (Experiment) getIntent().getSerializableExtra("TRIAL_PARENT");
+        codeType = getIntent().getStringExtra("CODE_TYPE");
 
         Button updateButton = findViewById(R.id.updateButton);
         Button backButton = findViewById(R.id.button2);
@@ -142,6 +145,10 @@ public class MyUserProfileActivity extends AppCompatActivity {
                 intent = new Intent(MyUserProfileActivity.this, ForumActivity.class);
                 intent.putExtra("FORUM_EXPERIMENT", exp);
                 break;
+            case "QR":
+                intent = new Intent(MyUserProfileActivity.this, MenuQRActivity.class);
+                intent.putExtra("TRIAL_PARENT", exp);
+                intent.putExtra("CODE_TYPE", codeType);
             default:
                 intent = new Intent(MyUserProfileActivity.this, CreatedExperimentsActivity.class);
                 Log.i("curtis", "going back to default owned");

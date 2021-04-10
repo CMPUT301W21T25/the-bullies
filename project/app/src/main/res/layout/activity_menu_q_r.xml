@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".activities_qr.MenuQRActivity">
 
+    <include
+        layout = "@layout/custom_toolbar"/>
+
     <Button
         android:id="@+id/generate_qr_button"
         android:layout_width="wrap_content"
