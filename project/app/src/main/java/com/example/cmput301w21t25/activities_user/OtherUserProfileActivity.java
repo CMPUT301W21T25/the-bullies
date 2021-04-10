@@ -98,7 +98,6 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
         }
 
-        intent.putExtra("USER_ID", ownerID);
         startActivity(intent);
     }
 }
