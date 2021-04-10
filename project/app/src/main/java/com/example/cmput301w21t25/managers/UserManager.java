@@ -81,9 +81,9 @@ public class UserManager{
         userprofile.put("conductedTrials", Arrays.asList());
 
         db.collection("UserProfile").document(id).set(userprofile)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -348,24 +348,37 @@ public class UserManager{
 //            }
 //        });
     }
+    /**
+     *
+     * @param experiment
+     * @param userAdapter
+     * @param users
+     */
     public void FB_FetchHidden(Experiment experiment, ArrayAdapter<User> userAdapter, ArrayList<User> users) {
-        db.collection("UserProfile").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                users.clear();
-                userAdapter.notifyDataSetChanged();
-                for(QueryDocumentSnapshot doc: task.getResult())
-                {
-                    if (experiment.getHiddenUsersKeys().contains(doc.getId())) {
-                        User temp = doc.toObject(User.class);
-                        temp.setUserID(doc.getId());
-                        //Log.d("TST:",temp.getName());
-                        users.add(temp);
-                        userAdapter.notifyDataSetChanged();
+        ExperimentManager experimentManager = new ExperimentManager();
+        db.collection("UserProfile")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                        experimentManager.FB_FetchHiddenKeys(experiment.getFb_id(), new FirestoreStringCallback() {
+                            @Override
+                            public void onCallback(ArrayList<String> list) {
+                                users.clear();
+                                userAdapter.notifyDataSetChanged();
+                                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                                {
+                                    if (list.contains(doc.getId())) {
+                                        User temp = doc.toObject(User.class);
+                                        temp.setUserID(doc.getId());
+                                        users.add(temp);
+                                        userAdapter.notifyDataSetChanged();
+                                        Log.d("TSTHIDDEN: ", temp.getUserID());
+                                    }
+                                }
+                            }
+                        });
                     }
-                }
-            }
-        });
+                });
     }
     /**
      * End of database stuff -YA

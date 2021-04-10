@@ -32,6 +32,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 /**
  * This activity is used to browse other experiments from a list
  */
@@ -243,6 +245,11 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("curtis", "you subscribed");
+                        if(!userID.equals(exp.getOwnerID())){
+                            ArrayList<String> tempKeys = exp.getContributorUsersKeys();
+                            tempKeys.add(userID);
+                            experimentManager.FB_UpdateContributorUserKeys(tempKeys,expID);
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

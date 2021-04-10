@@ -28,6 +28,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
+
+import java.util.ArrayList;
 
 /**
  * This activity is used to view an experiment in the HomeSubbedActivity list
@@ -202,6 +205,11 @@ public class ViewSubbedExperimentActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("DK", "you unsubscribed");
+                        if(!userID.equals(exp.getOwnerID())){
+                            ArrayList<String> tempKeys = exp.getContributorUsersKeys();
+                            tempKeys.remove(userID);
+                            experimentManager.FB_UpdateContributorUserKeys(tempKeys,expID);
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

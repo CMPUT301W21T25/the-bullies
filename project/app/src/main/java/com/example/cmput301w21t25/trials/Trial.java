@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * This is an abstract class which creates a trial based on which experiment type was used
  */
-public abstract class Trial implements Serializable {
+public class Trial implements Serializable {
 
     /****************************************
                     ATTRIBUTES
