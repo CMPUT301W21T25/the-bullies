@@ -48,15 +48,6 @@ public class MenuQRActivity extends AppCompatActivity {
         generate_qr_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bitmap != null) {
-                    Intent showQRCode = new Intent(MenuQRActivity.this, DisplayQRActivity.class);
-                    showQRCode.putExtra("QR_CODE", bitmap);
-                    startActivity(showQRCode);
-                }
-                else {
-                    Toast.makeText(MenuQRActivity.this, "No QR code generated", Toast.LENGTH_SHORT).show();
-                }
-
                 Intent generate = new Intent(MenuQRActivity.this, GenerateQRActivity.class);
                 generate.putExtra("USER_ID", userID);
                 generate.putExtra("TRIAL_PARENT", trialParent);

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -74,9 +75,57 @@ public class GenerateQRActivity extends AppCompatActivity {
 
         // ImageView to display generated QR code
         ImageView qrCode = findViewById(R.id.generated_qr_code);
-        //qrCode.setImageBitmap(bitmap);
 
         setupViews(trialType);
+        Log.d("DK: Type", trialType);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent back = new Intent(GenerateQRActivity.this, MenuQRActivity.class);
+                back.putExtra("USER_ID", userID);
+                back.putExtra("TRIAL_PARENT", trialExperiment);
+                startActivity(back);
+            }
+        });
+
+        generateNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                encode = setEncode(trialType);
+                if (encode != null) {
+                    Log.d("DK: encode", encode);
+                    bitmap = createBitmap(encode);
+                    qrCode.setImageBitmap(bitmap);
+                }
+                else {
+                    Log.d("DK: encode", "encode was null");
+                    Toast.makeText(GenerateQRActivity.this, "You must enter a value!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        generateTrue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                encode = setEncode(trialType);
+                Log.d("DK: encode", encode);
+                bitmap = createBitmap(encode);
+                qrCode.setImageBitmap(bitmap);
+            }
+        });
+
+        generateFalse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                encode = "false";
+                Log.d("DK: encode", encode);
+                bitmap = createBitmap(encode);
+                qrCode.setImageBitmap(bitmap);
+            }
+        });
+
+
 
 
     }
@@ -102,6 +151,32 @@ public class GenerateQRActivity extends AppCompatActivity {
 
                 break;
         }
+    }
+
+    private String setEncode(String trialType) {
+        String encode = null;
+        switch (trialType) {
+            case "count":
+                encode = "1";
+
+                break;
+            case "nonnegative count":
+                encode = nonNegIntValue.getText().toString();
+
+                break;
+            case "measurement":
+                encode = measurementValue.getText().toString();
+
+                break;
+            case "binomial":
+                encode = "true";
+
+                break;
+        }
+        if (encode.length() < 1) {
+            encode = null;
+        }
+        return encode;
     }
 
 
