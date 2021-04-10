@@ -1,6 +1,4 @@
-
 package com.example.cmput301w21t25.fragments;
-
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -15,13 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-
 import com.example.cmput301w21t25.R;
 /**
  * This class creates a fragment which allows the user to select which type of graph they would like
  * to view.
  */
-public class VisualDataFragment extends DialogFragment {
+public class HistogramFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
     Button graphButton;
     Button plotButton;
@@ -33,8 +30,8 @@ public class VisualDataFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof VisualDataFragment.OnFragmentInteractionListener){
-            listener = (VisualDataFragment.OnFragmentInteractionListener) context;
+        if(context instanceof HistogramFragment.OnFragmentInteractionListener){
+            listener = (HistogramFragment.OnFragmentInteractionListener) context;
         }
         else{
             throw new RuntimeException(context.toString()

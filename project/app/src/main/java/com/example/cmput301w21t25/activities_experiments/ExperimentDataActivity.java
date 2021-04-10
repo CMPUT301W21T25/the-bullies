@@ -16,10 +16,10 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.VisualDataFragment;
 import com.example.cmput301w21t25.activities_graphs.PlotActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.activities_graphs.HistogramActivity;
-import com.example.cmput301w21t25.fragments.VisualDataFragment;
 import com.example.cmput301w21t25.location.Maps;
 import com.example.cmput301w21t25.managers.SummaryCalculator;
 import com.example.cmput301w21t25.managers.TrialManager;
@@ -152,18 +152,6 @@ public class ExperimentDataActivity extends AppCompatActivity implements VisualD
 
         //----------------------------------END GRAPH onCreate-------------------------
     }
-
-
-
-    //                                  LOCATION Methods
-    //-----------------------------------------------------------------------------
-
-    // ok so i ended up not needing this section for now
-
-    //                                  END LOCATION Methods
-    //-----------------------------------------------------------------------------
-
-
 
     /**
      * returns date in the proper format

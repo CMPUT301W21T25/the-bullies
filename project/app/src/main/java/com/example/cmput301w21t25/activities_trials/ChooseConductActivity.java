@@ -12,6 +12,9 @@ import com.example.cmput301w21t25.activities_qr.MenuQRActivity;
 import com.example.cmput301w21t25.activities_qr.RegisterBarcodeActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 
+/**
+ * This activity allows the user to decide how they want to conduct the trial
+ */
 public class ChooseConductActivity extends AppCompatActivity {
 
     private String userID;
@@ -88,39 +91,3 @@ public class ChooseConductActivity extends AppCompatActivity {
 
     }
 }
-
-/*
-addTrialButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Launches a conduct trial activity based on type of experiment
-                Intent switchScreen = null;
-                switch (exp.getType()) {
-                    case "count":
-                        switchScreen = new Intent(AddTrialActivity.this, ConductCountTrialActivity.class);
-                        switchScreen.putExtra("USER_ID", userID);
-                        switchScreen.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen);
-                        break;
-                    case "nonnegative count":
-                        switchScreen = new Intent(AddTrialActivity.this, ConductNonnegativeCountTrialActivity.class);
-                        switchScreen.putExtra("USER_ID", userID);
-                        switchScreen.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen);
-                        break;
-                    case "binomial":
-                        switchScreen = new Intent(AddTrialActivity.this, ConductBinomialTrialActivity.class);
-                        switchScreen.putExtra("USER_ID", userID);
-                        switchScreen.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen);
-                        break;
-                    case "measurement":
-                        switchScreen = new Intent(AddTrialActivity.this, ConductMeasurementTrialActivity.class);
-                        switchScreen.putExtra("USER_ID", userID);
-                        switchScreen.putExtra("TRIAL_PARENT", exp);
-                        startActivity(switchScreen);
-                        break;
-                }
-            }
-        });
- */

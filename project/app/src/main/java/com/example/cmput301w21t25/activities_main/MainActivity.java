@@ -41,51 +41,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //EmulatorDemo emu = new EmulatorDemo(); //curtis
+        //EmulatorDemo emu = new EmulatorDemo(); //used to test with emulator
 
-        //setContentView(R.layout.activity_main);
-        //testing DB ill make proper tests later i promise -YA
-        //tests for UserMangaer class and UserProfile collection
-//        testM = new UserManager();
-//        test = new User();
-//        ArrayList<String> testList = new ArrayList<>();
-//        testList.add("this");
-//        testList.add("is");
-//        testList.add("not a");
-//        testList.add("test");
-//        testM.FB_CreateUserProfile("test1","TestOne","test@test.gmail.com",test);
-//        testM.FB_UpdateSubscriptions(testList,"test1");
-//        testM.FB_UpdateOwnedExperiments(testList,"test1");
-//        testM.FB_UpdateConductedTrials(testList,"test1");
-
-        //test for Experiminet manager
-//        expMtest = new ExperimentManager();
-//        Location testloc = new Location("edm");
-
-        //expMtest.FB_CreateExperiment("TestName","fdNzWupOTDKvwkrVHMADau", "this is a test",testloc,testList,false,false,"abstract",new Date());
-//        expMtest.FB_UpdateDescription("new description","03XLnxuIaI7CW7DnpsMb");
-//        expMtest.FB_UpdateGeoEnabled(true,"BIKvOCxENl3ByUtNGmf7");
-//        expMtest.FB_UpdatePublished(true,"BIKvOCxENl3ByUtNGmf7");
-//        expMtest.FB_UpdateTags(testList,"BIKvOCxENl3ByUtNGmf7");
-//        expMtest.FB_UpdateConductedTrials(testList,"BIKvOCxENl3ByUtNGmf7");
-
-        //test for Trial managerTest
-//        trialManeTest = new TrialManager();
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection("Experiments").document("oReMYjJ95nOsNJ3fOSVV").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot doc = task.getResult();
-//                    if(doc.exists()){
-//                        trialManeTest.FB_CreateCountTrial("fdNzWupOTDKvwkrVHMADau","oReMYjJ95nOsNJ3fOSVV","Test","Test",true,20, doc.toObject(CountExperiment.class));
-//                    }
-//                }
-//            }
-//        });
-        //trialManeTest.FB_UpdateCountResult(30,"VaijIfF3nVz0dbnwOI4i");
         getLaunchInfo();
-
     }
 
     @Override

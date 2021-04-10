@@ -25,6 +25,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+
+/**
+ * This activity is used to generate a QR code
+ */
 public class GenerateQRActivity extends AppCompatActivity {
 
 
@@ -66,13 +70,6 @@ public class GenerateQRActivity extends AppCompatActivity {
         binomialButtons = findViewById(R.id.binomial_buttons_layout);
         generateTrue = findViewById(R.id.generate_true_button);
         generateFalse = findViewById(R.id.generate_false_button);
-
-        /* might be unneeded
-        nonNegIntValue.setVisibility(View.GONE);
-        measurementValue.setVisibility(View.GONE);
-        generateNum.setVisibility(View.GONE);
-        binomialButtons.setVisibility(View.GONE);
-        */
 
         // ImageView to display generated QR code
         ImageView qrCode = findViewById(R.id.generated_qr_code);
