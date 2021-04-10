@@ -29,7 +29,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 /**
- * this activity shows a list of all the experiments this user has created
+ * This activity shows a list of all the experiments this user has created
  */
 public class CreatedExperimentsActivity extends AppCompatActivity {
 
@@ -92,9 +92,6 @@ public class CreatedExperimentsActivity extends AppCompatActivity {
                 Experiment experiment = (Experiment) ownedExperimentsListView.getItemAtPosition(position);
                 //FB_FetchPublishedTrials(experiment);
 
-
-
-
                 Intent viewExp = new Intent(CreatedExperimentsActivity.this, ViewCreatedExperimentActivity.class);
 
                 Bundle expBundle = new Bundle();
@@ -153,7 +150,16 @@ public class CreatedExperimentsActivity extends AppCompatActivity {
         }
     }
 
-    //Screen switching
+    /**
+     * Screen switching
+     * Base Code from: Sorting in Flow, "Slide Animation Between Activites - Android Studio Tutorial"
+     * Accessed through Youtube; Published Dec. 22, 2017; Length 5:41
+     * URL: https://www.youtube.com/watch?v=0s6x3Sn4eYo
+     * Includes animation files slide_in_left, slide_in_right, slide_out_left, slide_out_right
+     * Alterations made by Eden
+     * @param event
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 

@@ -119,7 +119,7 @@ public class ConductCountTrialActivity extends AppCompatActivity {
 
         });
 
-        //                                  LOCATION
+        //                                  LOCATION (curtis)
         //---------------------------------------------------------------------------------
 
         //Location;
@@ -157,13 +157,6 @@ public class ConductCountTrialActivity extends AppCompatActivity {
 
     private void getUserLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
             ActivityCompat.requestPermissions(this, permissions, 1);
         }

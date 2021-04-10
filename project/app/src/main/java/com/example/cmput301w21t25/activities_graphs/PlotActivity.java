@@ -38,8 +38,8 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
- * This class creates an activity which will show the line graph of a specific experiment
- * @author Eden
+ * This activity is used to view data plots
+ * @author Samadhi Eden
  */
 public class PlotActivity extends AppCompatActivity {
 

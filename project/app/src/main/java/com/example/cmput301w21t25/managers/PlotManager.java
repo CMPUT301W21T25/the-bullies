@@ -31,6 +31,9 @@ import java.util.List;
 
 /**
  * This class manages all the calculations for the Plots
+ * @author Yalmaz Samadhi Eden 
+ * A manager that fetches an experiment's trials and calls the appropriate method to calculate
+ * data points for a line graph to return to the PlotActivity
  */
 public class PlotManager {
 
@@ -89,12 +92,18 @@ public class PlotManager {
      * Generates an ArrayList of Entry objects to plot on a line graph
      * The first field in new Entry(a, b) is a number that is incremented to represent a change
      * in date, an the second field is the mean of the trials up to and including that day
-     * @param trials
-     * @return ArrayList<Entry>
+     * @param trials a List of Trial objects whose data will be extracted to generate plot points
+     *               for a line graph
+     * @return ArrayList<Entry> an ArrayList of plot points to generate the line graph
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Entry> meanByDay(List<Trial> trials) {
 
+        //For each plot point of the graph, the results of the trials up to and including that day
+        //will be considered, represented by the ArrayList upToDate which is updated and passed to
+        //calculateMean(), so for each day trials were conducted, the graph is representing the mean
+        //(the same is true of the following methods, but the data associated with the day is mean,
+        //count, and success rate respectively)
         ArrayList<Float> upToDate = new ArrayList<>();
         ArrayList<Entry> plotValues = new ArrayList<>();
         trials.sort(Comparator.comparing(Trial::getDate));
@@ -109,6 +118,8 @@ public class PlotManager {
         while (currentPosition < trials.size()) {
             Date currentDate = trials.get(currentPosition).getDate();
             String formattedCurrentDate = formatDate(currentDate);
+            //The while loop adds each trial that was conducted on the relevant date to add to
+            //upToDate to determine the day's associated data
             while (formattedCurrentDate.equals(formattedPlotDate)) {
                 upToDate.add(trial.getResult());
                 currentPosition += 1;
@@ -119,6 +130,8 @@ public class PlotManager {
                 }
                 else break;
             }
+            //The data is added to plotValues then checks for another date trials were conducted,
+            //and repeats the process if it hasn't reached the end of the trials
             plotValues.add(new Entry(dataPoint, calculator.calculateMean(upToDate)));
             dataPoint += 1;
             if (currentPosition < trials.size()) {
@@ -134,8 +147,9 @@ public class PlotManager {
      * Generates an ArrayList of Entry objects to plot on a line graph
      * The first field in new Entry(a, b) is a number that is incremented to represent a change
      * in date, an the second field is the sum of each trial's count up to and including that day
-     * @param trials
-     * @return ArrayList<Entry>
+     * @param trials a List of Trial objects whose data will be extracted to generate plot points
+     *               for a line graph
+     * @return ArrayList<Entry> an ArrayList of plot points to generate the line graph
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Entry> countByDay(List<Trial> trials) {
@@ -179,8 +193,9 @@ public class PlotManager {
      * Generates an ArrayList of Entry objects to plot on a line graph
      * The first field in new Entry(a, b) is a number that is incremented to represent a change
      * in date, an the second field is the success rate of the trials up to and including that day
-     * @param trials
-     * @return ArrayList<Entry>
+     * @param trials a List of Trial objects whose data will be extracted to generate plot points
+     *               for a line graph
+     * @return ArrayList<Entry> an ArrayList of plot points to generate the line graph
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Entry> successRateByDay(List<Trial> trials) {
@@ -233,38 +248,5 @@ public class PlotManager {
         String formattedDate = condensedDate.format(date);
         return formattedDate;
     }
-
 }
 
-/*
- //Samadhi's version, just in case mine is broken after fixing :')
- @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Entry> successRateByDay(List<Trial> trials) {
-
-        ArrayList<Boolean> upToDate = new ArrayList<>();
-        ArrayList<Entry> plotValues = new ArrayList<>();
-        trials.sort(Comparator.comparing(Trial::getDate));
-
-        Date currentDate = trials.get(0).getDate();
-        int currentPosition = 0;
-        int dataPoint = 0;
-
-        NonMeasurableTrial trial = (NonMeasurableTrial) trials.get(currentPosition);
-
-        Log.e("trials.size()", String.valueOf(trials.size()));
-        while (currentPosition < trials.size()) {
-            currentDate = trials.get(currentPosition).getDate();
-            //while (trial.getDate().getDate() == currentDate.getDate() && trial.getDate().getMonth() == currentDate.getMonth() && trial.getDate().getYear() == currentDate.getYear()) {
-                upToDate.add(trial.getResult());
-                Log.e("currentPostion", String.valueOf(currentPosition));
-                trial = (NonMeasurableTrial) trials.get(currentPosition);
-            //}
-            currentPosition = currentPosition + 1;
-            Log.e("currentPostion2", String.valueOf(currentPosition));
-            plotValues.add(new Entry(dataPoint, (float) calculator.calculateSuccessRate(upToDate)));
-            dataPoint += 1;
-        }
-
-        return plotValues;
-    }
- */

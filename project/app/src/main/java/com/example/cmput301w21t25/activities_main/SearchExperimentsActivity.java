@@ -15,7 +15,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.cmput301w21t25.FilterSearchFragment;
+import com.example.cmput301w21t25.fragments.FilterSearchFragment;
 import com.example.cmput301w21t25.FirestoreExperimentCallback;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_experiments.ViewSearchedExperimentActivity;

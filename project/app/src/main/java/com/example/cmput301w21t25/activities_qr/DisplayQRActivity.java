@@ -11,10 +11,13 @@ import android.widget.ImageView;
 
 import com.example.cmput301w21t25.R;
 
+/**
+ * This activity is used to display a QR code
+ */
 public class DisplayQRActivity extends AppCompatActivity {
 
     Bitmap bitmap;
-    ImageView qrCode;
+    //ImageView qrCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +25,15 @@ public class DisplayQRActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_q_r);
 
         bitmap = (Bitmap) getIntent().getParcelableExtra("QR_CODE");
-        qrCode = findViewById(R.id.generated_qr_code);
+        ImageView qrCode = findViewById(R.id.generated_qr_code);
         qrCode.setImageBitmap(bitmap);
 
-        final Button back = findViewById(R.id.back_to_generate_button);
+        final Button back = findViewById(R.id.back_to_qr_menu_button);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(DisplayQRActivity.this, GenerateQRActivity.class);
+                Intent back = new Intent(DisplayQRActivity.this, MenuQRActivity.class);
                 startActivity(back);
             }
         });

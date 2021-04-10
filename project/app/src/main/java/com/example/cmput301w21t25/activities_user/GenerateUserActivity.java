@@ -18,21 +18,19 @@ import com.example.cmput301w21t25.managers.UserManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
- * this activity is used to create the user
+ * This activity is used to create the user
  * @author Curtis Yalmaz
  */
 public class GenerateUserActivity extends AppCompatActivity {
     private String userID;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    UserManager userManager = new UserManager();
 
     @Override
     protected void onCreate(Bundle passedData) {
         super.onCreate(passedData);
         setContentView(R.layout.activity_generate_user);
-        //String userID;
         this.userID = getIntent().getStringExtra("USER_ID");
-        //this can be called on click when
-        //FB_CreateUser(userID);
-        //finish();
 
         Button done = findViewById(R.id.makeUserButton);
         Button skip = findViewById(R.id.skipProfileCreationButton);
@@ -40,20 +38,23 @@ public class GenerateUserActivity extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createUserButton(v);
+                createUser();
             }
         });
 
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skipButton(v);
+                skipCreation();
             }
         });
 
     }
 
-    public void skipButton(View view) {
+    /**
+     * The skip button actually creates a new user, but with an empty name and email
+     */
+    public void skipCreation() {
         EditText name = findViewById(R.id.userName);
         EditText email = findViewById(R.id.userEmail);
         String userName = name.getText().toString();
@@ -64,11 +65,10 @@ public class GenerateUserActivity extends AppCompatActivity {
     }
 
     /**
-     * method used to define the behaviour of the Create user button
-     * it calls FB_Create method to make a new user
-     * @param view
+     * Create a new user.
+     * Appropriate validation in place to ensure fields are not empty
      */
-    public void createUserButton(View view) {
+    public void createUser() {
         EditText name = findViewById(R.id.userName);
         EditText email = findViewById(R.id.userEmail);
         String userName = name.getText().toString();
@@ -83,26 +83,6 @@ public class GenerateUserActivity extends AppCompatActivity {
 
         }
 
-    }
-
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    UserManager userManager = new UserManager();
-
-    /**
-     * This method creates a UserProfile document in the DB with the provided params
-     * @param id id of the user
-     * @param name name of the user
-     * @param email email of the user
-     */
-    public void FB_CreateUser(String id, String name, String email){
-        //write code here that takes in the user data like email and username
-        String T_username = "this is a test user";
-        String T_email = "test@test.ualberta.ca";
-        User user = new User(name, email);
-        //userManager.FB_CreateUserProfile(id,T_username,T_email,user);
-        userManager.FB_CreateUserProfile(id, name, email, user);
-        Log.d("YA-DB: ","user created");
     }
 
 }
