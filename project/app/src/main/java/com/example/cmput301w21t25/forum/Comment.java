@@ -18,6 +18,7 @@ public class Comment implements Serializable {
     private String respondingTo = "";
 
     private Integer commentChildren = 0;
+    private Integer commentDepth = 0;
 
     private Date commentDate;
 
@@ -75,6 +76,8 @@ public class Comment implements Serializable {
         return commentDate;
     }
 
+    public Integer getCommentDepth() {return commentDepth; }
+
     //The number of children (responses) a comment has will be needed when ordering a list
     public void setCommentChildren(Integer commentChildren) {
         this.commentChildren = commentChildren;
@@ -83,4 +86,6 @@ public class Comment implements Serializable {
     public void setCommentID(String commentID) {
         this.commentID = commentID;
     }
+
+    public void setCommentDepth(Integer commentDepth) {this.commentDepth = commentDepth; }
 }

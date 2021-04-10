@@ -24,7 +24,6 @@ import com.example.cmput301w21t25.activities_trials.HideTrialActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.activities_user.OtherUserProfileActivity;
 import com.example.cmput301w21t25.customDialogs.EndExperimentDialogFragment;
-import com.example.cmput301w21t25.customDialogs.UploadTrialDialogFragment;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.ExperimentManager;
 import com.example.cmput301w21t25.managers.TrialManager;
@@ -66,7 +65,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity implements 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final Button editButton = findViewById(R.id.edit_button);
+        final Button endButton = findViewById(R.id.end_button);
         final Button publishButton = findViewById(R.id.publish_button);
         final Button unpublishButton = findViewById(R.id.unpublish_button);
         final Button commentsButton = findViewById(R.id.comments_button);
@@ -104,7 +103,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity implements 
         experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
 
-        editButton.setOnClickListener(new View.OnClickListener() {
+        endButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String temp = currTrials.getText().toString();
@@ -313,6 +312,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity implements 
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("curtis", "you subscribed");
+                        experimentManager.FB_UpdateContributorUserKeys(exp.getContributorUsersKeys(),expID);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

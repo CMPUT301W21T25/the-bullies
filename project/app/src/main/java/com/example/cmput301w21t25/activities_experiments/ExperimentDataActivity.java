@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.cmput301w21t25.FirestoreTrialCallback;
 import com.example.cmput301w21t25.R;
+import com.example.cmput301w21t25.activities_graphs.PlotActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.activities_graphs.HistogramActivity;
 import com.example.cmput301w21t25.fragments.HistogramFragment;
@@ -32,7 +33,7 @@ import java.util.List;
 /**
  * This activity is used to view the data of an experiment
  */
-public class ExperimentDataActivity extends AppCompatActivity implements HistogramFragment.OnFragmentInteractionListener {
+public class ExperimentDataActivity extends AppCompatActivity implements VisualDataFragment.OnFragmentInteractionListener {
     Toolbar experimentInfo;
 
     TextView descriptionTextView;
@@ -145,7 +146,7 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
         histograms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new HistogramFragment().show(getSupportFragmentManager(),"HISTOGRAM");
+                new VisualDataFragment().show(getSupportFragmentManager(),"HISTOGRAM");
             }
         });
 
@@ -179,14 +180,15 @@ public class ExperimentDataActivity extends AppCompatActivity implements Histogr
     @Override
     public void onButtonPressed(Button button) {
 
-        Intent intent;
-        intent = new Intent(ExperimentDataActivity.this, HistogramActivity.class);
-//        if(button.getText() == "Graph"){
-//            intent = new Intent(ExperimentDataActivity.this, BarChart.class);
-//        }
-//        else{
-//            intent = new Intent(ExperimentDataActivity.this, Plot.class);
-//        }
+        Intent intent = null;
+        Log.e("button name", button.getText().toString());
+
+        if(button.getText().toString().equals("Histogram")){
+            intent = new Intent(ExperimentDataActivity.this, HistogramActivity.class);
+        }
+        else if (button.getText().toString().equals("Plot")){
+            intent = new Intent(ExperimentDataActivity.this, PlotActivity.class);
+        }
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("EXP", exp);
