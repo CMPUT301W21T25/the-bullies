@@ -226,11 +226,13 @@ public class MenuQRActivity extends AppCompatActivity {
 
         switch (trialType) {
             case "count":
-                trialResultInt = Integer.parseInt(value);
+                Double temp = Double.parseDouble(value);
+                trialResultInt = (int) Math.round(temp);
                 trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultInt, trialParent, geoPoint);
                 break;
             case "nonnegative count":
-                trialResultInt = Integer.parseInt(value);
+                Double temp2 = Double.parseDouble(value);
+                trialResultInt = (int) Math.round(temp2);
                 trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultInt, trialParent, geoPoint);
                 break;
             case "binomial":
