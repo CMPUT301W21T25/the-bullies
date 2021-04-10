@@ -59,6 +59,7 @@ public class ForumManager {
     public ArrayList<Comment> nestedComments(ArrayList<Comment> comments) {
         ArrayList<Comment> orderedForum = new ArrayList<Comment>();
         ArrayList<Comment> toDelete = new ArrayList<Comment>();
+        int depth = 0;
 
         //Sort the comments by date to preserve sensical order
         comments.sort(Comparator.comparing(comment -> comment.getCommentDate()));
@@ -83,6 +84,7 @@ public class ForumManager {
         //as in some instances the parents of children comments will also be children, so they would
         //not be present to check against in the orderedForum list on a first pass
         while (comments.size() > 0) {
+            depth += 1;
             for (int i = 0; i < comments.size(); i++) {
                 Comment childComment = comments.get(i);
                 //The current child is checked against each existing comment in the orderedForum
@@ -100,6 +102,7 @@ public class ForumManager {
                         //index + its children count, 4 + 3, which means it is at index 7, the
                         //properly ordered index
                         parentComment.setCommentChildren(parentComment.getCommentChildren() + 1);
+                        childComment.setCommentDepth(depth + parentComment.getCommentDepth());
                         orderedForum.add((j + parentComment.getCommentChildren()), childComment);
                         toDelete.add(childComment);
                         continue;
