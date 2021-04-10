@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.cmput301w21t25.R;
-import com.example.cmput301w21t25.activities_qr.GenerateQRActivity;
+import com.example.cmput301w21t25.activities_qr.MenuQRActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 
 /**
@@ -69,8 +69,9 @@ public class ChooseConductActivity extends AppCompatActivity {
         qrCodes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent qr = new Intent(ChooseConductActivity.this, GenerateQRActivity.class);
+                Intent qr = new Intent(ChooseConductActivity.this, MenuQRActivity.class);
                 qr.putExtra("USER_ID", userID);
+                qr.putExtra("TRIAL_PARENT", exp);
                 startActivity(qr);
             }
         });

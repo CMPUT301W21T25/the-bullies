@@ -1,7 +1,9 @@
-package com.example.cmput301w21t25;
+package com.example.cmput301w21t25.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+
+import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.managers.SearchManager;
 
 import android.content.Context;
