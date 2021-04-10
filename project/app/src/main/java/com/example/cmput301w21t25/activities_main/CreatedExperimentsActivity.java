@@ -29,7 +29,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 /**
- * this activity shows a list of all the experiments this user has created
+ * This activity shows a list of all the experiments this user has created
  */
 public class CreatedExperimentsActivity extends AppCompatActivity {
 

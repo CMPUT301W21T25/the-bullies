@@ -38,6 +38,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
+ * This activity is used to view data plots
  * @author Samadhi
  */
 public class PlotActivity extends AppCompatActivity {

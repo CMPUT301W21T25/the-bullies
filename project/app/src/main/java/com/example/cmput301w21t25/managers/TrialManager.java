@@ -38,6 +38,9 @@ import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * Creates trials, updates trials, retrieves data
+ */
 public class TrialManager {
     /**
      * please look over this before continuing work

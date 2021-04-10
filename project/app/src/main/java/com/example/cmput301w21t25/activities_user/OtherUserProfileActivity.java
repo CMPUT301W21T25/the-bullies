@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
- * this activity is used to view the profile of user other then the owner of the device
+ * This activity is used to view the profile of user other then the owner of the device
  * @author Curtis
  */
 public class OtherUserProfileActivity extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     private String Username;
     private String ContactInfo;
     private String ownerID;
+    private String userID;
     private String prevScreen;
     private Bundle expBundle;
 
@@ -35,9 +37,17 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         super.onCreate(passedData);
         setContentView(R.layout.activity_otherprofile_view);
         ownerID = getIntent().getStringExtra("ownerID");
+        userID = getIntent().getStringExtra("USER_ID");
         prevScreen = getIntent().getStringExtra("prevScreen");
         //try to get bundle, (only from experiment view)
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
+        Button backButton = findViewById(R.id.button2);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack();
+            }
+        });
 
         FB_FetchUserInfo(ownerID);
     }
@@ -78,10 +88,9 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
 
     /**
-     * method used to define the behaviour of the update Button
-     * @param view
+     * Go back to viewing the experiment
      */
-    public void backButton(View view) {
+    public void goBack() {
         Intent intent = null;
         switch (prevScreen) {
             case "Experiment":
@@ -90,8 +99,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                 break;
 
         }
-
-        intent.putExtra("USER_ID", ownerID);
+        intent.putExtra("USER_ID", userID);
         startActivity(intent);
     }
 }
