@@ -29,6 +29,7 @@
         android:layout_height="54dp"
         android:layout_below="@id/top_space"
         android:layout_toLeftOf="@id/right_space"
+        android:onClick="viewExpOwnerButton"
         android:text="Owner" />
 
     <TextView

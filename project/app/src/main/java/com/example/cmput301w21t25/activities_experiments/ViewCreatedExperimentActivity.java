@@ -37,7 +37,6 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
- * This activity is used to view an experiment that you created.
  * Allows for extracting the created experiments from the database
  */
 public class ViewCreatedExperimentActivity extends AppCompatActivity implements EndExperimentDialogFragment.OnFragmentInteractionListenerEnd {
@@ -72,7 +71,6 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity implements 
         final Button commentsButton = findViewById(R.id.comments_button);
         final Button dataButton = findViewById(R.id.view_data_button);
         final Button hideTrialButton = findViewById(R.id.hideTrialsButton);
-        final Button viewOwnerButton = findViewById(R.id.exp_owner_button);
 
         if (exp.isPublished()) {
             publishButton.setVisibility(View.GONE);
@@ -104,13 +102,6 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity implements 
 //        currTrials.setText("Current Trials: " + String.valueOf(exp.getCurrentNumTrials()));
         experimentManager.FB_UpdateExperimentTextViews(expID,expName,expDesc,expType,minTrials,region);
         trialManager.FB_FetchPublishedTrialCount(exp,currTrials);
-
-        viewOwnerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FB_FetchOwnerProfile(expID);
-            }
-        });
 
         endButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,7 +263,7 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity implements 
                                         if (ownerID.equals(userID)) {
                                             //switch to myprofile
                                             Intent intent = new Intent(ViewCreatedExperimentActivity.this, MyUserProfileActivity.class);
-                                            intent.putExtra("USER_ID", userID);
+                                            intent.putExtra("userID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
                                             startActivity(intent);
@@ -301,6 +292,41 @@ public class ViewCreatedExperimentActivity extends AppCompatActivity implements 
         });
     }
 
+    /**
+     * Is called when a user clicks on the owners profile image while viewing an experiment
+     * Will switch to a profile view activity (either myuser or otheruser)
+     * Curtis
+     * @param view
+     */
+    public void viewExpOwnerButton(View view) {
+        FB_FetchOwnerProfile(expID);
+    }
+
+    public void subscribeButton(View view) {
+        //This method will subscribe the user to the experiment
+        //do i need to check if we're already subscribed? (firestore wont add duplicates)
+        DocumentReference docRef = db.collection("UserProfile").document(userID);
+        docRef
+                .update("subscriptions", FieldValue.arrayUnion(expID))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("curtis", "you subscribed");
+                        experimentManager.FB_UpdateContributorUserKeys(exp.getContributorUsersKeys(),expID);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("curtis", "failed to subscribe");
+                    }
+                });
+
+        Intent intent = new Intent(ViewCreatedExperimentActivity.this, SearchExperimentsActivity.class);
+        intent.putExtra("USER_ID", userID);
+        startActivity(intent);
+
+    }
 
     @Override
     public void endExperiment() {

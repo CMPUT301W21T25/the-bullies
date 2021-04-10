@@ -43,10 +43,11 @@
         </LinearLayout>
 
         <Button
+            android:layout_marginRight="10dp"
             android:id="@+id/exp_owner_button"
             android:layout_width="93dp"
             android:layout_height="54dp"
-            android:layout_marginRight="10dp"
+            android:onClick="viewExpOwnerButton"
             android:text="Owner"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -150,6 +151,7 @@
             android:layout_marginLeft="35dp"
             android:layout_marginBottom="54dp"
             android:backgroundTint="@color/custom_Blue_dark"
+            android:onClick="subscribeButton"
             android:text="subscribe"
             android:textColor="@color/custom_Yellow_light" />
     </LinearLayout>

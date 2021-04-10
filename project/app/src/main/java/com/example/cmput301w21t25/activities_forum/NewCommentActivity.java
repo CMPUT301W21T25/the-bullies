@@ -16,9 +16,6 @@ import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.ForumManager;
 
-/**
- * Activity used to create a new comment
- */
 public class NewCommentActivity extends AppCompatActivity {
     private Toolbar commentViewHeader;
     private EditText commentEditText;

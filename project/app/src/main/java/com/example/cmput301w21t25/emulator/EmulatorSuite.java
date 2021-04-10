@@ -9,9 +9,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
-/**
- * This class contains a simple firestore method, as well as important connections for the emulator
- */
 public class EmulatorSuite {
     public FirebaseFirestore firestore;
 
@@ -22,11 +19,6 @@ public class EmulatorSuite {
         this.firestore = firestore;
     }
 
-    /**
-     * Connects app to the emulator
-     * Code from firestore documentation under Apache 2.0 license
-     * https://firebase.google.com/docs/emulator-suite/connect_and_prototype?database=Firestore
-     */
     public void useEmulator() {
         // [START fs_emulator_connect]
         // 10.0.2.2 is the special IP address to connect to the 'localhost' of

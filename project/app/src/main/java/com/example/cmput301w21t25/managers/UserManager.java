@@ -33,10 +33,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Creates user profiles, updates user profiles,
- * fetches data pertaining to user's profile, experiments, and trials
- */
 public class UserManager{
     /**
      * please look over this before continuing work

@@ -25,13 +25,6 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 
-/**
- * Handles both the setting trial location maps and the experiment maps
- * Using the Google Maps SDK for Android
- * Adapted from samples created by the Google Maps SDK for Android team
- * https://github.com/googlemaps/android-samples
- * Apache 2.0 License
- */
 public class Maps extends Fragment{
     private Location TrialLocation = new Location("dummyprovider");
     private ArrayList<Trial> TrialList;
@@ -64,7 +57,7 @@ public class Maps extends Fragment{
 
         @Override
         public void onMarkerDragEnd(Marker marker) {
-            //Get marker position for trial
+            //Get marker position
             LatLng pos = marker.getPosition();
             TrialLocation.setLatitude(pos.latitude);
             TrialLocation.setLongitude(pos.longitude);

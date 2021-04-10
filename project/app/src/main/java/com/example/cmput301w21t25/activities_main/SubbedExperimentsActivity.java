@@ -26,7 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 /**
- * This activity shows a list of all the experiments this user is subscribed to
+ * this activity shows a list of all the experiments this user is subscribed to
  */
 public class SubbedExperimentsActivity extends AppCompatActivity {
 

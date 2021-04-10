@@ -26,9 +26,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Computes statistics for experiments
- */
 public class SummaryCalculator {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TrialManager trialManager = new TrialManager();

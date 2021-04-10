@@ -1,8 +1,5 @@
 package com.example.cmput301w21t25.trials;
 
-/**
- * Represents a trial that has a boolean value
- */
 public class NonMeasurableTrial extends Trial{
     private Boolean result;
 
