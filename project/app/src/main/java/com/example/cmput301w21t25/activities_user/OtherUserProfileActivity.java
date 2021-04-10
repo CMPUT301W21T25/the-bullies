@@ -28,6 +28,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     private String Username;
     private String ContactInfo;
     private String ownerID;
+    private String userID;
     private String prevScreen;
     private Bundle expBundle;
 
@@ -36,6 +37,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         super.onCreate(passedData);
         setContentView(R.layout.activity_otherprofile_view);
         ownerID = getIntent().getStringExtra("ownerID");
+        userID = getIntent().getStringExtra("USER_ID");
         prevScreen = getIntent().getStringExtra("prevScreen");
         //try to get bundle, (only from experiment view)
         expBundle = getIntent().getBundleExtra("EXP_BUNDLE");
@@ -97,7 +99,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                 break;
 
         }
-
+        intent.putExtra("USER_ID", userID);
         startActivity(intent);
     }
 }

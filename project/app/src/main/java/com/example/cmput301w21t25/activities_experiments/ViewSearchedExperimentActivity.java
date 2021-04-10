@@ -210,6 +210,7 @@ public class ViewSearchedExperimentActivity extends AppCompatActivity {
                                             //switch to otherprofile
                                             Intent intent = new Intent(ViewSearchedExperimentActivity.this, OtherUserProfileActivity.class);
                                             intent.putExtra("ownerID", ownerID);
+                                            intent.putExtra("USER_ID", userID);
                                             intent.putExtra("prevScreen", "Experiment");
                                             intent.putExtra("EXP_BUNDLE", expBundle);
                                             startActivity(intent);
