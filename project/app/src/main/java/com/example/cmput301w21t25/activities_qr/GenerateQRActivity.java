@@ -25,6 +25,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+
+/**
+ * This activity is used to generate a QR code
+ */
 public class GenerateQRActivity extends AppCompatActivity {
 
 

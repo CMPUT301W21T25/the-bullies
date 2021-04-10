@@ -1,5 +1,8 @@
 package com.example.cmput301w21t25.trials;
 
+/**
+ * Represents a trial that has a float value
+ */
 public class MeasurableTrial extends Trial{
     private Float result;
 
