@@ -38,6 +38,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
+ * This class creates an activity which will show the line graph of a specific experiment
  * @author Eden
  */
 public class PlotActivity extends AppCompatActivity {
@@ -70,12 +71,5 @@ public class PlotActivity extends AppCompatActivity {
         plotManager.FB_UpdateSummaryViews(exp, lineChart);
     }
 
-    /**
-     * This class will set all information of the graph view. This includes:
-     * - title
-     * - x and y axis names
-     */
-    /*public void setInformation(){
-    }*/
 }
 

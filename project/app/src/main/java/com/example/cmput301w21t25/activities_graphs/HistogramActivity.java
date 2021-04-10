@@ -22,6 +22,7 @@ import com.example.cmput301w21t25.activities_main.SubbedExperimentsActivity;
 import com.example.cmput301w21t25.activities_user.MyUserProfileActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.HistogramManager;
+import com.example.cmput301w21t25.managers.SummaryCalculator;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarEntry;
@@ -32,17 +33,15 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
 
 /**
- * This class calculates the graphical representation of the data
+ * This class sets up the graphical representation of the data
  */
 public class HistogramActivity extends AppCompatActivity {
     private BarChart barChart;
     private ArrayList<Integer> xAxis = new ArrayList<>();
     private ArrayList<Integer> yAxis = new ArrayList<>();
     private HistogramManager histogramManager = new HistogramManager();
-    TextView title;
-    private EditText binCount_editText;
-    private Button binCount_button;
-    String userID;
+    private TextView title;
+    private String userID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,13 +71,4 @@ public class HistogramActivity extends AppCompatActivity {
         histogramManager.FB_UpdateSummaryViews(HistogramActivity.this ,exp, barChart);
 
     }
-
-    /**
-     * This class will set all information of the graph view. This includes:
-     * - title
-     * - x and y axis names
-     */
-    /*public void setInformation(){
-
-    }*/
 }

@@ -29,6 +29,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class manages all the calculations for the Plots
+ */
 public class PlotManager {
 
     ArrayList<Trial> trialArrayList;
@@ -39,6 +42,11 @@ public class PlotManager {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TrialManager trialManager = new TrialManager();
 
+    /**
+     * This method updates the line graph views
+     * @param exp experiment being graphed
+     * @param lineChart line chart being graphed onto
+     */
     public void FB_UpdateSummaryViews(Experiment exp, LineChart lineChart){
         this.type = exp.getType();
         //CONDITIONAL SEPERATES MESURABLE AND NON MESURABLE TRIALS
