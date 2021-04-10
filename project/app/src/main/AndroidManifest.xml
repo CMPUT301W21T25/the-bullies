@@ -29,6 +29,7 @@
         <activity android:name=".activities_qr.CountQRActivity" />
         <activity android:name=".activities_qr.MenuQRActivity" />
         <activity android:name=".activities_qr.DisplayQRActivity" />
+        <activity android:name=".activities_qr.RegisterBarcodeActivity" />
         <!--
          set this to be the icon image!
               android:icon="@drawable/<someImage>"

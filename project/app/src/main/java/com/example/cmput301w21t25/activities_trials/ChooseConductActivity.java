@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.activities_qr.MenuQRActivity;
+import com.example.cmput301w21t25.activities_qr.RegisterBarcodeActivity;
 import com.example.cmput301w21t25.experiments.Experiment;
 
 public class ChooseConductActivity extends AppCompatActivity {
@@ -69,10 +70,21 @@ public class ChooseConductActivity extends AppCompatActivity {
                 Intent qr = new Intent(ChooseConductActivity.this, MenuQRActivity.class);
                 qr.putExtra("USER_ID", userID);
                 qr.putExtra("TRIAL_PARENT", exp);
+                qr.putExtra("CODE_TYPE", "qr");
                 startActivity(qr);
             }
         });
 
+        barcodes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent qr = new Intent(ChooseConductActivity.this, RegisterBarcodeActivity.class);
+                qr.putExtra("USER_ID", userID);
+                qr.putExtra("TRIAL_PARENT", exp);
+                qr.putExtra("CODE_TYPE", "barcode");
+                startActivity(qr);
+            }
+        });
 
     }
 }

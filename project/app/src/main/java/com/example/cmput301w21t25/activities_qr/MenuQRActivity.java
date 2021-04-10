@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,7 +14,14 @@ import android.widget.Toast;
 import com.example.cmput301w21t25.R;
 import com.example.cmput301w21t25.experiments.Experiment;
 import com.example.cmput301w21t25.managers.TrialManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -22,24 +30,57 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.util.HashMap;
+
 public class MenuQRActivity extends AppCompatActivity {
 
     // TODO: implement geolocations with QR codes
 
     String userID;
+    String codeType;
     Experiment trialParent;
     TrialManager trialManager;
+    FirebaseFirestore db;
+    HashMap<String, Float> measurableBarcode = new HashMap<>();
+    HashMap<String, Boolean> nonMeasurableBarcode = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_q_r);
 
+        //         Access a Cloud Firestore instance from your Activity
+        db = FirebaseFirestore.getInstance();
+
+        // Get a top-level reference to the collection.
+        final CollectionReference collectionReference = db.collection("ScanCodes");
+
+
+        // Now listening to all the changes in the database and get notified, note that offline support is enabled by default.
+        // Note: The data stored in Firestore is sorted alphabetically and per their ASCII values. Therefore, adding a new city will not be appended to the list.
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                // clear the old list
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                    //Log.d(TAG, String.valueOf(doc.getData().get("province_name")));
+                    String barcode = doc.getId();
+                    Float value = (Float) doc.getData().get("value");
+                    measurableBarcode.put(barcode, value); // Adding the cities and provinces from FireStore.
+                    Log.d("DATA_BASE", barcode);
+                }
+            }
+        });
+
+
+
         final Button generate_qr_code = findViewById(R.id.generate_qr_button);
         final Button scan_qr_code = findViewById(R.id.scan_button);
 
         userID = getIntent().getStringExtra("USER_ID");
+        codeType = getIntent().getStringExtra("CODE_TYPE");
         trialParent = (Experiment) getIntent().getSerializableExtra("TRIAL_PARENT");
+
         trialManager = new TrialManager();
 
         String encode = "1";
@@ -48,10 +89,18 @@ public class MenuQRActivity extends AppCompatActivity {
         generate_qr_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent generate = new Intent(MenuQRActivity.this, GenerateQRActivity.class);
-                generate.putExtra("USER_ID", userID);
-                generate.putExtra("TRIAL_PARENT", trialParent);
-                startActivity(generate);
+                if (codeType.equals("qr")) {
+                    Intent generate = new Intent(MenuQRActivity.this, GenerateQRActivity.class);
+                    generate.putExtra("USER_ID", userID);
+                    generate.putExtra("TRIAL_PARENT", trialParent);
+                    startActivity(generate);
+                }
+                else {
+                    Intent generate = new Intent(MenuQRActivity.this, RegisterBarcodeActivity.class);
+                    generate.putExtra("USER_ID", userID);
+                    generate.putExtra("TRIAL_PARENT", trialParent);
+                    startActivity(generate);
+                }
 
             }
         });
