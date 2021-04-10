@@ -38,7 +38,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
- * @author Eden
+ * @author Samadhi
  */
 public class PlotActivity extends AppCompatActivity {
 

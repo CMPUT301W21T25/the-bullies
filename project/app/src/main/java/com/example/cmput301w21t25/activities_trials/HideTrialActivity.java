@@ -54,16 +54,6 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Test objects
-//        User user1 = new User("User1", "user1@example.com");
-//        User user2 = new User("User2", "user2@example.com");
-//        User user3 = new User("User3", "user3@example.com");
-//
-//        allUsers.add(user1);
-//        allUsers.add(user2);
-//        allUsers.add(user3);
-//        hiddenUsers.add(user2);
-
         userID = getIntent().getStringExtra("USER_ID");
         exp = (Experiment) getIntent().getSerializableExtra("EXPERIMENT");
 
@@ -73,6 +63,7 @@ public class HideTrialActivity extends AppCompatActivity implements HideTrialDia
         userListView = findViewById(R.id.hide_trials_list);
         userListView.setAdapter(userArrayAdapter);
         userManager.FB_FetchContributors(exp,userArrayAdapter,allUsers);
+        //@Yalmaz, should this be commented out?
         //userManager.FB_FetchHidden(exp,userArrayAdapter,hiddenUsers);
 
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
