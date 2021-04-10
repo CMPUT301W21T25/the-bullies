@@ -161,10 +161,16 @@ public class RegisterBarcodeActivity extends AppCompatActivity {
                 encodedValue = 1.0;
                 break;
             case "nonnegative count":
-                encodedValue = Double.valueOf(nonNegIntValue.getText().toString());
+                if (nonNegIntValue.getText().toString().length() > 0) {
+                    encodedValue = Double.valueOf(nonNegIntValue.getText().toString());
+                }
+                else Toast.makeText(getBaseContext(), "Must enter value", Toast.LENGTH_SHORT).show();
                 break;
             case "measurement":
-                encodedValue = Double.valueOf(measurementValue.getText().toString());
+                if (measurementValue.getText().toString().length() > 0) {
+                    encodedValue = Double.valueOf(measurementValue.getText().toString());
+                }
+                else Toast.makeText(getBaseContext(), "Must enter value", Toast.LENGTH_SHORT).show();
                 break;
         }
         return encodedValue;
@@ -196,7 +202,12 @@ public class RegisterBarcodeActivity extends AppCompatActivity {
                 HashMap<String, String> toDB = new HashMap<>();
                 if (barcode.length() > 0) {
 
-                    toDB.put("value", valueNum.toString());
+                    if (trialType.equals("binomial")) {
+                        toDB.put("value", String.valueOf(valueBool));
+                    }
+                    else {
+                        toDB.put("value", valueNum.toString());
+                    }
                     toDB.put("type", trialType);
 
                     // The set method sets a unique id for the document.

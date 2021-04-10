@@ -61,7 +61,7 @@ public class MenuQRActivity extends AppCompatActivity {
                     String barcode = doc.getId();
                     String type = (String) doc.getData().get("type");
                     if (type.equals("binomial")) {
-                        Boolean value = (Boolean) doc.getData().get("value");
+                        Boolean value = Boolean.valueOf(doc.getData().get("value").toString());
                         nonMeasurableBarcode.put(barcode, value);
                     }
                     else {
@@ -226,18 +226,19 @@ public class MenuQRActivity extends AppCompatActivity {
 
         switch (trialType) {
             case "count":
-                trialResultInt = Integer.valueOf(value);
+                trialResultInt = Integer.parseInt(value);
                 trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultInt, trialParent, geoPoint);
                 break;
             case "nonnegative count":
-                trialResultInt = Integer.valueOf(value);
+                trialResultInt = Integer.parseInt(value);
                 trialManager.FB_CreateCountTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultInt, trialParent, geoPoint);
                 break;
             case "binomial":
-                trialResultBool = Boolean.valueOf(value);
+                trialResultBool = Boolean.parseBoolean(value);
                 trialManager.FB_CreateBinomialTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultBool, trialParent, geoPoint);
+                break;
             case "measurement":
-                trialResultFloat = Float.valueOf(value);
+                trialResultFloat = Float.parseFloat(value);
                 trialManager.FB_CreateMeasurementTrial(userID, trialParent.getFb_id(), trialParent.getName(), trialParent.getOwner(), false, trialResultFloat, trialParent, geoPoint);
                 break;
         }
